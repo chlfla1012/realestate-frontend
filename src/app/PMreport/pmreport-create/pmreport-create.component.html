@@ -3,11 +3,9 @@
 
 <!DOCTYPE html>
 <html>
-
 <body>
     <div class="container property-create-container">
         <div class="container" style="width: 100%;height:28px;"></div>
-
         <div class="container property-create-title-container">
             <div class="row property-create-title-row">
                 <div class="col-md-5 icon" style="margin-top: 19px;">
@@ -17,572 +15,494 @@
                 </div>
                 <div class="col-md-5"></div>
                 <div class="col-md-2" style="margin-top: 19px;">
-                    <button mat-stroked-button style="width: 100px; height: 30px;" (click)="navigateToPreivousPage()">戻る</button>
+                    <button mat-stroked-button style="width: 100px; height: 30px;"
+                        (click)="navigateToPreivousPage()">戻る</button>
                 </div>
             </div>
         </div>
-
-        <form class="form-horizontal" class="property-create-form" #f="ngForm">
-
-            <div class="basic-container">
-                <p>基本情報</p>
-                <div class="basic-information">
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <label for="propertyName">物件名<span style="color: red">*</span></label>
-                            </div>
-
-                            <div class="form-group has-search col-md-2" style="width: 292px;margin-left:41px;">
-                                <input type="text" class="form-control" id="propertyName" name="propertyName" #propertyName="ngModel"
-                                required [ngClass]="{'is-valid':propertyName.touched && propertyName.invalid}"
-                                required  [(ngModel)]="property.propertyName">
-                            </div>
-
-                            <div class="col-md-1"></div>
-                            <div class="col-md-2" style="margin-left: 104px;">
-                                <label for="ownerName" style="margin-left:0px;">オーナー名前<span
-                                        style="color: red">*</span></label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:350px;">
-                                    <mat-select id="ownerName" name="ownerName" class="form-control" style="width: 275px;margin-left: 4px;">
-                                        <mat-option></mat-option>
-                                    </mat-select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3">
-                                <span style="margin-left:50px; color: red;" class="help-block"
-                                *ngIf="propertyName.touched && propertyName.errors?.['required']">物件名を入力してください。</span>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-3">
-                                <!-- <mat-error class="help-block" style="margin-left:10px">
-                                    オーナー名前を選択してください。
-                                </mat-error> -->
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="targetMonth">対象月<span style="color: red">*</span></label>
-                            </div>
-                            <div class="col-md-2" style="margin-left: -65px;width:293px;">
-                                <input 
-                                type="date" 
-                                class="form-control" 
-                                id="targetMonth"
-                                name="targetMonth" 
-                                style="width: 265px;  height:35px;"
-                                required [(ngModel)]="property.targetMonth"
-                                #targetMonth="ngModel" required
-                                [ngClass]="{'is-valid':targetMonth.touched && targetMonth.invalid}" >
-                            </div>
-
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 104px;">
-                                <label for="mail" style="margin-left: 0px;">メールアドレス</label>
-                            </div>
-
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="mail" name="mail"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="col-md-4"></div> -->
-
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3">
-                                <span style="margin-left:50px; color: red;" class="help-block"
-                                *ngIf="!targetMonth.valid && targetMonth.touched">対象月を入力してください。</span>
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-3">
-                                
-                            </div>
-                        </div>
-
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label for="picName">担当者名前<span style="color: red">*</span></label>
-                            </div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;">
-                                <mat-select id="picName" name="picName" class="form-control"
-                                    style="width: 268px;margin-left: 15px;">
-                                </mat-select>
-                            </div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="bankName" style="margin-left: 0px;">金融機関名・銀行名</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="bankName" name="bankName"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-3">
-                                <!-- <mat-error class="help-block" style="margin-left:50px;color: red;">担当者名前を選択してください。</mat-error> -->
-                            </div>
-                            <div class="col-md-4"></div>
-                            <div class="col-md-3">
-                                
-                            </div>
-                        </div>
-
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="branchName" style="margin-left: 0px;">支店名</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="branchName" name="branchName"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="accountType" style="margin-left: 0px;">口座種別</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="accountType" name="accountType"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="accountNo" style="margin-left: 0px;">口座番号</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="accountNo" name="accountNo"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="accountName" style="margin-left: 0px;">口座名義人(ｶﾅ)</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="accountName" name="accountName"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-
-                    <form>
-                    <div class="mb-3" style="margin-top: 20px;">
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
-                            <div class="col-md-1"></div>
-
-                            <div class="col-md-2" style="margin-left: 119px;">
-                                <label for="apportionment" style="margin-left: 0px;">按分</label>
-                            </div>
-                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
-                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
-                                    <input type="text" class="form-control" id="apportionment" name="apportionment"
-                                        style="margin-right:14px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </form>
-                </div>
-            </div>
-            <br>
-        </form>
-
-        <div style="margin-top: 20px;"></div>
-        <!-- <form class="form-horizontal" class="property-create-form"> -->
-        <div class="basic-container">
-            <p>収入情報</p>
+        
+        <div></div>
+        <form class="form-horizontal" class="report-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
             
-            <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
-                <ng-container matColumnDef="号室">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">号室</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="入居者名前">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="対象月">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">対象月</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="賃料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="共益費">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">共益費</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="駐車料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-room">駐車料</mat-header-cell>
-                 
-                </ng-container>
-
-                <ng-container matColumnDef="駐輪料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">駐輪料</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="礼金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">礼金</mat-header-cell>
-               
-                </ng-container>
-
-                <ng-container matColumnDef="敷金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="保証金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="更新料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="退去時補修費">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">退去時補修費</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="違約金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">違約金</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="看板料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">看板料</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="消費税">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">消費税</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="その他">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">その他</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="合計金額">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">合計金額</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="備考">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">備考</mat-header-cell>
-                    <ng-container>
-                        <textarea [(ngModel)]="income.incomeRemarks" style="width: 100px; height: 30px;" id="incomeRemarks"
-                        class="form-control" #incomeRemarks="ngModel" name="incomeRemarks" rows="3" cols="25"
-                        wrap="off"></textarea>
-                    </ng-container>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-            </mat-table>
-        </div>
-
-        <div style="margin-top: 30px;"></div>
-        <div class="basic-container">
-            <p>支出情報</p>
+    <div class="basic-container">
+        <p>基本情報</p>
+        <div class="basic-information">
             <div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>支出明細</th>
-                            <th colspan="2">領収書</th>
-                            <th>年/月</th>
-                            <th>金額</th>
-                            <th>消費税</th>
-                            <th>合計金額</th>
-                            <th>備考</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td colspan="2">
-                                <div class="form-check">
-                                    <input type="radio" name="radiobutton" value="radiobutton1">
-                                    <label class="form-check-label">有</label>
-                                  
-                                    <input type="radio" name="radiobutton" value="radiobutton2">
-                                    <label class="form-check-label">無し</label>
-                                </div>
-                            </td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td colspan="2">
-                                <div class="form-check">
-                                    <input type="radio" name="radiobutton" value="radiobutton1">
-                                    <label class="form-check-label">有</label>
-                                  
-                                    <input type="radio" name="radiobutton" value="radiobutton2">
-                                    <label class="form-check-label">無し</label>
-                                </div>
-                            </td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td colspan="2">
-                                <div class="form-check">
-                                    <input type="radio" name="radiobutton" value="radiobutton1">
-                                    <label class="form-check-label">有</label>
-                                  
-                                    <input type="radio" name="radiobutton" value="radiobutton2">
-                                    <label class="form-check-label">無し</label>
-                                </div>
-                            </td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td colspan="2">
-                                <div class="form-check">
-                                    <input type="radio" name="radiobutton" value="radiobutton1">
-                                    <label class="form-check-label">有</label>
-                                  
-                                    <input type="radio" name="radiobutton" value="radiobutton2">
-                                    <label class="form-check-label">無し</label>
-                                </div>
-                            </td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td colspan="2">
-                                <div class="form-check">
-                                    <input type="radio" name="radiobutton" value="radiobutton1">
-                                    <label class="form-check-label">有</label>
-                                  
-                                    <input type="radio" name="radiobutton" value="radiobutton2">
-                                    <label class="form-check-label">無し</label>
-                                </div>
-                            </td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                            <td contenteditable="true" (input)="onContentChange($event)"></td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px;"></div>
-        <div class="basic-container">
-            <p>賃貸条件一情報</p>
-            <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
-                <ng-container matColumnDef="号室">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id" >号室</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="区分">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">区分</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="入居者名前">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="面積(m2)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">面積(m2)</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="面積(坪)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">面積(坪)</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="賃料(円/坪)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料(円/坪)</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="賃料(総額)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">賃料(総額)</mat-header-cell>
-                   
-                </ng-container>
-
-                <ng-container matColumnDef="共益費(円/坪)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(円/坪)</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="共益費(総額)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(総額)</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="共込賃料(円/坪)">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共込賃料(円/坪)</mat-header-cell>
-                    
-                </ng-container>
-
-                <ng-container matColumnDef="敷金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
-               
-                </ng-container>
-
-                <ng-container matColumnDef="保証金">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="契約開始日">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約開始日</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="契約終了日">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約終了日</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="更新料">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
-
-                </ng-container>
-
-                <ng-container matColumnDef="備考">
-                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" >備考</mat-header-cell>
-                    <ng-container>
-                        <textarea [(ngModel)]="rental.rentalRemarks" style="width: 100px; height: 30px;" id="rentalRemarks"
-                        class="form-control" #rentalRemarks="ngModel" name="rentalRemarks" rows="3" cols="25"
-                        wrap="off"></textarea>
-                    </ng-container>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns2"></mat-row>
-            </mat-table>
-        </div>
-        <!-- </form> -->
-
-        <div class="form-group" style="margin-top: 20px;margin-bottom:20px;">
-            <div class="row button-group">
-                <div class="col-md-4"></div>
-
-                <div class="col-1">
-                    <button mat-stroked-button style="width: 130px; height: 30px;" type="reset"  (click)="onCancel()">キャンセル</button>
-                </div>
-    
-                <div class="col-md-1"></div>
-    
-                <div class="col-md-1">
-                    <button mat-stroked-button class="register" style="width: 130px; height: 30px;" type="submit">登録</button>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="propertyName">物件名<span style="color: red">*</span></label>
+                        </div>
+                        <div style="width: 292px;margin-left:40px;">                         
+                            <mat-select [(ngModel)]="propertyname" required name="propertyname" class="form-control" (change)="onPropertyChange()">
+                                <mat-option *ngFor="let property of propertyIDs" [value]="property.propertyName">
+                                  {{ property.propertyName }}
+                                </mat-option>
+                              </mat-select>                           
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2" style="margin-left: 104px;">
+                            <label for="ownerName" style="margin-left:0px;">オーナー名前<span
+                                    style="color: red">*</span></label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:20px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:350px;">
+                                <mat-select [(ngModel)]="ownerName" required name="ownerName" class="form-control" (selectionChange)="onOwnerSelectionChange()">
+                                    <mat-option *ngFor="let property of propertyIDs" [value]="property.ownerName">
+                                      {{ property.ownerName }}
+                                    </mat-option>
+                                  </mat-select>                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">                         
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-3">                           
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="targetMonth">対象月<span style="color: red">*</span></label>
+                        </div>
+                        <div class="col-md-2" style="margin-left: -65px;width:293px;">
+                            <input type="date" class="form-control" id="targetMonth" name="targetMonth"
+                                style="width: 265px;  height:35px;" required [(ngModel)]="pmReport.targetMonth"
+                                #targetMonth="ngModel" required
+                                [ngClass]="{'is-valid':targetMonth.touched && targetMonth.invalid}">
+                        </div>
+
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 104px;">
+                            <label for="mail" style="margin-left: 0px;">メールアドレス</label>
+                        </div>
+
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="mail" name="mail"
+                            [(ngModel)]="mail" value="mail" readonly  style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <span style="margin-left:50px; color: red;" class="help-block"
+                                *ngIf="!targetMonth.valid && targetMonth.touched">対象月を入力してください。</span>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-3">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="picName">担当者名前<span style="color: red">*</span></label>
+                        </div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;">
+                            <mat-select [(ngModel)]="picId" required name="picId" class="form-control" style="width: 270px; margin-left: -2px">
+                                <mat-option *ngFor="let pic of picUsers" [value]="pic.id">
+                                  {{ pic.firstName }} {{ pic.lastName }}
+                                </mat-option>
+                              </mat-select>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="bankName" style="margin-left: 0px;">金融機関名・銀行名</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="bankName" name="bankName"
+                                    [(ngModel)]="bankName" value="bankName" readonly style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">                           
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="branchName" style="margin-left: 0px;">支店名</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="branchName" name="branchName"
+                                    [(ngModel)]="branchName" value="branchName" readonly
+                                    style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="accountType" style="margin-left: 0px;">口座種別</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="accountType" name="accountType"
+                                    [(ngModel)]="accountType" value="accountType" readonly
+                                    style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="accountNo" style="margin-left: 0px;">口座番号</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="accountNo" name="accountNo"
+                                    [(ngModel)]="accountNo" value="accountNo" readonly
+                                    style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="accountName" style="margin-left: 0px;">口座名義人(ｶﾅ)</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="accountHolder" name="accountHolder"
+                                    [(ngModel)]="accountHolder" value="accountHolder" readonly
+                                    style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="mb-3" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2" style="margin-left: 119px;">
+                            <label for="apportionment" style="margin-left: 0px;">按分</label>
+                        </div>
+                        <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                            <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                <input type="text" class="form-control" id="apportionment" name="apportionment"
+                                    [(ngModel)]="apportionment" value="apportionment" readonly
+                                    style="margin-right:14px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    <br>
+    <div style="margin-top: 20px;"></div>
+    <div class="basic-container">
+        <p>収入情報</p>
+        <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
+            <ng-container matColumnDef="room">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">号室</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.room}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="tenantName">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.tenantName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="month">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">対象月</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.month}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="rent">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.rent}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="managementFee">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">共益費</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.managementFee}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="parkingFee">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-room">駐車料</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.parkingFee}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="bicycleParkingFee">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">駐輪料</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.bicycleParkingFee}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="keymoney">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">礼金</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.keymoney}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="shikiken">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.shikiken}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="deposit">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.deposit}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="renewalFee">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.renewalFee}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="repairCost">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">退去時補修費</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.repairCost}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="penaltyFee">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">違約金</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.penaltyFee}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="signboardFees">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">看板料</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.signboardFees}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="tax">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">消費税</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.tax}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="other">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">その他</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.other}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="totalIncome">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">合計金額</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.totalIncome}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="incomeRemarks">
+                <mat-header-cell *matHeaderCellDef style="font-weight: bold;">備考</mat-header-cell>
+                <mat-cell *matCellDef="let incomeInfo">
+                    <textarea [(ngModel)]="incomeInfo.incomeRemarks" style="width: 100px; height: 30px;" id="incomeRemarks"
+                    class="form-control" id="incomeRemarks" #incomeRemarks="ngModel" name="incomeRemarks" rows="3" cols="25"
+                    wrap="off"></textarea>
+            </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+
+    <div style="margin-top: 30px;"></div>
+    <div class="basic-container">
+        <p>支出情報</p>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>支出明細</th>
+                        <th colspan="2">領収書</th>
+                        <th>年/月</th>
+                        <th>金額</th>
+                        <th>消費税</th>
+                        <th>合計金額</th>
+                        <th>備考</th>
+                    </tr> 
+                </thead>
+                <tbody> 
+                    <tr *ngFor="let row of expenseRow">
+                        <td><input type="text" name="expDetail" [(ngModel)]="row.expenseDetail"></td>
+                        <td colspan="2">
+                            <div class="form-check">
+                                <input type="radio" [name]="'radiobutton' + row.id" value="有"
+                                    [(ngModel)]="row.voucher" name="有">
+                                <label class="form-check-label">有</label>
+
+                                <input type="radio" [name]="'radiobutton' + row.id" value="無し"
+                                    [(ngModel)]="row.voucher" name="無し">
+                                <label class="form-check-label">無し</label>
+                            </div>
+                        </td>
+                        <td><input type="text" name="expenseDate" [(ngModel)]="row.expenseDate"></td>
+                        <td><input type="number" name="expenseMoney" [(ngModel)]="row.expenseMoney" (input)="onInputChange()" ></td>
+                        <td><input type="number" name="expenseTax"[(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
+                        <td><input type="number" name="expenseTotal" [(ngModel)]="row.expenseTotal" ></td>
+                        <td><input type="text" name="expenseRemarks" [(ngModel)]="row.expenseRemarks"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div style="margin-top: 30px;"></div>
+<div class="basic-container">
+    <p>賃貸条件一情報</p>
+    <mat-table #table [dataSource]="dataSource2" matSort aria-level="Elements" class="mat-elevation-z7">
+        <ng-container matColumnDef="room">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">号室</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.room}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="classification">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">区分</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.classification}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tenantName">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.tenantName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="areaMeter">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">面積(m2)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.areaMeter}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="areaTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">面積(坪)</mat-header-cell>
+                <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.areaTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rentTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.rentTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRent">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">賃料(総額)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.totalRent}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRental">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.totalRental}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="serviceFeesTotal">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(総額)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.serviceFeesTotal}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="serviceFeesTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共込賃料(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.serviceFeesTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deposit">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.deposit}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="toalDeposit">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.toalDeposit}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="contractStartDate">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約開始日</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.contractStartDate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="contractEndDate">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約終了日</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.contractEndDate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="renewalFees">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.renewalFees}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rentalRemarks">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">備考</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">
+                    <textarea [(ngModel)]="rentalInfo.rentalRemarks" style="width: 100px; height: 30px;" id="rentalRemarks"
+                    class="form-control" id="rentalRemarks" #rentalRemarks="ngModel" name="rentalRemarks" rows="3" cols="25"
+                    wrap="off"></textarea>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns2"></mat-row>
+    </mat-table>
+</div>        
+
+<div class="form-group" style="margin-top: 20px;margin-bottom:20px;">
+    <div class="row button-group">
+        <div class="col-md-4"></div>
+        <div class="col-1">
+            <button mat-stroked-button style="width: 130px; height: 30px;" type="reset"
+                (click)="onCancel()">キャンセル</button>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+            <button mat-stroked-button class="register" style="width: 130px; height: 30px;"
+                type="submit">登録</button>
+        </div>
+    </div>
+</div>
+            </form>
     </div>
 </body>
 </html>

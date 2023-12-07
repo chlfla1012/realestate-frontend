@@ -28,6 +28,7 @@ export class IncomeCheckMainComponent {
   companyId: number;
   logoId: number;
   bankName: string;
+  paypayBank: string;
   plannedAmount: string;
   backendCompany: CompanyName = {
     companyName: null
@@ -79,7 +80,7 @@ export class IncomeCheckMainComponent {
     private userAuthService: UserAuthService,
     private incomeCheckService: IncomeCheckService,
     private bankFormatService: BankFormatService,
-    private route: ActivatedRoute,private dialog: MatDialog
+    private route: ActivatedRoute, private dialog: MatDialog
   ) {
     this.route.params.subscribe(params => {
       this.route.params.subscribe(params => {
@@ -122,98 +123,99 @@ export class IncomeCheckMainComponent {
       console.log(this.bankformat.id);
     })
   }
+  // onFileSelected(event: any): void {
+  //   this.file = event.target.files[0];
+  //   this.parseCSV();
+  // }
   onFileSelected(event: any): void {
-    this.file = event.target.files[0];
-    this.parseCSV();
+    const allowedExtensions = ['csv']; // Add more extensions if needed
+    const selectedFile = event.target.files[0];
+  
+    if (selectedFile) {
+      const fileName = selectedFile.name;
+      const fileExtension = fileName.split('.').pop().toLowerCase();
+  
+      if (allowedExtensions.includes(fileExtension)) {
+        // Valid file type, proceed with parsing
+        this.file = selectedFile;
+        this.parseCSV();
+      } else {
+        // Invalid file type, show an error message or take appropriate action
+        console.error('Invalid file type. Please upload a CSV file.');
+        // You can also display an error message to the user
+      }
+    }
   }
 
   parseCSV(): void {
     Papa.parse(this.file, {
       header: true,
       skipEmptyLines: true,
+      encoding: "Shift-JIS",
       complete: (result) => {
         const csvColumnNames = result.meta.fields; // Extract column names from the CSV
-
+        const [column1, column2, column3] = csvColumnNames.slice(0, 3);
+        const pDate = column1 + column2 + column3;
         const content = this.bankformat.content;
         const date = this.bankformat.date;
         const income = this.bankformat.income;
         const bankName = this.bankformat.bankName;
-
         const EXPECTED_DB_COLUMNS = [content, date, income];
+        // Add pDate to csvColumnNames
+        csvColumnNames.push(pDate);
 
-        console.log("this is db column" + EXPECTED_DB_COLUMNS);
-
+        console.log(EXPECTED_DB_COLUMNS);
+        console.log(csvColumnNames);
         // Compare CSV column names with expected database column names
         const columnsExist = this.checkColumnsExist(EXPECTED_DB_COLUMNS, csvColumnNames);
+        let formattedDate;
         if (columnsExist) {
           // Continue processing the CSV data
           // Parse CSV data and extract specific fields
           const csvData = result.data.map((row) => {
-
-            // const convertToDate = (dateStr) => {
-            //   // Add more formats if needed
-            //   const formats = ["YYYY.MM.DD", "H.MM.SS", "YYYY年M月D日", "M/D/YYYY", "YYYYMMDD"];
-
-            //   for (const format of formats) {
-            //     const parsedDate = dayjs(dateStr, { format });
-            //     if (parsedDate.isValid()) {
-            //       // Standardize the date format to "YYYY-MM-DD"
-            //       return parsedDate.format("YYYY-MM-DD");
-            //     }
-            //   }
-
-            //   // Return the original date string if no format matches
-            //   return dateStr;
-            // };
-
-            // // Standardize the date format for the current row
-            // const standardizedDate = convertToDate(row[date]);
-            const dateParts = row[date].split('.');
-
-            // Check for specific date formats and convert to "YYYY-13-10"
-            let formattedDate;
-
-            if (row[date].match(/\d{1,4}\/\d{1,2}\/\d{1,2}/)) {
-              // Format like "2022/1/4"
-              const match = row[date].match(/(\d{1,4})\/(\d{1,2})\/(\d{1,2})/);
-              formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-            } else if (row[date].match(/H(\d{1,2})\.(\d{1,2})\.(\d{1,2})/)) {
-              // Format like "H29.6.15"
-              const match = row[date].match(/H(\d{1,2})\.(\d{1,2})\.(\d{1,2})/);
-              const eraYear = parseInt(match[1]) + 1988; // Assuming the era "H" started in 1988
-              formattedDate = `${eraYear}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-            } else if (dateParts.length === 3) {
-              // Format like "2022.14.10"
-              const dayPart = dateParts[2].match(/\d+/); // Extract the numeric part from the day
-              formattedDate = `${dateParts[0]}-${dateParts[1].padStart(2, '0')}-${dayPart[0].padStart(2, '0')}`;
-            }
-            // else if (row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日/)) {
-            //   // Format like "２０２０年8月4日"
-            //   const match = row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日/);
-            //   formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-            // } 
-            else if (row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日分/)) {
-              // Format like "2022年1月17日分"
-              const match = row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日分/);
-              formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-            }
-            else if (row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日/)) {
-              // Format like "２０２０年8月4日" or "２０２０年8月4日(２０２０年8月4日)"
-              const match = row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日(?:\((\d{1,4})年(\d{1,2})月(\d{1,2})日\))?/);
-              formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
-              if (match[4] && match[5] && match[6]) {
-                // If the part in parentheses exists, use that information
-                formattedDate = `${match[4]}-${match[5].padStart(2, '0')}-${match[6].padStart(2, '0')}`;
+            if (bankName === 'Pay Pay銀行') {
+              // Extract year, month, and day from the row
+              const year = row['操作日(年)'];
+              const month = row['操作日(月)'].padStart(2, '0'); // Assuming you want a two-digit month
+              const day = row['操作日(日)'].padStart(2, '0'); // Assuming you want a two-digit day
+              // Concatenate year, month, and day into a single date string
+              formattedDate = `${year}-${month}-${day}`;
+            } else {
+              const dateParts = row[date].split('.');
+              // Check for specific date formats and convert to "YYYY-13-10"               
+              if (row[date].match(/\d{1,4}\/\d{1,2}\/\d{1,2}/)) {
+                // Format like "2022/1/4"
+                const match = row[date].match(/(\d{1,4})\/(\d{1,2})\/(\d{1,2})/);
+                formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+              } else if (row[date].match(/H(\d{1,2})\.(\d{1,2})\.(\d{1,2})/)) {
+                // Format like "H29.6.15"
+                const match = row[date].match(/H(\d{1,2})\.(\d{1,2})\.(\d{1,2})/);
+                const eraYear = parseInt(match[1]) + 1988; // Assuming the era "H" started in 1988
+                formattedDate = `${eraYear}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+              } else if (dateParts.length === 3) {
+                // Format like "2022.14.10"
+                const dayPart = dateParts[2].match(/\d+/); // Extract the numeric part from the day
+                formattedDate = `${dateParts[0]}-${dateParts[1].padStart(2, '0')}-${dayPart[0].padStart(2, '0')}`;
+              } else if (row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日分/)) {
+                // Format like "2022年1月17日分"
+                const match = row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日分/);
+                formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+              } else if (row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日/)) {
+                // Format like "２０２０年8月4日" or "２０２０年8月4日(２０２０年8月4日)"
+                const match = row[date].match(/(\d{1,4})年(\d{1,2})月(\d{1,2})日(?:\((\d{1,4})年(\d{1,2})月(\d{1,2})日\))?/);
+                formattedDate = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`;
+                if (match[4] && match[5] && match[6]) {
+                  // If the part in parentheses exists, use that information
+                  formattedDate = `${match[4]}-${match[5].padStart(2, '0')}-${match[6].padStart(2, '0')}`;
+                }
+              } else if (row[date].match(/\d{8}/)) {
+                // Format like "20150310"
+                formattedDate = dayjs(row[date], { format: 'YYYYMMDD' }).format('YYYY-13-DD');
+              } else {
+                // For other cases, retain the original date
+                formattedDate = row[date];
               }
             }
-            else if (row[date].match(/\d{8}/)) {
-              // Format like "20150310"
-              formattedDate = dayjs(row[date], { format: 'YYYYMMDD' }).format('YYYY-13-DD');
-            } else {
-              // For other cases, retain the original date
-              formattedDate = row[date];
-            }
-
             // Remove non-numeric characters from the income field
             const numericIncome = parseFloat(row[income].replace(/[^0-9.-]/g, ''));
             if (bankName === 'あおぞら銀行') {
@@ -233,7 +235,7 @@ export class IncomeCheckMainComponent {
             } return null; // Return null for rows with negative or zero income
           }).filter((row) => row !== null);// Filter out null values from the map
           this.csvData = csvData;
-        } else {          
+        } else {
           // Show an error or handle the mismatch
           //this.openErrorDialog('選択したcsvファイルに誤りがあります。正しい銀行名または正しいcsvファイルを選択してください。');
           const dialogRef = this.dialog.open(ErrorDialogComponent, {
@@ -245,7 +247,7 @@ export class IncomeCheckMainComponent {
       },
     });
   }
-  
+
   checkColumnsExist(expectedColumns: string[], actualColumns: string[]): boolean {
     // Check if all expected columns exist in the actual columns
     return expectedColumns.every(column => actualColumns.includes(column));
@@ -279,15 +281,16 @@ export class IncomeCheckMainComponent {
     this.incomeCheckService.uploadCSVData(formData).subscribe(
       (response) => {
         console.log('Data sent successfully to the backend');
+        this.router.navigate(['/income-list']);
       },
       (error) => {
         console.error('Error sending data to the backend', error);
       }
     );
-    this.router.navigate(['/income-list']);
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    // this.router.navigate(['/income-list']);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 100);
   }
 
   back() {

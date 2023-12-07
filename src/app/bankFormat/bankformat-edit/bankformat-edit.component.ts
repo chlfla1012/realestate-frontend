@@ -50,17 +50,17 @@ export class BankFormatEditComponent {
       this.service.updateBankFormat(this.id, this.bankformat).subscribe(
         (response: BankFormat) => {
           console.log(response);
-          
+          window.history.back();
         },
         (error: HttpErrorResponse) => {
           console.log(error);
         }
       );
        
-      window.history.back();
-      setTimeout(()=>{
-          window.location.reload();
-        }, 100);
+      // window.history.back();
+      // setTimeout(()=>{
+      //     window.location.reload();
+      //   }, 100);
   
     }
   

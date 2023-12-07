@@ -77,17 +77,17 @@ export class CustomerEditComponent implements OnInit{
     this.service.updateCustomer(this.id, this.customer).subscribe(
       (response: Customer) => {
         console.log(response);
-        
+        window.history.back();
       },
       (error: HttpErrorResponse) => {
         console.log(error);
       }
     );
      
-    window.history.back();
-    setTimeout(()=>{
-        window.location.reload();
-      }, 100);
+    // window.history.back();
+    // setTimeout(()=>{
+    //     window.location.reload();
+    //   }, 100);
 
   }
 
@@ -113,46 +113,7 @@ export class CustomerEditComponent implements OnInit{
 
   navigateToPreivousPage() {
     window.history.back();
-  }
-  // onSubmit(formData:NgForm){
-  //   this.customer = formData.value
-  //   console.log("submit" + this.customer.type);
-  // // this.customer.item = this.formData.value.item;
-  // // this.customer.companyName = this.formData.value.companyName;
-  // // this.customer.nameKana = this.formData.value.nameKana;
-  // // this.customer.personName = this.formData.value.personName;
-  // // this.customer.mobileFirst = this.formData.value.mobileFirst;
-  // // this.customer.mobileSecond = this.formData.value.mobileSecond;
-  // // this.customer.mobileThird = this.formData.value.mobileThird;
-  // // this.customer.mailAdd = this.formData.value.mailAdd;
-  // // this.customer.postalFirst = this.formData.value.postalFirst;
-  // // this.customer.postalSecond = this.formData.value.postalSecond;
-  // // this.customer.memo = this.formData.value.memo;
-  //  this.service.updateCustomer(this.id,this.customer).subscribe(customer => {
-  //     })
-  //   this.router.navigate(['/']);
-  //   setTimeout(()=>{
-  //     window.location.reload();
-  //   }, 100);
-  
-  // }
-  // getCustomerById(getId:number){
-  //   this.service.getCustomerById(getId).subscribe(data=>{
-  //     this.customer = data
-  //     console.log(this.customer);
-  //   });
-  // } 
-    // onSubmit(formData:any){
-  //   this.customer = formData.value
-  //   console.log("submit" + this.customer.id);
-  // this.service.updateCustomer(this.id,this.customer).subscribe(customer => {
-  //     })
-
-  //   this.router.navigate(['/customer-list']);
-  
-  // }
- 
- 
+  } 
   }
 
 

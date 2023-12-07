@@ -20,7 +20,7 @@
     border-radius: 6px 6px 6px 6px;
 }
 
-.property-create-form {
+.report-create-form {
     /* margin-left: 2%; */
     width: 100%;
     height: auto;
@@ -167,4 +167,8 @@ mat-label {
         background-color:rgb(127, 161, 154); 
   
     /* background-color: rgba(249, 246, 246, 0.904); */
+  }
+  input[type="text"] {
+    border: none; /* Hide the border */
+    outline: none; /* Hide the outline when focused */
   }

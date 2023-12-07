@@ -128,16 +128,17 @@ export class CustomerCreateComponent {
       (response) => {
       // window.alert('Customer Created successfully');
       console.log('Customer Data Added successfully', response);
+      this.router.navigate(['/customer-list']);
     },
       (error) => {
         console.error('Error saving customer', error);
       }
     );
 
-    this.router.navigate(['/customer-list']);
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+    // this.router.navigate(['/customer-list']);
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 100);
 
   }
    keyPressNumeric(event: KeyboardEvent) {

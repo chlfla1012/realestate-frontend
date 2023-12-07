@@ -2,8 +2,8 @@ import { UserInfo } from "./userInfo"
 import { PMReport } from "./PMReport"
 
 export interface Expense {
-    id : string
-    expDetail : string
+    id : number
+    expenseDetail : string
     voucher : string
     expenseDate : string
     expenseMoney : number

@@ -128,7 +128,7 @@ const routes: Routes = [
  { path: 'report-list', component: PmreportListComponent },
  { path: 'report-details/:id', component: PmreportDetailsComponent },
  { path: 'report-edit/:id', component: PmreportEditComponent },
- { path: 'report-create-pdf', component: PmreportCreatePdfComponent },
+ { path: 'report-create-pdf/:id', component: PmreportCreatePdfComponent },
 
 ];
 

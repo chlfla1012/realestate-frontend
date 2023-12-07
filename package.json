@@ -28,6 +28,7 @@
     "datatables.net-dt": "^1.13.4",
     "dayjs": "^1.11.10",
     "firebase": "^9.20.0",
+    "html2pdf.js": "^0.10.1",
     "jquery": "^3.7.0",
     "ngx-bootstrap": "^10.2.0",
     "papaparse": "^5.4.1",

@@ -3,55 +3,93 @@
     height: 0px;
     margin-top: 45px;
     border-radius: 5px 5px 5px 5px;
-
-  
   }
-
-
   .container.pdf-download-title-container{
     width: 100%;
     height: auto;
     border-radius: 6px 6px 6px 6px;
     font-size: 15px;
-  
+    padding: 20px;
   }
-  .row.pdf-download-title-row{
-    width: 100%;
-    height: auto;
-    border-radius: 6px 6px 6px 6px;
+  input[type="text"] {
+    border: none; /* Hide the border */
+    outline: none; /* Hide the outline when focused */
   }
-  
+
   .container{
-    width: 70%;
+    width: 100%;
     height: auto;
     margin-top: 40px;
     border-radius: 6px 6px 6px 6px;
     background-color: rgba(249, 246, 246, 0.904);
-    font-size: 12px;
+    font-size: 15px;
     margin-bottom: 35px;
   }
 
-  
-  table, th , td  {
-    width: 600px;
-    border: 1px solid grey;
-    border-collapse: collapse;
-    padding: 5px;
+  .containertable{
+    width: 100%;
+    height: auto;
   }
   
-  .sentBtn,.downloadBtn{
+  .sentBtn,.downloadPDFBtn{
     color: white;
     background: #376fc3;
   }
   
+  .sentBtn:hover,.downloadPDFBtn:hover{
+    background-color:darkblue;
+  }
+
   .title{
  
     font-size: 30px;
     text-align: center;
   }
+  .resetBtn:hover{
+    background-color:#DCDCDC;
+  }
 
-
-
-  .column-id{
+ .column-id{
     max-width:90px;
+  }
+  .vertical-text {
+    writing-mode: vertical-lr; 
+    text-align: center;
+    letter-spacing: 3px;
+    vertical-align: middle;
+    margin-bottom: 30px;
+    background-color:#e6e6e6;
+  }
+
+  thead{
+    text-align: center;
+    border: 1px solid;
+  }
+
+  tbody{
+    text-align: center;   
+  }
+
+  .table td{
+    border: 1px solid;
+  }
+
+  .table th{
+    border: 1px solid;
+  }
+
+  .no-bottom-border{
+    border-bottom-style: hidden;
+  }
+
+  .highlighted-cell {
+    background-color:#e6e6e6;
+  } 
+
+  .rowcolor td{
+    background-color:#e6e6e6;
+  }
+
+  .rowcolorth th{
+    background-color:#e6e6e6;
   }

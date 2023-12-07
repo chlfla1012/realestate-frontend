@@ -6,29 +6,36 @@ import { IncomeCheck } from "./IncomeCheck";
 import { UserInfo } from "./userInfo";
 import { FileHandle } from "./FileHandle";
 export interface PMReport{
-    id : string
-    propertyName : string
-    ownerName : string
-    mail : string
-    bankName : string
-    branchName : string
-    accountType : string
-    accountNo : number
-    accountName : string
-    apportionment : string
-    targetMonth : string
-    picName : string
-    totalIncome : number
-    totalExpense : number
-    createdName : string
-    createdDate : string
-    modifiedName : string
+    id: string
+    propertyName: string
+    ownerName: string
+    mail: string
+    bankName: string
+    branchName: string
+    accountType: string
+    accountNo: string
+    accountName: string
+    apportionment: string
+    targetMonth: string
+    picName: string
+    totalIncome: number
+    totalExpense: number
+    createdName: string
+    createdDate: string
+    modifiedName: string
     modifiedDate: string
-    companyId : CompanyName
-    logo : FileHandle
-    contractId: Contract
-    propertyId: Property
-    invoiceId: Invoice
-    paymentCheckId : IncomeCheck
-
+    mobileFirst: string
+    mobileSecond: string
+    mobileThird: string
+    picNameKana: string
+    userPostalFirst: string
+    userPostalSecond: string
+    userAddress: string
+    ownerPostalFirst: string
+    ownerPostalSecond: string
+    ownerAddress: string
+    password: string
+    companyId: CompanyName
+    logo: FileHandle  
+    picid:UserInfo
 }

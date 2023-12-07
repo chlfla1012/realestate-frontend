@@ -45,15 +45,16 @@ export class BankFormatCreateComponent {
     this.service.addBankFormat(formData).subscribe(
       (response) => {
         console.log('Bank Format Data Added successfully', response);
+        this.router.navigate(['/bankformat-list']);
       },
       (error) => {
         console.error('Error saving', error);
       }
     );
-    this.router.navigate(['/bankformat-list']);
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    // this.router.navigate(['/bankformat-list']);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 100);
   }
   back() {
     window.history.back();

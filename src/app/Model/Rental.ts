@@ -1,7 +1,7 @@
 import { UserInfo } from "./userInfo"
 import { PMReport } from "./PMReport"
 export interface Rental {
-    id : string
+    id : number
     room: string
     classification: string
     tenantName: string
@@ -16,6 +16,7 @@ export interface Rental {
     contractStartDate: string
     contractEndDate: string
     renewalFees: number
+    totalRental: number
     rentalRemarks : string
     owner : UserInfo
     pmReport : PMReport
