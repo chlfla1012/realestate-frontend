@@ -1,0 +1,169 @@
+
+<div class="container property-list-container">
+  <div class="row" style="width: 100%;height:28px;"></div>
+  <div class="container property-list-title-container">
+    <div class="row property-list-title-row">
+      
+        <div class="col-3 icon" style="margin-top: 19px;">
+           
+              <mat-icon aria-hidden="false"
+                     aria-label="Example home icon" 
+                     fontIcon="home" style="padding-top:3px;"></mat-icon>
+              <span style="margin-left: 10px;">物件情報一覧画面</span>
+
+        </div>
+        <div class="col-7"></div>
+    <div class="col-2" style="margin-top: 19px;">
+      <div class="create-icon" style="margin-left: 21%">
+       
+        <button mat-stroked-button style="width: 130px; height: 30px;"
+        (click)="navigateToCreatePage()"
+
+        >
+       
+           <mat-icon aria-hidden="false" aria-label="Example add_circle icon" fontIcon="add_circle"></mat-icon>
+        新規作成</button>
+    </div>
+        
+    </div>
+</div>
+</div>
+ 
+<div class="container search-container">
+  <div class="row search-row">
+    <div class="col-md-2">
+      <label for="propertyName">物件名</label>
+    </div>
+    
+    <div class="col-md-5"></div>
+    <div class="col-md-2">
+      <mat-label style="margin-left: 30px;">物件種別</mat-label>
+    </div>
+    
+   
+  </div>
+
+  <div class="row" style="margin-top: 6px;padding-left:8%;">
+
+    <div class="col-md-2" style="margin-left: 0px;">
+      <input type="text" id="propertyName"
+       [(ngModel)]="searchPropertyName" name="propertyName"
+        class="form-control" style="width: 270px; margin-left: 0px;">
+    </div>
+    <div class="col-md-5"></div>
+
+    <div class="col-md-2">
+      <mat-select id="propertyType" [(ngModel)]="searchPropertyType" name="propertyType"
+       class="form-control" style="width: 268px;margin-left: 15px;">
+        <mat-option value="マンション">マンション</mat-option>
+        <mat-option value="アパート">アパート</mat-option>
+
+        <mat-option value="一戸建て、その他">一戸建て、その他</mat-option>
+
+      </mat-select>
+    </div>
+  </div>
+  <div class="row button-row">
+    <div class="col-md-2">
+      <button mat-stroked-button style="width: 100px; height: 30px;" (click)="search()">
+          <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+          検索
+      </button>
+  </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <button mat-stroked-button style="width: 100px;height:30px;" 
+      (click)="reset()">リセット</button>
+
+    </div>
+  </div>
+    
+</div>
+
+ 
+   
+      <mat-table #table [dataSource]="dataSource" 
+      matSort aria-level="Elements" class="mat-elevation-z7">
+        <ng-container matColumnDef="物件ID">
+          <mat-header-cell *matHeaderCellDef
+          style="font-weight: bold;" class="column-id">物件ID</mat-header-cell>
+          <mat-cell *matCellDef="let property" class="column-id">{{property.id}}</mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="会社名">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">会社名</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.companyName}}</mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="物件種別">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">物件種別</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.propertyType}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="物件名">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">物件名</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.propertyName}}</mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="物件のステータス">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">物件のステータス</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.status}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="フロア">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;" class="column-floor">フロア</mat-header-cell>
+          <mat-cell *matCellDef="let property" class="column-floor">{{property.floor}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="号室">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;" class="column-room">号室</mat-header-cell>
+          <mat-cell *matCellDef="let property" class="column-room">{{property.room}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="オーナー名前">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">オーナー名前</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.ownerName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="担当者名前">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">担当者名前</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.picName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="登録日">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">登録日</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.createdDate}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="更新日">
+          <mat-header-cell *matHeaderCellDef  style="font-weight: bold;">更新日</mat-header-cell>
+          <mat-cell *matCellDef="let property">{{property.modifiedDate}}</mat-cell>
+        </ng-container>
+      
+        
+        <ng-container matColumnDef=" ">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let property; let i = index">
+            <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="Actions" disableRipple>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="4" fill="none" stroke="currentColor" 
+              />
+                              <polygon points="7,12 17,12 12,17" fill="#000"/>
+                            </svg>                </button>
+            <mat-menu #actionMenu="matMenu">
+              <button mat-menu-item (click)="handleOptionChange('details', property.id, property.propertyName,property.room)">詳細</button>
+              <button mat-menu-item (click)="handleOptionChange('update', property.id, property.propertyName,property.room)">編集</button>
+              <button mat-menu-item (click)="handleOptionChange('delete', property.id, property.propertyName,property.room)">削除</button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+        
+        
+     
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <mat-paginator #scheduledOrdersPaginator
+      [length]="dataSource.data.length"
+      [pageSize]="10"
+      style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page">
+    </mat-paginator>
+</div>
+    
+    
+     

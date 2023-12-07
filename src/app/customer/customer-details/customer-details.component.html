@@ -1,0 +1,443 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<!DOCTYPE html>
+<html>
+
+<body>
+  <div class="container customer-detail-container">
+    <div class="container customer-detail-title-container">
+      <div class="row customer-detail-title-row">
+        <div class="col-md-5 icon" style="margin-top: 19px;">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"
+            style="padding-top:3px;"></mat-icon>
+          <span style="margin-left: 10px;margin-bottom:0px">取引先連絡先詳細画面</span>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-4" style="margin-top: 19px;">
+            <div class="row">
+              <div class="col-2">
+                <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;" (click)="back()">戻る</button>
+            </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <button mat-stroked-button class="updateBtn" style="width: 100px; height: 30px;" (click)="navigateToUpdatePage(customer.id)" >
+                     <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>編集</button>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-2">
+                    <button mat-stroked-button class="deleteBtn" style="width: 100px; height: 30px;" (click)="confirmDelete(customer.id,customer.companyName)">
+                      <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>削除</button>
+                </div>
+            </div>
+
+         </div>
+      </div>
+    </div>
+
+    <form class="form-horizontal"  class="customer-detail-form" >
+      <div class="customer-container">
+        <p class="container-title"></p>
+         <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <p></p>
+              <p></p>
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: 10px;">
+                  <label for="type">種別<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <div class="col-md-2">
+                    <mat-select class="form-control" id="type" name="type" [(ngModel)]="customer.type"
+                    [ngClass]="{'is-valid':type.touched && type.invalid}" required
+                    #type="ngModel" style="width: 282px;margin-left: 5px;" disabled>
+                      <mat-option value="銀行">銀行</mat-option>
+                      <mat-option value="AIG">AIG</mat-option>
+                      <mat-option value="不動産関連">不動産関連</mat-option>
+                      <mat-option value="修理関連">修理関連</mat-option>
+                      <mat-option value="保証会社">保証会社</mat-option>
+                      <mat-option value="よく使う連絡先">よく使う連絡先</mat-option>
+                      <mat-option value="電気使用開始">電気使用開始</mat-option>
+                      <mat-option value="ガスもれ">ガスもれ</mat-option>
+                      <mat-option value="水道局">水道局</mat-option>
+                      <mat-option value="上野山下 水道">上野山下 水道</mat-option>
+                      <mat-option value="アスクル">アスクル</mat-option>
+                      <mat-option value="仲介 三友コーポ402">仲介 三友コーポ402</mat-option>
+                      <mat-option value="八王子支店">八王子支店</mat-option>
+                      <mat-option value="無限エステート">無限エステート</mat-option>
+                      <mat-option value="水漏れ">水漏れ</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="companyName">会社名<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="companyName" [(ngModel)]="customer.companyName"
+                    #companyName="ngModel" name="companyName" required
+                    [ngClass]="{'is-valid':companyName.touched && companyName.invalid}"
+                    style="width: 282px; height:35px;" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">  
+              <div class="col-md-5" style="margin-left: -75px;">
+                <div class="help-block" *ngIf="!type.valid && type.touched">種別を選択してください。</div>
+              </div>
+              <div class="col-md-5" style="margin-left: -7px;">
+                <div class="help-block" *ngIf="!companyName.valid && companyName.touched">
+                  会社名を入力してください。</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: 30px;">
+                  <label for="personName">担当者名<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="leftfield">
+                      <label for="personFirstName">姓</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="leftfield" style="margin-left: -15px;">
+                      <input type="text" class="form-control" id="personFirstName" required
+                        [(ngModel)]="customer.personFirstName" name="personFirstName" #personFirstName="ngModel"
+                        required [ngClass]="{'is-valid': personFirstName.touched && personFirstName.invalid}"
+                        style="width: 93px; height: 35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <span></span>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="leftfield">
+                      <label for="personLastName">名</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="leftfield">
+                      <input type="text" class="form-control" id="personLastName" required
+                        [(ngModel)]="customer.personLastName" name="personLastName" #personLastName="ngModel" required
+                        [ngClass]="{'is-valid': personLastName.touched && personLastName.invalid}"
+                        style="width: 93px; height: 35px;" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-3">
+                <div class="leftfield" style="margin-left: 55px;">
+                  <label for="personNamekana">担当者名(カナ)<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="leftfield" style="margin-left: -95px;">
+                      <label for="personFirstKana">姓<br>(カナ)</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="leftfield" style="margin-left: -150px;">
+                      <input type="text" class="form-control" id="personFirstKana" required
+                        [(ngModel)]="customer.personFirstKana" name="personFirstKana" #personFirstKana="ngModel"
+                        required [ngClass]="{'is-valid': personFirstKana.touched && personFirstKana.invalid}"
+                        pattern="^[\u30A0-\u30FF]+$" style="width: 93px; height: 35px;" disabled>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="leftfield" style="margin-left: -100px;">
+                      <label for="personLastKana">名<br>(カナ)</label>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="leftfield" style="margin-left: -150px;">
+                      <input type="text" class="form-control" id="personLastKana" required
+                        [(ngModel)]="customer.personLastKana" name="personLastKana" #personLastKana="ngModel" required
+                        [ngClass]="{'is-valid': personLastKana.touched && personLastKana.invalid}"
+                        pattern="^[\u30A0-\u30FF]+$" style="width: 93px; height: 35px;" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">  
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div style="margin-left: 30px;" class="help-block">
+                  <div *ngIf="(personFirstName.touched || personFirstName.dirty) && personFirstName.hasError('required')">
+                    姓を入力してください。
+                  </div>
+                </div> 
+              </div> 
+              <div class="col-md-2">
+                  <div class="help-block" style="margin-left: -15px;" >
+                    <div *ngIf="(personLastName.touched || personLastName.dirty) && personLastName.hasError('required')">
+                      名を入力してください。
+                    </div>                 
+                </div> 
+            </div>          
+                <div class="col-md-3">
+                  <div class="help-block" style="margin-left: 120px;" >
+                    <div *ngIf="personFirstKana.touched && personFirstKana.hasError('required')">
+                      姓(カナ)を入力してください。
+                    </div>
+                    <div *ngIf="personFirstKana.touched && personFirstKana.hasError('pattern')">
+                      姓(カナ)に誤りがあります。
+                    </div>
+                  </div>
+                </div>                            
+                  <div class="col-md-3">
+                    <div class="help-block" style="margin-left: -8px;">
+                      <div *ngIf="personLastKana.touched  && personLastKana.hasError('required')">
+                        名(カナ)を入力してください。
+                      </div>
+                      <div *ngIf="personLastKana.touched && personLastKana.hasError('pattern')">
+                        名(カナ)に誤りがあります。
+                      </div>
+                    </div>
+                  </div>                        
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: -15px;">
+            <div class="row no-gutters">
+              <p></p>
+              <p></p>
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: -5px;">
+                  <label for="department">部署</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="department" [(ngModel)]="customer.department"
+                    #department="ngModel" name="department"
+                    [ngClass]="{'is-valid':department.touched && department.invalid}"
+                    style="width: 282px; height:35px;" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: 30px;">
+                  <label for="phone1">電話番号<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="mobileFirst" required
+                        [(ngModel)]="customer.mobileFirst" name="mobileFirst" #mobileFirst="ngModel" [maxLength]="3"
+                        (keypress)="keyPressNumeric($event)"  [minlength]="3" pattern="[0-9]*"
+                        [ngClass]="{'is-valid':mobileFirst.touched && mobileFirst.invalid}"
+                        style="width: 60px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="mobileSecond" required pattern="[0-9]*"
+                        [(ngModel)]="customer.mobileSecond" name="mobileSecond" #mobileSecond="ngModel"
+                        class="form-control" [maxLength]="4" [minlength]="4" (keypress)="keyPressNumeric($event)" required
+                        [ngClass]="{'is-valid':mobileSecond.touched && mobileSecond.invalid}"
+                        style="width: 75px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-1" style="margin-left: 13px;">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-3" >
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="mobileThird" required pattern="[0-9]*"
+                        [(ngModel)]="customer.mobileThird" name="mobileThird" #mobileThird="ngModel" [maxlength]="4"
+                        (keypress)="keyPressNumeric($event)" required [minlength]="4"
+                        [ngClass]="{'is-valid':mobileThird.touched && mobileThird.invalid}"
+                        style="width: 75px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="fax1">ファックス</label>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="fax1"  [(ngModel)]="customer.fax1" name="fax1"
+                        #fax1="ngModel" [maxLength]="3" [minlength]="3" pattern="[0-9]*" (keypress)="keyPressNumeric($event)"
+                        [ngClass]="{'is-valid':fax1.touched && fax1.invalid}" style="width: 60px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="fax2"  [(ngModel)]="customer.fax2" name="fax2"
+                        #fax2="ngModel" class="form-control" [maxLength]="4" [minlength]="4" pattern="[0-9]*" (keypress)="keyPressNumeric($event)"
+                        [ngClass]="{'is-valid':fax2.touched && fax2.invalid}" style="width: 75px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-1" style="margin-left: 13px;">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input type="tel" class="form-control" id="fax3"  [(ngModel)]="customer.fax3" name="fax3"
+                        #fax3="ngModel" [maxlength]="4" [minlength]="4" pattern="[0-9]*" (keypress)="keyPressNumeric($event)"
+                        [ngClass]="{'is-valid':fax3.touched && fax3.invalid}" style="width: 75px;  height:35px;" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-5" style="margin-left: -275px;">
+                <span class="help-block" *ngIf="(mobileFirst.touched && mobileFirst.errors?.['required'])||
+                (mobileSecond.touched && mobileSecond.errors?.['required'])||
+                (mobileThird.touched && mobileThird.errors?.['required'])">
+                電話番号を入力してください。</span>
+              </div>             
+              <div class="col-md-5" style="margin-left: 5px;">
+                <span class="help-block" *ngIf="(fax1.touched && fax1.errors?.['required'])||
+                (fax2.touched && fax2.errors?.['required'])||
+                (fax3.touched && fax3.errors?.['required'])">
+                ファックスを入力してください。</span>
+              </div>
+             </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: 50px;">
+                  <label for="mailAdd">メールアドレス<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="mailAdd" [(ngModel)]="customer.mailAdd" #mailAdd="ngModel"
+                    name="mailAdd" required [ngClass]="{'is-valid':mailAdd.touched && mailAdd.invalid}"
+                    style="width: 282px; height:35px;" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+               <div class="col-md-5" style="margin-left: -80px;">
+                <div class="help-block" *ngIf="!mailAdd.valid && mailAdd.touched">
+                  メールアドレスを入力してください。</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: 20px;">
+                  <label for="postalFirst">郵便番号</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="leftfield">
+                      <input type="text" class="form-control" id="postalFirst" 
+                        [(ngModel)]="customer.postalFirst" name="postalFirst" #postalFirst="ngModel"
+                        (keypress)="keyPressNumeric($event)" [maxlength]="3" [minlength]="3" pattern="[0-9]*"
+                        [ngClass]="{'is-valid':postalFirst.touched && postalFirst.invalid}"
+                        style=" width:100px;height:35px;" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-1" style="margin-left: 13px;">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-4" style="margin-left: 8px;">
+                    <div class="leftfield">
+                      <input type="text" class="form-control" id="postalSecond" 
+                        [(ngModel)]="customer.postalSecond" name="postalSecond" #postalSecond="ngModel" [maxlength]="4"
+                        [minlength]="4" pattern="[0-9]*"
+                         [ngClass]="{'is-valid':postalSecond.touched && postalSecond.invalid}"
+                        style=" width:100px;height:35px;" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield" style="margin-left: -40px;">
+                  <label for="address">所在地</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield" style="margin-left: -100px;">
+                  <textarea id="address" class="form-control"  [(ngModel)]="customer.address"  id="address" 
+                   #address="ngModel" name="address"  rows="3" cols="25" wrap="off"  [ngClass]="{'is-valid':address.touched && address.invalid}"
+                   style="width: 282px;  height:50px;" disabled>
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-5" style="margin-left: -275px;">
+                <span class="help-block" *ngIf="(postalFirst.touched && postalFirst.errors?.['required'])||
+                (postalSecond.touched && postalSecond.errors?.['required'])">
+                郵便番号を入力してください。</span>
+              </div>
+                         
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: -10px;">
+                  <label for="remark">備考</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="leftfield">
+                      <textarea id="remark" class="form-control" required [(ngModel)]="customer.remark" 
+                      #address="ngModel" name="remark"  rows="3" cols="25" wrap="off" 
+                      style="width: 282px;  height:50px;" disabled>
+                     </textarea>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+        <div class="form-group">
+            <div class="col-md">
+              <div class="button-group"></div>
+            </div>
+          </div>
+    </form>
+  </div>
+</body>
+</html>

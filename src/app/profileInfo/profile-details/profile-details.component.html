@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div class="container user-create-container">
+      <div class="container user-create-title-container">
+        <div class="row user-create-title-row">
+          <div class="col-8">
+            <div class="icon" style="margin-top: 19px; display:flex; align-items:center">
+              <mat-icon style="font-size: 35px; width:auto;height:auto">person</mat-icon>
+              <span style="margin-left: 10px;">プロフィール詳細画面</span>
+            </div>
+          </div>
+          <div class="col-4" style="margin-top: 19px;">
+            <div class="row">
+              <div class="col-2">
+                <button class="edit-button" style="margin-left: 25%; display: flex; align-items: center;"
+                  (click)="back()">
+                  <!-- <mat-icon>edit</mat-icon> -->
+                      <span class="edit-text" style="margin-left: 30px;">戻る</span>
+                </button>
+              </div>
+              <div class="col-3"></div>
+              <div class="col-2">
+                <button class="edit-button" style="margin-left: 25%; display: flex; align-items: center;"
+                  (click)="navigateToUpdatePage(userInfo.id)">
+                  <mat-icon>edit</mat-icon>
+                      <span class="edit-text" style="margin-left: 20px;">編集</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <form class="form-horizontal " class="user-create-form">
+        <div class="user-container">
+          <p class="container-title">ユーザー情報</p>
+        <div class="user-information">
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="username" >名前<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="username"
+                  name="username" 
+                  [(ngModel)]="username"
+                  readonly
+                  style="width: 265px;  height:35px;"
+                  disabled>
+                    <!-- [(ngModel)]="userInfo.username" -->
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="usernamekana" >名前（カナ）<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                  <input type="text" class="form-control"
+              id="usernamekana"
+              [(ngModel)]="usernamekana"
+              name="usernamekana" readonly
+              style="width: 265px; height:35px;"
+              disabled>
+              <!-- [(ngModel)]="userInfo.usernamekana" -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="firstNamekana" >姓（カナ）</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="firstNamekana"
+                  readonly
+                  [(ngModel)]="userInfo.firstNamekana"
+                  name="firstNamekana"
+                  style="width: 265px;  height:35px;">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="lastNamekana" >名（カナ）</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="lastNamekana"
+                  required
+                  [(ngModel)]="userInfo.lastNamekana"
+                  name="lastNamekana" readonly
+                  style="width: 265px; height:35px;">
+                </div>
+              </div>
+
+            </div>
+          </div> -->
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="phone1" >電話番号<span style="color: red">*</span></label>
+                </div>
+              </div>
+
+              <div class=" col-md-3">
+                <div class="row">
+                <div class="col-md-3">
+                <input type="tel" class="form-control"
+                  id="phone1"
+                  required
+                  [(ngModel)]="userInfo.phone1"
+                  name="phone1" readonly
+                  #phone1="ngModel" [maxLength]="3"
+                  style="width: 60px;  height:35px; "
+                  class="form-control"
+                  disabled>
+                </div>
+                <div class="col-md-1">
+                  <span>-</span>
+                </div>
+                  <div class="col-md-3"> <input type="tel"
+                  class="form-control"
+                  id="phone2"
+                  required
+                  [(ngModel)]="userInfo.phone2"
+                  name="phone2"
+                  #phone2="ngModel"
+                   readonly
+                  style="width: 60px;  height:35px;" 
+                  class="form-control" 
+                  [maxLength]="4"
+                  disabled>
+                </div>
+                <div class="col-md-1">
+                  <span>-</span>
+                </div>
+                  <div class="col-md-3"><input type="tel"
+                    class="form-control"
+                    id="phone3"
+                  required
+                  [(ngModel)]="userInfo.phone3"
+                  name="phone3"
+                  #phone3="ngModel"
+                   readonly
+                  style="width: 60px;  height:35px;" 
+                  class="form-control" 
+                  [maxlength]="4"
+                  disabled></div>
+              </div>
+
+
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="dateOfBirth" >生年月日</label>
+                  </div>
+                </div>
+              </div>
+              <div class=" col-md-3">
+                <input type="text"
+                class="form-control"
+                id="dateOfBirth"
+                [(ngModel)]="userInfo.dateOfBirth"
+                name="dateOfBirth" readonly
+                style="width: 265px;  height:35px;"
+                disabled>
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="gender" >性別</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <!-- <mat-select
+                  class="form-control"
+                  id="gender"
+                  [(ngModel)]="userInfo.gender"
+                  name="gender"
+                  style="width: 75px;  height:35px;"
+                  disabled>
+                    <mat-option value="男性" selected>男性</mat-option>
+                    <mat-option value="女性">女性</mat-option>
+                  </mat-select> -->
+                  <input type="text"class="form-control"
+                  id="gender"
+                  [(ngModel)]="userInfo.gender"
+                  name="gender" readonly
+                  #gender="ngModel"
+                  style="width: 75px;  height:35px;"
+                  disabled>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="email" >メールアドレス<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                  <input type="email"
+                  class="form-control"
+                  id="email"
+                  required
+                  [(ngModel)]="userInfo.email"
+                  name="email"  readonly
+                  #email="ngModel"
+                  style="width: 265px;  height:35px;"
+                  disabled>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="postalcode1" >郵便番号</label>
+                </div>
+              </div>
+              <div class=" col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                  <input type="text"
+                  class="form-control"
+                  id="postalcode1"
+                  [(ngModel)]="userInfo.postalcode1"
+                  name="postalcode1"
+                  #postalcode1="ngModel" readonly
+                  style=" width:100px;height:35px;" 
+                  (keypress)="keyPressNumeric($event)" 
+                  [maxlength]="3"
+                  disabled>
+                </div>
+                <div class="col-md-1">
+                  <span>-</span>
+                </div>
+                  <div class="col-md-4">
+                  <input type="text"
+                  class="form-control"
+                  id="postalcode2"
+                   readonly
+                  [(ngModel)]="userInfo.postalcode2"
+                  name="postalcode2"
+                  #postalcode2="ngModel"
+                  style=" width:100px;height:35px;"
+                  [maxlength]="3"
+                  disabled></div>
+              </div>
+              </div>
+              <!-- <div class="col-md-1"></div> -->
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="address" >住所</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="address"
+                  required
+                  [(ngModel)]="userInfo.address"
+                  name="address"
+                  #address="ngModel" readonly
+                  style="width: 265px;  height:35px;"
+                  disabled>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="form-group">
+        <div class="col-md">
+          <div class="button-group"></div>
+        </div>
+      </div>
+      </form>
+    </div>
+  </body>
+</html>

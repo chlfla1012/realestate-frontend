@@ -1,0 +1,142 @@
+.invoice-create-container{
+    margin-top: 50px;
+    width: 400%;
+    height: auto;
+    background-color: rgb(126, 161, 154);
+    border-radius: 5px 5px 5px 5px;
+  }
+.invoice.invoice-create-title-container{
+    width: 100%;
+    height: auto;
+    padding-top: 40px;
+    margin-left: 9px;
+    /* background-color: brown; */
+    /* margin-top: 10px; */
+    }
+.invoice-create-title-row{
+        width: 100%;
+        height: 70px;
+        background-color: rgba(249, 246, 246, 0.904);
+        margin-bottom: 50px;
+        border-radius: 6px 6px 6px 6px;
+        margin-left: 5px;
+        /* margin-top: 50px; */
+        /* padding-top: 10px; */
+        }
+.property-information {
+        margin-top: 20px;
+        width: 100%;
+        height: 50%;
+        margin-left: -7px;
+        background-color: rgba(249, 246, 246, 0.904);
+          
+    }
+.invoice-create-form{
+    margin-left: 1%;
+    width: 100%;
+    height: auto;
+    /* background-color: rgba(249, 246, 246, 0.904); */
+}
+.button-group{
+  width: 100%;
+  height: 70px;
+
+}
+
+
+button{
+  align-content: center;
+  color:black;
+  width: 150px;
+  background-color:rgb(127, 161, 154);
+}
+button:hover{
+  color:white;
+
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.btn-reset {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-reset {
+  margin-right: 10px;
+  border-radius: 5px;
+  border:0.5px #000;
+  width: 150px;
+  height: 35px; /* Add any desired margin */
+}
+.button-text{
+  color:black
+}
+.button-text:hover{
+  color:black;
+}
+.createbutton-text{
+  color:white;
+}
+.createbutton-text:hover{
+  color:black;
+}
+.create
+{
+  margin-right: 10px;
+  border-radius: 5px;
+  border:0.5px #000;
+  background-color: #376fc3; /*screenshot 3 */
+  width: 150px;
+  height: 35px;
+}
+.button-text{
+  color:black
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.help-block{
+  color: red;
+  font-size: 12px;
+}
+
+.left-label{
+  margin-left: 1px;
+}
+
+.left-textfield
+{
+margin-left: -38px;
+}
+.yen{
+  margin-left: -40px;
+}
+
+.inner-label{
+  margin-left: -60px;
+}
+.inner-textfield{
+  margin-left: -50px;
+}
+.inner-total-textfield
+{
+  margin-left: -70px;
+}
+.inner-yen
+{
+  margin-left: 65px;
+}
+.inner-selectBox
+{
+  margin-left: -130px;
+}
+.month-label
+{
+  margin-left: -155px;
+}
+

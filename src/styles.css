@@ -1,0 +1,25 @@
+/* .mat-select {
+    background-color: red;
+    height: 10px; 
+  
+  /* Adjust the font size and padding of the mat-option content 
+  .mat-option {
+    font-size: 14px; /* You can adjust this value to your preferred font size 
+    padding: 4px 8px; /* You can adjust this value to add padding around the option content 
+  } */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+@import "~bootstrap/dist/css/bootstrap.css";
+
+  .blue-snackbar {
+  --mdc-snackbar-container-color: red !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: white !important;
+  white-space: pre-wrap
+}
+ .green-snackbar{
+  --mdc-snackbar-container-color: green !important;
+  --mdc-snackbar-supporting-text-color: white !important;
+  --mat-mdc-snack-bar-button-color: white !important;
+  white-space: pre-wrap
+ }

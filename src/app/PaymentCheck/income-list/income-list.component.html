@@ -1,0 +1,209 @@
+<html>
+
+<body>
+  <form class="form-horizontal" (ngSubmit)="onSubmit(f)" #f="ngForm" name="myForm">
+    <div class="container income-list-container">
+      <div class="row" style="width: 100%;height:28px;"></div>
+      <div class="container income-list-title-container">
+        <div class="row income-list-title-row">
+          <div class="col-md-3 icon" style="margin-top: 19px;">
+            <mat-icon style="padding-top:3px;">check_box</mat-icon>
+            <span style="margin-left: 10px;margin-bottom:0px">入金チェック一覧画面</span>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-7" style="margin-top: 19px;">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="leftfield" style="margin-left: 120px;">
+                  <label for="bankName">銀行種別<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <mat-select [(ngModel)]="selectedOption" class="form-control" id="bankName" name="bankName"
+                  style="width: 180px;height:35px;">
+                  <mat-option value="みずほ銀行" selected>みずほ銀行</mat-option>
+                  <mat-option value="三菱UFJ銀行">三菱UFJ銀行</mat-option>
+                  <mat-option value="三井住友銀行">三井住友銀行</mat-option>
+                  <mat-option value="りそな銀行">りそな銀行</mat-option>
+                  <mat-option value="ゆうちょ銀行">ゆうちょ銀行</mat-option>
+                  <mat-option value="東京三菱UFJ銀行">東京三菱UFJ銀行</mat-option>
+                  <mat-option value="新生銀行">SBI新生銀行</mat-option>
+                  <mat-option value="セブン銀行">セブン銀行</mat-option>
+                  <mat-option value="あおぞら銀行">あおぞら銀行</mat-option>
+                  <mat-option value="楽天銀行">楽天銀行</mat-option>
+                  <mat-option value="Pay Pay銀行">Pay Pay銀行</mat-option>
+                </mat-select>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-6" style="margin-right: -200px;">
+                <button mat-stroked-button style="width: 200px; height: 30px;" (click)="toFileUploadPage(selectedOption)">
+                  アップロード
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of title row -->
+      <div class="container search-container" >
+        <div class="row search-title-row" style="padding-top: 20px;margin-left:0px;">
+          <div class="col-md-1"></div>
+          <div class="col-md-2">
+            <label for="propertyName">物件名</label>
+          </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-2">
+            <label for="month">対象月</label>
+          </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-2">
+            <label for="status">ステータス</label>
+          </div>
+        </div>
+        <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
+          <div class="col-md-2">
+            <input type="text" id="propertyName" [(ngModel)]="propertyName" name="propertyName" class="form-control"
+              style="width: 150px;margin-left: 53px;">
+          </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-2" style="margin-left: 65px;">
+            <input type="date" id="month" [(ngModel)]="month" name="month" class="form-control"
+              style="width: 150px; margin-left: 0px;">
+          </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-2">
+            <mat-select class="form-control" id="status" name="status" [(ngModel)]="status">
+              <mat-option value="OK">OK</mat-option>
+              <mat-option value="NG">NG</mat-option>
+              <mat-option value="未">未</mat-option>
+            </mat-select>
+          </div>
+        </div>
+
+        <div class="row button-row">
+          <div class="col-md-1">
+            <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+              <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+              検索
+            </button>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-2">
+            <button mat-stroked-button class="resetBtn" style="color:white; width: 100px;height:30px;"
+              (click)="reset()">リセット</button>
+          </div>
+        </div>
+      </div>
+      <div class="container save-container">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
+          <button mat-stroked-button class="submitBtn" style="width: 100px; height: 30px;" type="submit">保存</button>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <!-- End of body -->
+      <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7" >
+        <ng-container matColumnDef="ownerName">
+          <mat-header-cell *matHeaderCellDef>オーナー名前</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.ownerName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tenantName">
+          <mat-header-cell *matHeaderCellDef>入居者</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.tenantName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="propertyName">
+          <mat-header-cell *matHeaderCellDef>物件名</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.propertyName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="room">
+          <mat-header-cell *matHeaderCellDef>号室</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.room}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="month">
+          <mat-header-cell *matHeaderCellDef>対象月</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.month}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="expectedAmount">
+          <mat-header-cell *matHeaderCellDef>予定金額</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.expectedAmount}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="income">
+          <mat-header-cell *matHeaderCellDef>入金</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">{{incomecheck.income}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>ステータス</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">
+            <ng-container *ngIf="incomecheck.isChecked; else originalText">
+              OK
+            </ng-container>
+            <ng-template #originalText>
+              {{ incomecheck.status }}
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="customColumn1">
+          <mat-header-cell *matHeaderCellDef><mat-icon style="font-size: 20px;">edit</mat-icon>手動確認</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox color="primary" [(ngModel)]="row.isChecked" name="row.isChecked"
+              id="row.isChecked"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="remark">
+          <mat-header-cell *matHeaderCellDef><mat-icon style="font-size: 20px;">edit</mat-icon>備考</mat-header-cell>
+          <mat-cell *matCellDef="let incomecheck">
+            <ng-container *ngIf="incomecheck.isChecked; else originalText">
+              <textarea [(ngModel)]="incomecheck.remark" style="width: 100px; height: 30px;" id="remark"
+                class="form-control" id="remark" #remark="ngModel" name="remark" rows="3" cols="25"
+                wrap="off"></textarea>
+            </ng-container>
+            <ng-template #originalText>
+              {{ incomecheck.remark }}
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef=" ">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let paymentCheck; let i = index">
+            <!-- Add disableRipple attribute to disable the ripple effect  -->
+            <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="Actions" disableRipple>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="4" fill="none" stroke="currentColor" />
+                <polygon points="7,12 17,12 12,17" fill="#000" />
+              </svg> </button>
+            <mat-menu #actionMenu="matMenu">
+
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+      <mat-paginator #scheduledOrdersPaginator [length]="dataSource.data.length" [pageSize]="10"
+        style="margin-top: 20px;background-color:rgb(126, 161, 154);" [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page">
+      </mat-paginator>
+      <!-- End of showing table -->
+    
+    </div>
+  </form>
+</body>
+
+</html>

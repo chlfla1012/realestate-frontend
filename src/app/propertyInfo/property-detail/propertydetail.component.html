@@ -1,0 +1,2158 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div class="container property-details-container">
+        <div class="container" style="width: 100%;height:28px;"></div>
+
+        <div class="container property-details-title-container">
+            <div class="row property-details-title-row">
+                <div class="col-6">
+                    <div class="icon" style="margin-top: 19px;">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-person-square" viewBox="0 0 16 16">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
+                          </svg> -->
+                          <mat-icon aria-hidden="false"
+                     aria-label="Example home icon" 
+                     fontIcon="home" style="padding-top:3px;"></mat-icon>
+                          <span style="margin-left: 10px;">物件情報詳細画面
+                          </span>
+        
+                    </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4" style="margin-top: 19px;">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                        </div>
+                        <div class="col-md-3">
+                            <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToPreivousPage()">
+                               戻る
+                                
+                            </button>
+                        </div>
+                        <div class="col-md-3"> 
+                           
+                            <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToUpdatePage(property.id)">
+                                <mat-icon aria-hidden="false"
+                                 aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+                                編集
+                            </button>
+                           
+                           
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <button mat-stroked-button style="width: 100px; height: 30px;background-color:red;" 
+                              (click)="confirmDelete(property.id,property.propertyName)">
+                                <mat-icon aria-hidden="false" 
+                                aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+                                削除
+                            </button>
+                           
+                        </div>
+                    </div>
+               
+                 </div>
+        </div>
+        </div>
+    
+
+            <form class="form-horizontal" #f="ngForm" 
+            class="property-details-form">
+
+             <!-- <h1>基本情報</h1>  -->
+
+            <div class="basic-container">
+                <p>基本情報</p>
+               
+
+
+                <div class="basic-information">
+                    
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="propertyType" >物件種別</label>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: -65px;">
+                                <input type="text"
+                                 id="propertyType"
+                                 [(ngModel)]="property.propertyType"
+
+                                 name="propertyType"
+                                class="form-control"
+                                style="width: 268px;"
+                                disabled>
+                                   
+                            </div>
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: 79px;">
+                                <label for="status">物件のステータス</label>
+
+                            </div>
+                                <div class="col-md-2">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="status"
+                                    [(ngModel)]="property.status"
+
+                                     name="status" style="width: 270px;margin-left:0px;"
+                                     disabled
+                                     >
+                                
+                                </div>
+                          
+                        </div>                       
+                    </div>
+
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                          <div class="col-md-2">
+                            <label for="propertyName" >物件名<span style="color: red">*</span></label>
+
+                          </div>
+                          <div class="col-md-2" style="margin-left: -80px;">
+                            <input type="text"
+                            id="propertyName"
+                            #propertyName="ngModel"
+
+                            required  [(ngModel)]="property.propertyName"
+                            name="propertyName"
+
+                           class="form-control"
+                           style="width: 270px;margin-left:14px;" 
+                           disabled
+                          
+                           >
+                          </div>
+                          <div class="col-md-2">
+                           
+                          </div>
+                          <div class="col-md-2" style="margin-left: 90px;">
+                            <label for="ownerName" style="margin-left:5px;">オーナー名前<span style="color: red">*</span></label>
+
+                          </div>
+                          <div class="col-md-2" style="margin-left: 4px;">
+                           
+                           
+                            <select [(ngModel)]="ownerId"
+                            id="ownerId"
+                             name="ownerId"
+                             style="width: 270px;"
+
+                              class="form-control"
+                              disabled>
+                         
+                                <option  
+                             [value]="property.owner?.id" selected>
+                             {{ property.ownerName}}</option>    
+                           
+                         </select>
+                           
+                          </div>
+                        </div>
+                       
+                       
+                       
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="propertyKana">物件名（カナ）<span style="color: red">*</span></label>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: -65px;">
+                                <input type="text"
+                                class="form-control"
+                                 id="propertyKana"
+                                 [(ngModel)]="property.propertyKana"
+                                 #propertyKana="ngModel"
+                                 name="propertyKana"
+                                style="width: 270px;"
+                                disabled>
+                               
+                            </div>
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: 80px;">
+                                <label for="picName" style="margin-left: 0px;">担当者名前<span style="color: red">*</span></label>
+
+                            </div>
+                            <div class="col-md-2">
+                                
+                              <select [(ngModel)]="picId"
+                              id="picId"
+                               name="picId"
+                               style="width:270px;"
+                                class="form-control"
+                                disabled>
+                                
+                                  <option  
+                               [value]="property.pic?.id" selected>
+                               {{ property.picName}}<option>    
+                              
+                           </select>
+                            </div>
+                        </div>
+                       
+                       
+
+                    </div>
+   
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="floor" >フロア</label>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;">
+                                <input type="text"
+                                class="form-control"
+                                id="floor"
+                                [(ngModel)]="property.floor"
+                                #floor="ngModel"
+                                name="floor"
+                                style="margin-left:14px;"
+                                disabled
+                                >
+                            </div>
+                            <div class="col-md-1">
+
+                            </div>
+                            <div class="col-md-2"  style="margin-left: 122px;">
+                                <label for="phone" style="margin-left: 0px;">担当者電話番号</label>
+
+                            </div>
+                            <div class="col-md-1 text-center" style="margin-left: px;">
+                                <input type="tel" 
+                                id = "mobileFirst"
+                                [(ngModel)]="property.mobileFirst"
+
+                                name="mobileFirst"
+                                style="width: 62px;margin-left:1px;"
+                                class="form-control"
+                                value = "mobileFirst"
+                                disabled
+                               
+                                >
+                            </div>
+                            <div class="col-md-1" style="margin-left:-35px;">-</div>
+                           <div class="col-md-1" style="margin-left:-90px;">
+                            <input type="tel"
+                            id = "mobileSecond"
+                           [(ngModel)]="property.mobileSecond"
+
+                           name="mobileSecond"
+                            style="width: 77px;"
+                            class="form-control"
+                            [maxlength]="4"
+                            value="mobileSecond"
+                            disabled
+                            >
+                          
+                           </div>
+                           <div class="col-md-1" style="margin-left:-20px;">
+                            -
+
+                           </div>
+                           <div class="col-md-1" style="margin-left: -90px;">
+                            <input type="tel" id ="mobileThird"
+                             [(ngModel)]="property.mobileThird"
+
+                            name="mobileThird"
+                            style="width: 77px"
+                            class="form-control"
+                            [maxlength]="4"
+                            value="mobileThird"
+                            disabled
+                            >
+                           </div>
+                            
+                        </div>
+                    
+
+                       
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="room" >号室<span style="color: red">*</span></label>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: -80px;">
+                                <input type="text"
+                                class="form-control"
+                                id="room"
+                                [(ngModel)]="property.room"      
+                                name="room"                     
+                               #room="ngModel"
+                                style="width: 270px;margin-left:14px;"
+                                disabled >
+
+                            </div>
+                          
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <br>
+             <!-- <h1>所在地</h1>  -->
+
+            <div class="address-container">
+                <p>所在地</p>
+                <div class="address-infomation">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                             <label for="postal-code" style="margin-left:0px;">郵便番号<span style="color: red">*</span></label>
+ 
+                            </div>
+                            <div class="text-center col-md-1" style="margin-left: -98px;">
+                                <input type="text"
+                             class="form-control"
+                             id="postalFirst"
+                            required [(ngModel)]="property.postalFirst"      
+                             #postalFirst="ngModel"
+                             name="postalFirst"
+                              style="width:80px;"
+                              [maxLength]="3"
+                              pattern="[0-9]*"
+                              disabled
+                              >
+                            </div>
+                         <div class="col-md-1" style="margin-left: 1px;">-</div>
+                            <div class="col-md-1" style="margin-left: -70px;">
+                             <input type="text"
+                             class="form-control"
+                             id="postalLast"
+                             required  [(ngModel)]="property.postalLast"      
+                             #postalLast="ngModel"
+                             name="postalLast"
+                             style="width:120px;"
+                             [maxlength]="4"
+                             pattern="[0-9]*"
+                             disabled
+  
+ 
+                             >
+                            </div>
+                         </div>
+
+                       
+                       
+                       
+                    </div>
+                  
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="address">住所<span style="color: red">*</span></label>
+
+                            </div>
+                            <div class="col-md-2" style="margin-left: 10px;">
+                                <textarea
+                                 id="address"
+                                class="form-control"
+                                required [(ngModel)]="property.address"      
+                                #address="ngModel"
+                                name="address" 
+                                rows="3" cols="25" wrap="off"
+                                style="width: 400px;"
+                                disabled
+                                ></textarea>
+                            </div>
+                        </div>
+                     
+                       
+                    </div>
+                    
+                    <div class="row" style="margin-top: 20px;margin-left:18px;">
+                        <div class="col-6">
+                          <span>交通1</span>
+                        </div>
+                        <div class="col-6">
+                            <span style="margin-left: 8px;">交通2</span>
+
+                        </div>
+                    </div>
+                        <div class="form-group" style="margin-top: 20px;">
+                            <div class="row" style="margin-left: -10px;">
+                                <div class="col-md-1">
+                                    <label for="line1" >路線名<span style="color: red">*</span></label>
+
+                                </div>
+                                <div class="col-md-2" style="margin-left: 7px;">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="line1"
+                                    required [(ngModel)]="property.line1"      
+                                    #line1="ngModel"
+                                    name="line1"
+                                    style="width:135px"
+                                    disabled
+                                    >
+                                </div>
+                                <div class="col-md-1" style="margin-left: -25px;">
+                                    <label for="station1" style="margin-left:0px;">駅名<span style="color: red">*</span></label>
+
+                                </div>
+                                <div class="col-md-1" style="margin-left: -9px;">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="station1"
+                                    required
+                                    [(ngModel)]="property.station1"      
+                                    #station1="ngModel"
+                                    name="station1"
+                                    style="margin-left: 0px;width:130px"
+                                    disabled
+
+                                    >
+                                </div>
+                                <div class="col-md-2">
+
+                                </div>
+                                <div class="col-md-1" style="margin-left: -73px;">
+                                    <label for="line2">路線名</label>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="line2"
+                                    [(ngModel)]="property.line2"      
+                                    #line2="ngModel"
+                                    name="line2"
+                                     style="margin-left: 0px;width:130px"
+                                     disabled>
+                                </div>
+                                <div class="col-md-1"  style="margin-left: -25px;">
+                                    <label for="station2" style="margin-left:0px;">駅名</label>
+
+                                </div>
+                                <div class="col-md-1">
+
+                                    <input type="text"
+                                    class="form-control"
+                                    id="station2"
+                                    [(ngModel)]="property.station2"      
+                                    #station2="ngModel"
+                                    name="station2"
+                                    disabled
+                                    style="margin-left: 0px;width:130px">
+                                </div>
+                            </div>
+                           
+                            
+                        </div>
+                        <div class="form-group" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <label for="busStop1">バス停名</label>
+
+                                </div>
+                                <div class="col-md-2" style="margin-left: 8px;width:300px">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="busStop1"
+                                    [(ngModel)]="property.busStop1"      
+                                    #busStop1="ngModel"
+                                    name="busStop1"
+                                    style="margin-left: 0px;"
+                                    disabled>
+                                </div>
+                                <div class="col-md-1">
+                                    
+                                </div>
+                                <div class="col-md-1" style="margin-left: 126px;">
+                                    <label for="bus-stop2">バス停名</label>
+
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="busStop2"
+                                    [(ngModel)]="property.busStop2"      
+                                    #busStop2="ngModel"
+                                    name="busStop2"
+                                    style="margin-left: 2px;width:280px"
+                                    disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="ride1">乗車（分）<span style="color: red">*</span></label>
+
+                                </div>
+                                <div class="col-md-1"  style="margin-left: -100px;">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="ride1"
+                                    required
+                                    [(ngModel)]="property.ride1"      
+                                    #ride1="ngModel"
+                                    name="ride1"
+                                    style="width:90px;margin-left:1px;"
+                                    disabled
+
+
+                                    >
+                                </div>
+                                <div class="col-md-2" style="margin-left: 20px;">
+                                    <label for="stroll1" style="margin-left: 45px;">徒歩（分）<span style="color: red">*</span></label>
+
+                                </div>
+                                <div class="col-md-1" style="margin-left: -60px;">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="stroll1"
+                                    required
+                                    [(ngModel)]="property.stroll1"      
+                                    #stroll1="ngModel"
+                                    name="stroll1"
+                                    style="width:90px;
+                                    "
+                                    disabled
+
+                                    >
+                                </div>
+                               
+                                <div class="col-md-1"  style="margin-left: 140px;">
+                                    <label for="ride2" style="margin-left: 0px;">乗車（分）</label>
+
+                                </div>
+                                <div class="col-md-1">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="ride2"
+                                    [(ngModel)]="property.ride2"      
+                                    #ride2="ngModel"
+                                    name="ride2"
+                                    disabled
+
+                                    style="margin-left: 4px;width:90px;margin-right:0px;
+                                    ">
+                                </div>
+                               
+                                <div class="col-md-2">
+                                    <label for="stroll2" style="margin-left: 30px;">徒歩（分）</label>
+
+                                </div>
+                                <div class="col-md-1">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="stroll2"
+                                    [(ngModel)]="property.stroll2"      
+                                    #stroll2="ngModel"
+                                    name="stroll2"
+                                    style="margin-left: -40px;width:90px;"
+                                    disabled
+
+                                    >
+                                </div>
+
+                                  
+                                
+                            </div>
+                          
+                        </div>
+                     
+                    </div>
+                    </div>
+ <!-- <h1>金額面</h1>  -->
+
+<div class="monetary-container">
+    <p>金額面</p>
+    <div class="monetary-infomation">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="tax rate" >税率<span style="color: red">*</span>
+                        </label>
+
+                </div>
+                <div class="col-md-1">
+                    <input type="text"
+                    class="form-control"
+                    id="taxRate"
+                    [(ngModel)]="property.taxRate" 
+                    name ="taxRate"     
+                    #taxRate="ngModel"
+                    disabled
+                    style="width: 60px;margin-left: -40px;margin-right:0px;"
+                    >
+                </div>
+               <div class="col-md-1" style="margin-left:-80px;">%</div>        
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 20px;">
+            <div class="row ">
+                <div class="col-md-2">
+                    <label for="price " >賃料（円/坪）<span style="color: red">*</span></label>
+                </div>
+                <div class="col-md-2" style="margin-left: -40px;">
+                    <input type="text"
+                    class="form-control"
+                    id="rentTsubo"
+                    required
+                    [(ngModel)]="property.rentTsubo" 
+                    name ="rentTsubo"     
+                    #rentTsubo="ngModel"
+                    pattern="[0-9]+"
+                    disabled
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    >
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="totalRent" >賃料（総額）<span style="color: red">*</span></label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-60px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="totalRent"
+                    required
+                    [(ngModel)]="property.totalRent" 
+                    #totalRent="ngModel"
+                    name="totalRent"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    pattern="[0-9]+"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+               
+                <div class="col-md-1" style="margin-left: -50px;">
+                    <input type="text"
+                    class="form-control"
+                    id="rentTax"
+                    [(ngModel)]="property.rentTax" 
+                    #rentTax="ngModel"
+                    name="rentTax"
+                    disabled
+                     style="margin-left: 0px;width: 80px">
+                        <!-- <mat-option value="なし">なし</mat-option>
+                        <mat-option value="税込">税込</mat-option>
+                     <mat-option value="税抜">税抜</mat-option>
+                    </mat-select> -->
+                </div>
+               
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row ">
+                <div class="col-md-2">
+                    <label for="serviceFeesTsubo " >共益費（円/坪）<span style="color: red">*</span></label>
+                </div>
+                <div class="col-md-2" style="margin-left: -40px;">
+                    <input type="text"
+                    class="form-control"
+                    id="serviceFeesTsubo"
+                    required
+                    [(ngModel)]="property.serviceFeesTsubo" 
+                    #serviceFeesTsubo="ngModel"
+                    name="serviceFeesTsubo"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    pattern="[0-9]+"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="serviceFeesTotal" >共益費（総額）<span style="color: red">*</span></label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-60px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="serviceFeesTotal"
+                    required
+                    [(ngModel)]="property.serviceFeesTotal" 
+                    #serviceFeesTotal="ngModel"
+                    name="serviceFeesTotal"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    pattern="[0-9]+"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -50px;">
+                    <input type="text"
+                    class="form-control"
+                    id="serviceFeesTax"
+                    [(ngModel)]="property.serviceFeesTax" 
+                    #serviceFeesTax="ngModel"
+                    name="serviceFeesTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                    
+                        <!-- <mat-option value="なし">なし</mat-option>
+                        <mat-option value="税込">税込</mat-option>
+                        <mat-option value="税抜
+                        ">税抜</mat-option>
+                    </mat-select>  -->
+                </div>
+               
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="parkingFees" >駐車料</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="parkingFees"
+                    [(ngModel)]="property.parkingFees" 
+                    #parkingFees="ngModel"
+                    name="parkingFees"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="parkingFeesTax"
+                    [(ngModel)]="property.parkingFeesTax" 
+                    #parkingFeesTax="ngModel"
+                    name="parkingFeesTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="repairExpenses" >修繕費積立基金</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="repairExpenses"
+                    name="repairExpenses"
+                    [(ngModel)]="property.repairExpenses" 
+                    #repairExpenses="ngModel"
+                    name="repairExpenses"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="repairTax"
+                    [(ngModel)]="property.repairTax" 
+                    #repairTax="ngModel"
+                    name="repairTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="deposit" >敷金</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="deposit"
+                    name="deposit"
+                    [(ngModel)]="property.deposit" 
+                    #deposit="ngModel"
+                    name="deposit"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円/ヶ月
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="depositTax"
+                    [(ngModel)]="property.depositTax" 
+                    #depositTax="ngModel"
+                    name="depositTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="keyMoney" >礼金</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="keyMoney"
+                    name="keyMoney"
+                    [(ngModel)]="property.keyMoney" 
+                    #keyMoney="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="keyMoneyTax"
+                    [(ngModel)]="property.keyMoneyTax" 
+                    #keyMoneyTax="ngModel"
+                    name="keyMoneyTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="toalDeposit" >保証金</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="toalDeposit"
+                    name="toalDeposit"
+                    [(ngModel)]="property.toalDeposit" 
+                    #toalDeposit="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円/ヶ月
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="toalDepositTax"
+                    [(ngModel)]="property.toalDepositTax" 
+                    #toalDepositTax="ngModel"
+                    name="toalDepositTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="restorationFees" >敷引</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="restorationFees"
+                    name="restorationFees"
+                    [(ngModel)]="property.restorationFees" 
+                    #restorationFees="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円/ヶ月
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="restorationFeesTax"
+                    [(ngModel)]="property.restorationFeesTax" 
+                    #restorationFeesTax="ngModel"
+                    name="restorationFeesTax"
+                     style="margin-left: 0px;width: 80px"
+                     disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+                <div class="col-md-2" style="margin-left: 10px;">
+                    <input type="checkbox"
+                    class="form-check-input"
+                    id="restorationStatus"
+                    [(ngModel)]="property.restorationStatus" 
+                    #restorationStatus="ngModel"
+                    name="restorationStatus"
+                    disabled
+                    >
+                    <label for="restorationStatus" style="margin-left: 5px;">退去時</label>
+                </div>
+              
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="fireInsuranceFees" >火災保険料</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="fireInsuranceFees"
+                    name="fireInsuranceFees"
+                    [(ngModel)]="property.fireInsuranceFees" 
+                    #fireInsuranceFees="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="fireInsuranceFeesTax"
+                    [(ngModel)]="property.fireInsuranceFeesTax" 
+                    #fireInsuranceFeesTax="ngModel"
+                    name="fireInsuranceFeesTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+                <div class="col-md-2" style="margin-left: 10px;">
+                    <label for="insuranceHours" >（保険時間
+                    </label>
+                </div>
+                <div class="col-md-2" style="margin-left: -90px;">
+                    <input type="text"
+                    class="form-control"
+                    id="insuranceYears"
+                    [(ngModel)]="property.insuranceYears" 
+                     #insuranceYears="ngModel"
+                     name="insuranceYears"
+                    style="width: 80px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -90px;">
+                    年）
+                </div>
+              
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="renewalFees" >更新料</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="renewalFees"
+                    name="renewalFees"
+                    [(ngModel)]="property.renewalFees" 
+                    #renewalFees="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円/ヶ月
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="renewalFeesTax"
+                    [(ngModel)]="property.renewalFeesTax" 
+                    #renewalFeesTax="ngModel"
+                    name="renewalFeesTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="signboardFees" >看板</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="signboardFees"
+                    name="signboardFees"
+                    [(ngModel)]="property.signboardFees" 
+                    #signboardFees="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円
+                </div>
+              
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="signboardFeesTax"
+                    [(ngModel)]="property.signboardFeesTax" 
+                    #signboardFeesTax="ngModel"
+                    name="signboardFeesTax" style="margin-left: 0px;width: 80px"
+                    disabled>
+                        <!-- <option value="なし">なし</option>
+                        <option value="税込">税込</option>
+                        <option value="税抜">税抜</option>
+                      </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2" style="margin-left: 0px;">
+                    <label for="consumptionTax" >消費税</label>
+
+                </div>
+                <div class="col-md-2" style="margin-left:-40px;">
+                    <input type="text"
+                    class="form-control"
+                    id ="consumptionTax"
+                    name="consumptionTax"
+                    [(ngModel)]="property.consumptionTax" 
+                    #consumptionTax="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    円/ヶ月
+                </div>
+                </div>
+                </div>
+        
+
+           
+
+</div>
+</div>
+
+
+<!-- <h1>物件、部屋</h1>  -->
+
+　　　　　<div class="detail-container">
+    <p>物件、部屋</p>
+    <div class="detail-infomation">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-1">
+                    <span >物件階建
+                        </span>
+                </div>
+                <div class="col-md-1" style="margin-left: 15px;">
+                    <label for="ground">地上</label>
+                        <!-- <span style="color: red">*</span> </label> -->
+                </div>
+                <div class="col-md-1" style="margin-left: -45px;">
+                    <input type="text"
+                    class="form-control"
+                    id="ground"
+                    
+                    [(ngModel)]="property.ground" 
+                    #ground="ngModel"
+                    name="ground"
+                    style="width: 60px;"
+                    pattern="[0-9]+"
+                    disabled
+
+
+                    >
+                    <!-- required [ngClass]="{'is-valid':ground.touched && ground.invalid}" -->
+                </div>
+                <div class="col-md-1" style="margin-left: -30px;">
+                    階
+                </div>
+                <div class="col-md-1" style="margin-left: -40px;">
+                     <label for="underground">地下</label>
+
+                    <!-- <label for="underground">地下<span style="color: red">*</span></label> -->
+
+                </div>
+                <div class="col-md-1" style="margin-left: -50px;">
+                    <input type="text"
+                    class="form-control"
+                    id="underground"
+                    name="underground"
+                    
+                    [(ngModel)]="property.underground" 
+                    #underground="ngModel"
+                    style="width: 60px;"
+                    pattern="[0-9]+"
+                    disabled
+
+
+                    >
+                    <!-- required [ngClass]="{'is-valid':underground.touched && underground.invalid}" -->
+
+                </div>
+                <div class="col-md-1" style="margin-left: -30px;">
+                    階
+                </div>
+                <div class="col-md-2" style="margin-left: -60px;">
+                    <input type="checkbox"
+                    class="form-check-input"
+                    id="elevator"
+                    [(ngModel)]="property.elevator" 
+                    #elevator="ngModel"
+                    name="elevator"
+                    disabled
+                    >
+                    <label for="elevator">エレベーター有</label>
+                   
+                </div>
+                <div class="col-md-1" style="margin-left: 5px;">
+                    <label for="structure" >物件構造
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="text"
+                    
+                    class="form-control"
+                    id="structure"
+                    [(ngModel)]="property.structure" 
+                    #structure="ngModel"
+                    disabled
+                    name="structure" style="width: 261px;margin-left:51px;">
+                    <!-- <mat-option value="なし">なし</mat-option>
+                    <mat-option value=" 木造（W造）"> 木造（W造）</mat-option>
+                    <mat-option value="鉄骨造（S造）">鉄骨造（S造）</mat-option>
+                    <mat-option value="鉄筋コンクリート造（RC造）">鉄筋コンクリート造（RC造）</mat-option>
+                    <mat-option value="鉄骨鉄筋コンクリート造（SRC造）">鉄骨鉄筋コンクリート造（SRC造）</mat-option>
+                    <mat-option value="その他">その他</mat-option>
+                    </mat-select> -->
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+ 
+                </div>
+                <div class="col-md-2">
+                
+                  <!-- <div class="help-block" 
+                  style="margin-left: 60px;"                        
+ 
+                  [hidden]="!ground.hasError('pattern')">
+                     数字のみです。</div> -->
+                </div>
+                
+                <div class="col-md-2">
+                 <!-- <div
+                         style="margin-left: 0px;"
+                          class="help-block" 
+                          *ngIf="!underground.valid && underground.touched">
+                          地下を入力してください。</div> -->
+                  <!-- <div class="help-block" 
+                  style="margin-left: 30px;"                        
+ 
+                  [hidden]="!underground.hasError('pattern')">
+                     数字のみです。</div> -->
+                        
+             </div>
+             </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-1">
+                    <label for="building-date" >築年月
+                    </label>
+                </div>
+                <div class="col-md-2" style="margin-left: 35px;">
+
+                    <input type="month"
+                    class="form-control"
+                    id="buildingDate"
+                    [(ngModel)]="property.buildingDate" 
+                   #buildingDate="ngModel"
+                   name="buildingDate"
+                    style="width: 160px;margin-left:-10px;"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -40px;">
+                    <input type="checkbox"
+                    class="form-check-input"
+                    id="newBuild"
+                    [(ngModel)]="property.newBuild" 
+                    #newBuild="ngModel"
+                    name="newBuild"
+                    disabled
+                    >
+                    <label for="newBuild" style="margin-left: 3px;">新築
+                    </label>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2" style="margin-left: 94px;">
+                    <label for="build-no"  style="margin-left: 0px;">建築確認番号
+                        <span style="color: red">*</span> </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="text"
+                    class="form-control"
+                    id="buildNo"
+                    required [(ngModel)]="property.buildNo" 
+                    #buildNo="ngModel"
+                    name="buildNo"
+                    style="width: 262px;margin-left:-60px;"
+                    disabled
+
+                  
+                    >   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+
+                </div>
+                <div class="col-md-3">
+                    <div
+                    style="margin-left: 30px;"
+                     class="help-block" 
+                     *ngIf="!buildNo.valid && buildNo.touched">
+                     建築確認番号を入力してください。</div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+
+                </div>
+                <!-- <div class="col-md-2">
+                    <div class="help-block" 
+                    style="margin-left: 20px;"
+    
+                    [hidden]="!buildNo.hasError('pattern')">
+                       数字のみです。</div>
+                </div> -->
+                
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="exclusive-area" >専有面積
+                    </label>
+                </div>
+                <div class="col-md-2" style="margin-left: -82px;">
+                    <input type="text"
+                    class="form-control"
+                    id="exclusiveArea"
+                    [(ngModel)]="property.exclusiveArea" 
+                    name="exclusiveArea"
+                   #exclusiveArea="ngModel"
+                    style="width: 130px;margin-left: 0px;margin-right:0px;"
+                    pattern="\d+(\.\d+)?"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -40px;">
+                    m²
+                </div>
+                <div class="col-md-1" style="margin-left: -30px;">
+                    <input type="text"
+                    class="form-control"
+                    id="exclusiveStatus"
+                    [(ngModel)]="property.exclusiveStatus" 
+                    #exclusiveStatus="ngModel"
+                     name="exclusiveStatus"
+                     disabled
+                      style="margin-left: 0px;width: 100px">
+                       <!-- <mat-option value="なし">なし</mat-option>
+                       <mat-option value="指定無し">指定無し</mat-option>
+                       <mat-option value="内法">内法</mat-option>
+                    </mat-select> -->
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-1" style="margin-left:26px;">
+  
+                    <label for="layout" style="margin-left: 0px;" >間取り
+                    </label>
+                </div>
+                <div class="col-md-2" >
+                    <input type="text"
+                    class="form-control"
+                    id="layout"
+                    [(ngModel)]="property.layout" 
+                    #layout="ngModel"
+                    name="layout"
+                    style="width: 130px;margin-left: 48px;margin-right:0px;"
+                    pattern="[0-9]+"
+                    disabled
+                    >
+                </div>
+                <div class="col-md-1" style="margin-left: -33px;">
+                    <input type="text"
+                    class="form-control"
+                    id="layoutStatus"
+                    [(ngModel)]="property.layoutStatus" 
+                    #layoutStatus="ngModel"
+                    name="layoutStatus"
+                    disabled
+                     style="margin-left: 20px;width: 110px">
+                        <!-- <mat-option value="なし">なし</mat-option>
+                        <mat-option value="R">R</mat-option>
+                        <mat-option value="K">K</mat-option>
+                        <mat-option value="DK">DK</mat-option>
+                        <mat-option value="LDK">LDK</mat-option> 
+                    </mat-select>-->
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+
+                </div>
+                    <div class="col-md-3">
+                        <!-- <div class="help-block" 
+                        style="margin-left: 0px;"
+        
+                        [hidden]="!exclusiveArea.hasError('pattern')">
+                           数字「例：10.5、10」のみです。</div> -->
+                    </div>
+                    
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <!-- <div class="help-block" 
+                    style="margin-left: 20px;"
+    
+                    [hidden]="!layout.hasError('pattern')">
+                       数字のみです。</div> -->
+                </div>
+                
+            </div>
+
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                <div class="col-md-1">
+                    <label for="total-units" >総戸数
+                    </label>
+                </div>
+                <div class="col-md-1" style="margin-left: 25px;width: 312px;">
+                    <input type="text"
+                    class="form-control"
+                    id="totalUnits"
+                    [(ngModel)]="property.totalUnits" 
+                    name="totalUnits"
+                   #totalUnits="ngModel"
+                    style="margin-left: 0px;margin-right:0px;"
+                    pattern="[0-9]+"
+                    disabled
+
+
+                    >
+                </div>
+                <div class="col-md-2">
+
+                </div>
+                <div class="col-md-2" style="margin-left: 60px;">
+                    <label for="layout-remarks" style="margin-left: 13px;" >間取り備考
+                    </label>
+                </div>
+                <div class="col-md-1">
+                    <input type="text"
+                    class="form-control"
+                    id="layoutRemarks"
+                    [(ngModel)]="property.layoutRemarks" 
+                    #layoutRemarks="ngModel"
+                    name="layoutRemarks"
+                    style="width: 264px;margin-left: -48px;margin-right:0px;"
+                    disabled
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+
+                </div>
+                    <div class="col-md-3">
+                        <!-- <div class="help-block" 
+                        style="margin-left: 10px;"
+        
+                        [hidden]="!totalUnits.hasError('pattern')">
+                           数字のみです。</div> -->
+                    </div>
+                    
+             
+                
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <div class="row">
+                    <div class="col-md-2">
+                        <label for="areaMeter" >面積（㎡）
+                        </label>
+                    </div>
+                    <div class="col-md-1" style="margin-left: -82px;width: 150px;">
+                        <input type="text"
+                        class="form-control"
+                        id="areaMeter"
+                        [(ngModel)]="property.areaMeter" 
+                        name="areaMeter"
+                       #areaMeter="ngModel"
+                        pattern="\d+(\.\d+)?"
+                        disabled
+
+                        >
+                    </div>
+                    <div class="col-md-2" style="margin-left:5px;">
+                        <label for="areaTsubo" >面積（坪）
+                        </label>
+                    </div>
+                    <div class="col-md-1" style="margin-left: -80px;width: 150px;">
+                        <input type="text"
+                        class="form-control"
+                        id="areaTsubo"
+                        [(ngModel)]="property.areaTsubo" 
+                        name="areaTsubo"
+                       #areaTsubo="ngModel"
+                        pattern="\d+(\.\d+)?"
+                        disabled
+                        >
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="col-md-1" style="margin-left: 45px;">
+                        <label for="classification" style="margin-left: 6px;">区分</label>
+
+                    </div>
+                        <div class="col-md-2" style="margin-left: 54px;">
+                            <input type="text"
+                            class="form-control"
+                            id="classification"
+                            [(ngModel)]="property.classification" 
+                            #classification="ngModel"
+                            disabled
+                             name="classification" 
+                             style="width: 265px;margin-left:0px;">
+                                <!-- <mat-option value="住居" selected>住居</mat-option>
+                                <mat-option value="店舗">店舗</mat-option>
+                                <mat-option value="事務所">事務所</mat-option>
+                                <mat-option value="倉庫">倉庫</mat-option>
+                                <mat-option value="その他">その他</mat-option>
+
+                                
+                                
+                            </mat-select> -->
+                        </div>
+                    
+            </div>
+        </div>
+       
+      
+    </div>
+</div>
+ <!-- <p>設備、条件</p> -->
+ <div class="equipment-container">
+    <p>設備、条件
+
+</p>
+    <div class="equipment-infomation">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="waterSupply" >水道
+                    </label>
+                </div>
+                <div class="col-md-1" style="margin-left:-82px;">
+                    <input type="text"
+                    class="form-control"
+                    id="waterSupply"
+                    [(ngModel)]="property.waterSupply" 
+                    #waterSupply="ngModel"
+                    name="waterSupply" style="width: 120px;margin-left:2px;"
+                    disabled>
+                       <!-- <mat-option value="指定なし">指定なし</mat-option>
+                       <mat-option value="上水">上水</mat-option>
+                       <mat-option value="簡易">簡易</mat-option>
+                       <mat-option value="その他">その他</mat-option>
+                    </mat-select> -->
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2">
+                    <label for="gas" style="margin-left: 0px;">ガス
+                    </label>
+                </div>
+                <div class="col-md-1" style="margin-left: -80px;">
+                    <input type="text"
+                    class="form-control"
+                    id="gas"
+                    [(ngModel)]="property.gas" 
+                    #gas="ngModel"
+                    name="gas" style="margin-left: 2px;width: 120px"
+                    disabled>
+                       <!-- <mat-option value="指定なし">指定なし</mat-option>
+                       <mat-option value="部市">部市</mat-option>
+                       <mat-option value="ブロバン">ブロバン </mat-option>
+
+                       <mat-option value="個別">個別</mat-option>
+                       <mat-option value="集中">集中</mat-option>
+
+                       <mat-option value="その他">その他</mat-option>
+                    </mat-select> -->
+                </div>
+                <div class="col-md-2"></div>
+
+                <div class="col-md-2">
+                    <label for="electricity" style="margin-left: 0px;" >電気
+                    </label>
+                </div>
+                <div class="col-md-1" style="margin-left: -80px;">
+                    <input type="text"
+                    class="form-control"
+                    id="electricity"
+                    [(ngModel)]="property.electricity" 
+                    #electricity="ngModel"
+                    name="electricity" style="margin-left: 8px;width: 120px"
+                    disabled>
+                       <!-- <mat-option value="指定なし">指定なし</mat-option>
+                       <mat-option value="有り">有り</mat-option>
+                       <mat-option value="なし">なし</mat-option>
+
+                       
+                    </mat-select> -->
+                </div>
+            </div>
+            </div>
+            <div class="form-group" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="drainage" >排水
+                        </label>
+                    </div>
+                    <div class="col-md-1" style="margin-left: -80px;">
+                        <input type="text"
+                        class="form-control"
+                        id="drainage"
+                        [(ngModel)]="property.drainage" 
+                        #drainage="ngModel"
+                        name="drainage" style="margin-left: 0px;width: 120px"
+                        disabled>
+                           <!-- <mat-option value="指定なし">指定なし</mat-option>
+                           <mat-option value="下水">下水</mat-option>
+                           <mat-option value="浄化槽">浄化槽</mat-option>
+                           <mat-option value="集中">集中</mat-option>
+                           <mat-option value="個別">個別</mat-option>
+                           <mat-option value="汲取">汲取</mat-option>
+   
+                           <mat-option value="その他">その他</mat-option>
+                         </mat-select> -->
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-2">
+
+                        <label for="pets"  style="margin-left: 0px;">ペット
+                        </label>
+                    </div>
+                    <div class="col-md-1" style="margin-left: -80px;">
+                        <input type="text"
+                        class="form-control"
+                        id="pets"
+                        [(ngModel)]="property.pets" 
+                         #pets="ngModel"
+                        name="pets" style="margin-left: 0px;width: 120px"
+                        disabled>
+                           <!-- <mat-option value="指定なし">指定なし</mat-option>
+                           <mat-option value="可能">可能 </mat-option>
+                           <mat-option value="相談">相談</mat-option>
+    
+                           <mat-option value="不可">不可</mat-option>
+    
+                        </mat-select> -->
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-1">
+                        <label for="diy" style="margin-left: 0px;">DIY
+                        </label>
+                    </div>
+                    <div class="col-md-1" style="margin-left: 32px;">
+                        <input type="text"
+                        class="form-control"
+                        id="diy"
+                        [(ngModel)]="property.diy" 
+                        #diy="ngModel"
+                        name="diy" style="margin-left: 0px;width: 120px"
+                        disabled>
+                            <!-- <mat-option value="指定なし">指定なし</mat-option>
+                           <mat-option value="可能">可能 </mat-option>
+                           <mat-option value="可能">不可</mat-option>
+    
+                        </mat-select> -->
+                    </div>
+                </div>
+            </div>
+           
+               </div>
+    </div>
+
+
+     <!-- <h1>   その他設備</h1>  -->
+
+     <div class="other-container">
+        <p>その他設備</p>
+
+      <div class="form-group">
+        <div class="row checkbox-row">
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="bathToilet"
+                [(ngModel)]="property.bathToilet" 
+                #bathToilet="ngModel"
+                name="bath-toilet"
+                disabled>
+                <label for="bathToilet">バス・トイレ別
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+        class="form-check-input"
+        id="lightning"
+        [(ngModel)]="property.lightning" 
+        #lightning="ngModel"       
+        name="lightning"
+        disabled>
+        <label for="lightning">照明
+        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                class="form-check-input"
+                id="doorPhone"
+                [(ngModel)]="property.doorPhone" 
+                #doorPhone="ngModel"        
+                name="door-phone"
+                disabled>
+                <label for="doorPhone">TVドアホン
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+        class="form-check-input"
+        id="shower"
+        [(ngModel)]="property.shower" 
+        #shower="ngModel"        
+        name="shower"
+        disabled>
+        <label for="shower">シャワー
+        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+        class="form-check-input"
+        id="furniture"
+        [(ngModel)]="property.furniture" 
+        #furniture="ngModel"       
+        name="furniture"
+        disabled>
+        <label for="furniture">家具
+        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+        class="form-check-input"
+        id="twoFamily" 
+        [(ngModel)]="property.twoFamily" 
+        #twoFamily="ngModel"        
+        name="twoFamily"
+        style="margin-left: -22%;"
+        disabled>
+        <label for="twoFamily">二世帯住宅
+        </label>
+            </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <div class="row checkbox-row">
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="publicBath"
+                [(ngModel)]="property.publicBath" 
+                #publicBath="ngModel"
+                name="publicBath"
+                disabled>
+                <label for="publicBath">総湯
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="indoorBath"
+                [(ngModel)]="property.indoorBath" 
+                #indoorBath="ngModel"
+                name="indoorBath"
+                disabled>
+                <label for="indoorBath"
+                >内湯
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                class="form-check-input"
+                id="loft"
+                [(ngModel)]="property.loft" 
+                #loft="ngModel"
+                name="loft"
+                disabled>
+                <label for="loft"
+                >ロフト付き
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="internet"
+                [(ngModel)]="property.internet" 
+                #internet="ngModel"
+                name="internet"
+                disabled>
+                <label for="internet"
+                >インターネット対応
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="catv" 
+                [(ngModel)]="property.catv" 
+                #catv="ngModel"
+                name="catv"
+                disabled>
+                <label for="catv"
+                >CATV
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="flooring"
+                [(ngModel)]="property.flooring" 
+                #flooring="ngModel"
+                name="flooring"
+                style="margin-left: -22%;"
+                disabled>
+                <label for="flooring"
+                >フローリング
+                </label>
+            </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <div class="row checkbox-row">
+            <div class="col-md-2">
+                <input type="checkbox"
+                        class="form-check-input"
+                        id="allElectric"
+                        [(ngModel)]="property.allElectric" 
+                        #allElectric="ngModel"
+                        name="allElectric"
+                        disabled>
+                        <label for="allElectric"
+                        >オール電化
+                        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                        class="form-check-input"
+                        id="csAntenna"
+                        [(ngModel)]="property.csAntenna" 
+                        #csAntenna="ngModel"
+                        name="csAntenna"
+                        disabled
+                       >
+                        <label for="csAntenna"
+                        >CSアンテナ
+                        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                        class="form-check-input"
+                        id="aircon"
+                        [(ngModel)]="property.aircon" 
+                        #aircon="ngModel"
+                        name="aircon"
+                        disabled >
+                        <label for="aircon"
+                        >エアコン
+                        </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="counterKitchen"
+                [(ngModel)]="property.counterKitchen" 
+
+                #counterKitchen="ngModel"
+                name="counterKitchen"
+                disabled>
+                <label for="counterKitchen"
+                >カウンターキッチン
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                class="form-check-input"
+                 id="bsAntenna" 
+                 [(ngModel)]="property.bsAntenna" 
+                 #bsAntenna="ngModel"
+                name="bsAntenna"
+                disabled>
+                <label for="bsAntenna"
+                >BSアンテナ
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                        class="form-check-input"
+                        id="parking" 
+                        [(ngModel)]="property.parking" 
+                        #parking="ngModel"
+                        name="parking"
+                        style="margin-left:-22%;"
+
+                        disabled>
+                        <label for="parking"
+                        >駐車場
+                        </label>
+            </div>
+        </div>
+      </div>
+      <br>
+      <div class="form-group">
+        <div class="row checkbox-row">
+            <div class="col-md-2">
+                <input type="checkbox"
+                class="form-check-input"
+                id="systemKitchen" 
+                [(ngModel)]="property.systemKitchen" 
+                #systemKitchen="ngModel"
+                name="systemKitchen"
+                disabled>
+                <label for="systemKitchen"
+                >システムキッチン
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                                class="form-check-input"
+                                id="autoLock"
+                                [(ngModel)]="property.autoLock" 
+                                #autoLock="ngModel"
+                                name="autoLock"
+                                disabled>
+                                <label for="autoLock">オートロック
+                                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox"
+                class="form-check-input"
+                id="deliveryBox"
+                [(ngModel)]="property.deliveryBox" 
+                #deliveryBox="ngModel"         
+                name="deliveryBox"
+                disabled>
+                <label for="deliveryBox"
+                >宅配ボックス
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="checkbox" 
+                class="form-check-input"
+                id="homeTel"
+                [(ngModel)]="property.homeTel" 
+                #homeTel="ngModel"               
+                name="homeTel"
+                disabled>
+                <label for="homeTel">家電
+                </label>
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox" 
+                                class="form-check-input"
+                                id="balcony" 
+                                [(ngModel)]="property.balcony" 
+                                #balcony="ngModel" 
+                                name="balcony"  
+                                disabled         
+                                >
+                                <label for="balcony">バルコニ
+                                </label>
+            </div>
+            <div class="col-md-3">
+                <input type="checkbox"
+                class="form-check-input"
+                id="rosette" 
+                [(ngModel)]="property.rosette" 
+                #rosette="ngModel"                
+                name="rosette"
+                style="margin-left:22%"
+                disabled>
+                <label for="rosette">ウォークイングローゼット
+                </label>
+            </div>
+        </div>
+      </div>
+</div>
+
+
+<!-- <p>画像</p> -->
+    <div class="photo-container">
+                <p>画像            
+            </p>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img [src]="url1"
+                        
+                        class="img-reponsive">
+                               
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url2"
+                       
+                        class="img-reponsive">
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url3"
+                       
+                        class="img-reponsive">
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url4"
+                     
+                        class="img-reponsive">
+                    </div>
+                </div>
+            </div>
+            <br>
+            
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img [src]="url5"
+                                class="img-reponsive">
+                              
+                               
+                                
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url6"
+                        class="img-reponsive">
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url7"
+                                class="img-reponsive">
+                    </div>
+                    <div class="col-md-3">
+                        <img [src]="url8"
+                        class="img-reponsive">
+                    </div>
+                </div>
+            </div>
+            <br>
+           
+        </div>
+          
+ <!-- <p>管理</p> -->
+            <div class="management-container">
+                <p>管理</p>
+
+
+                <div class="management-infomation">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="manager" >管理人  <span style="color: red">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-1">
+                                <input type="text"
+                                class="form-control"
+                                id="managerName"
+                                [(ngModel)]="property.managerName" 
+                                name="managerName"
+                                #managerName="ngModel"
+                                style="width: 280px;margin-left: 0px;margin-right:0px;"
+                                disabled>          
+                            </div>
+                            </div>
+                            
+                            
+                        
+                            
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="manage-company" >管理会社名  <span style="color: red">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-1" style="margin-left: 0px;">
+                                <input type="text"
+                                class="form-control"
+                                id="manageCompany"
+                                [(ngModel)]="property.manageCompany" 
+                                   #manageCompany="ngModel"
+                                   name="manageCompany"
+                                style="width: 280px;margin-left: 0px;margin-right:0px;"
+                                disabled>   
+                            </div>
+
+                            <div class="col-md-4">
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="management-form" >管理形態
+
+                                </label>
+                            </div>
+                            <div class="col-md-1" style="margin-left: 0px;">
+                               <input type="text"
+                                class="form-control"
+                                
+                                id="managementForm"
+                                [(ngModel)]="property.managementForm" 
+                               #managementForm="ngModel"
+                                name="managementForm" style="margin-left: 0px;width: 281px"
+                                disabled>
+                                    <!-- <option value="指定なし" selected>指定なし</option>
+                                    <option value="自主管理">自主管理</option>
+                                    <option value="一部委託">一部委託</option>
+                                    <option value="全部委託">全部委託</option>
+                                  </select> -->
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="construct-company" style="margin-left: 0px;" >施工会社名
+                                </label>
+                            </div>
+                            <div class="col-md-1" style="margin-left: 0px;">
+                                <input type="text"
+                                class="form-control"
+                                id="constructCompany"
+                                [(ngModel)]="property.constructCompany" 
+                                name="constructCompany"
+                                    #constructCompany="ngModel"
+                                style="width: 280px;margin-left: 0px;margin-right:0px;"
+                                disabled>
+                            </div>
+                        </div>
+                      
+                    </div>
+                       
+
+                </div>
+            </div>
+
+          
+          
+        
+           
+  </form>
+  <div class="container" style="width:100%;height:20px;"></div>
+</div>
+
+
+</body>
+</html>

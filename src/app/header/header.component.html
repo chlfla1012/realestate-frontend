@@ -1,0 +1,153 @@
+<!-- <!DOCTYPE html> -->
+<html>
+<head>
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 navUl">
+        <li class="nav-item" style="margin-left: 12px">
+          <!-- <div class="row">
+            <ng-container *ngIf="(logo$ | async)?.url">
+              <img style="margin-top: 4px;" height="36" *ngIf="(logo$ | async)?.url && 
+                             (userService.roleMatch(['user']) ||
+                              userService.roleMatch(['manager']) ||
+                              userService.roleMatch(['owner']))"
+                   [src]="(logo$ | async)?.url">
+              <span style="margin-top: 4px;" *ngIf="!(logo$ | async)?.url">logo</span>
+            </ng-container>
+          </div> -->
+        
+          
+          
+          
+          
+          
+          <div class="row">
+            <img 
+            style="margin-top:4px;width:90px;"
+            *ngIf="(logo$ | async)?.url && 
+            userService.roleMatch(['user'])||
+            userService.roleMatch(['manager']) ||
+            userService.roleMatch(['owner'])"
+            height="38" 
+             [src]="(logo$ | async)?.url" alt=" ">
+             
+             <img 
+             style="margin-top:4px;margin-left:0px;width:100px;height:50px;
+             display:flex;position:flex;"
+             *ngIf="(logo$ | async)?.url&& 
+             userService.roleMatch(['admin'])"
+             height="38" 
+              [src]="(logo$ | async)?.url" alt=" ">
+
+          </div>
+          <div class="row" >
+
+            <span 
+            *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])||userService.roleMatch(['owner'])"
+
+            style="color:white;font-size:13px;"
+            class="navbar-text">{{ (companyName$ | async).companyName}}</span>
+
+          </div>
+          
+        </li>
+     
+        <li class="nav-item" style="margin-left: 18px;">
+          <a class="nav-link active" aria-current="page" routerLink="/manager-list"
+          *ngIf="userService.roleMatch(['admin'])">管理者情報</a>
+        </li>
+        <li class="nav-item" style="margin-left: 18px;">
+          <a class="nav-link active" aria-current="page" routerLink="/bankformat-list"
+          *ngIf="userService.roleMatch(['admin'])">通帳フォーマット</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" 
+          aria-current="page" routerLink="/user-list" 
+          *ngIf="userService.roleMatch(['manager'])">担当者情報</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/owner-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">オーナー情報</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/owner-main"
+          *ngIf="userService.roleMatch(['owner'])">送金のご案内</a>
+        </li>
+       
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/property-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">物件情報</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/contract-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">契約情報</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="management"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">管理組合情報</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="income"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">収入</a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="invoice-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">請求書</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="income-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">入金チェック</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="report-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">PMレポート</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/customer-list"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">取引先連絡先</a>
+        </li>
+        
+      </ul>
+      
+      <div class="menu-wrap" *ngIf="isLoggedIn()" >
+        <div class="action">
+          <div class="profile" 
+          [class.menu-visible]="menuVisible" (click)="toggleMenu($event)">
+            <mat-icon style="width: 25px;height: 25px;margin-right: 30px;">account_circle</mat-icon>
+          </div>
+          <hr>
+          <div class="menu" [class.visible]="menuVisible">
+            <ul class="ulClass">
+              <li>
+                <a class="sub-menu-link">
+                  <p (click)="navigateToDetailPage(userInfo.id)">プロフィール</p>
+                  <!-- <span>></span> -->
+                </a>
+              </li>
+              <li>
+                <a routerLink="/change-password" class="sub-menu-link">
+                  <p>パスワード変更</p>
+                </a>
+              </li>
+              <li>
+                <a *ngIf="isLoggedIn()" (click)="logout()" class="sub-menu-link">
+                  <p>ログアウト</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        </div>
+     
+    </div>
+  </div>
+</nav>
+
+</body>
+</html>

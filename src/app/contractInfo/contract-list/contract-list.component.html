@@ -1,0 +1,175 @@
+<div class="container contract-list-container">
+    <div class="row" style="width: 100%;height:28px;"></div>
+
+    <div class="container contract-list-title-container">
+          <div class="row contract-list-title-row">
+            <div class="col-3 icon" style=" display: flex; align-items: center;">
+              <mat-icon>event</mat-icon>
+              <span style="margin-left: 10px;">契約情報一覧画面</span>
+            </div>
+            <div class="col-7"></div>
+            <div class="col-2" style="margin-top: 19px;">
+              <div class="create-icon" style="margin-left: 21%">
+
+                <button
+                (click)="navigateToCreatePage()"
+                mat-raised-button
+                class="btn-create"
+                style="width: 130px; height: 35px; background-color: rgb(127, 161, 154); border-radius: 5px; border: 0.5px solid #000; display: flex; align-items: center; justify-content: center;"
+              >
+                <mat-icon style="margin-right: 2px; margin-top: -2px;">add_circle</mat-icon>
+                <span style="vertical-align: middle; text-align: center;">新規作成</span>
+              </button>
+              </div>
+
+            </div>
+           </div>
+           <div class="contract-search-container">
+            <div class="row search-title-row" style="padding-top: 20px;margin-left: 0px;">
+                <div class="col-md-1"></div>
+                <div class="col-md-2" style="margin-right: 15px;">
+                    <label for="companyName">物件名</label>
+                </div>
+
+                <div class="col-md-3"></div>
+                <div class="col-md-2" style="margin-left: 25px;">
+                    <label for="createdDate">登録日</label>
+                </div>
+            </div>
+
+            <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
+          <div class="col-md-2">
+            <input type="text" id="propertyName"
+            [(ngModel)]="searchPropertyName"
+            name="properttName"
+            class="form-control"
+            style="width: 150px;margin-left: 53px;">
+          </div>
+          <div class="col-md-2">
+
+          </div>
+          <div class="col-md-2">
+
+          </div>
+          <div class="col-md-2">
+          <input type="date" id="searchByCreatedDate"
+          [(ngModel)]="searchByCreatedDate"
+          name="searchByCreatedDate"
+          class="form-control"
+           style="width: 170px; margin-left: 18px;">
+          </div>
+            </div>
+            <br>
+            <div class="row button-row">
+              <div class="col-md-3"></div>
+          <div class="col-md-3">
+            <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+              <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+              検索
+            </button>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;margin-left:-150px;"
+            (click)="reset()">リセット</button>
+            <!-- <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;"
+           >リセット</button> -->
+
+          </div>
+        </div>
+
+        </div>
+
+      <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements"
+       class="mat-elevation-z7">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>契約ID</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.id}}</mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="companyName">
+          <mat-header-cell *matHeaderCellDef>会社名</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.companyName}}</mat-cell>
+        </ng-container> -->
+
+
+        <ng-container matColumnDef="propertyName">
+          <mat-header-cell *matHeaderCellDef>物件名</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.propertyName}}</mat-cell>
+        </ng-container>
+         <ng-container matColumnDef="roomno">
+          <mat-header-cell *matHeaderCellDef>号室</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.roomno}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="tenantFullName">
+          <mat-header-cell *matHeaderCellDef>入居者名前</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.tenantFullName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="picName">
+          <mat-header-cell *matHeaderCellDef>担当者名前</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.picName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="contractStartDate">
+          <mat-header-cell *matHeaderCellDef>契約開始日</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.contractStartDate}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="contractEndDate">
+          <mat-header-cell *matHeaderCellDef>契約終了日</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.contractEndDate}}</mat-cell>
+        </ng-container>
+        <!-- <ng-container matColumnDef="contractLength">
+          <mat-header-cell *matHeaderCellDef>期間</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.contractLength}}</mat-cell>
+        </ng-container> -->
+        <ng-container matColumnDef="createdDate">
+          <mat-header-cell *matHeaderCellDef>登録日</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.createdDate}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="modifiedDate">
+          <mat-header-cell *matHeaderCellDef>更新日</mat-header-cell>
+          <mat-cell *matCellDef="let contract">{{contract.modifiedDate}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef=" ">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let contract; let i = index">
+              <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="Actions" disableRipple>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <rect width="24" height="24" rx="4" fill="none" stroke="currentColor"
+                />
+                                <polygon points="7,12 17,12 12,17" fill="#000"/>
+                              </svg>                </button>
+              <mat-menu #actionMenu="matMenu">
+                <button mat-menu-item
+                (click)="handleOptionChange
+                ('details',contract.id, contract.propertyname,contract.roomno)">詳細</button>
+                <button mat-menu-item
+                (click)="handleOptionChange
+                ('update',contract.id, contract.propertyname,contract.roomno)">編集</button>
+                <button mat-menu-item
+                (click)="handleOptionChange
+                ('delete',contract.id, contract.propertyname,contract.roomno)">削除</button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+
+
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+
+
+
+    <mat-paginator #scheduledOrdersPaginator
+[length]="dataSource.data.length"
+[pageSize]="10"
+style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
+
+
+
+
+  </div>

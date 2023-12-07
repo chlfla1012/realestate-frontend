@@ -1,0 +1,125 @@
+
+.user-create-container{
+    margin-top: 45px;
+    width: 100%;
+    height: auto;
+    background-color: rgb(126, 161, 154);
+    border-radius: 5px 5px 5px 5px;
+  }
+  
+  .container.user-create-title-container{
+  width: 100%;
+  height: auto;
+  padding-top: 40px;
+  margin-left: 9px;
+  }
+  .row.user-create-title-row{
+  width: 97%;
+  height: 70px;
+  background-color: rgba(249, 246, 246, 0.904);
+  margin-bottom: 50px;
+  border-radius: 6px 6px 6px 6px;
+  margin-left: 5px;
+  }
+  .user-create-form{
+      margin-left: 2%;
+      width: 95%;
+      height: auto;
+      /* background-color: rgba(249, 246, 246, 0.904); */
+  }
+  .form-group{
+    margin-left: 30px;
+  }
+  
+  .user-container{
+    width: 100%;
+    height: 500px;
+    background-color: rgba(249, 246, 246, 0.904);
+  }
+  .user-information {
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+  
+  }
+  .edit-button{
+    width: 100px;
+    height: 35px;
+    margin-right: 50px;
+    border-radius: 5px;
+    border: none;
+    /* border: 0.5px solid gray; */
+    margin-left: -350px;
+    background-color: white;
+  }
+  
+  .button-group{
+    width: 100%;
+    height: 70px;
+    margin-top: 30px;
+    /* margin-left: 8%; */
+    
+}
+
+button{
+    align-content: center;
+    color:black;
+    width: 150px;
+    background-color: rgba(249, 246, 246, 0.904);
+
+    /* background-color:rgb(127, 161, 154);  */
+}
+.updateBtn{
+  background-color: rgb(46, 92, 143);
+}
+.cancelBtn{
+  background-color: white;
+}
+button:hover{
+    color:black;
+    background-color:rgb(127, 161, 154); 
+
+    /* background-color: rgba(249, 246, 246, 0.904); */
+}
+  .help-block{
+    color: red;
+    font-size: 12px;
+  
+  }
+  .leftfield .ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+  
+  input.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+  textarea.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+  mat-select.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+  
+  .invalid-date {
+    border-color: red;
+    color: red;
+  }
+  
+  
+  /* p{
+    padding-top: 30px;
+    margin-left: 30px;
+    font-size:medium;
+    font-weight:bold;
+    font-size: 16px;
+  } */
+  .container-title{
+    padding-top: 30px;
+    margin-left: 30px;
+    font-size:medium;
+    font-weight:bold;
+    font-size: 16px;
+  
+  }
+  

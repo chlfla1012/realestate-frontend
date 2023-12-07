@@ -1,0 +1,66 @@
+<html>
+  <body>
+    <div class="container income-check-container">
+      <div class="row" style="width: 100%;height:28px;"></div>
+      <div class="container income-check-title-container">
+        <div class="row income-check-title-row">
+          <div class="col-md-3 icon" style="margin-top: 19px;">
+            <mat-icon style="padding-top:3px;">check_box</mat-icon>
+            <span style="margin-left: 10px;margin-bottom:0px">入金チェック画面</span>
+          </div>
+          <div class="col-md-5"></div>
+          <div class="col-4" style="margin-top: 19px;">            
+            <div class="row">
+              <div class="col-4">
+                <!-- <input type="file" (change)="onFileSelected($event)" accept=".csv"> -->
+                <div class="custom-file-input" style="margin-left: 100px;">
+                  <input type="file" (change)="onFileSelected($event)" accept=".csv" id="fileInput" class="hidden-input">
+                  <label for="fileInput" style="text-align: center;">
+                    <span > アップロード</span>
+                  </label>
+                </div>
+                  </div>
+              <div class="col-2">
+                <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;margin-left: 100px;"
+                  (click)="back()">戻る</button>
+              </div>
+             
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <form class="form-horizontal" class="income-check-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="income-check-container">
+          <div class="income-check-information">          
+        <mat-table [dataSource]="csvData" matSort class="mat-elevation-z7">
+          <!-- Define your table columns here -->
+          <ng-container matColumnDef="month">
+            <mat-header-cell *matHeaderCellDef  >日付</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.month }}</mat-cell>
+          </ng-container>
+      
+          <ng-container matColumnDef="accountName">
+            <mat-header-cell *matHeaderCellDef >摘要内容</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.accountName }}</mat-cell>
+          </ng-container>  
+          
+        
+          <ng-container matColumnDef="income">
+            <mat-header-cell *matHeaderCellDef >入金</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row.income }}</mat-cell>
+          </ng-container> 
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+      </div>
+      </form>
+      <div class="row justify-content-end">
+        <button mat-stroked-button class="register" style="width: 100px; height: 30px;margin-right: 50px;" (click)="onSubmit(f)">登録</button>
+      </div>
+    </div>
+    
+  </body>
+</html>

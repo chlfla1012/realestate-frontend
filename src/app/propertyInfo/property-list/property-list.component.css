@@ -1,0 +1,105 @@
+.container.property-list-container{
+    width: 100%;
+    height:auto;
+    margin-top: 45px;
+    background-color: rgb(126, 161, 154); 
+    border-radius: 5px 5px 5px 5px;
+
+
+  }
+  .container.property-list-title-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+    font-size: 15px;
+
+  }
+  .row.property-list-title-row{
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+  }
+  
+  .container.search-container{
+    width: 100%;
+    height: 160px;
+    margin-top: 40px;
+    border-radius: 6px 6px 6px 6px;
+    background-color: rgba(249, 246, 246, 0.904);
+    font-size: 12px;
+  }
+  .row.search-row{
+    width: 100%;
+    padding-left: 8%;
+    padding-top: 3%;
+  }
+  .row.button-row{
+    margin-top: 1%;
+    margin-left: 37%;
+  }
+  .container.title-container{
+    margin-top: 30px;
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+    background-color: rgba(249, 246, 246, 0.904);
+
+  }
+ 
+  /* .row.icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon.svg {
+    width: 25px; /* Adjust the width as needed 
+    height: 25px; /* Adjust the height as needed 
+    margin-right: 10px; /* Adjust the spacing between the icon and text 
+  } */
+  /* .bi.bi bi-house{
+  
+    fill: rgb(127, 161, 154); 
+  } */
+  .btn-create:hover{
+    color: white;
+    background-color: rgb(128, 181, 75);
+  }
+  .mat-elevation-z7{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    font-size: 12px;
+    margin-top: 40px;
+  
+  }
+  .mat-header-cell{
+  font-size: large;
+  }
+  .column-id{
+    max-width:90px;
+  }
+  .column-floor{
+    max-width:80px;
+  }
+  .column-room{
+    max-width:80px;
+  }
+ 
+  .container.property-table-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    font-size: 12px;
+    /* background-color: rgb(126, 161, 154); */
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 40px;
+  
+  }
+  
+  
+  /* You can customize the triangle color and size as needed */
+  
+  
+  /* Add a border to the entire icon with the desired color */
+ 

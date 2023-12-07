@@ -1,0 +1,137 @@
+<html>
+    <body>
+        <div class="container pdf-download-container" >
+            <div class="row" style="width: 100px;height: 28px;"></div>
+            <div class="container pdf-download-title-container" >
+                <div class="row pdf-download-title-row">
+                    <div class="col-3 icon" style="margin-top: 1px;">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+                        <svg class='fontawesomesvg' xmlns="http://www.w3.org/2000/svg"  style="height: 20px;"  viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM64 224H88c30.9 0 56 25.1 56 56s-25.1 56-56 56H80v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V320 240c0-8.8 7.2-16 16-16zm24 80c13.3 0 24-10.7 24-24s-10.7-24-24-24H80v48h8zm72-64c0-8.8 7.2-16 16-16h24c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H176c-8.8 0-16-7.2-16-16V240zm32 112h8c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16h-8v96zm96-128h48c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V304 240c0-8.8 7.2-16 16-16z"/></svg>
+                        <span style="margin-left: 10px;">請求書PDFコレクション画面</span>
+                    </div>
+                    <div class="col-7"></div>
+                    <div class="col-2" style="margin-top: 17px;">
+                        <div class="create-icon" style="margin-left: 21%">
+                            <button mat-stroked-button style="background-color:white;margin-bottom: 2px; width: 130px; height: 30px;">戻る</button>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="container"  >
+                <div id="contentToConvert" >
+                    <div class="row title-row">
+                        <div class="title" style="margin-top: 30px;">
+                            <h1>請求書</h1>
+                        </div>
+                    <!-- <div> -->
+       
+                        <div class="row">
+                            <div class="col-md-2" style="margin-left: 30px;">
+                                <!-- <p>〒{{item.companyPostalFirst}}-{{item.companyPostalSecond}}</p><br>
+                                <p>{{item.address}}</p>
+                                <p>上野桜ビル2 3 3 号</p><br>
+                                <p>{{this.companyId}}{{item.lenderCooperate}}</p> -->
+                                <p>〒</p>
+                                <p>Address 1</p>
+                                <p>Address 2</p>
+                                <p>Address 3</p>
+                            </div>
+                            <div class="col-md-3" style="width: 50%; margin-left: auto;margin-right: auto;margin-top: 92px;">
+                                <p style="text-align: center;">2023年11月度</p>
+                                <p style="text-align: center;">Title</p>
+                                <!-- <p>{{item.companyName}}</p>
+                                <p>〒{{item.companyPostalFirst}}-{{item.companyPostalSecond}}</p>
+                                <p>担当：{{item.personName}}</p>
+                                <p>電話番号：{{item.mobileFirst}}-{{item.mobileSecond}}-{{item.mobileThird}}</p>
+                                <p>{{item.address}}</p> -->
+                            </div>
+
+                            <div class="col-md-2" style="line-height: 1px; margin-top: 92px;">
+                                <!-- <p>{{item.billingDate}}</p>
+                                <p>{{item.paymentDueDate}}</p> -->
+                                <p>Date</p>
+                                <p>Company WITTS</p>
+                                <p>〒</p>
+                                <p>Address 1</p>
+                                <p>TEL</p>
+                                <p>Person In Charge</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-1" style="padding-top: 0px;"></div>
+                        
+   
+                        <div>
+                            <table class="table" style="margin-inline: 200px;">
+                                <thead>
+                                    <th>期間</th>
+                                    <th>商品番号.商品名</th>
+                                    <th>金額</th>
+                                    <th>消費税</th>
+                                    <th>合計</th>    
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>john@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>Mary</td>
+                                        <td>Moe</td>
+                                        <td>mary@example.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td>John</td>
+                                        <td>Doe</td>
+                                        <td>July</td>
+                                        <td>Dooley</td>
+                                        <td>july@example.com</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+  
+                        <div>
+                            <div class="col-md-6" style="margin-left:400px;">
+                                <textarea id="w3review" name="w3review" rows="4" cols="50">
+                                    At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+                                </textarea>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="col-md-6" style="margin-left:400px;">
+                                <textarea id="w3review" name="w3review" rows="4" cols="50">
+                                    At w3schools.com you will learn how to make a website. They offer free tutorials in all web development technologies.
+                                </textarea>
+                            </div>
+                        </div>  
+                    </div>   
+                </div>
+
+                <div class="row button-row" style="margin-left: 190px; padding-top: 40px;">
+                    <div class="col-md-2">
+                        <button mat-stroked-button class="resetBtn" style="width: 130px; height: 30px;">
+                            キャンセル
+                        </button>
+                    </div>
+        
+                    <div class="col-md-2" style="margin-left: 25px;">
+                        <button mat-stroked-button class="downloadPDFBtn" style="width: 130px;height:30px;"
+                        >ダウンロード</button> 
+                    </div>
+
+                    <div class="col-md-2" style="margin-left: 25px;">
+                        <button mat-stroked-button class="sentBtn" style="width: 130px;height:30px;"
+                        >送信</button> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

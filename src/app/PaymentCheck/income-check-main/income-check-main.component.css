@@ -1,0 +1,72 @@
+.container.income-check-container{
+    width: 70%;
+    height: auto;
+    margin-top: 45px;
+    background-color: rgb(126, 161, 154);
+    border-radius: 5px 5px 5px 5px;
+}
+.container.income-check-title-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+    font-size: 15px;
+}
+.row.income-check-title-row{
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+}
+button{
+    align-content: center;
+    color:black;
+    width: 150px;
+    background-color: rgba(249, 246, 246, 0.904);
+  
+}
+button:hover{
+    color:white;
+    background-color:rgb(127, 161, 130); 
+}
+button.register{
+    color: white;
+    background: #376fc3;
+    margin-bottom: 15px;
+    margin-left: 950px;
+}
+.income-check-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+}
+.income-check-create-form{
+    margin-top: 20px;
+    width: 100%;
+    height: auto;     
+}
+.income-check-information {
+    margin-bottom: 30px;
+    width: 100%;
+    height: auto;
+    margin-right: 20px;
+}
+/* styles.css or your component-specific style file */
+
+  .hidden-input {
+    display: none; /* Hide the default file input */
+  }
+  
+  .custom-file-input label {
+    align-content: center;
+    color:black;
+    width: 100px;
+    height: 30px;    
+    border: thin solid grey;
+    border-radius: 3px;
+    background-color: rgba(249, 246, 246, 0.904);
+    }
+
+  .custom-file-input label:hover{
+    color:white;
+    background-color:rgb(127, 161, 130); 
+}

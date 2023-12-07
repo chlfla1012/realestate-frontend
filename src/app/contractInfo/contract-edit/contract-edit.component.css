@@ -1,0 +1,327 @@
+
+.contract-create-container{
+  margin-top: 50px;
+  width: 100%;
+  height: auto;
+  background-color: rgb(126, 161, 154);
+  border-radius: 5px 5px 5px 5px;
+}
+
+.container.contract-create-title-container{
+width: 100%;
+height: auto;
+padding-top: 40px;
+margin-left: 9px;
+}
+.row.contract-create-title-row{
+width: 97%;
+height: 70px;
+background-color: rgba(249, 246, 246, 0.904);
+margin-bottom: 50px;
+border-radius: 6px 6px 6px 6px;
+margin-left: 5px;
+}
+.contract-create-form{
+    margin-left: 2%;
+    width: 95%;
+    height: auto;
+    /* background-color: rgba(249, 246, 246, 0.904); */
+}
+.form-group{
+  margin-left: 30px;
+}
+.propertytitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  /* margin-top: 30px; */
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.property-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  width: 100%;
+  height: 300px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.property-information {
+  /* margin-top: -20px; */
+  width: 100%;
+  height: auto;
+  margin-left: 18px;
+
+}
+.lendertitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  /* margin-top: 30px; */
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.lender-container{
+  /* margin-top: -12px; */
+  width: 100%;
+  height: 520px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+
+.lender-infomation{
+  /* margin-top: 30px; */
+  width: 100%;
+  height: 520px;
+  margin-left: 18px;
+
+}
+.borrowertitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  /* margin-top: 30px; */
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.borrower-container{
+  /* margin-top: 30px; */
+  width: 100%;
+  height: 520px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.borrower-infomation{
+  /* margin-top: 30px; */
+  width: 100%;
+  height: 520px;
+  margin-left: 18px;
+
+}
+.tenanttitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  /* margin-top: 30px; */
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.tenant-container{
+  /* margin-top: 30px; */
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  width: 100%;
+  height: 220px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.tenant-infomation{
+  /* margin-top: -20px; */
+  width: 100%;
+  height: 220px;
+  margin-left: 18px;
+
+}
+.contracttitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  margin-top: 30px;
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.contract-container{
+  margin-top: -30px;
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+
+  width: 100%;
+  height: 1000px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.app-alert-dialog{
+  background-color: aquamarine;
+}
+
+.contract-infomation{
+  /* margin-top: -20px; */
+  width: 100%;
+  height:1000px;
+  margin-left: 18px;
+
+
+}
+.banktitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  margin-top: 20px;
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.bank-container{
+  margin-top: -50px;
+  width: 100%;
+  height: 280px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.bank-infomation{
+  /* margin-top: 30px; */
+  width: 100%;
+  height: 280px;
+  margin-left: 18px;
+
+}
+.pictitle-container{
+  display: flex; /* Use flexbox for vertical alignment */
+  align-items: center; /* Center items vertically */
+  margin-top: 20px;
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.pic-container{
+  margin-top: -70px;
+
+  width: 100%;
+  height: 220px;
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.pic-infomation{
+  /* margin-top: 30px; */
+  width: 100%;
+  height: 380px;
+  margin-left: 18px;
+
+}
+.yen{
+  margin-left: -20px;
+  margin-top: 5px;
+}
+.accounttype{
+  width: 350px;
+}
+/* .accountno{
+  margin-left: 250px;
+} */
+.row.checkbox-row label{
+  margin-left: 8px;
+}
+.button-group{
+  width: 100%;
+  height: 70px;
+
+}
+
+
+button{
+  align-content: center;
+  color:black;
+  width: 150px;
+  background-color:rgb(127, 161, 154);
+}
+button:hover{
+  color:white;
+
+  background-color: rgba(249, 246, 246, 0.904);
+}
+.help-block{
+  color: red;
+  /* margin-left: 30px; */
+  font-size: 12px;
+
+}
+input.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+select.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+/* Component's CSS or global CSS */
+.btn-reset {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-reset {
+  margin-right: 10px;
+  border-radius: 5px;
+  border:0.5px #000;
+  width: 150px;
+  height: 35px; /* Add any desired margin */
+}
+.button-text{
+  color:black
+}
+.button-text:hover{
+  color:black;
+}
+.createbutton-text{
+  color:white;
+}
+.createbutton-text:hover{
+  color:black;
+}
+.create
+{
+  margin-right: 10px;
+  border-radius: 5px;
+  border:0.5px #000;
+  background-color: #376fc3; /*screenshot 3 */
+  width: 150px;
+  height: 35px;
+}
+.button-text{
+  color:black
+}
+
+
+/* p{
+  padding-top: 30px;
+  margin-left: 30px;
+  font-size:medium;
+  font-weight:bold;
+  font-size: 16px;
+} */
+.taxrate{
+  margin-left: 40%;
+}
+
+.container-title{
+  padding-top: 15px;
+  margin-left: 30px;
+  font-size:medium;
+  font-weight:bold;
+  font-size: 16px;
+  cursor: pointer;
+
+}
+.arrow-icon::before {
+  content: '\25BC'; /* Downward-pointing arrow character */
+  font-size: 25px;
+  margin-top: 80px;
+  margin-right: 5px; /* Adjust the spacing between the icon and title */
+  margin-left: 20px;
+  transition: transform 0.3s;
+  cursor: pointer; /* Smooth transition for the arrow rotation */
+}
+
+.arrow-up::before {
+  content: '\25B2'; /* Upward-pointing arrow character */
+  transform: rotate(180deg); /* Rotate arrow to point upwards */
+}
+.container-content {
+  /* margin-top: -100px; Adjust the margin as needed to control the spacing */
+  padding-top: -100px;
+}
+.container-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding:5px;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);/* Vertically align the arrow icon and title */
+}
+
+.container-title {
+  margin-left: 10px; /* Adjust the margin as needed to control the spacing between the arrow icon and title */
+  /* padding:5px; */
+}
+

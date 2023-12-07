@@ -1,0 +1,70 @@
+import { Borrower } from "./Borrower";
+import { CompanyName } from "./CompanyName";
+import { Lender } from "./Lender";
+import { Property } from "./Property";
+import { Tenant } from "./Tenant";
+import { UserInfo } from "./userInfo";
+
+export interface Contract{
+    companyId: CompanyName;
+    id:string;
+    pic:UserInfo;
+    propertyName:string;
+    roomno:string;
+    ownerName:string;
+    ownerKana:string;
+    lenderId:Lender,
+    borrowerId:Borrower,
+    tenantId:Tenant,
+    contractStartDate:string;
+    contractEndDate:string;
+    contractLength:string;
+    contractMemo:string;
+    tenantFullName:string;
+    tenantFullNameKana:string;
+    classification:string;
+    taxRate:number;
+    rent:number;
+    rentTax:string;
+    managementFee:number;
+    managementFeeTax:string;
+    parkingFee:number;
+    parkingFeeTax:string;
+    bicycleParkingFee:number;
+    bicycleParkingFeeTax:string;
+    keymoney:number;
+    keymoneyTax:string;
+    shikiken:number;
+    shikikenTax:string;
+    deposit:number;
+    depositTax:string;
+    renewalFee:number;
+    renewalFeeTax:string;
+    repairCost:number;
+    repairCostTax:string;
+    departureTime:Boolean;
+    penaltyFee:number;
+    penaltyFeeTax:string;
+    signboardFee:number;
+    signboardFeeTax:string;
+    brokerageFee:number;
+    brokerageFeeTax:string;
+    totalCost:number;
+    bankName:string;
+    branchName:string;
+    accountType:string;
+    accountNo:string;
+    accountName:string;
+    apportionment:string;
+    picName:string;
+    picNameKana:string;
+    mobileFirst:string;
+    mobileSecond:string;
+    mobileThird:string;
+    department:string;
+    property:Property;
+    createdDate:string;
+    modifiedDate:string;
+    createdName:string;
+    modifiedName:string;
+  }

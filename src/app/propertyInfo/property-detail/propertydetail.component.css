@@ -1,0 +1,214 @@
+
+.property-details-container{
+    margin-top: 45px;
+    width: 100%;
+    height: auto;
+    background-color: rgb(126, 161, 154);
+  }
+  .container.property-details-title-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+    /* background-color: pink; */
+
+
+  }
+  .row.property-details-title-row{
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+  }
+
+.property-details-form{
+      width: 100%;
+      height: auto;
+      margin-top: 40px;
+      margin-bottom: 20px;
+
+}
+.form-group{
+    margin-left: 30px;
+}
+
+.basic-container{
+    width: 100%;
+    height: 400px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.basic-information {
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+
+}
+.address-container{
+    margin-top: 2%;
+    width: 100%;
+    height: 500px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.address-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 600px;
+    margin-left: 18px;
+
+}
+.monetary-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+
+
+.monetary-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+
+
+}
+
+.detail-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 390px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.detail-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 360px;
+    margin-left: 18px;
+
+}
+.equipment-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 220px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.equipment-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 380px;
+    margin-left: 18px;
+
+}
+.other-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 275px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.other-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 275px;
+    margin-left: 18px;
+}
+.row.checkbox-row label{
+    margin-left: 1px;
+    font-size: 12px;
+}
+.photo-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 525px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.photo-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 525px;
+    margin-left: 18px;
+}
+
+
+.management-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.management-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+}
+img{
+    height: 200px;
+    width: 200px;
+}
+.button-group{
+    width: 100%;
+    height: 70px;
+    
+}
+
+
+button{
+    align-content: center;
+    color:black;
+    width: 150px;
+    background-color: rgba(249, 246, 246, 0.904);
+
+}
+button:hover{
+    color:black;
+    background-color:rgb(127, 161, 154); 
+
+}
+.help-block{
+    color: red;
+    margin-left: 30px;
+  
+}
+input.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+
+
+  p{
+    padding-top: 30px;
+    margin-left: 30px;
+    font-size: 16px;
+    font-weight:bold;
+    font-size: 16px;
+}
+label,mat-label{
+    font-size: 15px;
+}
+.row.checkbox-row label{
+    margin-left: 1px;
+    font-size: 13px;
+}

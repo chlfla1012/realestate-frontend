@@ -1,0 +1,73 @@
+.help-block{
+  color: red;
+  margin-left: 275px;
+  font-size: 13px;
+}
+.image_check
+{
+color: red;
+margin-left: 7px;
+}
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+.required label:after {
+  color: #e32;
+  content: ' *';
+  display:inline;
+}
+.customer-edit-container{
+  margin-top: 50px;
+  width: 100%;
+  height: auto;
+  background-color: rgb(126, 161, 154);
+  border-radius: 5px 5px 5px 5px;
+}
+
+.container.customer-edit-title-container{
+width: 92%;
+height: auto;
+padding-top: 40px;
+margin-left: 5%;
+}
+.row.customer-edit-title-row{
+width: 100%;
+height: 70px;
+background-color: rgba(249, 246, 246, 0.904);
+margin-bottom: 50px;
+border-radius: 6px 6px 6px 6px;
+}
+.customer-edit-form{
+    margin-left: 5%;
+    width: 90%;
+    height: auto;     
+}
+.form-group{
+  margin-left: 30px;
+}
+button{
+align-content: center;
+color:black;
+width: 150px;
+background-color: rgba(249, 246, 246, 0.904);
+}
+button:hover{
+  color:white;
+ background-color:rgb(127, 161, 130); 
+}
+.bi.bi-person-square{
+fill: rgb(127, 161, 154); 
+}
+.button-group{
+width: 100%;
+height: 70px;
+margin-top: 30px; 
+}
+.customer-container{
+width: 100%;
+background-color: rgba(249, 246, 246, 0.904);
+border-radius: 5px 5px 5px 5px;
+}
+mat-select.ng-invalid.ng-touched {
+  border: 2px solid red;
+}

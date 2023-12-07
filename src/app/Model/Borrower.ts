@@ -1,0 +1,29 @@
+export interface Borrower{
+  id:number;
+  borrowerType:string;
+  borrowerFirstName:string;
+  borrowerLastName:string;
+  borrowerFirstKana:string;
+  borrowerLastKana:string;
+  borrowerTelFirst:string;
+  borrowerTelSecond:string;
+  borrowerTelThird:string;
+  borrowerPostalFirst:string;
+  borrowerPostalSecond:string;
+  borrowerAddress:string;
+  borrowerMemo:string;
+  borrowerCooperate:string;
+  bcKana:string;
+  bcpicFirstName:string;
+  bcpicLastName:string;
+  bcpicFirstKana:string;
+  bcpicLastKana:string;
+  bcMail:string;
+  bcTelFirst:string;
+  bcTelSecond:string;
+  bcTelThird:string;
+  bcPostalFirst:string;
+  bcPostalSecond:string;
+  bcAddress:string;
+  bcMemo:string;
+}

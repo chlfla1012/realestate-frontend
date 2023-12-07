@@ -1,0 +1,29 @@
+export interface Lender{
+  id:number;
+  lenderType:string;
+    lenderFirstName:string;
+    lenderLastName:string;
+    lenderFirstKana:string;
+    lenderLastKana:string;
+    lenderTelFirst:string;
+    lenderTelSecond:string;
+    lenderTelThird:string;
+    lenderPostalFirst:string;
+    lenderPostalSecond:string;
+    lenderAddress:string;
+    lenderMemo:string;
+    lenderCooperate:string;
+    lcKana:string;
+    lcpicFirstName:string;
+    lcpicLastName:string;
+    lcpicFirstKana:string;
+    lcpicLastKana:string;
+    lcMail:string;
+    lcTelFirst:string;
+    lcTelSecond:string;
+    lcTelThird:string;
+    lcPostalFirst:string;
+    lcPostalSecond:string;
+    lcAddress:string;
+    lcMemo:string;
+}

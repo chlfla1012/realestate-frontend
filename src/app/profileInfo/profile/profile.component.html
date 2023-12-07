@@ -1,0 +1,388 @@
+<div class="container customer-create-container">
+    <div class="row customer-create-title-row">
+          管理者登録ページ!!!
+    </div>
+  
+    <form class="form-horizontal" (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="form-group" style="padding-top: 30px;">
+  
+             <!-- <div class="row no-gutters">
+                   <div class="col">
+                      <div class="text-center inner">
+                        <label for="companyname" >会社名</label>
+                      </div>
+                  </div> 
+                  <div class="col">
+                      <div class=" inner">
+                        <input type="text" class="form-control" id="companyname" required ngModel name="companyname" #companyname="ngModel"
+                        (keypress)="keyPressCode($event)"
+                        style="width: 265px;  height:35px;">
+                      </div>
+                  </div> 
+                  <div class="col">
+                    <div class="inner">
+                      <div class="text-center">
+                        <label for="logo" >ロゴ</label>
+                      </div>
+                    </div>
+                </div> 
+                <div class="col">
+                    <div class="leftfield">
+                      <input type="text" class="form-control" id="logo"
+                      (keypress)="keyPressNumeric($event)"
+                      style="width: 265px; height:35px;">
+                    </div>
+                </div>
+                </div> -->
+                <br>
+            </div>
+  
+        <br>
+        <div class="row no-gutters">
+          <div class="col">
+              <div class="text-center inner">
+                <label for="firstName" >姓</label>
+              </div>
+          </div>
+          <div class="col">
+              <div class=" inner">
+                <input type="text" 
+                class="form-control" 
+                id="firstName" 
+                required 
+                [(ngModel)]="userInfo.firstName"
+                name="firstName"
+                style="width: 265px;  height:35px;">
+              </div>
+          </div>
+          <div class="col">
+            <div class="inner">
+              <div class="text-center">
+                <label for="lastName" >名</label>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="leftfield">
+              <input type="text" class="form-control" 
+              id="lastName"
+              [(ngModel)]="userInfo.lastName"
+              name="lastName"
+              style="width: 265px; height:35px;">
+            </div>
+        </div>
+        </div>
+  
+        <br>
+        <div class="row no-gutters">
+          <div class="col">
+              <div class="text-center inner">
+                <label for="firstNamekana" >姓（カナ）</label>
+              </div>
+          </div>
+          <div class="col">
+              <div class=" inner">
+                <input type="text" 
+                class="form-control" 
+                id="firstNamekana" 
+                required 
+                [(ngModel)]="userInfo.firstNamekana" 
+                name="firstNamekana"
+                style="width: 265px;  height:35px;">
+              </div>
+          </div>
+          <div class="col">
+            <div class="inner">
+              <div class="text-center">
+                <label for="lastNamekana" >名（カナ）</label>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="leftfield">
+              <input type="text" 
+              class="form-control" 
+              id="lastNamekana" 
+              required 
+              [(ngModel)]="userInfo.lastNamekana" 
+              name="lastNamekana"
+              style="width: 265px; height:35px;">
+            </div>
+        </div>
+        </div>
+        <br>
+         <div class="row no-gutters">
+            <div class="col">
+                <div class="text-center inner">
+                  <label for="gender" >性別</label>
+                </div>
+            </div>
+            <div class="col-3">
+              <select  
+              class="form-control" 
+              id="gender" 
+              required 
+              [(ngModel)]="userInfo.gender" 
+              name="gender"
+              #gender="ngModel"
+              >
+                <option value="男性">男性</option>
+                <option value="女性">女性</option>
+              </select>
+            </div>
+          <!--<div class="col">
+              <div class="text-center inner">
+                <label for="usertype" >タイプ</label>
+              </div>
+          </div>
+          <div class="col-3">
+            <select name="usertype">
+              <option value="manager">管理者</option>
+            </select>
+          </div>-->
+          <div class="col">
+            <div class="inner">
+              <div class="text-center">
+                <label for="department" >*部署</label>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="leftfield">
+              <input type="text" 
+              class="form-control" 
+              id="department"
+              required 
+              [(ngModel)]="userInfo.department" 
+              name="department"
+              #department="ngModel"
+              style="width: 265px; height:35px;">
+            </div>
+        </div>
+        </div> 
+        <br>
+        <div class="row no-gutters">
+          
+            <div class="col">
+                <div class="text-center inner">
+                  <label for="address" >住所</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class=" inner">
+                  <input type="text" 
+                  class="form-control" 
+                  id="address" 
+                  required 
+                  [(ngModel)]="userInfo.address" 
+                  name="address"
+                  #address="ngModel"
+                  style="width: 265px;  height:35px;">
+                </div>
+            </div>
+          <div class="col">
+            <div class="inner">
+              <div class="text-center">
+                <label for="phone1" >電話番号</label>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+          <div class="row">
+
+            
+
+            <div class="col">
+  
+  
+            <input type="tel" 
+            id="phone1" 
+            required 
+            [(ngModel)]="userInfo.phone1" 
+            name="phone1"
+            #phone1="ngModel"
+              style="width: 50px;  height:35px; " class="form-control">
+            </div>
+               -
+              <div class="col"> 
+                <input type="tel" 
+                id="phone2" 
+                required 
+                [(ngModel)]="userInfo.phone2"
+                name="phone2" 
+                #phone2="ngModel"
+              style="width: 56px;  height:35px;" class="form-control" [maxLength]="4"></div>
+               -
+              <div class="col">
+                <input type="tel" 
+                id="phone3" 
+                required 
+                [(ngModel)]="userInfo.phone3" 
+                name="phone3" 
+                #phone3="ngModel"
+              style="width: 52px;  height:35px;" class="form-control" [maxlength]="4"></div>
+          </div>
+  
+  
+        </div>
+        </div>
+        <br>
+        <div class="row no-gutters">
+          <div class="col">
+              <div class="text-center inner">
+                <label for="dateOfBirth" >生年月日</label>
+              </div>
+          </div>
+          <div class="col">
+              <div class=" inner">
+                <input type="text" 
+                class="form-control" 
+                id="dateOfBirth" required 
+                [(ngModel)]="userInfo.dateOfBirth" 
+                name="dateOfBirth" 
+                style="width: 265px;  height:35px;">
+              </div>
+          </div>
+         
+        </div>
+        <br>
+        <div class="row no-gutters">
+          <div class="col">
+              <div class="text-center inner">
+                <label for="email" >メールアドレス</label>
+              </div>
+          </div>
+          <div class="col">
+              <div class=" inner">
+                <input type="email" 
+                class="form-control" 
+                id="email" 
+                required 
+                [(ngModel)]="userInfo.email"
+                name="email" 
+                #email="ngModel"
+                style="width: 265px;  height:35px;">
+              </div>
+          </div>
+          <div class="col">
+            <div class="inner">
+              <div class="text-center">
+                <label for="postalcode1" >郵便番号</label>
+              </div>
+            </div>
+        </div>
+        <div class=" col-md-3">
+          <div class="row">
+            <div class="col">
+            <input type="text" 
+            class="form-control" 
+            id="postalcode1"
+            required 
+            [(ngModel)]="userInfo.postalcode1" 
+            name="postalcode1"
+            #postalcode1="ngModel"
+            style=" width:100px;height:35px;" [maxlength]="3"></div>
+            -
+            <div class="col">
+            <input type="text" 
+            class="form-control" 
+            id="postalcode2"
+            required 
+            [(ngModel)]="userInfo.postalcode2"
+            name="postalcode2" 
+            #postalcode2="ngModel"
+            style=" width:100px;height:35px;" 
+            [maxlength]="3"></div>
+        </div>
+        </div>
+        <br>
+        <div class="row no-gutters">
+        </div>
+        <br>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="text-center inner">
+              <label for="password" >パスワード</label>
+            </div>
+        </div>
+        <div class="col">
+            
+              <input type="text" 
+              class="form-control" 
+              id="password" required 
+              ngModel name="password" 
+              #password="ngModel"
+              style="width: 265px;  height:35px;">
+            
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+    <br>
+    <div class="row no-gutters">
+      <div class="col">
+          <div class="text-center inner">
+            <label for="startdate" >利用開始日</label>
+          </div>
+      </div>
+      <div class="col">
+          <div class=" inner">
+            <input type="date" 
+            id="startdate" 
+            required 
+            [(ngModel)]="userInfo.startDate"
+            name="startDate"
+            #startDate="ngModel"
+            class="form-control"
+              style="width: 265px;  height:35px;">
+          </div>
+      </div>
+      <div class="col">
+        <div class="inner">
+          <div class="text-center">
+            <label for="endDate" >利用終了日</label>
+          </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="leftfield">
+          <input type="date" 
+          id="endDate"
+          required 
+          [(ngModel)]="userInfo.endDate"
+          name="endDate"
+          #endDate="ngModel"
+          class="form-control"
+             style="width: 265px; height:35px;">
+        </div>
+    </div>
+    </div>
+    <br>
+       <div class="row">
+        <div class="col-3"></div>
+        <div class="col-2">
+            <button class="btn btn-reset"
+            type="reset"
+  
+    >キャンセル</button>
+        </div>
+        <div class="col-1">
+  
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary"
+            type="submit"
+  
+  
+    >登録</button>
+    <div class="col-2"></div>
+        </div>
+  
+       </div>
+      </form>
+  </div>
+  
+  
+  
+  

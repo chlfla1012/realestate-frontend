@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div class="container user-create-container">
+      <div class="container user-create-title-container">
+        <div class="row user-create-title-row">
+          <div class="col-6">
+              <div class="icon" style="margin-top: 19px;">
+                    <mat-icon aria-hidden="false"
+               aria-label="Example home icon"
+               fontIcon="user" style="padding-top:3px;">person</mat-icon>
+                    <span style="margin-left: 10px;">オーナー情報詳細画面
+                    </span>
+
+              </div>
+          </div>
+          <div class="col-2"></div>
+          <div class="col-4" style="margin-top: 19px;">
+              <div class="row">
+                <div class="col-2">
+                  <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;" (click)="back()">
+                    <!-- (click)="navigateToUpdatePage(userInfo.id)" -->
+                      <!-- <mat-icon aria-hidden="false"
+                       aria-label="Example edit icon" fontIcon="edit"></mat-icon> -->
+                     戻る
+                  </button>
+              </div>
+                  <div class="col-md-2"></div>
+                  <div class="col-2">
+                      <button mat-stroked-button class="updateBtn" style="width: 100px; height: 30px;" (click)="navigateToUpdatePage(userInfo.id)" >
+                        <!-- (click)="navigateToUpdatePage(userInfo.id)" -->
+                          <mat-icon aria-hidden="false"
+                           aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+                          編集
+                      </button>
+
+
+                  </div>
+                  <div class="col-md-2"></div>
+                  <div class="col-2">
+                      <button mat-stroked-button class="deleteBtn" style="width: 100px; height: 30px;" (click)="confirmDelete(userInfo.id,userInfo.firstName,userInfo.lastName)">
+                        <!-- (click)="confirmDelete(userInfo.id,userInfo.propertyName)" -->
+                          <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+                          削除
+                      </button>
+
+                  </div>
+              </div>
+
+           </div>
+  </div>
+      </div>
+      <form class="form-horizontal user-create-form">
+        <div class="user-container">
+          <p class="container-title"></p>
+
+        <div class="user-information">
+          <!-- <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="companyname" >会社名</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="companyname"
+                  name="companyname"
+                  style="width: 265px;  height:35px;">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="logo" >ロゴ</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                   <input type='file'
+                  (change)="onSelectFile($event,1)"
+                  accept="image/*"
+                  id="image1"
+                  name="image1"
+
+                  ngModel name="image1"
+                  #image1="ngModel"> -->
+                <!-- </div>
+              </div>
+
+            </div>
+          </div> -->
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="firstName" >姓<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="firstName"
+                  [(ngModel)]="userInfo.firstName"
+                  name="firstName" readonly
+                  #firstName="ngModel"
+                  style="width: 265px;  height:35px;"
+                  required 
+                  [ngClass]="{'is-valid':firstName.touched && firstName.invalid}"
+                  disabled>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="lastName" >名<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                  <input type="text" class="form-control"
+              id="lastName"
+              [(ngModel)]="userInfo.lastName"
+              #lastName="ngModel"
+              name="lastName" readonly
+              required [ngClass]="{'is-valid':lastName.touched && lastName.invalid}"
+              style="width: 265px; height:35px;"
+              disabled>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!firstName.valid && firstName.touched">
+                   姓を入力してください。</div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div
+                style="margin-left: 26px;"
+                 class="help-block" *ngIf="!lastName.valid && lastName.touched">
+                 名を入力してください。</div>
+              </div>
+             </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="firstNamekana" >姓（カナ）<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="firstNamekana"
+                  required
+                  [(ngModel)]="userInfo.firstNamekana"
+                  name="firstNamekana" readonly pattern="^[\u30A0-\u30FF]+$"
+                  style="width: 265px;  height:35px;"
+                  #firstNamekana="ngModel"
+                  required [ngClass]="{'is-valid':firstNamekana.touched && firstNamekana.invalid}"
+                  disabled>
+                </div>
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div class="inner">
+                  <div class="text-center">
+                    <label for="lastNamekana" >名（カナ）<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="lastNamekana"
+                  required
+                  [(ngModel)]="userInfo.lastNamekana"
+                  name="lastNamekana" readonly pattern="^[\u30A0-\u30FF]+$"
+                  style="width: 265px; height:35px;"
+                  #lastNamekana="ngModel"
+                  required [ngClass]="{'is-valid':lastNamekana.touched && lastNamekana.invalid}"
+                  disabled>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <div
+                    style="margin-left: 26px;"
+                     class="help-block" *ngIf="!firstNamekana.valid && firstNamekana.touched">
+                     姓(ｶﾅ)を入力してください。</div>
+                     <div class="help-block"
+                     style="margin-left: 26px;"
+
+                      [hidden]="!firstNamekana.hasError('pattern')">
+                      カタカナのみです。</div>
+
+
+
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!lastNamekana.valid && lastNamekana.touched">
+                   名（カナ）を入力してください。</div>
+                   <div class="help-block"
+                   style="margin-left: 26px;"
+
+                    [hidden]="!lastNamekana.hasError('pattern')">
+                    カタカナのみです。</div>
+                </div>
+               </div> -->
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="gender" >性別<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <!-- <select
+                  class="form-control"
+                  id="gender"
+                  required
+                  [(ngModel)]="userInfo.gender"
+                  name="gender" readonly
+                  #gender="ngModel"
+                  required [ngClass]="{'is-valid':gender.touched && gender.invalid}"
+                  disabled
+                  >
+                    <option value="男性">男性</option>
+                    <option value="女性">女性</option>
+                  </select> -->
+                  <input type="text"class="form-control"
+                  id="gender"
+                  [(ngModel)]="userInfo.gender"
+                  name="gender" readonly
+                  #gender="ngModel"
+                  style="width: 75px;  height:35px;"
+                  disabled>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!gender.valid && gender.touched">
+                   性別を選択してください。</div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+              </div>
+             </div> -->
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="birthday" >生年月日</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="date"
+                  class="form-control"
+                  id="dateOfBirth"
+                  required
+                  [(ngModel)]="userInfo.dateOfBirth"
+                  name="dateOfBirth" readonly
+                  #dateOfBirth="ngModel"
+                  style="width: 265px; height:35px;"
+                  required [ngClass]="{'is-valid':dateOfBirth.touched && dateOfBirth.invalid}"
+                  disabled
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!birthday.valid && birthday.touched">
+                   生年月日を選択してください。</div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+              </div>
+             </div> -->
+          </div>
+          
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="phone1">電話番号<span style="color: red">*</span></label>
+                </div>
+              </div>
+
+              <div class=" col-md-3">
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="leftfield">
+                      <input 
+                      type="tel" 
+                      class="form-control" 
+                      id="phone1" required 
+                      [(ngModel)]="userInfo.phone1"
+                      name="phone1" readonly
+                      #phone1="ngModel" 
+                      [maxLength]="3" 
+                      (keypress)="keyPressNumeric($event)"
+                      required [ngClass]="{'is-valid':phone1.touched && phone1.invalid}"
+                      style="width: 60px;  height:35px;"
+                      disabled
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <span>-</span>
+                  </div>
+                    <div class="col-md-3"> 
+                      <div class="leftfield">
+                      <input 
+                      type="tel" 
+                      class="form-control" 
+                      id="phone2" required
+                      [(ngModel)]="userInfo.phone2" 
+                      name="phone2" readonly
+                      #phone2="ngModel" 
+                      class="form-control" 
+                      [maxLength]="4" 
+                      (keypress)="keyPressNumeric($event)"
+                      required [ngClass]="{'is-valid':phone2.touched && phone2.invalid}"
+                      style="width: 60px;  height:35px;"
+                      disabled
+                      >
+                    </div>
+                    </div>
+                    <div class="col-md-1">
+                      <span>-</span>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="leftfield">
+                      <input 
+                      type="tel" 
+                      class="form-control" 
+                      id="phone3" required 
+                      [(ngModel)]="userInfo.phone3"
+                      name="phone3" readonly
+                      #phone3="ngModel"
+                      [maxlength]="4" 
+                      (keypress)="keyPressNumeric($event)"
+                      required [ngClass]="{'is-valid':phone3.touched && phone3.invalid}"
+                      style="width: 60px;  height:35px;"
+                      disabled
+                      >
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                    class="help-block" 
+                    *ngIf="!phone1.valid && phone1.touched || 
+                    !phone2.valid && phone2.touched || 
+                    !phone3.valid && phone3.touched">
+                    電話番号を入力してください。
+                  </div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+              </div>
+             </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="email" >メールアドレス<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="email"
+                  required
+                  [(ngModel)]="userInfo.email"
+                  name="email" readonly
+                  #email="ngModel"
+                  style="width: 265px; height:35px;"
+                  required [ngClass]="{'is-valid':email.touched && email.invalid}"
+                  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                  disabled
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!email.valid && email.touched">
+                   メールアドレスを入力してください。</div>
+                   <div class="help-block"
+                     style="margin-left: 26px;"
+
+                      [hidden]="!email.hasError('pattern')">
+                      正しいメールアドレスを使ってください。</div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+              </div>
+             </div> -->
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="postalcode1" >郵便番号<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class=" col-md-4">
+                <div class="row">
+                  <div class="col-md-4">
+                  <input type="text"
+                  class="form-control"
+                  id="postalcode1"
+                  required
+                  [(ngModel)]="userInfo.postalcode1"
+                  name="postalcode1" readonly
+                  #postalcode1="ngModel"
+                  style=" width:95px;height:35px;" 
+                  (keypress)="keyPressNumeric($event)" [maxlength]="3"
+                  disabled
+                  ></div>
+                  <div class="col-md-1">
+                    <span>-</span>
+                  </div>
+                  <div class="col-md-4">
+                  <input type="text"
+                  class="form-control"
+                  id="postalcode2"
+                  required
+                  [(ngModel)]="userInfo.postalcode2"
+                  name="postalcode2" readonly
+                  #postalcode2="ngModel"
+                  style=" width:95px;height:35px;"
+                  [maxlength]="4"
+                  disabled
+                  ></div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="address" >住所<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text"
+                  class="form-control"
+                  id="address"
+                  required
+                  [(ngModel)]="userInfo.address"
+                  name="address" readonly
+                  #address="ngModel"
+                  required [ngClass]="{'is-valid':address.touched && address.invalid}"
+                  disabled
+                  style="width: 265px; height:35px;"
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                  <div
+                  style="margin-left: 26px;"
+                   class="help-block" *ngIf="!address.valid && address.touched">
+                   住所を入力してください。</div>
+              </div>
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+              </div>
+             </div> -->
+          </div>
+          
+        </div>
+        
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <!-- First Column -->
+            <div class="col-md-2">
+              <label for="bankName">金融機関名・銀行名<span style="color: red">*</span></label>
+            </div>
+            <div class="col-md-3">
+              <div class="leftfield">
+                <input 
+                type="text" 
+                class="form-control"
+                id="bankName" 
+                [(ngModel)]="userInfo.bankName" required
+                [ngClass]="{'is-valid': bankName.touched && bankName.invalid}" 
+                #bankName="ngModel" 
+                name="bankName"
+                style="width: 265px; height:35px;margin-left: 15px;"
+                disabled>
+              </div>
+            </div>
+            
+            <!-- Second Column -->
+            <div class="col-md-1">
+              <label for="branch">支店名<span style="color: red">*</span></label>
+            </div>
+            <div class="col-md-3">
+              <div class="leftfield">
+                <input 
+                type="text" 
+                class="form-control" 
+                id="branch" 
+                [(ngModel)]="userInfo.branch" required
+                [ngClass]="{'is-valid': branch.touched && branch.invalid}" 
+                #branch="ngModel" 
+                name="branch" required
+                style="width: 265px;  height:35px;"
+                disabled>
+              </div>
+            </div>
+            <!-- <div class="col-md-1"></div> -->
+            <!-- Third Column -->
+            <div class="col-md-1">
+              <label for="accountType">口座種別<span style="color: red">*</span></label>
+            </div>
+            <div class="col-md-1">
+              <div class="leftfield">
+                <!-- <mat-select class="form-control" style="width: 100px;margin-left:-70px;" id="accountType" required name="accountType"
+                  #accountType="ngModel" [(ngModel)]="userInfo.accountType"
+                  disabled 
+                  required
+                  
+                  [ngClass]="{'is-valid': accountType.touched && accountType.invalid}">
+                  <mat-option value="普通">普通</mat-option>
+                  <mat-option value="貯蓄">貯蓄</mat-option>
+                  <mat-option value="当座">当座</mat-option>
+                </mat-select> -->
+                <input type="text"class="form-control"
+                  id="gender"
+                  [(ngModel)]="userInfo.accountType"
+                  name="accountType" readonly
+                  #accountType="ngModel"
+                  style="width: 75px;  height:35px;"
+                  disabled>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Error Messages -->
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+              <span class="help-block" *ngIf="bankName.touched && bankName.errors?.['required']">
+                金融機関名・銀行名を入力してください。</span>
+            </div>
+            <div class="col-md-3">
+              <span class="help-block" *ngIf="branch.touched && branch.errors?.['required']">
+                支店名を入力してください。</span>
+            </div>
+            <div class="col-md-3">
+              <span class="help-block" 
+              style="margin-left: 20px;"
+              *ngIf="accountType.touched && accountType.errors?.['required']">
+                口座種別を選択してください。</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Second Row -->
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <!-- First Column -->
+            <div class="text-center col-md-2">
+              <div class="inner accountno">
+                <label for="accountno">口座番号<span style="color: red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="leftfield">
+                <input type="text" 
+                class="form-control" 
+                id="accountNumber" 
+                [(ngModel)]="userInfo.accountNumber"
+                name="accountNumber" 
+                #accountNumber="ngModel" required
+                [ngClass]="{'is-valid': accountNumber.touched && accountNumber.invalid}" 
+                [maxlength]="7" required
+                style="width: 265px; height:35px;margin-left: 15px;"
+                (keypress)="keyPressNumeric($event)"
+                disabled>
+              </div>
+            </div>
+            
+            <!-- Second Column -->
+            <div class="col-md-1">
+              <div class="inner accountname">
+                <label for="accountName">口座名義人(カナ)<span style="color: red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="leftfield">
+                <input type="text"
+                readonly
+                 class="form-control" id="accountName" [(ngModel)]="userInfo.accountName"
+                  name="accountName" #accountName="ngModel" required required
+                  [ngClass]="{'is-valid': accountName.touched && accountName.invalid}"
+                  style="width: 265px; height:35px;"
+                  pattern="^[\u30A0-\u30FF]+$"
+                  disabled>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="inner apportionment">
+                <label for="apportionment">按分</label>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="leftfield">
+                <input type="text" class="form-control" id="apportionment" [(ngModel)]="userInfo.apportionment"
+                  name="apportionment" #apportionment="ngModel" 
+                  [ngClass]="{'is-valid': apportionment.touched && apportionment.invalid}"
+                  style="width: 75px;  height:35px;" disabled>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Error Messages -->
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+              <span class="help-block" *ngIf="accountNumber.touched && accountNumber.errors?.['required']">
+                口座番号を入力してください。</span>
+              <!-- <div class="help-block" [hidden]="!accountno.hasError('pattern')">
+                数字のみです。
+              </div> -->
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-4">
+              <span class="help-block" style="margin-left: 69px;" *ngIf="!accountName.valid && accountName.touched">
+                口座名義人（カナ）を入力してください。</span>
+              <!-- <div class="help-block" [hidden]="!accountName.hasError('pattern')">
+                カタカナのみです。</div> -->
+            </div>
+            
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <div class="text-center inner">
+                <label for="startDate" >利用開始日<span style="color: red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-2" style="margin-left: 20px;">
+              <div class="leftfield">
+                <input type="date"
+                class="form-control"
+                id="startDate"
+                required
+                [(ngModel)]="userInfo.startDate"
+                name="startDate" readonly
+                #startDate="ngModel"
+                required [ngClass]="{'is-valid':startDate.touched && startDate.invalid}"
+                disabled
+                style="width: 265px; height:35px;"
+                >
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+                <div
+                style="margin-left: 26px;"
+                 class="help-block" *ngIf="!startDate.valid && startDate.touched">
+                 利用開始日を選択してください。</div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+            </div>
+           </div> -->
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <div class="text-center inner">
+                <label for="startdate" >利用終了日<span style="color: red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-2" style="margin-left: 20px;">
+              <div class="leftfield">
+                <input type="date"
+                class="form-control"
+                id="endDate"
+                required
+                [(ngModel)]="userInfo.endDate"
+                name="endDate" readonly
+                #endDate="ngModel"
+                required [ngClass]="{'is-valid':endDate.touched && endDate.invalid}"
+                disabled
+                style="width: 265px; height:35px;"
+                >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+                <div
+                style="margin-left: 26px;"
+                 class="help-block" *ngIf="!endDate.valid && endDate.touched">
+                 利用終了日を選択してください。</div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+            </div>
+           </div>
+        </div>
+        <br>
+      </div>
+      <div class="form-group">
+        <div class="col-md">
+          <div class="button-group"></div>
+        </div>
+      </div>
+      </form>
+    </div>
+  </body>
+</html>

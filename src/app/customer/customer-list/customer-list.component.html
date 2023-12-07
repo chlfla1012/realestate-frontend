@@ -1,0 +1,228 @@
+
+<html>
+  <body>
+<div class="container customer-list-container">
+  <div class="row" style="width: 100px;height: 28px;"></div>
+
+  <div class="container customer-list-title-container">
+    <div class="row customer-list-title-row">
+      <div class="col-3 icon" style="margin-top: 19px;">
+            
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-person-square" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
+        </svg>
+        <span style="margin-left: 10px;">取引先連絡先一覧画面</span>
+
+      </div>
+      <div class="col-7"></div>
+      <div class="col-2" style="margin-top: 19px;">
+        <div class="create-icon" style="margin-left: 21%">
+       
+          <button mat-stroked-button style="background-color:white; width: 130px; height: 30px;"
+          (click)="navigateToCreatePage()">
+               <mat-icon aria-hidden="false" aria-label="Example add_circle icon" fontIcon="person_add"></mat-icon>
+            新規作成</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container search-container">
+      <div class="row search-title-row" style="padding-top: 20px;margin-left: 0px;">
+          <div class="col-md-1"></div>
+          <div class="col-md-2" style="margin-right: 5px;">
+              <label for="companyName">会社名</label>
+          </div>
+          
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+              <label for="userInfo">担当者</label>
+          </div>
+          
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left: 12px;">
+              <label for="createdDate">登録日</label>
+          </div>
+      </div>   
+
+      <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
+    <div class="col-md-2">
+      <input type="text" id="companyName"
+      [(ngModel)]="companyName" 
+      name="companyName" 
+      class="form-control" 
+      style="width: 150px;margin-left: 53px;">
+    </div>
+    <div class="col-md-2">
+    
+    </div>
+    <div class="col-md-2" style="margin-left: 65px;">
+      <input type="text" id="personFirstName" 
+      [(ngModel)]="personFullName"
+      name="personFullName" 
+      class="form-control"
+      style="width: 150px; margin-left: 0px;">
+    </div>
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-2">
+    <input type="date" id="searchByCreatedDate" 
+    [(ngModel)]="searchByCreatedDate" 
+    name="searchByCreatedDate" 
+    class="form-control"
+     style="width: 170px; margin-left: 18px;">
+    </div>
+      </div>
+
+      <div class="row button-row">
+    <div class="col-md-1">
+      <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+        <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+        検索
+      </button>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" 
+      (click)="reset()">リセット</button>
+      <!-- <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" 
+     >リセット</button> -->
+
+    </div>
+  </div>
+
+  </div>
+
+
+<mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
+
+<ng-container matColumnDef="id">
+  <mat-header-cell *matHeaderCellDef class="column-id">取引先ID</mat-header-cell>
+
+  <!-- <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">取引先ID</mat-header-cell> -->
+  <!-- <th mat-header-cell *matHeaderCellDef>取引先ID</th> -->
+  <!-- <td mat-cell *matCellDef="let customer">{{ customer.id }}</td> -->
+   <mat-cell *matCellDef="let customer" class="column-id">{{customer.id}}</mat-cell> 
+</ng-container>
+
+<ng-container matColumnDef="type">
+  <!-- <mat-header-cell *matHeaderCellDef>項目</mat-header-cell> -->
+  <mat-header-cell *matHeaderCellDef>項目</mat-header-cell> 
+
+<mat-cell *matCellDef="let customer">{{customer.type}}</mat-cell>
+    <!-- <th mat-header-cell *matHeaderCellDef>項目</th> -->
+  <!-- <td mat-cell *matCellDef="let customer">{{ customer.type }}</td> -->
+  
+</ng-container>
+
+  <ng-container matColumnDef="companyName">
+    <mat-header-cell *matHeaderCellDef>会社名</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.companyName}}</mat-cell>
+    <!-- <th mat-header-cell *matHeaderCellDef>会社名</th> -->
+    <!-- <td mat-cell *matCellDef="let customer">{{ customer.companyName }}</td> -->
+  </ng-container> 
+
+   <!-- <ng-container matColumnDef="companyName"> -->
+    <!-- <mat-header-cell *matHeaderCellDef>会社名</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.companyName}}</mat-cell> -->
+    <!-- <th mat-header-cell *matHeaderCellDef>部署</th>
+    <td mat-cell *matCellDef="let customer">{{ customer.department }}</td>
+  </ng-container>  -->
+
+  <ng-container matColumnDef="department">
+    <mat-header-cell *matHeaderCellDef>部署</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.department}}</mat-cell>
+    <!-- <th mat-header-cell *matHeaderCellDef>部署</th> -->
+    <!-- <td mat-cell *matCellDef="let customer">{{ customer.department }}</td> -->
+  </ng-container>
+
+  <ng-container matColumnDef="personFullName">
+    <mat-header-cell *matHeaderCellDef>担当者</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.personFullName}}</mat-cell>
+    <!-- <th mat-header-cell *matHeaderCellDef>部署</th> -->
+    <!-- <td mat-cell *matCellDef="let customer">{{ customer.personFirstName }}</td> -->
+  </ng-container>
+
+ 
+  <!-- <ng-container matColumnDef="dateOfBirth">
+      <mat-header-cell *matHeaderCellDef>生年月日</mat-header-cell>
+      <mat-cell *matCellDef="let userInfo">{{userInfo.dateOfBirth}}</mat-cell>
+    </ng-container> -->
+  <ng-container matColumnDef="mailAdd">
+     <mat-header-cell *matHeaderCellDef>メールアドレス</mat-header-cell>
+    <mat-cell *matCellDef="let customer">{{customer.mailAdd}}</mat-cell>
+    <!-- <th mat-header-cell *matHeaderCellDef>メールアドレス</th> -->
+    <!-- <td mat-cell *matCellDef="let customer">{{ customer.mailAdd }}</td> -->
+  </ng-container>
+
+  
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef>登録日</mat-header-cell>
+      <mat-cell *matCellDef="let customer">{{customer.createdDate}}</mat-cell>
+      <!-- <th mat-header-cell *matHeaderCellDef>登録日</th> -->
+      <!-- <td mat-cell *matCellDef="let customer">{{ customer.createdDate }}</td> -->
+    </ng-container>
+    <ng-container matColumnDef="modifiedDate">
+      <mat-header-cell *matHeaderCellDef>更新日</mat-header-cell>
+      <mat-cell *matCellDef="let customer">{{customer.modifiedDate}}</mat-cell>
+      <!-- <th mat-header-cell *matHeaderCellDef>更新日</th> -->
+      <!-- <td mat-cell *matCellDef="let customer">{{ customer.modifiedDate }}</td> -->
+    </ng-container>
+
+  <ng-container matColumnDef=" ">
+    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+    <mat-cell *matCellDef="let customer; let i = index">
+       <!-- Add disableRipple attribute to disable the ripple effect  -->
+       <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="Actions" disableRipple>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <rect width="24" height="24" rx="4" fill="none" stroke="currentColor" />
+          <polygon points="7,12 17,12 12,17" fill="#000" />
+        </svg> </button>
+        <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item 
+           (click)="handleOptionChange('details', customer.id, customer.companyName)">詳細</button>
+        <button mat-menu-item
+           (click)="handleOptionChange('update', customer.id, customer.companyName)">編集</button>
+        <button mat-menu-item
+           (click)="handleOptionChange('delete', customer.id, customer.companyName)">削除</button>  
+
+        <!-- <button mat-menu-item >詳細</button>
+        <button mat-menu-item >編集</button>
+        <button mat-menu-item >削除</button> -->
+
+      </mat-menu>
+    </mat-cell>
+  </ng-container> 
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+  <!-- <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row> -->
+  <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</mat-table>   -->
+
+
+
+
+<mat-paginator #scheduledOrdersPaginator
+[length]="dataSource.data.length"
+[pageSize]="10"
+style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
+
+</div>
+</body>
+
+</html>
+   
+
+
+  

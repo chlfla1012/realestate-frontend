@@ -1,0 +1,227 @@
+
+.property-create-container{
+    margin-top: 45px;
+    width: 100%;
+    height: auto;
+    background-color: rgb(126, 161, 154);
+  }
+  .container.property-create-title-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+
+  }
+  .row.property-create-title-row{
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+  }
+
+.property-create-form{
+      /* margin-left: 2%; */
+      width: 100%;
+      height: auto;
+      margin-top: 40px;
+
+      /* background-color: rgba(249, 246, 246, 0.904); */
+}
+.form-group{
+    margin-left: 30px;
+}
+
+.basic-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.basic-information {
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+
+}
+.address-container{
+    margin-top: 2%;
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.address-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+
+}
+.monetary-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+
+
+.monetary-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+
+
+}
+
+.detail-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 390px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.detail-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 360px;
+    margin-left: 18px;
+
+}
+.equipment-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 220px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.equipment-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 380px;
+    margin-left: 18px;
+
+}
+.other-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 275px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.other-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 275px;
+}
+.row.checkbox-row label{
+    margin-left: 1px;
+    font-size: 13px;
+}
+.photo-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: 650px;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.photo-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: 650px;
+    margin-left: 18px;
+}
+.management-container{
+    margin-top: 4%;
+
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+
+}
+.management-infomation{
+    margin-top: 30px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+}
+img{
+    height: 200px;
+    width: 200px;
+}
+.button-group{
+    width: 100%;
+    height: 70px;
+    margin-top: 30px;
+    /* margin-left: 8%; */
+
+}
+
+
+button{
+    align-content: center;
+    color:black;
+    width: 150px;
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.createbutton-text{
+  color:white;
+}
+.createbutton-text:hover{
+  color:black;
+}
+.create
+{
+  margin-right: 10px;
+  border-radius: 5px;
+  border:0.5px #000;
+  background-color: #376fc3;/*screenshot 3 */
+  width: 150px;
+  height: 35px;
+}
+.help-block{
+    color: red;
+    font-size: 12px;
+
+}
+input.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+textarea.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+mat-select.ng-invalid.ng-touched {
+    border: 2px solid red;
+  }
+
+
+p{
+    padding-top: 30px;
+    margin-left: 30px;
+    font-size: 16px;
+    font-weight:bold;
+    font-size: 16px;
+}
+label,mat-label{
+    font-size: 15px;
+}

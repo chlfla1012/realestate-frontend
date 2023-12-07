@@ -1,0 +1,70 @@
+.contract-list-container{
+  margin-top: 45px;
+
+  width: 100%;
+  height: auto;
+  background-color: rgb(126, 161, 154);
+  border-radius: 5px 5px 5px 5px;
+
+}
+.contract-search-container{
+  width: 100%;
+  height:200px;
+  padding-top: 40px;
+  background-color: rgba(249, 246, 246, 0.904);
+  border-radius: 5px 5px 5px 5px;
+
+
+}
+.container.contract-list-title-container{
+  width: 100%;
+  height: auto;
+}
+.row.contract-list-title-row{
+  width: 99%;
+  height: 70px;
+  background-color: rgba(249, 246, 246, 0.904);
+  margin-bottom: 50px;
+  border-radius: 6px 6px 6px 6px;
+  margin-left:5px;
+
+}
+/* .mat-select{
+  width: 100%;
+  height: 50px;
+  background-color: rgba(249, 246, 246, 0.904);
+  border-radius: 6px 6px 6px 6px;
+} */
+.bi.bi-person-square{
+
+  fill: rgb(127, 161, 154);
+}
+.btn-create:hover{
+  color: white;
+  background-color: rgb(128, 181, 75);
+}
+.mat-elevation-z7{
+  margin-top: 100px;
+}
+/* .mat-elevation-z7 {
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+    border: 1px;
+ } */
+ .mat-elevation-z7{
+  width: 100%;
+  height: auto;
+  background-color: rgba(249, 246, 246, 0.904);
+  font-size: 12px;
+  margin-top: 40px;
+
+}
+mat-header-cell{
+  font-weight: bold;
+}
+ .search-button-group{
+  margin-top: 10px;
+  margin-bottom: 30px;
+ }
+

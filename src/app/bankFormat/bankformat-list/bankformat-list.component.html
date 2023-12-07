@@ -1,0 +1,156 @@
+<html>
+  <body>
+<div class="container bankformat-list-container">
+  <div class="row" style="width: 100px;height: 28px;"></div>
+  <div class="container bankformat-list-title-container">
+    <div class="row bankformat-list-title-row">
+      <div class="col-3 icon" style="margin-top: 19px;">            
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" class="bi bi-person-square" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
+        </svg>
+        <span style="margin-left: 10px;">通帳フォーマット一覧画面</span>
+      </div>
+      <div class="col-7"></div>
+      <div class="col-2" style="margin-top: 19px;">
+        <div class="create-icon" style="margin-left: 21%">       
+          <button mat-stroked-button style="background-color:white; width: 130px; height: 30px;"
+          (click)="navigateToCreatePage()">
+               <mat-icon aria-hidden="false" aria-label="Example add_circle icon" fontIcon="person_add"></mat-icon>
+            新規作成</button>
+        </div>        
+      </div>
+    </div>
+  </div>
+
+  <div class="container search-container">
+      <div class="row search-title-row" style="padding-top: 1%;">
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left:100px;">
+              <label for="bankName">銀行種別</label>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left:50px;">
+              <label for="createdDate" style="margin-left:-55px;">登録日</label>
+          </div>
+      </div> 
+      <div class="row search-row" style="padding-top: 1%;margin-left:300px;">
+    <div class="col-md-2">
+      <mat-select class="form-control" id="bankName" name="bankName" [(ngModel)]="bankName" style="width: 180px;">
+        <mat-option value="みずほ銀行" selected>みずほ銀行</mat-option>
+        <mat-option value="三菱UFJ銀行">三菱UFJ銀行</mat-option>
+        <mat-option value="三井住友銀行">三井住友銀行</mat-option>
+        <mat-option value="りそな銀行">りそな銀行</mat-option>
+        <mat-option value="ゆうちょ銀行">ゆうちょ銀行</mat-option>
+        <mat-option value="東京三菱UFJ銀行">東京三菱UFJ銀行</mat-option>
+        <mat-option value="新生銀行">新生銀行</mat-option>
+        <mat-option value="セブン銀行">セブン銀行</mat-option>
+        <mat-option value="あおぞら銀行">あおぞら銀行</mat-option>
+        <mat-option value="楽天銀行">楽天銀行</mat-option>
+        <mat-option value="Pay Pay銀行">Pay Pay銀行</mat-option>
+      </mat-select>
+    </div>
+    <div class="col-md-2">    
+    </div>
+    <div class="col-md-2">
+    <input type="date" id="searchByCreatedDate" 
+    [(ngModel)]="searchByCreatedDate" 
+    name="searchByCreatedDate" 
+    class="form-control"
+     style="width: 170px;">
+    </div>
+      </div>
+      <div class="row button-row">
+    <div class="col-md-1">
+      <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+        <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+        検索
+      </button>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+      <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" 
+      (click)="reset()">リセット</button>
+      </div>
+  </div>
+  </div>
+
+
+<mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
+<ng-container matColumnDef="id">
+  <mat-header-cell *matHeaderCellDef class="column-id">ID</mat-header-cell>
+  <mat-cell *matCellDef="let bankformat" class="column-id">{{bankformat.id}}</mat-cell> 
+</ng-container>
+
+<ng-container matColumnDef="bankName">
+  <mat-header-cell *matHeaderCellDef>銀行種別</mat-header-cell> 
+<mat-cell *matCellDef="let bankformat">{{bankformat.bankName}}</mat-cell> 
+</ng-container>
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef>日付</mat-header-cell>
+    <mat-cell *matCellDef="let bankformat">{{bankformat.date}}</mat-cell>
+  </ng-container> 
+
+  <ng-container matColumnDef="content">
+    <mat-header-cell *matHeaderCellDef>摘要内容</mat-header-cell>
+    <mat-cell *matCellDef="let bankformat">{{bankformat.content}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="income">
+    <mat-header-cell *matHeaderCellDef>入金</mat-header-cell>
+    <mat-cell *matCellDef="let bankformat">{{bankformat.income}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="remark">
+     <mat-header-cell *matHeaderCellDef>備考</mat-header-cell>
+    <mat-cell *matCellDef="let bankformat">{{bankformat.remark}}</mat-cell>
+  </ng-container>
+
+    <ng-container matColumnDef="createdDate">
+      <mat-header-cell *matHeaderCellDef>登録日</mat-header-cell>
+      <mat-cell *matCellDef="let bankformat">{{bankformat.createdDate}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="modifiedDate">
+      <mat-header-cell *matHeaderCellDef>更新日</mat-header-cell>
+      <mat-cell *matCellDef="let bankformat">{{bankformat.modifiedDate}}</mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef=" ">
+    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+    <mat-cell *matCellDef="let bankformat; let i = index">
+       <!-- Add disableRipple attribute to disable the ripple effect  -->
+       <button mat-icon-button [matMenuTriggerFor]="actionMenu" aria-label="Actions" disableRipple>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <rect width="24" height="24" rx="4" fill="none" stroke="currentColor" />
+          <polygon points="7,12 17,12 12,17" fill="#000" />
+        </svg> </button>
+        <mat-menu #actionMenu="matMenu">
+        <button mat-menu-item 
+           (click)="handleOptionChange('details', bankformat.id, bankformat.bankName)">詳細</button>
+        <button mat-menu-item
+           (click)="handleOptionChange('update', bankformat.id, bankformat.bankName)">編集</button>
+        <button mat-menu-item
+           (click)="handleOptionChange('delete', bankformat.id, bankformat.bankName)">削除</button>  
+      </mat-menu>
+    </mat-cell>
+  </ng-container> 
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
+<mat-paginator #scheduledOrdersPaginator
+[length]="dataSource.data.length"
+[pageSize]="10"
+style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
+</div>
+</body>
+</html>
+   
+
+
+  

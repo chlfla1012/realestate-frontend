@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <div class="container bankformat-detail-container">
+    <div class="container bankformat-detail-title-container">
+      <div class="row bankformat-detail-title-row">
+        <div class="col-md-5 icon" style="margin-top: 19px;">
+          <mat-icon aria-hidden="false" aria-label="Example bookicon" fontIcon="book"
+            style="padding-top:3px;"></mat-icon>
+          <span style="margin-left: 10px;margin-bottom:0px">通帳フォーマット詳細画面</span>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-4" style="margin-top: 19px;">
+          <div class="row">
+            <div class="col-2">
+              <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;"
+                (click)="back()">戻る</button>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+              <button mat-stroked-button class="updateBtn" style="width: 100px; height: 30px;"
+                (click)="navigateToUpdatePage(bankformat.id)">
+                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>編集</button>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-2">
+              <button mat-stroked-button class="deleteBtn" style="width: 100px; height: 30px;"
+                (click)="confirmDelete(bankformat.id,bankformat.bankName)">
+                <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>削除</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <form class="form-horizontal" class="bankformat-detail">
+      <div class="bankformat-container">
+        <p class="container-title"></p>
+        <div class="bankformat-information">
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2" style="margin-top: 60px;">
+                <div class="text-center inner" style="margin-left: 10px;">
+                  <label for="bankName">銀行種別<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2" style="margin-top: 60px;">
+                <div class="leftfield">
+                  <!-- <div class="col-md-2"> -->
+                  <mat-select class="form-control" id="bankName" name="bankName" [(ngModel)]="bankformat.bankName"
+                    [ngClass]="{'is-valid':bankName.touched && bankName.invalid}" required #bankName="ngModel"
+                    style="width: 282px;margin-left: 5px;" disabled>
+                    <mat-option value="みずほ銀行">みずほ銀行</mat-option>
+                    <mat-option value="三菱UFJ銀行">三菱UFJ銀行</mat-option>
+                    <mat-option value="三井住友銀行">三井住友銀行</mat-option>
+                    <mat-option value="りそな銀行">りそな銀行</mat-option>
+                    <mat-option value="ゆうちょ銀行">ゆうちょ銀行</mat-option>
+                    <mat-option value="東京三菱UFJ銀行">東京三菱UFJ銀行</mat-option>
+                    <mat-option value="新生銀行">新生銀行</mat-option>
+                    <mat-option value="セブン銀行">セブン銀行</mat-option>
+                    <mat-option value="あおぞら銀行">あおぞら銀行</mat-option>
+                    <mat-option value="楽天銀行">楽天銀行</mat-option>
+                    <mat-option value="Pay Pay銀行">Pay Pay銀行</mat-option>
+                  </mat-select>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="row" style="margin-left: -120px;">
+
+
+              <div class="col-md-6">
+                <div class="help-block" *ngIf="!bankName.valid && bankName.touched">銀行種別を選択してください。</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="date">日付<span style="color: red">*</span></label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="date" [(ngModel)]="bankformat.date" #date="ngModel"
+                    name="date" required [ngClass]="{'is-valid':date.touched && date.invalid}"
+                    style="width: 120px; height:35px;" disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <div class="text-center">
+                    <label for="content">摘要内容<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="content" [(ngModel)]="bankformat.content"
+                    #content="ngModel" name="content" required
+                    [ngClass]="{'is-valid':content.touched && content.invalid}" style="width: 120px; height:35px;"
+                    disabled>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <div class="text-center">
+                    <label for="income">入金<span style="color: red">*</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="leftfield">
+                  <input type="text" class="form-control" id="income" [(ngModel)]="bankformat.income" #income="ngModel"
+                    name="income" required [ngClass]="{'is-valid':income.touched && income.invalid}"
+                    style="width: 120px; height:35px;" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-3">
+                <div style="margin-left: 0px;" class="help-block">
+                  <div *ngIf="(date.touched || date.dirty) && date.hasError('required')">
+                    日付を入力してください。
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="help-block" style="margin-left: 80px;">
+                  <div *ngIf="(content.touched || content.dirty) && content.hasError('required')">
+                    摘要内容を入力してください。
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="help-block" style="margin-left: 80px;">
+                  <div *ngIf="(income.touched || income.dirty) && income.hasError('required')">
+                    入金を入力してください。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <div class="row no-gutters">
+              <div class="col-md-2">
+                <div class="text-center inner" style="margin-left: -10px;">
+                  <label for="remark">備考</label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="leftfield">
+                      <textarea id="remark" class="form-control" [(ngModel)]="bankformat.remark" #remark="ngModel"
+                        name="remark" rows="3" cols="25" wrap="off" style="width: 282px;  height:50px;" disabled>
+             </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>

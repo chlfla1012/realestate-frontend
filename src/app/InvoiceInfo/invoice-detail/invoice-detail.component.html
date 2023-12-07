@@ -1,0 +1,2272 @@
+<html>
+
+<head>
+</head>
+
+<body>
+  <div class="container invoice-create-container">
+    <div class="container invoice-create-title-container">
+      <div class="row invoice-create-title-row">
+        <div class="col-md-5" style="margin-top: 19px;">
+          <div class="icon" style="display: flex; align-items: center;">
+            <mat-icon style="width: 25px; height: 25px;">description</mat-icon>
+            <span style="margin-left: 10px;">請求書詳細画面</span>
+          </div>
+        </div>
+        <div class="col-md-5" style="margin-top: 19px;">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-3">
+              <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToPreivousPage()">
+                 戻る
+              </button>
+          </div>
+          <div class="col-md-3">
+              <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToUpdatePage(invoiceInfo.id)">
+                  <mat-icon aria-hidden="false"
+                   aria-label="Example edit icon" fontIcon="edit"></mat-icon>
+                  編集
+              </button>
+          </div>
+          <div class="col-md-2">
+              <button mat-stroked-button style="width: 100px; height: 30px;background-color:red;" 
+                (click)="confirmDelete(invoiceInfo.id,invoiceInfo.propertyName)">
+                  <mat-icon aria-hidden="false" 
+                  aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+                  削除
+              </button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <form class="form-horizontal" #f="ngForm" class="invoice-create-form">
+      <!-- <div class="container-header" (click)="toggleContainer(i)">
+                <span class="arrow-icon"
+                  [ngClass]="{'arrow-down': isOpen, 'arrow-up': !isOpen}">
+                </span>
+                <p class="container-title">
+                  {{ i === 0 ? '物件情報' : i === 1 ? '貸主情報' : i === 2 ? '借主情報' : i === 3 ? '入居者情報' : i === 4 ? '契約情報' : i === 5 ? '振込先銀行口座情報' : '担当者情報' }}
+                </p>
+              </div> -->
+    <div class="container">  <!--invoice-create-container -->
+      <div class="property-information" style="padding-top: 20px;">
+        <p style="margin-left: 20px;">不動産会社情報</p>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <div class="text-center inner">
+                <label for="companyName">会社名</label>
+              </div>
+            </div>
+            <div class="col-2">
+              <input type="text" 
+              id="companyName" 
+              [(ngModel)]="invoiceInfo.companyId.companyName" 
+              name="companyName"
+              class="form-control" 
+              readonly 
+              style="width: 265px;"
+              disabled>
+            </div>
+            <div class=" col-md-1"></div>
+            <div class=" col-md-3">
+              <label for="lenderpostalcode" style="margin-left: 150px;">郵便番号</label>
+            </div>
+            <div class=" col-md-3">
+              <div class="row">
+                <div class="col-md-5">
+                <input type="text" class="form-control"
+                id="companyPostalFirst"
+                [(ngModel)]="invoiceInfo.companyPostalFirst"
+                name="companyPostalFirst" 
+                readonly
+                disabled
+                style=" width:100px;height:35px;">
+                <!-- <select [(ngModel)]="picId"
+                          id="picId"
+                          name="picId"
+                          class="form-control"
+                          (change)="onPICSelectionChange()" required
+                          #picIdControl="ngModel">
+                        <option *ngFor="let pic of picUsers"
+                          [value]="pic.id">{{pic.firstName}}{{pic.lastName}}
+                        </option>
+                          </select> -->
+                </div>-
+                <div class="col-md-5">
+                <input type="text" class="form-control"  
+                id="companyPostalSecond"
+                [(ngModel)]="invoiceInfo.companyPostalSecond" 
+                name="companyPostalSecond" 
+                readonly
+                disabled
+                style=" width:100px;height:35px;">
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <div class="text-center inner">
+                <label for="picname">担当者名前<span style="color: red">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <input type="text" 
+              class="form-control" 
+              id="personName" 
+              [(ngModel)]="invoiceInfo.personName" 
+              name="personName"
+              #picIdControl="ngModel"
+              readonly 
+              disabled
+              style="width: 265px; height:35px;">
+            </div>
+            <div class="col-md-4">
+              <div class="inner">
+                <div class="text-center">
+                  <label for="roomno" style="margin-left: 170px;">住所<span style="color: red">*</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="leftfield">
+                <input type="text" 
+                id="companyAddress" 
+                [(ngModel)]="invoiceInfo.companyAddress" 
+                name="companyAddress" 
+                class="form-control" 
+                value="companyAddress"
+                readonly
+                disabled 
+                style="width: 265px; height:35px;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row">
+            <div class="text-center col-md-2">
+              <label for="pictele">電話番号<span style="color: red">*</span></label>
+            </div>
+
+            <div class=" col-md-3">
+              <div class="row">
+              <div class="col-md-3">
+              <input type="tel" class="form-control"
+              id="mobileFirst"
+              [(ngModel)]="invoiceInfo.mobileFirst"
+                name="mobileFirst"
+                value="mobileFirst"
+                readonly
+                disabled
+                style="width: 60px;  height:35px;"></div>
+                <div class="col-md-1">-</div>
+                <div class="col-md-4">
+                  <input type="tel" class="form-control"
+                 id="mobileSecond"
+                  [(ngModel)]="invoiceInfo.mobileSecond"
+                  name="mobileSecond"
+                  value="mobileSecond"
+                  readonly
+                  disabled
+                style="width: 66px;  height:35px;" class="form-control" [maxLength]="4"></div>
+                 -
+                <div class="col-md-3"><input type="tel"
+                id="mobileThird"
+                [(ngModel)]="invoiceInfo.mobileThird"
+                name="mobileThird"
+                value="mobileThird"
+                readonly
+                disabled
+                style="width: 62px;  height:35px;" class="form-control" [maxlength]="4"></div>
+            </div>
+          </div>
+          </div>
+        </div>
+        <br>
+      </div>
+
+      <div class="property-information">
+        <p style="margin-left: 20px;">物件情報</p>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="propertyID" >物件名<span style="color: red">*</span></label>
+                </div>
+            </div>
+            <div class="col-1">
+              <!-- <select 
+              class="form-control"
+              (change)="onPropertySelectionChange()" 
+              required 
+              [(ngModel)]="propertyId"
+              id="propertyId"
+              name="propertyId"
+              #propertyIdControl="ngModel" 
+              >
+              <option *ngFor="let property of propertyIDs"
+                [value]="property.id">{{property.propertyName}}
+              </option>
+              </select> -->
+              <input type="text"  
+                  id="propertyName"
+                  [(ngModel)]="invoiceInfo.propertyName"
+                  name="propertyName"
+                  class="form-control"
+                  value="paymentDueDate" 
+                  style="width: 265px; height:35px;"
+                  readonly
+                  disabled>
+          </div>
+          <div class=" col-md-2"></div>
+            <div class=" col-md-3">
+              <label for="lenderpostalcode" style="margin-left: 150px;">郵便番号</label>
+            </div>
+            <div class=" col-md-3">
+              <div class="row">
+                <div class="col-md-5">
+                <input type="text" class="form-control"
+                id="buildingPostalFirst"
+                [(ngModel)]="invoiceInfo.buildingPostalFirst"
+                name="buildingPostalFirst" 
+                readonly
+                disabled
+                style=" width:100px;height:35px;">
+                </div>-
+                <div class="col-md-5">
+                  <input type="text" class="form-control"  
+                id="buildingPostalLast"
+                [(ngModel)]="invoiceInfo.buildingPostalLast"
+                name="buildingPostalLast" 
+                readonly
+                disabled
+                style=" width:100px;height:35px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+              <div class="help-block">
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="roomno" >号室<span style="color: red">*</span></label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class=" leftfiedl">
+                  <input type="text"  id="roomNo"
+                  [(ngModel)]="invoiceInfo.roomNo"
+                  name="roomNo"
+                  class="form-control"
+                  value="roomNo"
+                  readonly
+                  disabled
+                  style="width: 265px; height:35px;">
+                  <!-- <select 
+              class="form-control"
+              (change)="onPropertyRoomByPropertyName()" 
+              required 
+              [(ngModel)]="propertyIdRoom"
+              id="propertyIdRoom"
+              name="propertyIdRoom"
+              #propertyIdControl="ngModel" 
+              >
+              <option *ngFor="let property of propertyIDs"
+                [value]="property.propertyName">{{property.room}}
+                
+              </option>
+              </select> -->
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+              <div class="text-center inner" >
+                <label for="roomno" style="margin-left: -30px;">住所<span style="color: red">*</span></label>
+              </div>
+          </div>
+          <div class="col-md-2">
+              <div class=" leftfiedl">
+                <input type="text"  
+                id="address"
+                [(ngModel)]="invoiceInfo.address"
+                name="address"
+                class="form-control"
+                value="address"
+                readonly
+                disabled
+                style="width: 265px; height:35px;">
+              </div>
+          </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <div class="inner">
+                <div class="text-center">
+                  <label for="floor" >フロア<span style="color: red">*</span></label>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-3">
+              <div class="leftfield">
+                <input type="text"  id="floor"
+                [(ngModel)]="invoiceInfo.floor"
+                name="floor"
+                class="form-control"
+                value="floor"
+                readonly
+                disabled
+                style="width: 265px; height:35px;">
+              </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      </div>
+      
+      <div class="property-information">
+        <p style="margin-left: 20px;">請求期間情報</p>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="lenderCooperate" >法人名<span style="color: red">*</span></label>
+                </div>
+            </div>
+            <div class="col-1">
+                <input type="text"  
+              id="lenderCooperate"
+              readonly
+              disabled
+                  [(ngModel)]="invoiceInfo.lenderCooperate"
+                  name="lenderCooperate"
+                  class="form-control"
+                  value="lenderCooperate"
+                  style="width: 265px; height:35px;">
+          </div>
+          <div class=" col-md-2"></div>
+            <div class=" col-md-3" >
+              <label for="bcpicName" style="margin-left: 150px;">法人担当者名前</label>
+            </div>
+            <div class=" col-md-3">
+              <input type="text"  
+              id="lenderPersonName"
+              readonly
+              disabled
+                  [(ngModel)]="invoiceInfo.lenderPersonName"
+                  name="lenderPersonName"
+                  class="form-control"
+                  value="lenderPersonName"
+                  style="width: 265px; height:35px;">
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+              <div class="help-block">
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="billingDate" >請求日<span style="color: red">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-2">
+              <div class=" leftfiedl">
+                <input type="text"  
+                id="billingDate"
+                [ngModel]="invoiceInfo.billingDate"
+                name="billingDate"
+                readonly
+                disabled
+                class="form-control"
+                value="billingDate"
+                >
+                <!-- style="width: 265px; height:35px;" -->
+              </div>
+          </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-2">
+                <div class="text-center inner">
+                  <label for="paymentDueDate" >支払期間<span style="color: red">*</span></label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class=" leftfiedl">
+                  <input type="text"  
+                  id="paymentDueDate"
+                  [(ngModel)]="invoiceInfo.paymentDueDate"
+                  name="paymentDueDate"
+                  class="form-control"
+                  value="paymentDueDate"
+                  readonly
+                  disabled
+                  style="width: 265px; height:35px;">
+                </div>
+            </div>
+            </div>
+          </div>
+          <br>
+      </div>
+      
+      <div class="property-information" >
+        <p style="margin-left: 20px;">支払い必要の情報</p>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1 text-center left-label">
+                  <label for="rent">賃料</label>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="rent"
+                  [(ngModel)]="invoiceList.rent"
+                  name="rent"
+                  #rent="ngModel" 
+                  readonly
+                  disabled 
+                  style="width: 170px;  height:35px;" 
+                    >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>            
+            </div>
+
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>   
+            </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="rentTax"
+                [(ngModel)]="invoiceList.rentTax"
+                name="rentTax"
+                #rent="ngModel" 
+                readonly
+                disabled 
+                style="width: 170px;  height:35px;" 
+                >
+          </div>
+          
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="rentTotal"
+              [(ngModel)]="invoiceList.rentTotal"
+              name="rentTotal"
+              #rent="ngModel"
+              readonly 
+              disabled
+              style="width: 170px;  height:35px;" 
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+
+        <div class="col-md-2 inner-label"> 
+            <label for="rent" >利用期間<span style="color: red">*</span></label>
+      </div>
+      <div class="col-md-1">
+        <div class="inner-selectBox">
+          <input type="text" class="form-control"
+          id="rentUsagePeriod"
+          [(ngModel)]="invoiceList.rentUsagePeriod"
+          name="rentUsagePeriod"
+          #rent="ngModel" pattern="^[0-9]+$"
+          readonly
+          disabled 
+          style="width: 80px;  height:35px;" 
+          >
+        </div>
+      </div>
+
+          <div class="col-md-1 month-label">
+              <p class="monthly">月分</p>
+          </div>
+        </div>
+        <!-- <div class="row no-gutters">
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
+          <div class="col-md-3">
+            <div class="help-block"
+                style="margin-left:55px"
+                *ngIf="rentUsagePeriod.touched && rentUsagePeriod.errors?.['required']">
+                家賃利用期間を選択してください。
+            </div>
+          </div>
+        </div> -->
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label">
+                  <label for="managementfee" >共益費</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" 
+                  class="form-control"
+                  id="serviceFee"
+                  [(ngModel)]="invoiceList.serviceFee"
+                  name="serviceFee"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+            </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="serviceFeeTax"
+                [(ngModel)]="invoiceList.serviceFeeTax"
+                name="serviceFeeTax"
+                #rent="ngModel" 
+                readonly 
+                disabled
+                style="width: 170px;  height:35px;" 
+                  >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="serviceFeeTotal"
+              [(ngModel)]="invoiceList.serviceFeeTotal"
+              name="serviceFeeTotal"
+              #rent="ngModel"
+              readonly
+              disabled
+              style="width: 170px;  height:35px;"
+                >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-2 inner-label"> 
+            <label for="rent" >利用期間</label>
+      </div>
+      <div class="col-md-1">
+        <div class="inner-selectBox">
+          <input type="text" class="form-control"
+          id="rentUsagePeriod"
+          [(ngModel)]="invoiceList.serviceFeeUsagePeriod"
+          name="rentUsagePeriod"
+          #rent="ngModel" pattern="^[0-9]+$"
+          readonly
+          disabled 
+          style="width: 80px;  height:35px;" 
+          >
+        </div>
+          </div>
+          <div class="col-md-1 month-label">
+              <p class="monthly">月分</p>
+          </div>
+        </div>
+       </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1 left-label"> 
+                  <label for="brokerageFee" style="font-size: 14px;font-weight: 16px;" >仲介手数料</label>
+            </div>
+            <div class="col-md-2 left-textfield">
+                <input type="text" class="form-control"
+                id="brokerageFee"
+                [(ngModel)]="invoiceList.brokerageFee"
+                name="brokerageFee"
+                readonly
+                disabled
+                style="width: 170px;  height:35px;"
+                >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="brokerageFeeTax"
+                [(ngModel)]="invoiceList.brokerageFeeTax"
+                name="brokerageFeeTax"
+                #rent="ngModel"
+                readonly 
+                disabled
+                style="width: 170px;  height:35px;" 
+                  >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+            <input type="text" class="form-control"
+            id="brokerageFeeTotal"
+            [(ngModel)]="invoiceList.brokerageFeeTotal"
+            name="brokerageFeeTotal"
+            #rent="ngModel"
+            readonly 
+            disabled
+            style="width: 170px;  height:35px;" 
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-2 inner-label"> 
+            <label for="brokerageFeeUsagePeriod" >利用期間</label>
+      </div>
+      <div class="col-md-1">
+        <div class="inner-selectBox">
+          <input type="text" class="form-control"
+          id="rentUsagePeriod"
+          [(ngModel)]="invoiceList.brokerageFeeUsagePeriod"
+          name="rentUsagePeriod"
+          #rent="ngModel" pattern="^[0-9]+$"
+          readonly
+          disabled 
+          style="width: 80px;  height:35px;" 
+          >
+              </div>
+          </div>
+          <div class="col-md-1 month-label">
+              <p class="monthly">月分</p>
+          </div>
+        </div>
+       </div>
+       
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">
+              <div class="text-center left-label">  
+                  <label for="parkingfee">駐車料</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="parkingFee"
+                  [(ngModel)]="invoiceList.parkingFee"
+                  name="parkingFee"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+              <input type="text" class="form-control"
+              id="parkingFeeTax"
+              [(ngModel)]="invoiceList.parkingFeeTax"
+              name="parkingFeeTax"
+              #rent="ngModel"
+              readonly
+              disabled
+              style="width: 170px;  height:35px;" 
+              >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+            <input type="text" class="form-control"
+            id="parkingFeeTotal"
+            [(ngModel)]="invoiceList.parkingFeeTotal"
+            name="parkingFeeTotal"
+            #rent="ngModel"
+            readonly
+            disabled
+            style="width: 170px;  height:35px;" 
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label">
+              <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+              <input type="date" class="form-control"
+              id="parkingStartDate"
+              [(ngModel)]="invoiceList.parkingStartDate"
+              name="parkingStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+               >
+        </div>
+        <div class="col-md-1 inner-label" style="margin-left: -85px;"> 
+              <label for="parkingEndDate">利用終了日</label>
+        </div>
+        <div class="col-md-1">
+              <input type="date" class="form-control"
+              id="parkingEndDate"
+              [(ngModel)]="invoiceList.parkingEndDate"
+              name="parkingEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+        </div>
+        <!-- <div class="col-md-2" style="margin-left: -45px;">                
+          <div class="text-center inner">
+              <label for="parkingfee" >利用開始日</label>
+            </div>
+        </div> -->
+        <!-- <div class="col-md-1" style="margin-left: -60px;">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="parkingFee"
+              [(ngModel)]="invoiceInfo.invoicelistId.parkingFee"
+              name="parkingFee"
+                style="width: 80px;  height:35px;"
+                pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)">
+            </div>
+        </div> -->
+        </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label">
+                  <label for="bicycleparkingFee">駐輪料</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="bicycleParkingFee"
+                  [(ngModel)]="invoiceList.bicycleParkingFee"
+                  name="bicycleParkingFee"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+              <input type="text" class="form-control"
+              id="bicycleParkingFeeTax"
+              [(ngModel)]="invoiceList.bicycleParkingFeeTax"
+              name="bicycleParkingFeeTax"
+              #rent="ngModel"
+              readonly 
+              disabled
+              style="width: 170px;  height:35px;" 
+                >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+            <input type="text" class="form-control"
+            id="bicycleParkingFeeTotal"
+            [(ngModel)]="invoiceList.bicycleParkingFeeTotal"
+            name="bicycleParkingFeeTotal"
+            #rent="ngModel" 
+            readonly 
+            disabled
+            style="width: 170px;  height:35px;" 
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label"> 
+              <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+              <input type="date" class="form-control"
+              id="parkingStartDate"
+              [(ngModel)]="invoiceList.bicycleParkingStartDate"
+              name="parkingStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+              >
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;">
+              <label for="bicycleParkingEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+              <input type="date" class="form-control"
+              id="parkingEndDate"
+              [(ngModel)]="invoiceList.bicycleParkingEndDate"
+              name="parkingEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+        </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label">
+                  <label for="keymoney" >礼金</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="keymoney"
+                  [(ngModel)]="invoiceList.keymoney"
+                  name="keymoney" #keymoney="ngModel"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-md-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="keymoneyTax"
+                [(ngModel)]="invoiceList.keymoneyTax"
+                name="keymoneyTax"
+                #rent="ngModel"
+                readonly
+                disabled
+                style="width: 170px;  height:35px;" 
+                >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="keymoneyTotal"
+              [(ngModel)]="invoiceList.keymoneyTotal"
+              name="keymoneyTotal"
+              #rent="ngModel"
+              readonly
+              disabled
+              style="width: 170px;  height:35px;"
+                >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label"> 
+            <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="keymoneyStartDate"
+              [(ngModel)]="invoiceList.keymoneyStartDate"
+              name="keymoneyStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+              >
+            </div>
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;"> 
+              <label for="keymoneyEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+              <input type="date" class="form-control"
+              id="keymoneyEndDate"
+              [(ngModel)]="invoiceList.keymoneyEndDate"
+              name="keymoneyEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+        </div> 
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label">
+                  <label for="shikiken" >敷金</label>
+              </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="shikikin"
+                  [(ngModel)]="invoiceList.shikikin"
+                  name="shikikin" #keymoney="ngModel"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="shikikinTax"
+                [(ngModel)]="invoiceList.shikikinTax"
+                name="shikikinTax"
+                #rent="ngModel" 
+                readonly
+                disabled
+                style="width: 170px;  height:35px;" 
+                >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="shikikinTotal"
+              [(ngModel)]="invoiceList.shikikinTotal"
+              name="shikikinTotal"
+              #rent="ngModel" 
+              readonly
+              disabled
+              style="width: 170px;  height:35px;"
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label"> 
+              <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="shikikinStartDate"
+              [(ngModel)]="invoiceList.shikikinStartDate"
+              name="shikikinStartDate"
+              style="width: 125px;  height:35px;"
+              pattern="^[0-9]+$"
+              readonly
+              disabled 
+              >
+            </div>
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;">                
+              <label for="shikikinEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="shikikinEndDate"
+              [(ngModel)]="invoiceList.shikikinEndDate"
+              name="shikikinEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+            </div>
+        </div> 
+        </div>
+        </div>
+        
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">
+                <div class="text-center left-label">
+                  <label for="deposit" >保証金</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="deposit"
+                  [(ngModel)]="invoiceList.deposit"
+                  name="deposit"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="depositTax"
+                [(ngModel)]="invoiceList.depositTax"
+                name="depositTax"
+                #rent="ngModel"
+                readonly
+                disabled
+                style="width: 170px;  height:35px;"
+                  >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="depositTotal"
+              [(ngModel)]="invoiceList.depositTotal"
+              name="depositTotal"
+              #rent="ngModel"
+              readonly
+              disabled
+              style="width: 170px;  height:35px;"
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label">   
+          <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+              <input type="date" class="form-control"
+              id="depositStartDate"
+              [(ngModel)]="invoiceList.depositStartDate"
+              name="depositStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+              >
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;">
+              <label for="depositEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="depositEndDate"
+              [(ngModel)]="invoiceList.depositEndDate"
+              name="depositEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+            </div>
+        </div> 
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label">
+                  <label for="renewalfee" >更新料</label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="renewalFee"
+                  [(ngModel)]="invoiceList.renewalFee"
+                  name="renewalFee"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="renewalFeeTax"
+                [(ngModel)]="invoiceList.renewalFeeTax"
+                name="renewalFeeTax"
+                #rent="ngModel"
+                readonly
+                disabled
+                style="width: 170px;  height:35px;"
+                readonly
+                disabled 
+                >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="renewalFeeTotal"
+              [(ngModel)]="invoiceList.renewalFeeTotal"
+              name="renewalFeeTotal"
+              #rent="ngModel"
+              readonly
+              disabled
+              style="width: 170px;  height:35px;"
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label"> 
+          <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+              <input type="date" class="form-control"
+              id="renewalFeeStartDate"
+              [(ngModel)]="invoiceList.renewalFeeStartDate"
+              name="renewalFeeStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+              >
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;"> 
+              <label for="renewalFeeEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+          <div class=" inner">
+            <input type="date" class="form-control"
+              id="renewalFeeEndDate"
+              [(ngModel)]="invoiceList.renewalFeeEndDate"
+              name="renewalFeeEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+            </div>
+        </div> 
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+          <div class="row no-gutters">
+            <div class="col-md-1">                
+              <div class="text-center left-label" style="font-size: 15px;font-weight: 16px;" >
+                  <label for="repaircost"><span>退去時<br>補修費</span></label>
+                </div>
+            </div>
+            <div class="col-md-2 left-textfield">
+                  <input type="text" class="form-control"
+                  id="repairCost"
+                  [(ngModel)]="invoiceList.repairCost"
+                  name="repairCost"
+                  style="width: 170px;  height:35px;"
+                  readonly
+                  disabled
+                  >
+            </div>
+            <div class="col-md-1 yen">
+                <p class="yenfield">円</p>
+            </div>
+            <div class="col-1 inner-label">
+                <label for="rent" >消費税</label>
+          </div>
+          <div class="col-md-1 inner-textfield">
+                <input type="text" class="form-control"
+                id="repairCostTax"
+                [(ngModel)]="invoiceList.repairCostTax"
+                name="repairCostTax"
+                #rent="ngModel"
+                readonly
+                disabled
+                style="width: 170px;  height:35px;" 
+                  >
+          </div>
+          <div class="col-md-1 inner-yen">
+              <p class="yenfield">円</p>
+          </div>
+          <div class="col-md-1 inner-label">
+              <label for="rent" >合計</label>
+        </div>
+        <div class="col-md-1 inner-total-textfield">
+              <input type="text" class="form-control"
+              id="repairCostTotal"
+              [(ngModel)]="invoiceList.repairCostTotal"
+              name="repairCostTotal"
+              #rent="ngModel" 
+              readonly
+              disabled
+              style="width: 170px;  height:35px;" 
+              >
+        </div>
+        <div class="col-md-1 inner-yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-md-1 inner-label"> 
+          <label for="parkingfee" >利用開始日</label>
+        </div>
+        <div class="col-md-2" style="margin-left: -20px;">
+              <input type="date" class="form-control"
+              id="repairCostStartDate"
+              [(ngModel)]="invoiceList.repairCostStartDate"
+              name="repairCostStartDate"
+              style="width: 125px;  height:35px;"
+              readonly
+              disabled 
+              >
+        </div>
+        <div class="col-md-1" style="margin-left: -85px;"> 
+              <label for="repairCostEndDate" >利用終了日</label>
+        </div>
+        <div class="col-md-1">
+          <div class=" inner">
+              <input type="date" class="form-control"
+              id="repairCostEndDate"
+              [(ngModel)]="invoiceList.repairCostEndDate"
+              name="repairCostEndDate"
+              style="width: 125px;  height:35px;margin-left: -25px;"
+              readonly
+              disabled 
+              >
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">                
+          <div class="text-center left-label">
+              <label for="penaltyfee" >違約金</label>
+            </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+            <input type="text" class="form-control"
+            id="penaltyFee"
+            [(ngModel)]="invoiceList.penaltyFee"
+            name="penaltyFee"
+            style="width: 170px;  height:35px;"
+            readonly
+            disabled
+            >
+        </div>
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-1 inner-label">
+            <label for="rent" >消費税</label>
+      </div>
+      <div class="col-md-1 inner-textfield">
+            <input type="text" class="form-control"
+            id="penaltyFeeTax"
+            [(ngModel)]="invoiceList.penaltyFeeTax"
+            name="penaltyFeeTax"
+            #rent="ngModel" 
+            readonly
+            disabled
+            style="width: 170px;  height:35px;" 
+              >
+      </div>
+      <div class="col-md-1 inner-yen">
+          <p class="yenfield">円</p>
+      </div>
+      <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+    </div>
+    <div class="col-md-1 inner-total-textfield">
+          <input type="text" class="form-control"
+          id="penaltyFeeTotal"
+          [(ngModel)]="invoiceList.penaltyFeeTotal"
+          name="penaltyFeeTotal"
+          #rent="ngModel"
+          readonly
+          disabled
+          style="width: 170px;  height:35px;"
+          >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label">  
+      <label for="parkingfee" >利用開始日</label>
+    </div>
+    <div class="col-md-2" style="margin-left: -20px;">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="penaltyFeeStartDate"
+          [(ngModel)]="invoiceList.penaltyFeeStartDate"
+          name="penaltyFeeStartDate"
+          style="width: 125px;  height:35px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div>
+    <div class="col-md-1" style="margin-left: -85px;"> 
+          <label for="penaltyFeeEndDate" >利用終了日</label>
+    </div>
+    <div class="col-md-1">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="penaltyFeeEndDate"
+          [(ngModel)]="invoiceList.penaltyFeeEndDate"
+          name="penaltyFeeEndDate"
+          style="width: 125px;  height:35px;margin-left: -25px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div> 
+
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">                
+          <div class="text-center left-label">
+              <label for="signboardFee" >看板料</label>
+            </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+              <input type="text" class="form-control"
+            id="signboard"
+            [(ngModel)]="invoiceList.signboard"
+            name="signboard"
+            style="width: 170px;  height:35px;"
+            readonly
+            disabled
+            >
+        </div>
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-1 inner-label">
+            <label for="rent" >消費税</label>
+      </div>
+      <div class="col-md-1 inner-textfield">
+          <input type="text" class="form-control"
+            id="signboardTax"
+            [(ngModel)]="invoiceList.signboardTax"
+            name="signboardTax"
+            #rent="ngModel"
+            readonly
+            disabled
+            style="width: 170px;  height:35px;"
+              >
+      </div>
+      <div class="col-md-1 inner-yen">
+          <p class="yenfield">円</p>
+      </div>
+      <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+    </div>
+    <div class="col-md-1 inner-total-textfield">
+          <input type="text" class="form-control"
+          id="signboardTotal"
+          [(ngModel)]="invoiceList.signboardTotal"
+          name="signboardTotal"
+          #rent="ngModel"
+          readonly
+          disabled
+          style="width: 170px;  height:35px;"
+            >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label">  
+      <label for="parkingfee" >利用開始日</label>
+    </div>
+    <div class="col-md-2" style="margin-left: -20px;">
+          <input type="date" class="form-control"
+          id="signboardStartDate"
+          [(ngModel)]="invoiceList.signboardStartDate"
+          name="signboardStartDate"
+          style="width: 125px;  height:35px;"
+          readonly
+          disabled 
+          >
+    </div>
+    <div class="col-md-1" style="margin-left: -85px;"> 
+          <label for="signboardEndDate" >利用終了日</label>
+    </div>
+    <div class="col-md-1">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="signboardEndDate"
+          [(ngModel)]="invoiceList.signboardEndDate"
+          name="signboardEndDate"
+          style="width: 125px;  height:35px;margin-left: -25px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div> 
+      </div>
+    </div>
+    <br>
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">                
+          <div class="text-center left-label">
+              <label for="brokerageFee" >電気代</label>
+          </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+              <input type="number" class="form-control"
+            id="electricBill"
+            [(ngModel)]="invoiceList.electricBill"
+            name="electricBill"
+            style="width: 170px;  height:35px;"
+            readonly
+            disabled
+            >
+        </div>
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+      <div class="col-1 inner-label">
+          <label for="rent" >使用料</label>
+    </div>
+    <div class="col-md-1 inner-textfield">
+          <input type="text" class="form-control"
+          id="electricUsageAmount"
+          [(ngModel)]="invoiceList.electricUsageAmount"
+          name="electricUsageAmount"
+          #rent="ngModel" 
+          readonly
+          disabled
+          style="width: 170px;  height:35px;"
+            >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">kwh</p>
+    </div>
+    <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+    </div>
+    <div class="col-md-1 inner-total-textfield">
+          <input type="number" class="form-control"
+          id="electricBillTotal"
+          [(ngModel)]="invoiceList.electricBillTotal"
+          name="electricBillTotal"
+          [value]="invoiceList.electricBillTotal"
+          readonly
+          disabled 
+          #rent="ngModel" pattern="^[0-9]+$" 
+          [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+          style="width: 170px;  height:35px;" 
+          >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label"> 
+      <label for="parkingfee" >利用開始日</label>
+    </div>
+    <div class="col-md-2" style="margin-left: -20px;">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="electricBillStartDate"
+          [(ngModel)]="invoiceList.electricBillStartDate"
+          name="electricBillStartDate"
+          style="width: 125px;  height:35px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div>
+    <div class="col-md-1" style="margin-left: -85px;"> 
+      <label for="electricBillEndDate" >利用終了日</label>
+    </div>
+    <div class="col-md-1">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="electricBillEndDate"
+          [(ngModel)]="invoiceList.electricBillEndDate"
+          name="electricBillEndDate"
+          style="width: 125px;  height:35px;margin-left: -25px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div> 
+      </div>
+      <div class="row no-gutters">
+        <div class="col-md-1"> 
+        <div class="text-center left-label">
+          <label for="rent" >消費税</label>
+        </div>
+        </div>
+      <div class="col-md-2 left-textfield">
+          <input type="number" class="form-control"
+          id="electricBillTax"
+          [(ngModel)]="invoiceList.electricBillTax"
+          name="electricBillTax"
+          style="width: 170px;  height:35px;" 
+          readonly
+          disabled 
+          >
+      </div>
+    <div class="col-md-1 yen">
+        <p class="yenfield">円</p>
+    </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">                
+          <div class="text-center left-label">
+              <label for="brokerageFee" >水道代</label>
+            </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+              <input type="number" class="form-control"
+            id="waterBill"
+            [(ngModel)]="invoiceList.waterBill"
+            name="waterBill"
+            style="width: 170px;  height:35px;"
+            readonly
+            disabled 
+            >
+        </div>
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+      <div class="col-1 inner-label">
+          <label for="rent" >使用料</label>
+    </div>
+    <div class="col-md-1 inner-textfield">
+          <input type="text" class="form-control"
+          id="waterUsageAmount"
+          [(ngModel)]="invoiceList.waterUsageAmount"
+          name="waterUsageAmount"
+          #rent="ngModel" 
+          style="width: 170px;  height:35px;" 
+          readonly
+          disabled 
+          >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">kwh</p>
+    </div>
+
+    <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+    </div>
+    <div class="col-md-1 inner-total-textfield">
+          <input type="number" class="form-control"
+          id="waterBillTotal"
+          [(ngModel)]="invoiceList.waterBillTotal"
+          name="waterBillTotal"
+          #rent="ngModel"
+          readonly
+          disabled
+          style="width: 170px;  height:35px;" 
+            >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label">
+      <label for="parkingfee" >利用開始日</label>
+    </div>
+    <div class="col-md-2" style="margin-left: -20px;">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="waterBillStartDate"
+          [(ngModel)]="invoiceList.waterBillStartDate"
+          name="waterBillStartDate"
+          style="width: 125px;  height:35px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div>
+    <div class="col-md-1" style="margin-left: -85px;">
+          <label for="waterBillEndDate" >利用終了日</label>
+    </div>
+    <div class="col-md-1">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="waterBillEndDate"
+          [(ngModel)]="invoiceList.waterBillEndDate"
+          name="waterBillEndDate"
+          style="width: 125px;  height:35px;margin-left: -25px;"
+          readonly
+          disabled 
+          >
+        </div>
+    </div> 
+      </div>
+      <div class="row no-gutters">
+        <div class="col-1">
+          <div class="text-center left-label">
+            <label for="rent" >消費税</label>
+          </div>
+      </div>
+      <div class="col-md-2 left-textfield">
+          <input type="number" class="form-control"
+          id="waterBillTax"
+          [(ngModel)]="invoiceList.waterBillTax"
+          name="waterBillTax"
+          #rent="ngModel" 
+          style="width: 170px;  height:35px;"
+          readonly
+          disabled 
+          >
+      </div>
+      <div class="col-md-1 yen">
+        <p class="yenfield">円</p>
+      </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">                
+          <div class="text-center left-label">
+              <label for="brokerageFee" >ガス代</label>
+          </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+          <input type="number" class="form-control"
+          id="gasBill"
+          [(ngModel)]="invoiceList.gasBill"
+          name="gasBill"
+          style="width: 170px;  height:35px;"
+          readonly
+          disabled 
+          >
+        </div>
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-1 inner-label">
+            <label for="rent" >使用料</label>
+        </div>
+    <div class="col-md-1 inner-textfield">
+          <input type="text" class="form-control"
+          id="gasUsageAmount"
+          [(ngModel)]="invoiceList.gasUsageAmount"
+          name="gasUsageAmount"
+          #rent="ngModel"
+          pattern="^[0-9]+$" 
+          style="width: 170px;  height:35px;" 
+          readonly
+          disabled 
+            >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">kwh</p>
+    </div>
+    <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+    </div>
+    <div class="col-md-1 inner-total-textfield">
+          <input type="number" class="form-control"
+          id="gasBillTotal"
+          [(ngModel)]="invoiceList.gasBillTotal"
+          name="gasBillTotal"
+          #rent="ngModel"
+          pattern="^[0-9]+$" 
+          readonly
+          disabled
+          style="width: 170px;  height:35px;"
+          >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label"> 
+      <label for="parkingfee" >利用開始日</label>
+    </div>
+    <div class="col-md-2" style="margin-left: -20px;">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="gasBillStartDate"
+          [(ngModel)]="invoiceList.gasBillStartDate"
+          name="gasBillStartDate"
+          style="width: 125px;  height:35px;"
+          pattern="^[0-9]+$" 
+          readonly
+          disabled 
+          >
+
+        </div>
+    </div>
+    <div class="col-md-1" style="margin-left: -85px;">  
+          <label for="waterBillEndDate" >利用終了日</label>
+    </div>
+    <div class="col-md-1">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="gasBillEndDate"
+          [(ngModel)]="invoiceList.gasBillEndDate"
+          name="gasBillEndDate"
+          style="width: 125px;  height:35px;margin-left: -25px;"
+          pattern="^[0-9]+$"
+          readonly
+          disabled 
+          >
+        </div>
+    </div> 
+      </div>
+      <div class="row no-gutters">
+        <div class="col-1">
+          <div class="text-center left-label">
+            <label for="rent" >消費税</label>
+          </div>
+      </div>
+      <div class="col-md-2 left-textfield">
+          <input type="number" class="form-control"
+          id="gasBillTax"
+          [(ngModel)]="invoiceList.gasBillTax"
+          name="gasBillTax"
+          #rent="ngModel" 
+          pattern="^[0-9]+$" 
+          readonly
+          disabled
+          style="width: 170px;  height:35px;"
+          >
+      </div>
+      <div class="col-md-1 yen">
+        <p class="yenfield">円</p>
+      </div>
+      </div>
+    </div>
+
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <div class="text-center left-label">
+            <label for="constructionBill" >工事費</label>
+          </div>
+        </div>
+        <div class="col-md-2 left-textfield">
+              <input type="number" class="form-control"
+            id="constructionBill"
+            [(ngModel)]="invoiceList.constructionBill"
+            name="constructionBill"
+            style="width: 170px;  height:35px;"
+            pattern="^[0-9]+$" 
+            readonly
+            disabled 
+            >
+        </div>
+        
+        <div class="col-md-1 yen">
+            <p class="yenfield">円</p>
+        </div>
+        <div class="col-1 inner-label">
+            <label for="rent" >消費税</label>
+      </div>
+      <div class="col-md-1 inner-textfield">
+            <input type="number" class="form-control"
+            id="constructionBillTax"
+            [(ngModel)]="invoiceList.constructionBillTax"
+            name="constructionBillTax"
+            #rent="ngModel" pattern="^[0-9]+$" 
+            [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+              style="width: 170px;  height:35px;"
+              readonly
+              disabled 
+              >
+      </div>
+      <div class="col-md-1 inner-yen">
+          <p class="yenfield">円</p>
+      </div>
+      <div class="col-md-1 inner-label">
+          <label for="rent" >合計</label>
+      </div>
+    
+      <div class="col-md-1 inner-total-textfield">
+          <input type="number" class="form-control"
+          id="constructionBillTotal"
+          [(ngModel)]="invoiceList.constructionBillTotal"
+          name="constructionBillTotal"
+          #rent="ngModel" pattern="^[0-9]+$"
+          [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+            style="width: 170px;  height:35px;"
+            readonly
+            disabled 
+            >
+    </div>
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+
+    <div class="col-md-1 inner-label">  
+      <label for="parkingfee" >利用期間</label>
+    </div>
+    <div class="col-md-1" style="margin-left: -20px;">
+      <div class=" inner">
+          <input type="date" class="form-control"
+          id="constructionBillUsagePeriod"
+          [(ngModel)]="invoiceList.constructionBillUsagePeriod"
+          name="constructionBillUsagePeriod"
+            style="width: 125px;  height:35px;"
+            pattern="^[0-9]+$" 
+            readonly
+            disabled 
+            >
+        </div>
+    </div>
+    
+      </div>
+    </div>
+
+    
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <div class="text-center left-label">
+            <label for="roomno">その他の</label>
+          </div>
+      </div>
+      </div>
+
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <div class="left-label" >
+            <label for="roomno" >作業名前</label>
+          </div>
+        </div>
+      <div class="col-md-2 left-textfield">
+          <div class=" leftfiedl">
+            <input type="text"  
+            id="workNameFirst"
+            [(ngModel)]="invoiceList.workNameFirst"
+            name="workNameFirst"
+            class="form-control"
+            #workNameFirst="ngModel"
+            style="width: 170px; height:35px;"
+            readonly
+          disabled 
+          >
+          </div>
+      </div>
+        <div class="col-md-1 yen">
+          <!-- <p class="yenfield">円</p> -->
+         </div>
+         <div class="col-md-1 inner-label"> 
+              <label for="roomno" >作業料</label>
+        </div>
+         <div class="col-md-1 inner-textfield">
+            <input type="number"  
+            id="workAmountFirst"
+            [(ngModel)]="invoiceList.workAmountFirst"
+            name="workAmountFirst"
+            class="form-control"
+            style="width: 170px; height:35px;"
+            readonly
+            disabled 
+            >
+      </div>
+    
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label">
+        <label for="rent" >合計</label>
+    </div>
+  
+    <div class="col-md-1 inner-total-textfield">
+        <input type="number" class="form-control"
+        id="workFirstTotal"
+        [(ngModel)]="invoiceList.workAmountTotalFirst"
+        name="workFirstTotal"
+        #rent="ngModel" pattern="^[0-9]+$" 
+        [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+        style="width: 170px;  height:35px;"
+        readonly
+          disabled 
+        >
+  </div>
+  <div class="col-md-1 inner-yen">
+      <p class="yenfield">円</p>
+  </div>
+
+  <div class="col-md-1 inner-label">   
+        <label for="parkingfee" >利用期間</label>
+  </div>
+  <div class="col-md-1" style="margin-left: -20px;">
+    <div class=" inner">
+        <input type="date" class="form-control"
+        id="workUsagePeriodFirst"
+        [(ngModel)]="invoiceList.workUsagePeriodFirst"
+        name="workUsagePeriodFirst"
+        style="width: 125px;  height:35px;"
+        pattern="^[0-9]+$"
+        readonly
+        disabled  
+        >
+      </div>
+  </div>
+      </div>
+
+      <div class="row no-gutters">
+      <div class="col-md-1 left-label">
+      </div>
+    <div class="col-md-2 left-textfield">
+    </div>
+    <div class="col-md-1 yen">
+    </div>
+    <div class="col-md-1 inner-label">
+          <label for="roomno" >消費税</label>
+    </div>
+    <div class="col-md-1 inner-textfield">
+          <input type="number" class="form-control"
+          id="workTaxFirst"
+          [(ngModel)]="invoiceList.workTaxFirst"
+          name="workTaxFirst"
+            style="width: 170px;  height:35px;"
+            pattern="^[0-9]+$"
+            readonly
+            disabled  >
+    </div>
+      </div>
+<br>
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <div class="left-label" >
+            <label for="roomno" >作業名前</label>
+          </div>
+        </div>
+      <div class="col-md-2 left-textfield">
+          <div class=" leftfiedl">
+            <input type="text"  
+            id="workNameSecond"
+            [(ngModel)]="invoiceList.workNameSecond"
+            name="workNameSecond"
+            class="form-control"
+            value="workNameSecond"
+            style="width: 170px; height:35px;"
+            readonly
+            disabled >
+          </div>
+      </div>
+        <div class="col-md-1 yen">
+          <!-- <p class="yenfield">円</p> -->
+         </div>
+         <div class="col-md-1 inner-label"> 
+              <label for="roomno" >作業料</label>
+        </div>
+         <div class="col-md-1 inner-textfield">
+            <input type="number"  
+            id="workAmountSecond"
+            [(ngModel)]="invoiceList.workAmountSecond"
+            name="workAmountSecond"
+            class="form-control"
+            value="buildingAddress"
+            style="width: 170px; height:35px;"
+            readonly
+            disabled 
+            >
+      </div>
+    
+    <div class="col-md-1 inner-yen">
+        <p class="yenfield">円</p>
+    </div>
+    <div class="col-md-1 inner-label">
+        <label for="rent" >合計</label>
+    </div>
+  
+    <div class="col-md-1 inner-total-textfield">
+        <input type="number" class="form-control"
+        id="workSecondTotal"
+        [(ngModel)]="invoiceList.workTotalSecond"
+        name="workSecondTotal"
+        #rent="ngModel" pattern="^[0-9]+$" 
+        [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+        style="width: 170px;  height:35px;"
+        readonly
+          disabled 
+        >
+  </div>
+  <div class="col-md-1 inner-yen">
+      <p class="yenfield">円</p>
+  </div>
+
+  <div class="col-md-1 inner-label">  
+        <label for="parkingfee" >利用期間</label>
+  </div>
+  <div class="col-md-1" style="margin-left: -20px;">
+    <div class=" inner">
+        <input type="date" class="form-control"
+        id="workUsagePeriodSecond"
+        [(ngModel)]="invoiceList.workUsagePeriodSecond"
+        name="workUsagePeriodSecond"
+        style="width: 125px;  height:35px;"
+        pattern="^[0-9]+$"
+        readonly
+        disabled >
+      </div>
+  </div>
+      </div>
+
+      <div class="row no-gutters">
+      <div class="col-md-1 left-label">
+      </div>
+    <div class="col-md-2 left-textfield">
+    </div>
+    <div class="col-md-1 yen">
+    </div>
+    <div class="col-md-1 inner-label">
+          <label for="roomno" >消費税</label>
+    </div>
+    <div class="col-md-1 inner-textfield">
+          <input type="number" class="form-control"
+          id="workTaxsecond"
+          [(ngModel)]="invoiceList.workTaxsecond"
+          name="workTaxsecond"
+            style="width: 170px;  height:35px;"
+            pattern="^[0-9]+$" 
+            readonly
+            disabled >
+    </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top: 20px;">
+      <div class="form-group" style="margin-top: 20px;">
+        <div class="row no-gutters">
+          <div class="col-md-1">
+            <div class="text-center left-label">
+              <label for="rent" ></label>
+            </div>
+          </div>
+          <div class="col-md-2 left-textfield"></div>
+          <div class="col-md-1 yen"></div>
+          <div class="col-md-1 inner-label"></div>
+          <div class="col-md-1 inner-textfield"></div>
+          <!-- <div class="col-md-1 inner-yen"></div> -->
+          <div class="col-md-2 inner-yen" >全ての合計</div>
+          <div class="col-md-1 inner-total-textfield" style="margin-left: -130px;">
+              <input type="number" class="form-control"
+                    id="totalSumPrice"
+                    [(ngModel)]="invoiceList.total"
+                    name="totalSumPrice"
+                    #rent="ngModel" 
+                    readonly
+                    disabled 
+                    style="width: 170px;  height:35px;" 
+                    >
+          </div>
+        <div class="col-md-1 inner-yen">
+          ￥
+    </div>
+  </div>
+</div>
+ 
+<div class="form-group" style="margin-top: 20px;">
+  <div class="row no-gutters">
+  <div class="col-md-1 left-label">
+      <label for="rent" >ご連絡事</label>
+  </div>
+  <div class="col-md-2 left-textfield">
+      <input type="textarea" class="form-control"
+      id="information"
+      [(ngModel)]="invoiceInfo.information"
+      name="lcMemo"
+     style="width:255px;height: 35px;"
+     readonly
+     disabled >
+</div>
+    </div>
+  </div>
+  <br>
+    
+    </div>
+      
+      </div>
+      
+    <div class="property-information">
+      <p style="margin-left: 20px;">振込先情報</p>
+      <div class="form-group" style="margin-top: 20px;">
+        <div class="row no-gutters">
+          <div class="col-md-1" style="margin-left: 20px;">
+              <div class="text-center inner">
+                <label for="bankName" >金融機関名.銀行名<span style="color: red">*</span></label>
+              </div>
+          </div>
+          <div class="col-1">
+            <input type="text"  id="bankName"
+              [(ngModel)]="invoiceInfo.bankName"
+              name="bankName"
+              class="form-control"
+              value="bankName"
+              readonly
+              disabled
+              style="width: 265px; height:35px;">
+            <!-- <select 
+            class="form-control"
+            (change)="onPropertySelectionChange()" 
+            required 
+            [(ngModel)]="propertyId"
+            id="propertyId"
+            name="propertyId"
+            #propertyIdControl="ngModel" 
+            >
+            <option *ngFor="let property of propertyIDs"
+              [value]="property.id">{{property.propertyName}}
+            </option>
+            </select> -->
+          </div>
+        <div class=" col-md-2"></div>
+          <div class=" col-md-3" >
+            <label for="branchName">支店名<span  style="color: red">*</span></label>
+          </div>
+          <div class=" col-md-3" style="margin-left: -185px;">
+            <input type="text"  id="branchName"
+                [(ngModel)]="invoiceInfo.branchName"
+                name="branchName"
+                class="form-control"
+                value="branchName"
+                readonly
+                disabled
+                style="width: 265px; height:35px;">
+          </div>
+        
+          <div class="col-md-2" style="margin-left: -40px;">
+            <div class="text-center inner">
+              <label for="accountType" >口座種別<span style="color: red">*</span></label>
+            </div>
+          </div>
+         
+      <div class="col-md-1" style="margin-left: -15px;">
+        <div class="tax-status">
+              <!-- <mat-select class="form-control" style="width:100px;"
+                id="accountType" 
+                #accountType="ngModel"
+                [(ngModel)]="accountType"
+                [ngClass]="{'is-valid':accountType.touched && accountType.invalid}"
+                name="accountType" >
+                <mat-option value="普通">普通</mat-option>
+                <mat-option value="貯蓄">貯蓄</mat-option>
+                <mat-option value="当座">当座</mat-option>
+              </mat-select> -->
+              <input type="text"  id="accountType"
+                [(ngModel)]="invoiceInfo.accountType"
+                name="accountType"
+                class="form-control"
+                value="accountType"
+                style="width: 100px; height:35px;"
+                readonly
+                disabled>
+        </div>
+    </div>
+      </div>
+      
+      <div class="form-group" style="margin-top: 20px;">
+        <div class="row no-gutters">
+          <div class="col-md-2" style="margin-left: -33px;">
+              <div class="text-center inner">
+                <label for="accountNo" >口座番号<span style="color: red">*</span></label>
+              </div>
+          </div>
+          <div class="col-md-2" style="margin-left: -50px;">
+              <div class=" leftfiedl">
+                <input type="text"  id="accountNo"
+                [(ngModel)]="invoiceInfo.accountNo"
+                name="accountNo"
+                class="form-control"
+                value="accountNo"
+                style="width: 265px; height:35px;"
+                readonly
+                disabled
+                >
+                
+              </div>
+            </div>
+
+         
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left: -140px;">
+            <div class="text-center inner">
+              <label for="accountName" >口座名義人(ｶﾅ)<span style="color: red">*</span></label>
+            </div>
+        </div>
+        <div class="col-md-2" style="margin-left: -45px;">
+            <div class=" leftfiedl">
+              <input type="text"  
+              id="accountName"
+              [(ngModel)]="invoiceInfo.accountName"
+              name="accountName"
+              class="form-control"
+              value="accountName"
+              readonly
+              disabled
+              style="width: 265px; height:35px;">
+            </div>
+        </div>
+        </div>
+      </div>
+      <br>
+    </div>
+    </div>
+    
+
+    <!-- <div class="form-group" style="margin-top: 20px;margin-bottom:20px;">
+      <div class="row button-group">
+           <div class="col-md-3"></div>
+        <div class="col-1">
+          <button mat-button class="btn-reset mat-button" type="reset" (click)="cancel()"><span class="button-text">キャンセル</span></button>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-1">
+          <button mat-button class="create mat-primary" type="submit"><span class="createbutton-text">登録</span></button>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  </form>
+</div>
+</body>
+
+</html>
+
