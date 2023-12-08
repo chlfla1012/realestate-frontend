@@ -143,16 +143,16 @@
       <mat-header-cell *matHeaderCellDef>生年月日</mat-header-cell>
       <mat-cell *matCellDef="let userInfo">{{userInfo.dateOfBirth}}</mat-cell>
     </ng-container> -->
-  <ng-container matColumnDef="lenderCooperate">
+  <ng-container matColumnDef="borrowerCooperate">
      <mat-header-cell *matHeaderCellDef>法人名</mat-header-cell>
-    <mat-cell *matCellDef="let invoice">{{invoice.lenderCooperate}}</mat-cell>
+    <mat-cell *matCellDef="let invoice">{{invoice.borrowerCooperate}}</mat-cell>
     <!-- <th mat-header-cell *matHeaderCellDef>メールアドレス</th> -->
     <!-- <td mat-cell *matCellDef="let customer">{{ customer.mailAdd }}</td> -->
   </ng-container>
 
-  <ng-container matColumnDef="lenderPersonName">
+  <ng-container matColumnDef="borrowerPersonName">
     <mat-header-cell *matHeaderCellDef>法人担当者</mat-header-cell>
-   <mat-cell *matCellDef="let invoice">{{invoice.lenderPersonName}}</mat-cell>
+   <mat-cell *matCellDef="let invoice">{{invoice.borrowerPersonName}}</mat-cell>
    <!-- <th mat-header-cell *matHeaderCellDef>メールアドレス</th> -->
    <!-- <td mat-cell *matCellDef="let customer">{{ customer.mailAdd }}</td> -->
  </ng-container>

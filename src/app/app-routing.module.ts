@@ -50,6 +50,8 @@ import { InvoiceCreateComponent } from './InvoiceInfo/invoice-create/invoice-cre
 import { InvoiceEditComponent } from './InvoiceInfo/invoice-edit/invoice-edit.component';
 import { InvoiceListComponent } from './InvoiceInfo/invoice-list/invoice-list.component';
 import { InvoiceDetailComponent } from './InvoiceInfo/invoice-detail/invoice-detail.component';
+import { PdfCollectionComponent } from './InvoiceInfo/pdf-collection/pdf-collection.component';
+import { PdfDownloadComponent } from './InvoiceInfo/pdf-download/pdf-download.component';
 
 const routes: Routes = [
 
@@ -110,6 +112,8 @@ const routes: Routes = [
   { path: 'invoice-list',component:InvoiceListComponent},
   { path: 'invoice-detail/:id', component: InvoiceDetailComponent },
   { path: 'invoice-edit/:id', component: InvoiceEditComponent },
+  { path: 'pdf-collection',component:PdfCollectionComponent},
+  { path: 'pdf-download',component:PdfDownloadComponent},
 
 // wathone 
 

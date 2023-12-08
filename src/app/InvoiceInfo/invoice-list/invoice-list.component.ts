@@ -27,12 +27,12 @@ export class InvoiceListComponent {
   brokerageFeeUsagePeriod: Date;
   searchByBillingDate:string;
   searchPropertyName: string;
-  searchLenderPersonName:string;
+  searchBorrowerPersonName:string;
   filteredData: Invoice[] = [];
   dataSource: MatTableDataSource<any>;
 
   displayedColumns: string[] = ['id', 'propertyName', 'roomNo',
-    'personName', 'lenderCooperate', 'lenderPersonName',
+    'personName', 'borrowerCooperate', 'borrowerPersonName',
     'status', 'createdDate', 'modifiedDate', ' '];
 
   // constructor(private router: Router,
@@ -197,10 +197,9 @@ export class InvoiceListComponent {
   }
   updateInvoices(id: string) {
     console.log(id);
-    this.router.navigate(['invoice-edit', id]);
+    this.router.navigate(['/invoice-edit', id]);
   }
-
   detailsInvoices(id: string) {
-    this.router.navigate(['invoice-detail', id]);
+    this.router.navigate(['/invoice-detail', id]);
   }
 }

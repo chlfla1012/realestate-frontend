@@ -167,7 +167,7 @@ export class InvoiceEditComponent {
   invoiceList :InvoiceList;
   invoiceInfo: Invoice = {
     id: null,
-    contractData:"",
+    contractData: "",
     companyId: { companyName: null },
     companyPostalFirst: "",
     companyPostalSecond: "",
@@ -176,15 +176,15 @@ export class InvoiceEditComponent {
     mobileFirst: "",
     mobileSecond: "",
     mobileThird: "",
-    propertyid:"",
+    propertyid: "",
     propertyName: "",
     roomNo: "",
     floor: "",
     buildingPostalFirst: "",
     buildingPostalLast: "",
     address: "",
-    lenderCooperate: "",
-    lenderPersonName: "",
+    borrowerCooperate: "",
+    borrowerPersonName: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -295,7 +295,8 @@ export class InvoiceEditComponent {
     modifiedDate: "",
     //userId: null,
     contractObj: null,
-    logoId: null
+    logoId: null,
+    // status: ''
   }
 
   invoiceForm: any;
@@ -341,8 +342,8 @@ export class InvoiceEditComponent {
         //this.invoiceInfo = data;
         this.invoiceList = data.invoiceMoneyList;
 
-        this.invoiceInfo.lenderCooperate = data.lenderCooperate;
-        this.invoiceInfo.lenderPersonName = data.lenderPersonName;
+        this.invoiceInfo.borrowerCooperate = data.borrowerCooperate;
+        this.invoiceInfo.borrowerPersonName = data.borrowerPersonName;
         this.invoiceInfo.contractData = data.contractData;
         this.invoiceInfo.billingDate = data.billingDate;
         this.invoiceInfo.paymentDueDate = data.paymentDueDate;
@@ -356,7 +357,7 @@ export class InvoiceEditComponent {
 
         this.contractId = this.invoiceInfo.contractData;
         this.billingDate = this.invoiceInfo.billingDate;
-        this.bcpicName = this.invoiceInfo.lenderPersonName;
+        this.bcpicName = this.invoiceInfo.borrowerPersonName;
         this.propertyId = this.invoiceInfo.propertyid;
         this.roomno = this.invoiceInfo.roomNo;
         this.floor = this.invoiceInfo.floor;
@@ -913,8 +914,8 @@ export class InvoiceEditComponent {
     this.invoiceInfo.companyAddress = this.companyAddress;
     //this.electricBillTotal = this.electricBill + this.electricBillTax;
     //請求期間情報
-    this.invoiceInfo.lenderCooperate = this.getBorrowerCoporate;
-    this.invoiceInfo.lenderPersonName = this.bcpicName;
+    this.invoiceInfo.borrowerCooperate = this.getBorrowerCoporate;
+    this.invoiceInfo.borrowerPersonName = this.bcpicName;
    // this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
     //物件情報

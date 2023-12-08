@@ -33,7 +33,7 @@ export class InvoiceDetailComponent {
 
   invoiceInfo: Invoice = {
     id: null,
-    contractData:"",
+    contractData: "",
     companyId: { companyName: null },
     companyPostalFirst: "",
     companyPostalSecond: "",
@@ -42,15 +42,15 @@ export class InvoiceDetailComponent {
     mobileFirst: "",
     mobileSecond: "",
     mobileThird: "",
-    propertyid:"",
+    propertyid: "",
     propertyName: "",
     roomNo: "",
     floor: "",
     buildingPostalFirst: "",
     buildingPostalLast: "",
     address: "",
-    lenderCooperate: "",
-    lenderPersonName: "",
+    borrowerCooperate: "",
+    borrowerPersonName: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -161,7 +161,8 @@ export class InvoiceDetailComponent {
     modifiedDate: "",
     //userId: null,
     contractObj: null,
-    logoId: null
+    logoId: null,
+    // status: ''
   }
 
  

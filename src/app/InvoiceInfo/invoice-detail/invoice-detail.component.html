@@ -344,18 +344,18 @@
           <div class="row no-gutters">
             <div class="col-md-2">
                 <div class="text-center inner">
-                  <label for="lenderCooperate" >法人名<span style="color: red">*</span></label>
+                  <label for="borrowerCooperate" >法人名<span style="color: red">*</span></label>
                 </div>
             </div>
             <div class="col-1">
                 <input type="text"  
-              id="lenderCooperate"
+              id="borrowerCooperate"
               readonly
               disabled
-                  [(ngModel)]="invoiceInfo.lenderCooperate"
-                  name="lenderCooperate"
+                  [(ngModel)]="invoiceInfo.borrowerCooperate"
+                  name="borrowerCooperate"
                   class="form-control"
-                  value="lenderCooperate"
+                  value="borrowerCooperate"
                   style="width: 265px; height:35px;">
           </div>
           <div class=" col-md-2"></div>
@@ -364,13 +364,13 @@
             </div>
             <div class=" col-md-3">
               <input type="text"  
-              id="lenderPersonName"
+              id="borrowerPersonName"
               readonly
               disabled
-                  [(ngModel)]="invoiceInfo.lenderPersonName"
-                  name="lenderPersonName"
+                  [(ngModel)]="invoiceInfo.borrowerPersonName"
+                  name="borrowerPersonName"
                   class="form-control"
-                  value="lenderPersonName"
+                  value="borrowerPersonName"
                   style="width: 265px; height:35px;">
             </div>
           </div>

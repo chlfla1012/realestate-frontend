@@ -25,8 +25,8 @@ floor: string
 buildingPostalFirst: string
 buildingPostalLast: string
 address: string
-lenderCooperate:string
-lenderPersonName:string
+borrowerCooperate:string
+borrowerPersonName:string
 billingDate:string
 paymentDueDate:string
 // rent:number

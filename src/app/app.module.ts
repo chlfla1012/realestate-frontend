@@ -70,6 +70,8 @@ import { InvoiceCreateComponent } from './InvoiceInfo/invoice-create/invoice-cre
 import { InvoiceEditComponent } from './InvoiceInfo/invoice-edit/invoice-edit.component';
 import { InvoiceListComponent } from './InvoiceInfo/invoice-list/invoice-list.component';
 import { InvoiceDetailComponent } from './InvoiceInfo/invoice-detail/invoice-detail.component';
+import { PdfDownloadComponent } from './InvoiceInfo/pdf-download/pdf-download.component';
+import { PdfCollectionComponent } from './InvoiceInfo/pdf-collection/pdf-collection.component';
 
 import { BankFormatCreateComponent } from './bankFormat/bankformat-create/bankformat-create.component';
 import { BankFormatListComponent } from './bankFormat/bankformat-list/bankformat-list.component';
@@ -141,7 +143,8 @@ import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmrep
     InvoiceEditComponent,
     InvoiceListComponent,
     InvoiceDetailComponent,
-
+    PdfCollectionComponent,
+    PdfDownloadComponent,
     IncomeCheckMainComponent,
     IncomeListComponent,
     BankFormatCreateComponent,
@@ -183,6 +186,7 @@ import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmrep
     MatDatepickerModule,
     MatDialogModule,
     MatCheckboxModule,  
+    
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

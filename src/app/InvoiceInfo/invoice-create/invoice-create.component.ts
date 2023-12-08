@@ -199,7 +199,7 @@ export class InvoiceCreateComponent {
 
   invoiceInfo: Invoice = {
     id: null,
-    contractData:"",
+    contractData: "",
     companyId: { companyName: null },
     companyPostalFirst: "",
     companyPostalSecond: "",
@@ -208,15 +208,15 @@ export class InvoiceCreateComponent {
     mobileFirst: "",
     mobileSecond: "",
     mobileThird: "",
-    propertyid:"",
+    propertyid: "",
     propertyName: "",
     roomNo: "",
     floor: "",
     buildingPostalFirst: "",
     buildingPostalLast: "",
     address: "",
-    lenderCooperate: "",
-    lenderPersonName: "",
+    borrowerCooperate: "",
+    borrowerPersonName: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -327,7 +327,8 @@ export class InvoiceCreateComponent {
     modifiedDate: "",
     //userId: null,
     contractObj: null,
-    logoId: null
+    logoId: null,
+    // status: ''
   }
 
   contract: Contract = {
@@ -988,8 +989,8 @@ export class InvoiceCreateComponent {
     this.invoiceInfo.companyPostalSecond = this.companypostalCode2;
     this.invoiceInfo.companyAddress = this.companyAddress;
     //請求期間情報
-    this.invoiceInfo.lenderCooperate = this.getBorrowerCoporate;
-    this.invoiceInfo.lenderPersonName = this.bcpicName;
+    this.invoiceInfo.borrowerCooperate = this.getBorrowerCoporate;
+    this.invoiceInfo.borrowerPersonName = this.bcpicName;
     this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
     //物件情報
