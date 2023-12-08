@@ -99,6 +99,7 @@ if (filteredDataParam) {
      accountType:item.accountType,
      accountNo:item.accountNo,
      accountName:item.accountName,
+     information:item.information
 
     }
  
