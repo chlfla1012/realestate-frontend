@@ -1,227 +1,374 @@
-
-.property-create-container{
-    margin-top: 45px;
+.property-create-container {
+    margin-top: 50px;
     width: 100%;
     height: auto;
     background-color: rgb(126, 161, 154);
-  }
-  .container.property-create-title-container{
+    border-radius: 6px 6px 6px 6px;
+}
+
+.container.property-create-title-container {
     width: 100%;
     height: auto;
     background-color: rgba(249, 246, 246, 0.904);
     border-radius: 6px 6px 6px 6px;
+}
 
-
-  }
-  .row.property-create-title-row{
+.row.property-create-title-row {
     width: 100%;
     height: 70px;
     border-radius: 6px 6px 6px 6px;
-  }
-
-.property-create-form{
-      /* margin-left: 2%; */
-      width: 100%;
-      height: auto;
-      margin-top: 40px;
-
-      /* background-color: rgba(249, 246, 246, 0.904); */
 }
-.form-group{
+
+.property-create-form {
+    /* margin-left: 2%; */
+    width: 100%;
+    height: auto;
+    margin-top: 40px;
+    /* background-color: rgba(249, 246, 246, 0.904); */
+}
+
+.form-group {
     margin-left: 30px;
 }
 
-.basic-container{
+.container-title {
+    padding-top: 15px;
+    margin-left: 30px;
+    font-size: medium;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.propertytitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    /* margin-top: 30px; */
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.property-container {
+    /* margin-top: -12px; */
+    width: 100%;
+    height: 400px;
+    background-color: rgba(249, 246, 246, 0.904);
+    padding-top: 10px;
+}
+
+.property-infomation {
+    margin-top: 20px;
+    width: 100%;
+    height: 60px;
+    margin-left: 18px;
+}
+
+.addresstitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    /* margin-top: 30px; */
+    width: 100%;
+    /* height: 400px; */
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.address-container {
+    width: 100%;
+    height: 530px;
+    background-color: rgba(249, 246, 246, 0.904);
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
+
+.address-infomation {
+    margin-top: 40px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 50px;
+}
+
+.monetarytitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    /* margin-top: 30px; */
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.monetary-container {
+    /* margin-top: 30px; */
+    width: 100%;
+    height: 900px;
+    background-color: rgba(249, 246, 246, 0.904);
+    padding-top: 10px;
+}
+
+.monetary-infomation {
+    margin-top: 35px;
+    width: 100%;
+    height: auto;
+    margin-left: 18px;
+    padding-bottom: 30px;
+}
+
+.detailtitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    margin-top: 30px;
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.detail-container {
+    padding-top: 20px;
+    width: 100%;
+    height: 390px;
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.detail-infomation {
+    margin-top: 20px;
+    width: 100%;
+    height: 360px;
+    margin-left: 18px;
+}
+
+.basictitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    /* margin-top: 30px; */
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.basic-container {
     width: 100%;
     height: auto;
     background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
+    padding-top: 30px;
 }
+
 .basic-information {
     margin-top: 30px;
     width: 100%;
     height: auto;
     margin-left: 18px;
     padding-bottom: 30px;
-
 }
-.address-container{
-    margin-top: 2%;
+
+.equipmenttitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
     width: 100%;
-    height: auto;
+    /* height: 400px; */
     background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
 }
-.address-infomation{
-    margin-top: 30px;
-    width: 100%;
-    height: auto;
-    margin-left: 18px;
-    padding-bottom: 30px;
 
-}
-.monetary-container{
-    margin-top: 4%;
-
+.equipment-container {
     width: 100%;
-    height: auto;
+    height: 180px;
     background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
+    padding-top: 30px;
 }
 
-
-.monetary-infomation{
-    margin-top: 30px;
-    width: 100%;
-    height: auto;
-    margin-left: 18px;
-    padding-bottom: 30px;
-
-
-}
-
-.detail-container{
-    margin-top: 4%;
-
-    width: 100%;
-    height: 390px;
-    background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
-}
-.detail-infomation{
-    margin-top: 30px;
-    width: 100%;
-    height: 360px;
-    margin-left: 18px;
-
-}
-.equipment-container{
-    margin-top: 4%;
-
-    width: 100%;
-    height: 220px;
-    background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
-}
-.equipment-infomation{
-    margin-top: 30px;
+.equipment-infomation {
     width: 100%;
     height: 380px;
     margin-left: 18px;
-
 }
-.other-container{
-    margin-top: 4%;
 
+
+.othertitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.other-container {
     width: 100%;
     height: 275px;
     background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
+    padding-top: 10px;
 }
-.other-infomation{
-    margin-top: 30px;
+
+.other-infomation {
+    margin-top: 20px;
     width: 100%;
     height: 275px;
 }
-.row.checkbox-row label{
-    margin-left: 1px;
-    font-size: 13px;
-}
-.photo-container{
-    margin-top: 4%;
 
+.photo-container {
     width: 100%;
     height: 650px;
     background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
+    padding-top: 10px;
 }
-.photo-infomation{
-    margin-top: 30px;
+
+.phototitle-container {
+    display: flex;
+    /* Use flexbox for vertical alignment */
+    align-items: center;
+    /* Center items vertically */
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+}
+
+.photo-infomation {
+    margin-top: 20px;
     width: 100%;
     height: 650px;
     margin-left: 18px;
 }
-.management-container{
-    margin-top: 4%;
 
-    width: 100%;
-    height: auto;
-    background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-
+.row.checkbox-row label {
+    margin-left: 1px;
+    font-size: 13px;
 }
-.management-infomation{
-    margin-top: 30px;
+
+.management-container {
+    width: 100%;
+    height: 350px;
+    background-color: rgba(249, 246, 246, 0.904);
+    padding-top: 10px;
+}
+
+.management-infomation {
+    margin-top: 20px;
     width: 100%;
     height: auto;
     margin-left: 18px;
     padding-bottom: 30px;
 }
-img{
+
+img {
     height: 200px;
     width: 200px;
 }
-.button-group{
+
+.button-group {
     width: 100%;
     height: 70px;
     margin-top: 30px;
     /* margin-left: 8%; */
-
 }
 
 
-button{
+button {
     align-content: center;
-    color:black;
+    color: black;
     width: 150px;
     background-color: rgba(249, 246, 246, 0.904);
 }
 
-.createbutton-text{
-  color:white;
+.createbutton-text {
+    color: white;
 }
-.createbutton-text:hover{
-  color:black;
+
+.createbutton-text:hover {
+    color: black;
 }
-.create
-{
-  margin-right: 10px;
-  border-radius: 5px;
-  border:0.5px #000;
-  background-color: #376fc3;/*screenshot 3 */
-  width: 150px;
-  height: 35px;
+
+.create {
+    margin-right: 50px;
+    border-radius: 5px;
+    border: 0.5px #000;
+    background-color: #376fc3;
+    /*screenshot 3 */
+    width: 150px;
+    height: 35px;
 }
-.help-block{
+
+.help-block {
     color: red;
     font-size: 12px;
-
 }
+
 input.ng-invalid.ng-touched {
     border: 2px solid red;
-  }
+}
+
 textarea.ng-invalid.ng-touched {
     border: 2px solid red;
-  }
+}
+
 mat-select.ng-invalid.ng-touched {
     border: 2px solid red;
-  }
+}
 
 
-p{
+p {
     padding-top: 30px;
     margin-left: 30px;
     font-size: 16px;
-    font-weight:bold;
+    font-weight: bold;
     font-size: 16px;
 }
-label,mat-label{
+
+label,
+mat-label {
     font-size: 15px;
 }
+
+.arrow-icon::before {
+    content: '\25BC';
+    /* Downward-pointing arrow character */
+    font-size: 25px;
+    margin-top: 80px;
+    margin-right: 5px;
+    /* Adjust the spacing between the icon and title */
+    margin-left: 20px;
+    transition: transform 0.3s;
+    cursor: pointer;
+    /* Smooth transition for the arrow rotation */
+}
+
+.arrow-up::before {
+    content: '\25B2';
+    /* Upward-pointing arrow character */
+    transform: rotate(180deg);
+    /* Rotate arrow to point upwards */
+}
+
+.container-content {
+    /* margin-top: -100px; Adjust the margin as needed to control the spacing */
+    padding-top: -100px;
+    margin-bottom: 70px;
+}
+
+.container-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    /* height: 400px; */
+    background-color: rgba(249, 246, 246, 0.904);
+    /* Vertically align the arrow icon and title */
+}
+
+.container-title {
+    margin-left: 10px; /* Adjust the margin as needed to control the spacing between the arrow icon and title */
+    /* padding:5px; */
+}
+  

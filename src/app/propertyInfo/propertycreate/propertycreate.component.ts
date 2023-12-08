@@ -18,6 +18,10 @@ import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
   styleUrls: ['./propertycreate.component.css']
 })
 export class PropertycreateComponent {
+  containers: boolean[] = [true, false, false, false, false, false, false, false];
+  toggleContainer(index: number) {
+    this.containers[index] = !this.containers[index];
+  }
   @ViewChild('ownerId', { static: true }) ownerIdSelect!: MatSelect;
   @ViewChild('f') myForm!: NgForm;
   image1Error: string;
