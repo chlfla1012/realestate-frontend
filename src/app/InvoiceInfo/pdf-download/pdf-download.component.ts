@@ -6,10 +6,6 @@ import { InvoiceList } from 'src/app/Model/InvoiceList';
 
 import { ActivatedRoute } from '@angular/router';
 import { Borrower } from 'src/app/Model/Borrower';
-import { Contract } from 'src/app/Model/Contract';
-import { MatButtonModule } from '@angular/material/button';
-
-// import {jsPDF } from "jspdf";
 import * as html2pdf from 'html2pdf.js';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -106,8 +102,6 @@ if (filteredDataParam) {
     // console.log("the bc name is "+this.borrowerCooperate);
 }
   }
-
-  
   calculateTotal(invoiceMoneyList: any): number {
     // Calculate the total based on the properties of invoiceMoneyList
     return (
@@ -129,20 +123,21 @@ if (filteredDataParam) {
       invoiceMoneyList.constructionBillTotal
     );
   }
- 
+
   generatePDF() {
+    const today = new Date();
+    const formattedDate = this.formatDate(today);
     const pdfOptions = {
-      filename: `document_${Date.now()}.pdf`,
+      filename: `Invoice_${this.itemVariables.borrowerPersonName}(${formattedDate}).pdf`,
       image: { type: 'jpeg', quality: 0.78 },
       html2canvas: { scale: 4 },
       jsPDF: { unit: 'mm', format: 'A4', printBackground: true },
       compress: true,
-      
     };
   
     const mainContainer = document.getElementById('contentToConvert');
     mainContainer.style.fontSize = '12px';
- 
+
     // Specify the selector for the tables you want to include in the PDF
     const tableSelector = '.table-to-convert';
     const tables = document.querySelectorAll(tableSelector);
@@ -154,7 +149,6 @@ if (filteredDataParam) {
         blankPage.style.pageBreakBefore = 'always';
         mainContainer.appendChild(blankPage);
       }
-  
     });
   
     // Generate PDF with keepTogether option
@@ -162,6 +156,13 @@ if (filteredDataParam) {
       .from(mainContainer)
       .set({ ...pdfOptions, keepTogether: '.table-to-convert' }) // Keep tables together
       .save();
+  }
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
   }
 
 openGmail() {
