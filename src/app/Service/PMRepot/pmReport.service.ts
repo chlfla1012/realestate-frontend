@@ -57,9 +57,17 @@ getReportByCompanyId(companyId:any): Observable<PMReport[]>{
   return this.http.get<PMReport[]>(`${this.url}reportsByCompanyId/${companyId}`)
 }
 
-deleteReport(id: string): Observable<any>{
-  return null; //just dumb code by suwai 
+deleteReport(id: string): Observable<void> {
+  return this.http.delete<void>(`${this.url}deletePMReport/${id}`).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 500) {
+        return throwError('ForeignKeyError'); // Indicate foreign key error
+      }
+      return throwError('An error occurred while deleting the report.');
+    })
+  );
 }
+
 getPmReportDataById(id?: string): Observable<PMReport> {
   return this.http.get<PMReport>(`${this.url}pmReportInfoById/${id}`)
 }
