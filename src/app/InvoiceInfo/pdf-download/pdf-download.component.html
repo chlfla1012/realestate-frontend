@@ -71,7 +71,7 @@
         </div>
    
         <div *ngIf="filteredData && filteredData.length > 0">
-          <table  *ngFor="let item of filteredData" class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;">
+          <table   class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;page-break-after: always">
             <thead>
               <tr>
                 <th>期間</th>
@@ -81,10 +81,10 @@
                 <th>合計</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody *ngFor="let item of filteredData">
               
               <tr>
-                <td colspan="2" style="text-align: center;">{{ item.roomNo }}.{{ item.propertyName }}</td>
+                <td colspan="2" style="text-align: center;font-weight: bold;">{{ item.roomNo }}.{{ item.propertyName }}</td>
 
               <td></td>
               <td style="width: 20px;"></td>
@@ -229,6 +229,7 @@
                     <td></td>
                     <td>￥{{ calculateTotal(item.invoiceMoneyList) }}</td>
                   </tr>
+                  <tr></tr>
             </tbody>
           </table>
         
@@ -238,7 +239,7 @@
           <!-- <textarea [readonly]="isTextareaReadOnly" id="w3review2" name="w3review" style="white-space: pre-line; font-size: 12px; line-height: 1.5;" rows="5" cols="50">
             <<ご連絡事項>>  
           </textarea> -->
-          <table style="border-collapse: collapse;width: 320px;height: 80px;line-height: 1.2;">
+          <table class="table1" style="border-collapse: collapse;width: 320px;height: 80px;line-height: 1.2;">
             <tr style="text-align: left;"><<ご連絡事項>></tr>
            
             <tr><td style="text-align: left;">金融機関名<span style="margin-left: 12px;">:</span> {{itemVariables.information}}</td></tr>
@@ -256,17 +257,20 @@
 
 
           
-          <table style="border-collapse: collapse;width: 320px;line-height: 1.2;">
+          <table class="table1" style="border-collapse: collapse;width: 320px;line-height: 1.2;">
             <tr style="text-align: left;"><<お振込み先>></tr>
             <tr></tr>
             <tr><td style="text-align: left;">金融機関名<span style="margin-left: 12px;">:</span> {{itemVariables.bankName}}</td></tr>
             <tr><td style="text-align: left;">支店       <span style="margin-left: 45px;">:</span>  {{itemVariables.branchName}}</td></tr>
             <tr><td style="text-align: left;">口座番号    <span style="margin-left: 20px;">:</span>{{itemVariables.accountType}} {{itemVariables.accountNo}} </td></tr>
             <tr><td style="text-align: left;">口座名義人<span style="margin-left:10px;">:</span> {{itemVariables.accountName}}</td></tr>
+            
           </table> 
         </div>
       </div>
       </div>
+      &nbsp;
+      &nbsp;
 
   
       <div class="row button-row" style="margin-left: 190px; padding-top: 25px;">

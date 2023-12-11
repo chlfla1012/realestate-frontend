@@ -9,13 +9,8 @@ import { Borrower } from 'src/app/Model/Borrower';
 import { Contract } from 'src/app/Model/Contract';
 import { MatButtonModule } from '@angular/material/button';
 
-import {jsPDF } from "jspdf";
+// import {jsPDF } from "jspdf";
 import * as html2pdf from 'html2pdf.js';
-// import * as FileSaver from `file-saver`;
-// import * as pdfMake from 'pdfmake/build/pdfmake';
-// import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-
-// import { HttpClient } from '@angular/common/http';
 import { MatTableDataSource } from '@angular/material/table';
 
 
@@ -135,27 +130,6 @@ if (filteredDataParam) {
     );
   }
  
-  
-  // generatePDF() {
-  //   const element = document.getElementById('contentToConvert');
-  //   const pdfOptions = {
-  //     filename: `invoice_${Date.now()}.pdf`,
-  //     image: { type: 'jpeg', quality: 0.78 },
-  //     html2canvas: { scale: 4 },
-  //     jsPDF: { unit: 'mm', format: 'A4',printBackground: true},
-  //  compress:true
-  //   };
-    
-  //   element.style.fontSize = '12px';
-  //   element.style.paddingTop = '10mm';
-  //   element.style.paddingBottom = '50mm';
-  
-  //   html2pdf()
-  //     .from(element)
-  //     .set(pdfOptions)
-  //     .save();
-  // }
-
   generatePDF() {
     const pdfOptions = {
       filename: `document_${Date.now()}.pdf`,
@@ -163,40 +137,30 @@ if (filteredDataParam) {
       html2canvas: { scale: 4 },
       jsPDF: { unit: 'mm', format: 'A4', printBackground: true },
       compress: true,
+      
     };
   
     const mainContainer = document.getElementById('contentToConvert');
     mainContainer.style.fontSize = '12px';
-  
+ 
     // Specify the selector for the tables you want to include in the PDF
     const tableSelector = '.table-to-convert';
     const tables = document.querySelectorAll(tableSelector);
   
-    for (let i = 0; i < tables.length; i++) {
-      const table = tables[i] as HTMLElement;
-  
-      // Create a new container div for each table
-      const container = document.createElement('div');
-      container.style.fontSize = '12px';
-  
-      // Add the table to the container div
-      // container.appendChild(table.cloneNode(true) as HTMLElement);
-  
-      // Add a page break after each table (except the last one)
-      if (i < tables.length - 1) {
+    tables.forEach((table, index) => {
+      // Add a page break before each table (except the first one)
+      if (index > 0) {
         const blankPage = document.createElement('div');
         blankPage.style.pageBreakBefore = 'always';
-        container.appendChild(blankPage);
+        mainContainer.appendChild(blankPage);
       }
   
-      // Append the container to the main container
-      mainContainer.appendChild(container);
-    }
+    });
   
-    // Generate PDF
+    // Generate PDF with keepTogether option
     html2pdf()
       .from(mainContainer)
-      .set(pdfOptions)
+      .set({ ...pdfOptions, keepTogether: '.table-to-convert' }) // Keep tables together
       .save();
   }
 
