@@ -16,7 +16,7 @@
           <div class="col-md-2" style="margin-top: 19px;">
             <button mat-stroked-button style="width: 100px; height: 30px; background-color:aliceblue;"  (click)="navigateToPreivousPage()">
                 戻る
-          　</button>
+          </button>
         </div>
         </div>
       </div>
@@ -39,88 +39,28 @@
             <!-- <p class="container-title">物件情報</p> -->
             <div class="property-information">
               <div class="form-group" style="margin-top: 20px;">
-                <div class="row no-gutters">
-                  <!-- <div>
-                    <input [(ngModel)]="propertyName" placeholder="Enter property name" />
-                    <button (click)="searchByPropertyName()">Search</button>
-                    <ul>
-                      <li *ngFor="let result of results">{{ result.contractName }} - {{ result.propertyName }}</li>
-                    </ul>
-                  </div> -->
-                  <!-- <div>
-                    <input [(ngModel)]="propertyName" [ngModelOptions]="{ standalone: true }" placeholder="Enter property name" (input)="onInputChanged()"   (change)="onPropertySelectionChange()"/>
-                    <ul>
-                    <li *ngFor="let result of results" (click)="selectPropertyName(result.propertyName)">
-                      <div class="clickable-result" >{{ result.propertyName }}</div>
-                    </li>
-                  </ul>
-                  <div>
-                    <label>Selected Property:</label>
-                    <input type="text" [(ngModel)]="propertyName"  id="selectedPropertyName" name="selectedPropertyName" class="form-control"/>
-                  </div>
-                  </div> -->
-                  <!-- <div class="col-md-2">
-                      <div class="text-center inner">
-                        <label for="propertyID" >物件ID<span style="color: red">*</span></label>
-                      </div>
-                  </div> -->
-                  <!-- <div class="col-1">
-
-                    <select [(ngModel)]="propertyId"
-                    id="propertyId"
-                    name="propertyId"
-                    class="form-control"
-                    (change)="onPropertySelectionChange()" required #propertyIdControl="ngModel" >
-                    <option *ngFor="let property of propertyIDs"
-                    [value]="property.id">{{property.id}}</option>
-
-                    </select>
-                    <div class="row no-gutters">
-                      <div class="col-md-2">
-
-                      </div>
-                      <div class="col-4">
-                      </div>
-                  </div>
-                  <div class="row no-gutters">
-                      <div class="col-md-2"></div>
-                      <div class="col-md-3">
-                          <div class="help-block">
-                          </div>
-                      </div>
-                  </div>
-                </div> -->
-                </div>
-                <!-- <div class="row no-gutters">
-                  <div class="col-md-2"></div>
-                  <div class="col-md-3">
-                    <div class="help-block">
-                  </div>
-                  </div>
-                </div> -->
+                <div class="row no-gutters">                  
+                </div>              
               </div>
               <div class="form-group" style="margin-top: 20px;">
                 <div class="row no-gutters">
                   <div class="col-md-2">
-                      <div class="text-center inner">
-                        <label for="propertyname" >物件名<span style="color: red">*</span></label>
-                      </div>
+                    <div class="text-center inner">
+                      <label for="propertyname">物件名<span style="color: red">*</span></label>
+                    </div>
                   </div>
                   <div class="col-md-2">
-                      <div class=" leftfiedl">
-                        <input 
-                        [(ngModel)]="propertyName" 
-                        [ngModelOptions]="{ standalone: true }" 
-                        placeholder="Enter property name" 
-                        (input)="onInputChanged()"
-                        />
-                        <ul>
-                          <li *ngFor="let result of results" (click)="selectPropertyName(result.propertyName)">
-                            <div class="clickable-result" >{{ result.propertyName }}</div>
-                          </li>
-                        </ul>
-                      </div>
-
+                    <div class="leftfiedl">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Property Name</mat-label>
+                        <input matInput [(ngModel)]="propertyName" [ngModelOptions]="{ standalone: true }" placeholder="Enter property name" (input)="onInputChanged()" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPropertyName($event) ">
+                          <mat-option *ngFor="let result of results" [value]="result.propertyName">
+                            {{ result.propertyName }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
                   </div>
                   <div class="col-md-4">
                     <div class="inner">
@@ -129,15 +69,10 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="leftfield">
-                      <input type="text"  id="roomno"
-                      [(ngModel)]="roomno"
-                      name="roomno"
-                      class="form-control"
-                      value="roomno"
-                      readonly
-                      style="width: 265px; height:35px;">
+                <div class="col-md-3"> 
+                  <div class="leftfield">
+                      <input type="text"  id="roomno" [(ngModel)]="roomno" name="roomno"
+                      class="form-control" value="roomno" readonly style="width: 265px; height:35px;">
                     </div>
                 </div>
                 </div>
@@ -151,12 +86,8 @@
                   </div>
                   <div class="col-md-2">
                       <div class=" inner">
-                        <input type="text" class="form-control" id="ownername"
-                        [(ngModel)]="ownername"
-                        name="ownername"
-                        value="ownername"
-                        readonly
-                        style="width: 265px;  height:35px;">
+                        <input type="text" class="form-control" id="ownername" [(ngModel)]="ownername" name="ownername"
+                        value="ownername" readonly  style="width: 265px;  height:35px;">
                       </div>
                   </div>
                   <div class="col-md-4">
@@ -168,13 +99,8 @@
                 </div>
                 <div class="col-md-2">
                     <div class="leftfield">
-                      <input type="text" class="form-control"
-                      id="ownerKana"
-                      [(ngModel)]="ownerKana"
-                      name="ownerKana"
-                      value="ownerKana"
-                      readonly
-                      style="width: 265px; height:35px;">
+                      <input type="text" class="form-control" id="ownerKana" [(ngModel)]="ownerKana"
+                      name="ownerKana" value="ownerKana" readonly style="width: 265px; height:35px;">
                     </div>
                 </div>
                 </div>

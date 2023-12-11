@@ -1,0 +1,55 @@
+.container.report-upload-container{
+    width: 100%;
+    height: auto;
+    margin-top: 45px;
+    background-color: rgb(126, 161, 154);
+    border-radius: 5px 5px 5px 5px;
+}
+.container.upload-container{
+  width: 100%;
+  height: auto;
+  margin-top: 40px;
+  border-radius: 6px 6px 6px 6px;
+  background-color: rgba(249, 246, 246, 0.904);
+  font-size: 12px;
+  margin-bottom: 35px;
+}
+.container.report-upload-title-container{
+    width: 100%;
+    height: auto;
+    background-color: rgba(249, 246, 246, 0.904);
+    border-radius: 6px 6px 6px 6px;
+    font-size: 15px;  
+}
+.row.report-upload-title-row{
+    width: 100%;
+    height: 70px;
+    border-radius: 6px 6px 6px 6px;
+  }
+
+  .row.button-row{
+    margin-top: 7%;
+    margin-left: 37%;
+    /* margin-bottom: 30px; */
+  
+  }
+  .uploadBtn{
+    background-color: white;
+  }
+  
+  .resetBtn{
+    color: white;
+    background: #376fc3;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    
+  }
+
+  
+  
+
+ 

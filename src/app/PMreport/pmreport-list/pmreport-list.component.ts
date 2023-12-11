@@ -120,7 +120,7 @@ export class PmreportListComponent implements OnInit {
   handleOptionChange(options: string, id: string, propertyName: string) {
     switch (options) {
       case 'details': this.detailsReport(id); break;
-      case 'edit': this.editReport(id); break;
+      case 'update': this.editReport(id); break;
       case 'delete': this.confirmDelete(id, propertyName); break;
       case 'sendPDF': this.sendPDF(id); break;
     }

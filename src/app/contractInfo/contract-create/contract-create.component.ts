@@ -17,6 +17,9 @@ import { CompanyName } from 'src/app/Model/CompanyName';
 import { DatePipe } from '@angular/common';
 import { LOCALE_ID, Inject } from '@angular/core';
 import { Subject, debounceTime } from 'rxjs';
+
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
 // import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 // import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
@@ -28,7 +31,6 @@ import { Subject, debounceTime } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ContractCreateComponent {
-  showResults: boolean = false;
   companyId: number;
   backendCompany: CompanyName = {
 
@@ -489,31 +491,22 @@ export class ContractCreateComponent {
     }
 
   onInputChanged(): void {
-    this.showResults = this.propertyName.length > 0;
     this.searchTextChanged.next(this.propertyName);
   }
 
-  onSelectChange(event: any): void {
-    const selectedValue = event.target.value;
-    this.propertyName = selectedValue;
-}
-  
-//all properties data 
   searchByPropertyName(): void {
     console.log("Property Name  "+this.propertyName);
     this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {
       console.log("Property Name  "+this.propertyName);
       this.results = data;
-      //console.log("Show this.result data "+this.results);
     });
   }
 
-  selectPropertyName(selectedPropertyName: string): void {
+  selectPropertyName(event: MatAutocompleteSelectedEvent): void {
     console.log('Selected Property Name 02:', this.propertyName);
-    this.propertyName = selectedPropertyName;
-    // Hide the results after selecting a property
-   this.showResults = false;
-    console.log('Selected Property Name 04:', this.propertyName);
+  this.propertyName = event.option.value;
+  this.selectedPropertyName = this.propertyName;
+  console.log('Selected Property Name 04:', this.propertyName);
 
     // Call the service method and handle the subscription
     this.propertyService.getPropertiesByCompanyId(this.companyId) // Replace with your actual service method to get all properties
@@ -657,10 +650,10 @@ export class ContractCreateComponent {
           console.error('Error submitting contract:', error);
         }
       );
-         //  this.router.navigate(['/contract-list']);
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 100);
+           this.router.navigate(['/contract-list']);
+            setTimeout(() => {
+              window.location.reload();
+            }, 100);
     }
 
     openAlertDialog(message: string): void {

@@ -109,6 +109,10 @@
           *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">PMレポート</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="report-upload"
+          *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">PMレポートアップロード</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="/customer-list"
           *ngIf="userService.roleMatch(['user'])||userService.roleMatch(['manager'])">取引先連絡先</a>
         </li>

@@ -88,6 +88,9 @@ import { PmreportListComponent } from './PMreport/pmreport-list/pmreport-list.co
 import { PmreportDetailsComponent } from './PMreport/pmreport-details/pmreport-details.component';
 import { PmreportEditComponent } from './PMreport/pmreport-edit/pmreport-edit.component';
 import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmreport-create-pdf.component';
+import { PmreportUploadComponent } from './PMreport/pmreport-upload/pmreport-upload.component';
+
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -157,7 +160,8 @@ import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmrep
     PmreportListComponent,
     PmreportEditComponent,
     PmreportDetailsComponent,
-    PmreportCreatePdfComponent 
+    PmreportCreatePdfComponent,
+    PmreportUploadComponent
 
   ],
   imports: [
@@ -186,6 +190,8 @@ import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmrep
     MatDatepickerModule,
     MatDialogModule,
     MatCheckboxModule,  
+
+    MatAutocompleteModule,
     
   ],
   providers: [DatePipe],

@@ -16,7 +16,7 @@
           <div class="col-md-2" style="margin-top: 19px;">
             <button mat-stroked-button style="width: 100px; height: 30px; background-color:aliceblue;"  (click)="navigateToPreivousPage()">
                 戻る
-          　</button>
+          </button>
         </div>
         </div>
       </div>
@@ -38,117 +38,78 @@
         <div *ngIf="i === 0">
           <div class="property-container">
             <!-- <p class="container-title">物件情報</p> -->
-             <div class="property-information">
-                <div class="form-group" style="margin-top: 20px;">
-                  <!-- <div class="row no-gutters">
-                    <div class="col-md-2">
-                        <div class="text-center inner">
-                          <label for="propertyname" >物件名<span style="color: red">*</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class=" leftfiedl">
-                          <input type="text"  id="propertyname"
-                          [(ngModel)]="contract.propertyName"
-                          name="propertyname"
-                          class="form-control"
-                          value="propertyname"
-                          style="width: 265px; height:35px;">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="inner">
-                        <div class="text-center">
-                          <label for="roomno" >号室<span style="color: red">*</span></label>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="leftfield">
-                        <input type="text"  id="roomno"
-                        [(ngModel)]="contract.roomno"
-                        name="roomno"
-                        class="form-control"
-                        value="roomno"
-                        style="width: 265px; height:35px;">
-                      </div>
-                  </div>
-                  </div> -->
-                  <div class="row no-gutters">
-                    <div class="col-md-2">
-                        <div class="text-center inner">
-                          <label for="propertyname" >物件名<span style="color: red">*</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class=" leftfiedl">
-                          <input [(ngModel)]="propertyName" [ngModelOptions]="{ standalone: true }" placeholder="Enter property name" (input)="onInputChanged()" />
-                          <ul>
-                            <li *ngFor="let result of results" (click)="selectPropertyName(result.propertyName)">
-                              <div class="clickable-result" >{{ result.propertyName }}</div>
-                            </li>
-                          </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="inner">
-                        <div class="text-center">
-                          <label for="roomno" >号室<span style="color: red">*</span></label>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="leftfield">
-                        <input type="text"  id="roomno"
-                        [(ngModel)]="roomno"
-                        name="contract.roomno"
-                        class="form-control"
-                        value="roomno"
-                        readonly
-                        style="width: 265px; height:35px;">
-                      </div>
-                  </div>
-                  </div>
-                </div>
-                <div class="form-group" style="margin-top: 20px;">
-                  <div class="row no-gutters">
-                    <div class="col-md-2">
-                        <div class="text-center inner">
-                          <label for="ownername" >オーナー名前<span style="color: red">*</span></label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class=" inner">
-                          <input type="text" class="form-control" id="ownername"
-                          [(ngModel)]="contract.ownerName"
-                          name="ownername"
-                          value="ownername"
+            <div class="property-information">
+              <div class="form-group" style="margin-top: 20px;">
+                <div class="row no-gutters">                  
+                </div>                
+              </div>
+              <div class="form-group" style="margin-top: 20px;">
+                <div class="row no-gutters">
 
-                          style="width: 265px;  height:35px;">
-                        </div>
+                  <div class="col-md-2">
+                    <div class="text-center inner">
+                      <label for="propertyname">物件名<span style="color: red">*</span></label>
                     </div>
-                    <div class="col-md-4">
-                      <div class="inner">
-                        <div class="text-center">
-                          <label for="ownerkana" > オーナー名前（カナ）<span style="color: red">*</span></label>
-                        </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="leftfiedl">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Property Name</mat-label>
+                        <input matInput [(ngModel)]="propertyName" [ngModelOptions]="{ standalone: true }" placeholder="Enter property name" (input)="onInputChanged()" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPropertyName($event) ">
+                          <mat-option *ngFor="let result of results" [value]="result.propertyName">
+                            {{ result.propertyName }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="inner">
+                      <div class="text-center">
+                        <label for="roomno" >号室<span style="color: red">*</span></label>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-3"> 
+                  <div class="leftfield">
+                      <input type="text"  id="roomno" [(ngModel)]="roomno" name="roomno"
+                      class="form-control" value="roomno" readonly style="width: 265px; height:35px;">
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top: 20px;">
+                <div class="row no-gutters">
+                  <div class="col-md-2">
+                      <div class="text-center inner">
+                        <label for="ownername" >オーナー名前<span style="color: red">*</span></label>
                       </div>
                   </div>
                   <div class="col-md-2">
-                      <div class="leftfield">
-                        <input type="text" class="form-control"
-                        id="ownerkana"
-                        [(ngModel)]="contract.ownerKana"
-                        name="ownerkana"
-                        value="ownerkana"
-
-                        style="width: 265px; height:35px;">
+                      <div class=" inner">
+                        <input type="text" class="form-control" id="ownername" [(ngModel)]="ownername" name="ownername"
+                        value="ownername" readonly  style="width: 265px;  height:35px;">
                       </div>
                   </div>
-                  </div>
+                  <div class="col-md-4">
+                    <div class="inner">
+                      <div class="text-center">
+                        <label for="ownerkana" > オーナー名前（カナ）<span style="color: red">*</span></label>
+                      </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-md-2">
+                    <div class="leftfield">
+                      <input type="text" class="form-control" id="ownerKana" [(ngModel)]="ownerKana"
+                      name="ownerKana" value="ownerKana" readonly style="width: 265px; height:35px;">
+                    </div>
+                </div>
+                </div>
+              </div>
+          </div>
+          </div>
         </div>
         <div class="lendertitle-container">
           <!-- <span class="arrow-icon"

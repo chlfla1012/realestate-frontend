@@ -52,6 +52,7 @@ import { InvoiceListComponent } from './InvoiceInfo/invoice-list/invoice-list.co
 import { InvoiceDetailComponent } from './InvoiceInfo/invoice-detail/invoice-detail.component';
 import { PdfCollectionComponent } from './InvoiceInfo/pdf-collection/pdf-collection.component';
 import { PdfDownloadComponent } from './InvoiceInfo/pdf-download/pdf-download.component';
+import { PmreportUploadComponent } from './PMreport/pmreport-upload/pmreport-upload.component';
 
 const routes: Routes = [
 
@@ -133,6 +134,7 @@ const routes: Routes = [
  { path: 'report-details/:id', component: PmreportDetailsComponent },
  { path: 'report-edit/:id', component: PmreportEditComponent },
  { path: 'report-create-pdf/:id', component: PmreportCreatePdfComponent },
+ { path: 'report-upload', component: PmreportUploadComponent },
 
 ];
 

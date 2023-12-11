@@ -7,7 +7,6 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data, error } from 'jquery';
-import { Subject } from 'rxjs';
 import { Borrower } from 'src/app/Model/Borrower';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { Contract } from 'src/app/Model/Contract';
@@ -17,8 +16,12 @@ import { Tenant } from 'src/app/Model/Tenant';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { ContractService } from 'src/app/Service/Contract/ContractService';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
+import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject, debounceTime } from 'rxjs';
+
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-contract-edit',
@@ -50,6 +53,7 @@ export class ContractEditComponent {
   selectedPropertyName: string;
   results: any[] = [];
   private searchTextChanged = new Subject<string>();
+  //searchTextChanged = this.searchTextSubject.asObservable(); //suwai
 
  containers: boolean[] = [true, false, false, false, false, false, false];
  errorMessage: string = '';
@@ -243,6 +247,7 @@ ownerkana: string;
 
 constructor(private contractService:ContractService,
   private userService:UserInfoService,
+  private userAuthService: UserAuthService,
   private sanitizer:DomSanitizer,
   private propertyService:PropertyService,
  private route:ActivatedRoute,
@@ -255,9 +260,37 @@ constructor(private contractService:ContractService,
    this. getcontractById();
    this.getUsersbyPIC();
   //  this.getPropertyById();
+  this.getCurrentUserInfo();
+  this.getProperties();
+  this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+    this.searchByPropertyName();
+  });
  }
-  getUsersbyPIC() {
 
+ getProperties() {
+  this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+    this.propertyIDs = data;
+
+},
+  (error) => {
+    console.error('Error fetching owners:', error);
+  }
+);
+}
+
+ getCurrentUserInfo() {
+  this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.companyId = companyId;
+  });
+
+  this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.backendCompany = backendCompany;
+  });
+
+
+  console.log("Get Login data", this.companyId);  }
+
+  getUsersbyPIC() {
     this.userService.getPICUsers().subscribe(data=>{
       this.picUsers=data;
     },
@@ -265,14 +298,7 @@ constructor(private contractService:ContractService,
       console.error('error is occured',error);
     });
   }
-  // getPropertyById(){
-  //   this.propertyService.getPropertyById().subscribe(data=>{
-  //     this.propertyData=data;
-  //   },
-  //   (error)=>{
-  //     console.error('Error fetching properties:',error);
-  //   })
-  // }
+  
   getUsersByOwner() {
     // console.log("start owner ", this.ownerUsers);
 
@@ -301,10 +327,6 @@ constructor(private contractService:ContractService,
     this.mobileSecond=this.contract.mobileSecond;
     this.mobileThird=this.contract.mobileThird;
     this.picdepartment=this.contract.department;
-    //  console.log("The Contract ID is "+data.id);
-    //  console.log("The contract length is "+data.contractLength);
-    //  console.log("The lender ID is "+data.lender.id);
-    //  console.log("the lender name is"+data.lender.lenderFirstName);
 
 
    },
@@ -326,24 +348,9 @@ onPICSelectionChange() {
       console.log(this.mobileFirst, this.mobileSecond, this.mobileThird,this.picNamekana,this.picdepartment);
 
     });
-
-
 }
 
-// onPropertySelectionChange(){
-//   this.propertyService.getPropertyById(this.propertyId).
-//   subscribe((data: Property) => {
-//     this.propertyname = data.propertyName;
-//     this.roomno = data.room;
-//     console.log(" the room no is "+this.roomno);
-//     this.ownername = data.ownerName;
-//     this.ownerKana = data.ownerKana;
-//   },
-//   (error) => {
-//     console.error('Error fetching Property data:', error);
-//   }
-// );
-// }
+
 onInputChanged(): void {
   this.searchTextChanged.next(this.propertyName);
 }
@@ -356,9 +363,10 @@ searchByPropertyName(): void {
   });
 }
 
-selectPropertyName(selectedPropertyName: string): void {
+selectPropertyName(event: MatAutocompleteSelectedEvent): void {
   console.log('Selected Property Name 02:', this.propertyName);
-  this.propertyName = selectedPropertyName;
+  this.propertyName = event.option.value;
+  this.selectedPropertyName = this.propertyName;
   console.log('Selected Property Name 04:', this.propertyName);
 
   // Call the service method and handle the subscription
@@ -378,6 +386,8 @@ selectPropertyName(selectedPropertyName: string): void {
           console.log('Room no:', this.roomno);
           this.ownername = selectedProperty.ownerName;
           this.ownerKana = selectedProperty.ownerKana;
+          this.propertyId = selectedProperty.id; //added by suwai
+          console.log('propertyId:', this.propertyId);
 
           // Optionally, do additional actions if needed
 
@@ -404,10 +414,14 @@ selectPropertyName(selectedPropertyName: string): void {
         const mobileThird = selectedPICData.phone3;
 
         this.picData = selectedPICData;
-
-        // this.contract.owner = this.ownerData;
-        // this.property.ownerName = this.ownerName;
-        // this.property.ownerKana = this.ownerKana;
+        
+        // Update the contract object with the fetched data       
+        this.contract.propertyName = this.propertyName;
+        this.contract.roomno = this.roomno;
+        this.contract.ownerName = this.ownername;
+        this.contract.ownerKana = this.ownerKana;
+        this.contract.property.id = this.propertyId;
+                
         this.contract.pic = this.picData;
         this.contract.picName = this.picName;
         this.contract.mobileFirst = this.mobileFirst;
@@ -437,6 +451,7 @@ selectPropertyName(selectedPropertyName: string): void {
       setTimeout(()=>{
           window.location.reload();
         }, 100);
+      //this.router.navigate(['contract-list']);
 
     },
                   (selectedPICData: HttpErrorResponse) => {

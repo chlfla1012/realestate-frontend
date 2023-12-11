@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
+import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 
@@ -18,6 +19,10 @@ export class OwnerMainComponent {
   lastName:string;
   id: string;
   name: string;
+
+  //suwai
+  ownerName: string; // Set the owner's name
+  reports: any[] = [];
 
   userInfo: UserInfo = {
     id:null,
@@ -55,16 +60,9 @@ export class OwnerMainComponent {
 
   constructor(private service: UserInfoService,
     private userAuthService: UserAuthService, 
+    private pmReportUploadService: PmReportUploadService,
     private route: ActivatedRoute, private router : Router) { }
 
-  //   ngOnInit(): void {
-  //     this.service.getUserInfo().subscribe(data => {
-  //     this.userInfo= data;
-  //     console.log(this.userInfo);
-  //     this.firstName=this.userInfo.firstName;
-  //     this.lastName=this.userInfo.lastName;
-  //   });
-  // }
   ngOnInit() {
     //this.roleType = this.userAuthService.getRoleType();
     this.id= this.userAuthService.getId();
@@ -74,7 +72,9 @@ export class OwnerMainComponent {
       this.name = data.firstName + " " + data.lastName;
       console.log(this.userInfo.id);
       console.log(this.name);
+      this.ownerName = this.name;
     
+      this.getReportsByOwnerName();
     },
     
     (error) => {
@@ -84,7 +84,36 @@ export class OwnerMainComponent {
   );
   }
 
-    onSubmit(f:NgForm){
+  getReportsByOwnerName(): void {
+    this.pmReportUploadService.getReportsByOwnerName(this.ownerName).subscribe(
+      (data: any) => {
+        this.reports = data.filter((report: any) => {
+          const createdDate = new Date(report.createdDate);        
+          const sixMonthsAgo = new Date();
+          sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+          return createdDate >= sixMonthsAgo;          
+        });
+      },
+      (error: any) => {
+        console.error('Error fetching reports:', error);
+      }
+    );
+  }
+
+  // downloadReport(id: number): void {
+  //   this.pmReportUploadService.downloadReportById(id).subscribe(      
+  //      (data:any) => {                  
+  //       window.alert('File downloaded successfully!');
+       
+  //     },
+  //     (error: any) => {
+  //       console.error('Error downloading report:', error);
+  //     }
+  //   );
+  // }
+ 
+
+onSubmit(f:NgForm){
 // const firstName = this.userAuthService.getFirstName();
 // const lastName=this.userAuthService.getLastName();
    
