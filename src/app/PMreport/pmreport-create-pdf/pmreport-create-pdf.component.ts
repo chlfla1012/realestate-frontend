@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Expense } from 'src/app/Model/Expense';
@@ -129,6 +129,10 @@ export class PmreportCreatePdfComponent {
     renewalFeeTax: null,
     repairCostTax: null,
     penaltyFeeTax: null,
+    workFirst: null,
+    workSecond: null,
+    workFirstTax: null,
+    workSecondTax: null,
   }
   rental: Rental = {
     id: null,
@@ -166,7 +170,7 @@ export class PmreportCreatePdfComponent {
   }
 
   constructor(private service: PmReportService,
-    private route: ActivatedRoute, private router: Router, private userAuthService: UserAuthService) {
+    private route: ActivatedRoute, private router: Router, private userAuthService: UserAuthService,private cdr: ChangeDetectorRef) {
   }
 
   onContentChange(event: Event): void {
@@ -223,6 +227,7 @@ export class PmreportCreatePdfComponent {
     });
     this.service.getRentalInformationById(this.id).subscribe(data => {
       this.rentalInfo = data;
+      this.cdr.detectChanges();
       console.log("Testing from rental id" + this.rentalInfo)
     });
 
@@ -267,7 +272,7 @@ export class PmreportCreatePdfComponent {
     const totalSum: number[] = [];
     const incomeToSum: string[] = ['rent', 'managementFee', 'bicycleParkingFee', 'signboardFees',
       'parkingFee', 'keymoney', 'shikiken', 'deposit', 'renewalFee', 'repairCost', 'penaltyFee', 'tax',
-      'others', 'totalIncome'];
+      'others', 'totalIncome', 'workFirst', 'workSecond', 'workFirstTax', 'workSecondTax'];
 
     incomeToSum.forEach(property => {
       totalSum.push(this.calculateSum(property));
@@ -291,38 +296,55 @@ export class PmreportCreatePdfComponent {
 
     return totalSum;
   }
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
+    return `${year}-${month}-${day}`;
+  }
 
   generatePDF() {
+    const today = new Date();
+    const formattedDate = this.formatDate(today);
     const element = document.getElementById('contentToConvert');
     const pdfOptions = {
-      filename: `pmreport_${Date.now()}.pdf`,
+      filename: `pmreport_(${formattedDate}).pdf`,
       image: { type: 'jpeg', quality: 0.6 },
-      html2canvas: { scale: 2 }, // Adjust the scale value as needed
+      html2canvas: { scale: 2 }, 
       jsPDF: { unit: 'mm', format: 'legal', orientation: 'landscape' },
       compress: true,
     };
 
-    // const element = document.getElementById('contentToConvert');
     element.style.fontSize = '12px';
     element.style.marginBottom = '12mm';
     element.style.padding = '3px';
-    // // Specify the selector for the tables you want to include in the PDF
-    // const tableSelector = '.table';
-    // const tables = document.querySelectorAll(tableSelector);
-
-    // for (let i = 0; i < tables.length; i++) {
-    //   const table = tables[i] as HTMLElement;
-
-    //   // Create a new container div for each table
-    //   const container = document.createElement('div');
-    //   container.style.fontSize = '12px';
-    //   element.appendChild(container);
+   
       html2pdf()
         .from(element)
         .set(pdfOptions)
-        .save();
-    // }
+        .save();    
+    // const mainContainer = document.getElementById('contentToConvert');
+    // mainContainer.style.fontSize = '12px';
+
+    // // Specify the selector for the tables you want to include in the PDF
+    // const tableSelector = '.table';
+    // const tables = document.querySelectorAll(tableSelector);
+  
+    // tables.forEach((table, index) => {
+    //   // Add a page break before each table (except the first one)
+    //   if (index > 0) {
+    //     const blankPage = document.createElement('div');
+    //     blankPage.style.pageBreakBefore = 'always';
+    //     mainContainer.appendChild(blankPage);
+    //   }
+    // });
+  
+    // // Generate PDF with keepTogether option
+    // html2pdf()
+    //   .from(mainContainer)
+    //   .set({ ...pdfOptions, keepTogether: '.table' }) // Keep tables together
+    //   .save();
   }
 
     sentMail() {
@@ -348,4 +370,26 @@ export class PmreportCreatePdfComponent {
       // Open the Gmail compose window
       window.open(gmailURL, '_blank');
     }
+
+
+    isOneMonthAway(endDate: string): boolean {
+      const oneMonthLater = new Date();
+      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);  
+      const contractEndDate = new Date(endDate);      
+        return contractEndDate.getFullYear() === oneMonthLater.getFullYear() &&
+        contractEndDate.getMonth() === oneMonthLater.getMonth() &&
+        contractEndDate.getDate() === oneMonthLater.getDate();
+    }
+
+    isSameMonth(contractStartDate: string): boolean {
+      const today = new Date();
+      const startDate = new Date(contractStartDate);
+  
+      return startDate.getFullYear() === today.getFullYear() &&
+             startDate.getMonth() === today.getMonth();
+    }
+    navigateToPreivousPage() {
+      window.history.back();
+    }
+
   }

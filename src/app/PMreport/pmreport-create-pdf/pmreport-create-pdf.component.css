@@ -1,95 +1,109 @@
 .container.pdf-download-container{
-    width: 100%;
-    height: 0px;
-    margin-top: 45px;
-    border-radius: 5px 5px 5px 5px;
-  }
-  .container.pdf-download-title-container{
-    width: 100%;
-    height: auto;
-    border-radius: 6px 6px 6px 6px;
-    font-size: 15px;
-    padding: 20px;
-  }
-  input[type="text"] {
-    border: none; /* Hide the border */
-    outline: none; /* Hide the outline when focused */
-  }
+  width: 100%;
+  height: 0px;
+  margin-top: 45px;
+  border-radius: 5px 5px 5px 5px;
+}
+.container.pdf-download-title-container{
+  width: 100%;
+  height: auto;
+  border-radius: 6px 6px 6px 6px;
+  font-size: 15px;
+  padding: 20px;
+}
+input[type="text"] {
+  border: none; /* Hide the border */
+  outline: none; /* Hide the outline when focused */
+}
 
-  .container{
-    width: 100%;
-    height: auto;
-    margin-top: 40px;
-    border-radius: 6px 6px 6px 6px;
-    background-color: rgba(249, 246, 246, 0.904);
-    font-size: 15px;
-    margin-bottom: 35px;
-  }
+.container{
+  width: 100%;
+  height: auto;
+  margin-top: 40px;
+  border-radius: 6px 6px 6px 6px;
+  background-color: rgba(249, 246, 246, 0.904);
+  font-size: 15px;
+  margin-bottom: 35px;
+}
 
-  .containertable{
-    width: 100%;
-    height: auto;
-  }
-  
-  .sentBtn,.downloadPDFBtn{
-    color: white;
-    background: #376fc3;
-  }
-  
-  .sentBtn:hover,.downloadPDFBtn:hover{
-    background-color:darkblue;
-  }
+.containertable{
+  width: 100%;
+  height: auto;
+}
 
-  .title{
- 
-    font-size: 30px;
-    text-align: center;
-  }
-  .resetBtn:hover{
-    background-color:#DCDCDC;
-  }
+.sentBtn,.downloadPDFBtn{
+  color: white;
+  background: #376fc3;
+}
 
- .column-id{
-    max-width:90px;
-  }
-  .vertical-text {
-    writing-mode: vertical-lr; 
-    text-align: center;
-    letter-spacing: 3px;
-    vertical-align: middle;
-    margin-bottom: 30px;
-    background-color:#e6e6e6;
-  }
+.sentBtn:hover,.downloadPDFBtn:hover{
+  background-color:darkblue;
+}
 
-  thead{
-    text-align: center;
-    border: 1px solid;
-  }
+.title{
 
-  tbody{
-    text-align: center;   
-  }
+  font-size: 30px;
+  text-align: center;
+}
+.resetBtn:hover{
+  background-color:#DCDCDC;
+}
 
-  .table td{
-    border: 1px solid;
-  }
+.column-id{
+  max-width:90px;
+}
+.vertical-text {
+  writing-mode: vertical-lr; 
+  text-align: center;
+  letter-spacing: 3px;
+  vertical-align: middle;
+  margin-bottom: 30px;
+  background-color:#e6e6e6;
+}
 
-  .table th{
-    border: 1px solid;
-  }
+thead{
+  text-align: center;
+  border: 1px solid;
+}
 
-  .no-bottom-border{
-    border-bottom-style: hidden;
-  }
+tbody{
+  text-align: center;   
+}
 
-  .highlighted-cell {
-    background-color:#e6e6e6;
-  } 
+.table td{
+  border: 1px solid;
+}
 
-  .rowcolor td{
-    background-color:#e6e6e6;
-  }
+.table th{
+  border: 1px solid;
+}
 
-  .rowcolorth th{
-    background-color:#e6e6e6;
-  }
+.no-bottom-border{
+  border-bottom-style: hidden;
+}
+
+.highlighted-cell {
+  background-color:#e6e6e6;
+} 
+
+.rowcolor td{
+  background-color:#e6e6e6;
+}
+
+.rowcolorth th{
+  background-color:#e6e6e6;
+}
+.one-month-away {
+  color: red; 
+}
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}

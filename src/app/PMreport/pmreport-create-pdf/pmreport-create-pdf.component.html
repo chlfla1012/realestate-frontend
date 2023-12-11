@@ -17,7 +17,7 @@
                 <div class="col-2" style="margin-top: 17px;">
                     <div class="create-icon" style="margin-left: 21%;">
                         <button mat-stroked-button class="backBtn" style="background-color:white;margin-bottom: 2px; width: 130px; height: 30px;
-                            margin-bottom: 13px;">戻る</button>
+                            margin-bottom: 13px;" (click)="navigateToPreivousPage()">戻る</button>
                     </div>
                 </div>
             </div>
@@ -32,14 +32,14 @@
                             <p>{{ownerAddress}}</p>
                         </div>
                         <div class="col-md-3"
-                            style="width: 50%; margin-left: auto;margin-right: auto;margin-top: 92px; line-height: 30px;">
+                            style="width: 50%; margin-left: auto;margin-right: auto;margin-top: 80px; line-height: 30px;">
                             <p style="text-align: center;">{{ createdDate | date: 'yyyy年MM月' }}度</p>
                             <p style="text-align: center;"><u>送金明細書送付の御案内</u></p>
                         </div>
 
                         <div class="col-md-3" style=" line-height: 15px;margin-right: auto;">
                             <p style="margin-top: 20px;">発行日:{{ createdDate | date: 'yyyy年MM月dd日' }}</p>
-                            <div style="margin-top: 92px;line-height: 15px;">
+                            <div style="margin-top: 70px;line-height: 15px;">
                                 <p>{{companyName}}</p>
                                 <div style="padding-top: 15px;">
                                     <p>〒 {{userPostalFirst}}-{{userPostalSecond}}<br></p>
@@ -195,11 +195,10 @@
 
                                     <tr *ngIf="calculateSum('others') !== 0">
                                         <td>その他</td>
-                                        <td style="text-align: right;">{{ calculateSum('others') | number: '1.0-0' }} 円
+                                        <td style="text-align: right;">{{ calculateSum('workFirst')+calculateSum('workSecond') | number: '1.0-0' }} 円
                                         </td>
-                                        <td style="text-align: right;">{{ 0 | number: '1.0-0' }} 円</td>
-                                        <td style="text-align: right;">{{ calculateSum('others') + 0 | number: '1.0-0'
-                                            }} 円</td>
+                                        <td style="text-align: right;">{{ calculateSum('workFirstTax')+calculateSum('workSecondTax') | number: '1.0-0' }} 円</td>
+                                        <td style="text-align: right;">{{ calculateSum('others') | number: '1.0-0' }} 円</td>
                                     </tr>
                                     <tr class="rowcolor">
                                         <td>合計</td>
@@ -490,25 +489,63 @@
                         </thead>
                         <tbody style="line-height: 10px;">
                             <tr *ngFor="let rental of rentalInfo">
-                                <td>{{rental.room}}</td>
-                                <td>{{rental.classification}}</td>
-                                <td>{{rental.tenantName}}</td>
-                                <td style="text-align: right;">{{rental.areaMeter}}</td>
-                                <td style="text-align: right;">{{rental.areaTsubo}}</td>
-                                <td style="text-align: right;">{{rental.rentTsubo | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.totalRent | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.serviceFeesTsubo | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.serviceFeesTotal | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.deposit | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.toalDeposit | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{rental.totalRental | number: '1.0-0' }}</td>
-                                <td>{{rental.contractStartDate | date:'yyyy/MM/dd'}}</td>
-                                <td>{{rental.contractEndDate | date:'yyyy/MM/dd'}}</td>
-                                <td style="text-align: right;">{{rental.renewalFees | number: '1.0-0' }}</td>
-                                <td>{{rental.rentalRemarks}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))">{{rental.room}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="width: 50px;">{{rental.classification}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))">{{rental.tenantName}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))"style="text-align: right;">{{rental.areaMeter}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))"style="text-align: right;">{{rental.areaTsubo}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))"style="text-align: right;">{{rental.rentTsubo | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.totalRent | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.serviceFeesTsubo | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.serviceFeesTotal | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.deposit | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.toalDeposit | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.totalRental | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))">{{rental.contractStartDate | date:'yyyy/MM/dd'}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))">{{rental.contractEndDate | date:'yyyy/MM/dd'}}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.renewalFees | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))">
+                                <input type="text">{{rental.rentalRemarks}}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table>                   
+                </div>
+                <div class="col-md-3" style="margin: left;padding: 25px; line-height: 15px;">
+                    <p class="blue">当月新規契約</p>
+                    <p class="red">次月以降新規契約/解約</p>
+                    <p class="green">空室</p>
                 </div>
             </div>
         </div>

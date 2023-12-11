@@ -34,4 +34,8 @@ export interface Income {
     renewalFeeTax: number
     repairCostTax: number
     penaltyFeeTax: number
+    workFirst: number
+    workSecond: number
+    workFirstTax: number
+    workSecondTax: number
 }
