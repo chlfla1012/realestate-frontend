@@ -81,5 +81,31 @@ addPMreport(pmReport: any){
     })
   );
 }
+//Get Data For Detail Page
+getPMReportById(id?:string): Observable<PMReport>{
+  return this.http.get<PMReport>(`${this.url}pmReport/${id}`)
+}
+getExpenseDataById(id?:string): Observable<Expense[]>{
+  return this.http.get<Expense[]>(`${this.url}expenseData/${id}`)
+}
+getIncomeDataById(id?:string): Observable<Income[]>{
+  return this.http.get<Income[]>(`${this.url}incomeData/${id}`)
+}
+getRentalDataById(id?:string): Observable<Rental[]>{
+  return this.http.get<Rental[]>(`${this.url}rentalData/${id}`)
+}
+//Finished getting data for detail
+
+//Delete PM report data
+deletePMReport(id: string): Observable<void> {
+  return this.http.delete<void>(`${this.url}deletePMReport/${id}`).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 500) {
+        return throwError('ForeignKeyError'); // Indicate foreign key error
+      }
+      return throwError('An error occurred while deleting the pm report.');
+    })
+  );
+}
 
 }

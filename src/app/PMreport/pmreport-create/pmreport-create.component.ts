@@ -341,7 +341,7 @@ export class PmreportCreateComponent implements OnInit {
     }
     for (let i = 1; i <= 5; i++) {
       this.expenseRow.push({
-        id: null,
+        id: i,
         expenseDetail: '',
         voucher: '',
         expenseDate: '',
@@ -386,10 +386,10 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReportService.getOwnersByPropertyName(this.propertyname).
       subscribe((data: Property[]) => {
         this.propertyIDs = data;
-        for (const property of this.propertyIDs) {
-          this.ownerName = property.ownerName;
-          this.propertyname = property.propertyName;
-        }       
+        // for (const property of this.propertyIDs) {
+        //   this.ownerName = property.ownerName;
+        //   this.propertyname = property.propertyName;
+        // }       
         console.log(this.propertyname);
         console.log(data);
       },
@@ -559,10 +559,11 @@ export class PmreportCreateComponent implements OnInit {
     this.expenseRow.forEach(row => {
       const amount = row.expenseMoney;
       const originalExpTax = row.expenseTax;
-      if (!isNaN(amount) && !isNaN(originalExpTax)) {
+  
+      if (!isNaN(amount) && !isNaN(originalExpTax) && amount > 0 && originalExpTax > 0) {
         row.expenseTotal = amount + (amount * (originalExpTax / 100));
       } else {
-        console.error('Invalid input for amount or expTax:', row.expenseMoney, row.expenseTax);
+        row.expenseTotal = null; // or row.expenseTotal = 0; depending on your requirements
       }
     });
   }

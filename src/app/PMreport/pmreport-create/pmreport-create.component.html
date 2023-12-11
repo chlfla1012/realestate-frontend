@@ -34,7 +34,7 @@
                             <label for="propertyName">物件名<span style="color: red">*</span></label>
                         </div>
                         <div style="width: 292px;margin-left:40px;">                         
-                            <mat-select [(ngModel)]="propertyname" required name="propertyname" class="form-control" (change)="onPropertyChange()">
+                            <mat-select [(ngModel)]="propertyname" required name="propertyname" class="form-control" (selectionChange)="onPropertyChange()">
                                 <mat-option *ngFor="let property of propertyIDs" [value]="property.propertyName">
                                   {{ property.propertyName }}
                                 </mat-option>
@@ -367,27 +367,27 @@
                         <th>消費税</th>
                         <th>合計金額</th>
                         <th>備考</th>
-                    </tr> 
+                    </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     <tr *ngFor="let row of expenseRow">
-                        <td><input type="text" name="expDetail" [(ngModel)]="row.expenseDetail"></td>
+                        <td><input type="text" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseDetail"></td>
                         <td colspan="2">
                             <div class="form-check">
                                 <input type="radio" [name]="'radiobutton' + row.id" value="有"
-                                    [(ngModel)]="row.voucher" name="有">
+                                    [(ngModel)]="row.voucher" [ngModelOptions]="{standalone: true}">
                                 <label class="form-check-label">有</label>
 
                                 <input type="radio" [name]="'radiobutton' + row.id" value="無し"
-                                    [(ngModel)]="row.voucher" name="無し">
+                                    [(ngModel)]="row.voucher" [ngModelOptions]="{standalone: true}">
                                 <label class="form-check-label">無し</label>
                             </div>
                         </td>
-                        <td><input type="text" name="expenseDate" [(ngModel)]="row.expenseDate"></td>
-                        <td><input type="number" name="expenseMoney" [(ngModel)]="row.expenseMoney" (input)="onInputChange()" ></td>
-                        <td><input type="number" name="expenseTax"[(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
-                        <td><input type="number" name="expenseTotal" [(ngModel)]="row.expenseTotal" ></td>
-                        <td><input type="text" name="expenseRemarks" [(ngModel)]="row.expenseRemarks"></td>
+                        <td><input type="text" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseDate"></td>
+                        <td><input type="number"  [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseMoney" (input)="onInputChange()" ></td>
+                        <td><input type="number" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
+                        <td><input type="number" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTotal" readonly></td>
+                        <td><input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseRemarks"></td>
                     </tr>
                 </tbody>
             </table>

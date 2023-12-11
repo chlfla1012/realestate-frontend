@@ -1,1 +1,527 @@
-<p>pmreport-details works!</p>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div class="container property-create-container">
+        <div class="container" style="width: 100%;height:28px;"></div>
+
+        <div class="container property-create-title-container">
+            <div class="row property-create-title-row">
+                <div class="col-md-5 icon" style="margin-top: 19px;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="folder"
+                        style="padding-top:3px;"></mat-icon>
+                    <span style="margin-left: 10px;margin-bottom:0px">PMレポート詳細画面</span>
+                </div>
+                
+                <div class="col-2"></div>
+                <div class="col-4" style="margin-top: 19px;margin-left: 100px;">
+                    <div class="row">
+                        <div class="col-2">
+                            <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;"  (click)="navigateToPreivousPage()">
+                                戻る
+                            </button>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-2">
+                            <button mat-stroked-button class="updateBtn" style="width: 100px; height: 30px;" (click)="navigateToUpdatePage(pmReport.id)">
+                                <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>編集
+                            </button>
+                        </div>
+                        <div class="col-md-2"></div>
+                        <div class="col-2">
+                            <button mat-stroked-button class="deleteBtn" style="width: 100px; height: 30px;">
+                                <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
+                                    削除
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class="form-horizontal" class="property-create-form" #f="ngForm">
+
+            <div class="basic-container">
+                <p>基本情報</p>
+                <div class="basic-information">
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="propertyName">物件名<span style="color: red">*</span></label>
+                            </div>
+
+                            <div class="form-group has-search col-md-2" style="width: 292px;margin-left:41px;position: relative;">
+                                <input type="text"  id="propertyname"
+                          [(ngModel)]="pmReport.propertyName"
+                          name="propertyname"
+                          class="form-control"
+                          value="propertyname"
+                          readonly disabled
+                          style="width: 265px; height:35px;">
+                            </div>
+
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2" style="margin-left: 104px;">
+                                <label for="ownerName" style="margin-left:0px;">オーナー名前<span
+                                        style="color: red">*</span></label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:350px;">
+                                    <input type="text" id="ownerName"
+                                    [(ngModel)]="pmReport.ownerName"  
+                                    name="ownerName" 
+                                    value="ownerName"
+                                    class="form-control" readonly disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <!-- <span style="margin-left:50px; color: red;" class="help-block"
+                                *ngIf="propertyName.touched && propertyName.errors?.['required']">物件名を入力してください。</span> -->
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-3">
+                                <!-- <mat-error class="help-block" style="margin-left:10px">
+                                    オーナー名前を選択してください。
+                                </mat-error> -->
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="targetMonth">対象月<span style="color: red">*</span></label>
+                            </div>
+                            <div class="col-md-2" style="margin-left: -65px;width:293px;">
+                                <input 
+                                type="date" 
+                                class="form-control" 
+                                id="targetMonth"
+                                name="targetMonth" 
+                                style="width: 265px;  height:35px;"
+                                required [(ngModel)]="pmReport.targetMonth"
+                                #targetMonth="ngModel" required disabled
+                                [ngClass]="{'is-valid':targetMonth.touched && targetMonth.invalid}"
+                                 >
+                            </div>
+
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 104px;">
+                                <label for="mail" style="margin-left: 0px;">メールアドレス</label>
+                            </div>
+
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="mail" name="mail"
+                                    [(ngModel)]="pmReport.mail"
+                                        style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4"></div> -->
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <span style="margin-left:50px; color: red;" class="help-block"
+                                *ngIf="!targetMonth.valid && targetMonth.touched">対象月を入力してください。</span>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-3">
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="picName">担当者名前<span style="color: red">*</span></label>
+                            </div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;">
+                                <input type="text" class="form-control"
+                        id="picId" readonly disabled
+                        [(ngModel)]="pmReport.picNameKana"
+                        name="picId"
+                        value="picId"
+                        readonly 
+                           style="width: 265px; height:35px;"
+                           >
+                            </div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="bankName" style="margin-left: 0px;">金融機関名・銀行名</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="bankName" name="bankName" disabled
+                                    [(ngModel)]="pmReport.bankName"  style="margin-right:14px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <!-- <mat-error class="help-block" style="margin-left:50px;color: red;">担当者名前を選択してください。</mat-error> -->
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-3">
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="branchName" style="margin-left: 0px;">支店名</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="branchName" name="branchName"
+                                    [(ngModel)]="pmReport.branchName"   style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="accountType" style="margin-left: 0px;">口座種別</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="accountType" name="accountType"
+                                    [(ngModel)]="pmReport.accountType"   style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="accountNo" style="margin-left: 0px;">口座番号</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="accountNo" name="accountNo"
+                                    [(ngModel)]="pmReport.accountNo"   style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="accountName" style="margin-left: 0px;">口座名義人(ｶﾅ)</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="accountName" name="accountName"
+                                    [(ngModel)]="pmReport.accountName"   style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <form>
+                    <div class="mb-3" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2" style="margin-left: -80px;width:293px;"></div>
+                            <div class="col-md-1"></div>
+
+                            <div class="col-md-2" style="margin-left: 119px;">
+                                <label for="apportionment" style="margin-left: 0px;">按分</label>
+                            </div>
+                            <div class="col-md-2" style="width: 292px;margin-right:41px;">
+                                <div class="col-md-2" style="margin-right:-80px;width:275px;">
+                                    <input type="text" class="form-control" id="apportionment" name="apportionment"
+                                    [(ngModel)]="pmReport.apportionment"   style="margin-right:14px;" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <br>
+        </form>
+
+        <div style="margin-top: 20px;"></div>
+        <!-- <form class="form-horizontal" class="property-create-form"> -->
+        <div class="basic-container">
+            <p>収入情報</p>
+            <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
+                <ng-container matColumnDef="room">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">号室</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.room}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="tenantName">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.tenantName}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="month">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">対象月</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.month}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="rent">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.rent}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="managementFee">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">共益費</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.managementFee}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="parkingFee">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-room">駐車料</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.parkingFee}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="bicycleParkingFee">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">駐輪料</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.bicycleParkingFee}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="keymoney">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">礼金</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.keymoney}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="shikiken">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.shikiken}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="deposit">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.deposit}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="renewalFee">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.renewalFee}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="repairCost">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">退去時補修費</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.repairCost}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="penaltyFee">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">違約金</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.penaltyFee}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="signboardFees">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">看板料</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.signboardFees}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="tax">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">消費税</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.tax}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="other">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">その他</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.other}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="totalIncome">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">合計金額</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">{{incomeInfo.totalIncome}}</mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="incomeRemarks">
+                    <mat-header-cell *matHeaderCellDef style="font-weight: bold;">備考</mat-header-cell>
+                    <mat-cell *matCellDef="let incomeInfo">
+                        <textarea [(ngModel)]="incomeInfo.incomeRemarks" style="width: 100px; height: 30px;" id="incomeRemarks"
+                        class="form-control" id="incomeRemarks" #incomeRemarks="ngModel" name="incomeRemarks" rows="3" cols="25"
+                        wrap="off"></textarea>
+                </mat-cell>
+                </ng-container>
+    
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            </mat-table>
+        </div>
+
+        <div style="margin-top: 30px;"></div>
+        <div class="basic-container">
+            <p>支出情報</p>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>支出明細</th>
+                        <th >領収書</th>
+                        <th>年/月</th>
+                        <th>金額</th>
+                        <th>消費税</th>
+                        <th>合計金額</th>
+                        <th>備考</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of expenseRow">
+                        <td>{{ row.expenseDetail }}</td>
+                        <td>{{ row.voucher }}</td>
+                        <td>{{row.expenseDate }}</td>
+                        <td>{{ row.expenseMoney }}</td>
+                        <td>{{ row.expenseTax }}</td>
+                        <td>{{ row.expenseTotal }}</td>
+                        <td>{{ row.expenseRemarks }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+        <div style="margin-top: 30px;"></div>
+        <div class="basic-container">
+            <p>賃貸条件一情報</p>
+    <mat-table #table [dataSource]="dataSource2" matSort aria-level="Elements" class="mat-elevation-z7">
+        <ng-container matColumnDef="room">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-id">号室</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.room}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="classification">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">区分</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.classification}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="tenantName">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">入居者名前</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.tenantName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="areaMeter">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">面積(m2)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.areaMeter}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="areaTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">面積(坪)</mat-header-cell>
+                <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.areaTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rentTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">賃料(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.rentTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRent">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;" class="column-floor">賃料(総額)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.totalRent}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRental">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.totalRental}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="serviceFeesTotal">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共益費(総額)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.serviceFeesTotal}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="serviceFeesTsubo">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">共込賃料(円/坪)</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.serviceFeesTsubo}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deposit">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">敷金</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.deposit}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="toalDeposit">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">保証金</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.toalDeposit}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="contractStartDate">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約開始日</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.contractStartDate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="contractEndDate">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">契約終了日</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.contractEndDate}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="renewalFees">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">更新料</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">{{rentalInfo.renewalFees}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="rentalRemarks">
+            <mat-header-cell *matHeaderCellDef style="font-weight: bold;">備考</mat-header-cell>
+            <mat-cell *matCellDef="let rentalInfo">
+                    <textarea [(ngModel)]="rentalInfo.rentalRemarks" style="width: 100px; height: 30px;" id="rentalRemarks"
+                    class="form-control" id="rentalRemarks" #rentalRemarks="ngModel" name="rentalRemarks" rows="3" cols="25"
+                    wrap="off"></textarea>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns2"></mat-row>
+    </mat-table>
+        </div>
+       
+    </div>
+</body>
+</html>
