@@ -383,7 +383,7 @@
                                 <label class="form-check-label">無し</label>
                             </div>
                         </td>
-                        <td><input type="text" [ngModelOptions]="{standalone: true}" placeholder="YYYY/MM" style="text-align: center;width: 100px;" maxlength="7" [(ngModel)]="row.expenseDate"></td>
+                        <td><input type="text" [ngModelOptions]="{standalone: true}" placeholder="YY/MM" style="text-align: center;width: 100px;" maxlength="5" [(ngModel)]="row.expenseDate"></td>
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;"  [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseMoney" (input)="onInputChange()" ></td>
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTotal" readonly></td>

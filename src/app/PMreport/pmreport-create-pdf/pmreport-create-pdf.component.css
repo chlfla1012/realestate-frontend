@@ -107,3 +107,6 @@ tbody{
 .green {
   color: green;
 }
+.page-break {
+  page-break-before: always;
+}

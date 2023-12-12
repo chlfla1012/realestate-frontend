@@ -270,9 +270,9 @@
                         </div>
                     </div>
                 </div>
-
+             
+                <div class="page-break"></div>
                 <div style="padding: 20px;"></div>
-
                 <div class="containertable">
                     <table class="table">
                         <thead>
@@ -350,7 +350,7 @@
                 </div>
 
                 <div style="padding: 10px;"></div>
-
+              
                 <div class="containertable">
                     <h3 style="font-weight: bold;">収入情報</h3>
                     <table class="table">
@@ -461,9 +461,9 @@
                         </tbody>
                     </table>
                 </div>
-
+              
+                <div class="page-break"></div>
                 <div style="padding: 10px;"></div>
-
                 <div class="containertable">
                     <h3 style="font-weight: bold;">賃貸条件一情報</h3>
                     <table class="table">
@@ -537,7 +537,7 @@
                                 <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
                                 (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
                                 (rental.contractStartDate ? 'black' : 'green'))">
-                                <input type="text">{{rental.rentalRemarks}}</td>
+                                {{rental.rentalRemarks}}</td>
                             </tr>
                         </tbody>
                     </table>                   

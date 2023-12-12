@@ -84,6 +84,8 @@ export class PmreportCreateComponent implements OnInit {
   userInfo: any;
   incomeRemarks: string;
   rentalRemarks: string;
+  incomeTotal:number = 0;;
+  expenseTotal:number = 0;;
   incomeData: Income[] = []; 
   rentalData: Rental[] = []; 
   pmReport: PMReport = {
@@ -399,7 +401,6 @@ export class PmreportCreateComponent implements OnInit {
       );
   }
 
-
   getCurrentUserInfo() {
     this.userAuthService.getCompanyId().subscribe(companyId => {
       this.companyId = companyId;
@@ -449,6 +450,7 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReport.ownerPostalSecond = this.ownerPostalSecond;
     this.pmReport.ownerAddress = this.ownerAddress;
     this.pmReport.password = this.password;
+    this.pmReport.totalIncome=this.incomeTotal;   
     this.income.incomeRemarks = this.incomeRemarks;
     this.rental.rentalRemarks = this.rentalRemarks;
     this.picId=this.userInfo;
@@ -456,7 +458,7 @@ export class PmreportCreateComponent implements OnInit {
     this.rental=this.rentalInfo; 
     for (let i = 0; i < this.expenseRow.length; i++) {      
       if(this.expenseRow[i].expenseDetail !== null && this.expenseRow[i].expenseDetail !== '') {
-        this.expenseData.push({
+        this.expenseData.push({          
           id: null,
           expenseDetail: this.expenseRow[i].expenseDetail,
           voucher:this.expenseRow[i].voucher,
@@ -466,10 +468,13 @@ export class PmreportCreateComponent implements OnInit {
           expenseTotal: this.expenseRow[i].expenseTotal,
           expenseRemarks: this.expenseRow[i].expenseRemarks,
           owner: undefined,
-          pmReport: undefined
+          pmReport: undefined         
         });
+        this.expenseTotal+=this.expenseRow[i].expenseTotal;     
       }
+     
     }
+    this.pmReport.totalExpense=this.expenseTotal; 
     formData.append("pmReport", new Blob([JSON.stringify(this.pmReport)], { type: "application/json" }));
     formData.append("expense", new Blob([JSON.stringify(this.expenseData)], { type: "application/json" }));
     formData.append("rental", new Blob([JSON.stringify(this.rental)], { type: "application/json" }));
@@ -542,6 +547,8 @@ export class PmreportCreateComponent implements OnInit {
       this.incomeInfo = data;
       for (const income of this.incomeInfo) {
         this.incomeData=income;
+        this.incomeTotal+=income.totalIncome;  
+        console.log("This is income total" + this.incomeTotal);    
       }
       this.dataSource = new MatTableDataSource<any>(this.incomeInfo);
     });
