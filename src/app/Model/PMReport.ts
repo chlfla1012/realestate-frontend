@@ -37,5 +37,5 @@ export interface PMReport{
     password: string
     companyId: CompanyName
     logo: FileHandle  
-    picid:UserInfo
+    pic:UserInfo
 }

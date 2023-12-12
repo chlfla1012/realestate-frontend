@@ -57,7 +57,7 @@ export class IncomeListComponent implements OnInit {
     url: null
   };
   logoImage: SafeUrl;
-  
+
   incomes: IncomeCheck[] = []; // Initialize as an empty array
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private service: IncomeCheckService,
@@ -74,7 +74,6 @@ export class IncomeListComponent implements OnInit {
     this.getAllPaymentCheckByCompanyId();
     this.getCurrentUserInfo();
   }
-
 
   getCurrentUserInfo() {
     this.userAuthService.getCompanyId().subscribe(companyId => {
@@ -103,7 +102,6 @@ export class IncomeListComponent implements OnInit {
   }
 
   getAllPaymentCheckByCompanyId() {
-
     this.service.getAllPaymentCheckByCompanyId(this.companyId).subscribe(data => {
       this.incomecheck = data;
       // Initialize the isChecked property for each row
@@ -127,12 +125,13 @@ export class IncomeListComponent implements OnInit {
     const filterValueStatus = this.status ? this.status : null;
 
     // Filter the data based on the search criteria
-    this.dataSource.filterPredicate = (data: any, filter: string) => {     
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
       const incomecheck = data as IncomeCheck;
       // Check if the property name, month, and status match the search criteria
       const isPropertyNameMatch = !filterValuePropertyName || incomecheck.propertyName.toLowerCase().includes(filterValuePropertyName);
       const isMonthMatch = !filterValueMonth || incomecheck.month === filterValueMonth;
       const isStatusMatch = !filterValueStatus || incomecheck.status === filterValueStatus;
+      console.log(isPropertyNameMatch && isMonthMatch && isStatusMatch);
       // Return true if all conditions match, otherwise false
       return isPropertyNameMatch && isMonthMatch && isStatusMatch;
     };
@@ -154,14 +153,6 @@ export class IncomeListComponent implements OnInit {
   }
 
   onSubmit(paymentCheckForm: NgForm) {
-    if (paymentCheckForm.invalid) {
-      Object.keys(paymentCheckForm.controls).forEach((key) => {
-        paymentCheckForm.controls[key].markAsTouched();
-      });
-      console.log("Form Errors");
-      return;
-    }
-
     const checkedRows = this.dataSource.data.filter(item => item.isChecked);
     const formData = new FormData();
 
@@ -229,12 +220,15 @@ export class IncomeListComponent implements OnInit {
 
     this.service.addListPaymentCheck(formData).subscribe(
       (response) => {
-        console.log('PaymentCheck Data Added successfully', response);                
+        console.log('PaymentCheck Data Added successfully', response);     
+       paymentCheckForm.resetForm();
+       //this.getAllPaymentCheckByCompanyId();
       },
       (error) => {
         console.error('Error saving customer', error);
       }
-    );    
+    );
+
   }
 
   formatDateStrings() {

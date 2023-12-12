@@ -93,7 +93,7 @@ export class PmreportCreatePdfComponent {
     password: "",
     companyId: { companyName: null },
     logo: null, 
-    picid:null,
+    pic:null,
   }
   income: Income = {
     id: null,

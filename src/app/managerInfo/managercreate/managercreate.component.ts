@@ -129,7 +129,7 @@ export class ManagercreateComponent {
         (response) => {
           console.log('Manager Data Added successfully', response);
           console.log("success")
-          
+          this.router.navigate(['/manager-list']);
         },
         (error) => {
           console.error('Error saving manager', error);
@@ -138,10 +138,10 @@ export class ManagercreateComponent {
         }
         
       );
-      window.history.back();
-      setTimeout(()=>{
-          window.location.reload();
-        }, 100);
+      // window.history.back();
+      // setTimeout(()=>{
+      //     window.location.reload();
+      //   }, 100);
       }
       // this.router.navigate(['/manager-list']);
       // setTimeout(()=>{

@@ -72,9 +72,9 @@ export class PropertycreateComponent {
     room: "",
 
     ownerName: "",
-    ownerKana:"",
+    ownerKana: "",
     owner: null,
-    
+
     picName: "",
 
 
@@ -82,7 +82,7 @@ export class PropertycreateComponent {
     mobileSecond: "",
     mobileThird: "",
     pic: null,
-   
+
     postalFirst: "",
     postalLast: "",
     address: "",
@@ -96,8 +96,8 @@ export class PropertycreateComponent {
     stroll1: "",
     ride2: "",
     stroll2: "",
-   
-    taxRate:null,
+
+    taxRate: null,
     rentTsubo: null,
     totalRent: null,
     rentTax: "なし",
@@ -145,7 +145,7 @@ export class PropertycreateComponent {
     classification: "住居",
     areaMeter: null,
     areaTsubo: null,
-    
+
     waterSupply: "指定なし",
     gas: "指定なし",
     electricity: "指定なし",
@@ -199,42 +199,42 @@ export class PropertycreateComponent {
 
   constructor(private router: Router,
     private userService: UserInfoService,
-    private userAuthService:UserAuthService,
+    private userAuthService: UserAuthService,
     private propertyService: PropertyService,
     private sanitizer: DomSanitizer) {
-    
-     
+
+
     this.ownerData = {
-      id:null,
+      id: null,
       firstName: "",
       lastName: "",
       firstNamekana: "",
       lastNamekana: "",
-      gender:"",
-      dateOfBirth:"",
-      department:"",
+      gender: "",
+      dateOfBirth: "",
+      department: "",
       phone1: 0,
-      phone2:0,
-      phone3:0,
+      phone2: 0,
+      phone3: 0,
       password: "",
       email: "",
-      postalcode1:"",
-      postalcode2:"",
-      address:"",
+      postalcode1: "",
+      postalcode2: "",
+      address: "",
       startDate: "",
       endDate: "",
       roleType: "",
-      bankName:"",
-      branch:"",
-      accountType:"",
-      accountNumber:"",
-      accountName:"",
+      bankName: "",
+      branch: "",
+      accountType: "",
+      accountNumber: "",
+      accountName: "",
       createdDate: "",
       modifiedDate: "",
-      companyId:{companyName:null},
-      apportionment:"",
+      companyId: { companyName: null },
+      apportionment: "",
 
-      logo:null
+      logo: null
     }
   }
 
@@ -242,21 +242,21 @@ export class PropertycreateComponent {
 
   data: any;
   // Owner ID validation properties
-  isOwnerIdTouched:Boolean = false; // To track the touch status
+  isOwnerIdTouched: Boolean = false; // To track the touch status
 
   // Getter to check if the owner ID is invalid (empty)
   get isOwnerIdInvalid(): boolean {
     return !this.ownerId; // Change this based on the ownerId data type (e.g., !this.ownerId || this.ownerId === '')
   }
 
-  ngOnInit() {   
+  ngOnInit() {
     // this.getCurrentCompanyName();
     this.getCurrentUserInfo();
     this.getOwners();
     this.getPICUsers();
   }
 
- 
+
   getCurrentUserInfo() {
     this.userAuthService.getCompanyId().subscribe(companyId => {
       this.companyId = companyId;
@@ -267,7 +267,7 @@ export class PropertycreateComponent {
     });
     console.log("Get Login data", this.companyId);
   }
- 
+
   getPICUsers() {
     this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
       this.picUsers = data;
@@ -277,8 +277,8 @@ export class PropertycreateComponent {
       });
   }
 
-  getOwners() { 
-     this.userService.getOwnersByCompanyId(this.companyId).subscribe(data => {
+  getOwners() {
+    this.userService.getOwnersByCompanyId(this.companyId).subscribe(data => {
       this.ownerUsers = data;
     },
       (error) => {
@@ -296,8 +296,8 @@ export class PropertycreateComponent {
 
       });
   }
-   
-  onSubmit(propertyForm: NgForm) {   
+
+  onSubmit(propertyForm: NgForm) {
     if (propertyForm.invalid) {
       // If the form is invalid, mark all form controls as touched
       Object.keys(propertyForm.controls).forEach((key) => {
@@ -309,22 +309,22 @@ export class PropertycreateComponent {
 
     this.userService.getUserById(this.ownerId).subscribe
       ((selectedOwnerData: UserInfo) => {
-        this.ownerName = selectedOwnerData.firstName + " "+ selectedOwnerData.lastName;
-        this.ownerKana = selectedOwnerData.firstNamekana +" "+ selectedOwnerData.lastNamekana;
+        this.ownerName = selectedOwnerData.firstName + " " + selectedOwnerData.lastName;
+        this.ownerKana = selectedOwnerData.firstNamekana + " " + selectedOwnerData.lastNamekana;
         this.ownerData = selectedOwnerData;
         // console.log(this.ownerData);
 
         this.userService.getUserById(this.picId).subscribe
           ((selectedPICData: UserInfo) => {
-            this.picName = selectedPICData.firstName +" "+
+            this.picName = selectedPICData.firstName + " " +
               selectedPICData.lastName;
-            
+
             const mobileFirst = selectedPICData.phone1;
             const mobileSecond = selectedPICData.phone2;
             const mobileThird = selectedPICData.phone3;
 
             this.picData = selectedPICData;
-            this.property.companyId = {companyName: this.backendCompany.companyName };
+            this.property.companyId = { companyName: this.backendCompany.companyName };
             console.log("comopany id", this.property.companyId);
             this.property.owner = this.ownerData;
             this.property.ownerName = this.ownerName;
@@ -341,47 +341,47 @@ export class PropertycreateComponent {
                 console.log(response);
                 this.router.navigate(['/property-list']);
 
-                
-            setTimeout(() => {
-              window.location.reload();
-            }, 100);
 
-               
+                // setTimeout(() => {
+                //   window.location.reload();
+                // }, 100);
+
+
               },
               (error: HttpErrorResponse) => {
                 console.log(error);
               }
             );
-            
 
-          
-          } , 
-                  (selectedPICData: HttpErrorResponse) => {
-                    console.log(selectedPICData);
-                  }
-                );
-              },
-              (selectedOwnerDataError: HttpErrorResponse) => {
-                console.log(selectedOwnerDataError);
-              }
-            );
-        
+
+
+          },
+            (selectedPICData: HttpErrorResponse) => {
+              console.log(selectedPICData);
+            }
+          );
+      },
+        (selectedOwnerDataError: HttpErrorResponse) => {
+          console.log(selectedOwnerDataError);
+        }
+      );
+
   }
-  
+
   onCancel() {
     // Reset the form data
     this.myForm.resetForm();
     this.router.navigate(['/property-list']);
-   
+
     // Navigate to the previous page
   }
-      
-    
-    
-    
+
+
+
+
   prepareFormDataForProduct(property: Property): FormData {
     const uploadImageData = new FormData();
-    
+
     uploadImageData.append(
       "property",
       new Blob([JSON.stringify(property)], { type: "application/json" })
@@ -455,10 +455,10 @@ export class PropertycreateComponent {
     }
     uploadImageData.append("companyId", this.companyId.toString());
     return uploadImageData;
-  
+
   }
 
- 
+
   onSelectFile(event: any, imageNumber: number) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -469,48 +469,48 @@ export class PropertycreateComponent {
       console.log(file.size);
       if (file.size > 1 * 1024 * 1024) {
         if (imageNumber === 1) {
-          this.image1Error='1MB以下のイメージを選択してください。';
+          this.image1Error = '1MB以下のイメージを選択してください。';
           this.property.image1 = null;
-          
+
           this.url1 = null;
         } else if (imageNumber === 2) {
-          this.image2Error='1MB以下のイメージを選択してください。';
+          this.image2Error = '1MB以下のイメージを選択してください。';
 
           this.property.image2 = null;
           this.url2 = null;
         }
         else if (imageNumber === 3) {
-          this.image3Error='1MB以下のイメージを選択してください。';
+          this.image3Error = '1MB以下のイメージを選択してください。';
 
           this.property.image3 = null;
           this.url3 = null;
         }
         else if (imageNumber === 4) {
-          this.image4Error='1MB以下のイメージを選択してください。';
+          this.image4Error = '1MB以下のイメージを選択してください。';
 
           this.property.image4 = null;
           this.url4 = null;
         }
         else if (imageNumber === 5) {
-          this.image5Error='1MB以下のイメージを選択してください。';
+          this.image5Error = '1MB以下のイメージを選択してください。';
 
           this.property.image5 = null;
           this.url5 = null;
         }
         else if (imageNumber === 6) {
-          this.image6Error='1MB以下のイメージを選択してください。';
+          this.image6Error = '1MB以下のイメージを選択してください。';
 
           this.property.image6 = null;
           this.url6 = null;
         }
         else if (imageNumber === 7) {
-          this.image7Error='1MB以下のイメージを選択してください。';
+          this.image7Error = '1MB以下のイメージを選択してください。';
 
           this.property.image7 = null;
           this.url7 = null;
         }
         else {
-          this.image8Error='1MB以下のイメージを選択してください。';
+          this.image8Error = '1MB以下のイメージを選択してください。';
 
           this.property.image8 = null;
           this.url8 = null;
@@ -520,7 +520,7 @@ export class PropertycreateComponent {
         if (imageNumber === 1) {
           this.image1Error = '';
           this.property.image1 = fileHandle;
-          
+
           this.url1 = fileHandle.url;
         }
         else if (imageNumber === 2) {
@@ -566,11 +566,11 @@ export class PropertycreateComponent {
           this.url8 = fileHandle.url;
         }
       }
-      
+
     }
-  
+
   }
-  
+
   keyPressAlpha(event: KeyboardEvent) {
     const inp = String.fromCharCode(event.keyCode);
 
@@ -580,7 +580,7 @@ export class PropertycreateComponent {
       event.preventDefault();
       return false;
     }
-    
+
   }
   keyPressNumeric(event: KeyboardEvent) {
     const inp = String.fromCharCode(event.keyCode);
@@ -594,10 +594,10 @@ export class PropertycreateComponent {
   }
   keyPressDecimal(event: KeyboardEvent) {
     const allowedKeys = new Set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']);
-  
+
     const inputValue = (event.target as HTMLInputElement).value;
     const key = event.key;
-  
+
     if (!allowedKeys.has(key) || (key === '.' && inputValue.includes('.'))) {
       event.preventDefault();
     }

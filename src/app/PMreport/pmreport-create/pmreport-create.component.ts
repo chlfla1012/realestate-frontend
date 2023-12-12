@@ -81,7 +81,8 @@ export class PmreportCreateComponent implements OnInit {
   incomeInfo: any;
   rentalInfo: any;
   ownerInfo: any;
-  userInfo: any;
+  userInfo: UserInfo;
+  owner:UserInfo;
   incomeRemarks: string;
   rentalRemarks: string;
   incomeTotal:number = 0;;
@@ -120,7 +121,7 @@ export class PmreportCreateComponent implements OnInit {
     password: "",
     companyId: { companyName: null },
     logo: null,
-    picid:null,
+    pic:null,
   }
   property: Property = {
     propertyName: '',
@@ -270,7 +271,8 @@ export class PmreportCreateComponent implements OnInit {
     depositTax: null,
     renewalFeeTax: null,
     repairCostTax: null,
-    penaltyFeeTax: null
+    penaltyFeeTax: null,
+    owner:null
   }
   rental = {
     id: null,
@@ -289,7 +291,8 @@ export class PmreportCreateComponent implements OnInit {
     contractStartDate: "",
     contractEndDate: "",
     renewalFees: null,
-    rentalRemarks: ""
+    rentalRemarks: "",
+    owner:null
   }
   expense = {
     id: null,
@@ -300,6 +303,7 @@ export class PmreportCreateComponent implements OnInit {
     expenseTax: null,
     expenseTotal: null,
     expenseRemarks: "",
+    owner:null
   }
   constructor(private router: Router,
     private userService: UserInfoService,
@@ -370,9 +374,7 @@ export class PmreportCreateComponent implements OnInit {
     this.getCurrentUserInfo();
     this.getPICUsers();
     this.getProperties();
-    // this.initForm();
-
-  }
+ }
   getProperties() {
     this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
       this.propertyIDs = data;
@@ -387,13 +389,7 @@ export class PmreportCreateComponent implements OnInit {
   onPropertyChange() {
     this.pmReportService.getOwnersByPropertyName(this.propertyname).
       subscribe((data: Property[]) => {
-        this.propertyIDs = data;
-        // for (const property of this.propertyIDs) {
-        //   this.ownerName = property.ownerName;
-        //   this.propertyname = property.propertyName;
-        // }       
-        console.log(this.propertyname);
-        console.log(data);
+        this.propertyIDs = data;        
       },
         (error) => {
           console.error('Error fetching Property data:', error);
@@ -453,9 +449,9 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReport.totalIncome=this.incomeTotal;   
     this.income.incomeRemarks = this.incomeRemarks;
     this.rental.rentalRemarks = this.rentalRemarks;
-    this.picId=this.userInfo;
+    this.pmReport.pic=this.userInfo;   
+    this.rental=this.rentalInfo;  
     this.income=this.incomeInfo;
-    this.rental=this.rentalInfo; 
     for (let i = 0; i < this.expenseRow.length; i++) {      
       if(this.expenseRow[i].expenseDetail !== null && this.expenseRow[i].expenseDetail !== '') {
         this.expenseData.push({          
@@ -467,7 +463,7 @@ export class PmreportCreateComponent implements OnInit {
           expenseTax: this.expenseRow[i].expenseTax,
           expenseTotal: this.expenseRow[i].expenseTotal,
           expenseRemarks: this.expenseRow[i].expenseRemarks,
-          owner: undefined,
+          owner: this.owner,
           pmReport: undefined         
         });
         this.expenseTotal+=this.expenseRow[i].expenseTotal;     
@@ -486,12 +482,13 @@ export class PmreportCreateComponent implements OnInit {
     console.log('rental', this.rental);
     console.log('income', this.income);
     console.log('incomeData', this.incomeData);
+    console.log('UserData', this.userInfo);
     
     this.pmReportService.addPMreport(formData).subscribe(
       (response: PMReport) => {
         console.log(response);
         console.log('Data added successfully');
-        this.router.navigate(['/pmreport-list']);
+       // this.router.navigate(['/report-list']);
       },
       (error: HttpErrorResponse) => {
         console.error('Error submitting contract:', error);
@@ -501,7 +498,7 @@ export class PmreportCreateComponent implements OnInit {
 
   onCancel() {
     this.myForm.resetForm();
-    this.router.navigate(['/pmreport-list']);
+    this.router.navigate(['/report-list']);
   }
   navigateToPreivousPage() {
     window.history.back();
@@ -511,6 +508,7 @@ export class PmreportCreateComponent implements OnInit {
         this.picUsers = data;
         for (const user of this.picUsers) {
           this.userInfo=user;
+          this.picId=user.id.toString();
           this.mobileFirst = user.phone1.toString();
           this.mobileSecond = user.phone2.toString();
           this.mobileThird = user.phone3.toString();
@@ -519,6 +517,7 @@ export class PmreportCreateComponent implements OnInit {
           this.userPostalFirst = user.postalcode1.toString();
           this.userPostalSecond = user.postalcode2.toString();
           this.userAddress = user.address.toString();
+          console.log("User id0"+this.picId);
         }
       },
       (error) => {
@@ -529,6 +528,7 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReportService.getOwnerName(this.ownerName).subscribe((data: UserInfo[]) => {
         this.ownerInfo = data;
         for (const owner of this.ownerInfo) {
+          this.owner=owner;
           this.accountHolder = owner.accountName;
           this.accountNo = owner.accountNumber.toString();
           this.accountType = owner.accountType;
@@ -545,6 +545,7 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReportService.getIncomeInformation(this.ownerName).subscribe(data => {
       console.log("This is income" + data);
       this.incomeInfo = data;
+      this.incomeInfo.forEach(income => income.owner = this.owner);
       for (const income of this.incomeInfo) {
         this.incomeData=income;
         this.incomeTotal+=income.totalIncome;  
@@ -555,6 +556,7 @@ export class PmreportCreateComponent implements OnInit {
     this.pmReportService.getRentalInformation(this.ownerName).subscribe(data => {
       console.log("This is rental" + data);
       this.rentalInfo = data;
+      this.rentalInfo.forEach(rental => rental.owner = this.owner);
       this.dataSource2 = new MatTableDataSource<any>(this.rentalInfo);
     });
   }

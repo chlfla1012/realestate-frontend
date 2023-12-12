@@ -121,7 +121,7 @@ export class PmreportDetailsComponent {
     password: "",
     companyId: { companyName: null },
     logo: null,
-    picid : null
+    pic : null
   }
   constructor(private router: Router,
     private userService: UserInfoService,

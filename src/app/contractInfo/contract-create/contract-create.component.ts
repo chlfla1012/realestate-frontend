@@ -27,7 +27,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   selector: 'app-contract-create',
   templateUrl: './contract-create.component.html',
   styleUrls: ['./contract-create.component.css'],
-  providers: [DatePipe] ,// Provide DatePipe,
+  providers: [DatePipe],// Provide DatePipe,
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ContractCreateComponent {
@@ -38,38 +38,38 @@ export class ContractCreateComponent {
   };
   maxDate: string;  // Property to hold the max contract start date
   companyName: CompanyName;
-  selectedaccounttype:string='regular';
+  selectedaccounttype: string = 'regular';
   lendertype: string;
   borrowertype: string;
   // propertyName: string = '';
   // results: any[] = [];
   selectedProperty: any;
 
-  propertyName: string ;
+  propertyName: string;
   selectedPropertyName: string;
   results: any[] = [];
   private searchTextChanged = new Subject<string>();
   containers: boolean[] = [true, false, false, false, false, false, false];
 
   errorMessage: string = '';
-  picId:string;
-  propertyId:string;
+  picId: string;
+  propertyId: string;
 
-  picName:string;
-  picNamekana:string;
-  picdepartment:string;
-  propertyname:string;
-  roomno:string;
-  ownername:string;
-  ownernamekana:string;
-  mobileFirst:string;
-  mobileSecond:string;
-  mobileThird:string;
-  propertyIDs:Property[];
-  picUsers:UserInfo[];
-  propertyData:Property;
-  picData:UserInfo;
-  contract:Contract={
+  picName: string;
+  picNamekana: string;
+  picdepartment: string;
+  propertyname: string;
+  roomno: string;
+  ownername: string;
+  ownernamekana: string;
+  mobileFirst: string;
+  mobileSecond: string;
+  mobileThird: string;
+  propertyIDs: Property[];
+  picUsers: UserInfo[];
+  propertyData: Property;
+  picData: UserInfo;
+  contract: Contract = {
     companyId: { companyName: null },
     id: null,
     propertyName: null,
@@ -77,7 +77,7 @@ export class ContractCreateComponent {
     ownerName: null,
     ownerKana: null,
     lenderId: {
-      id:undefined,
+      id: undefined,
       lenderType: 'LK',
       lenderFirstName: null,
       lenderLastName: null,
@@ -106,7 +106,7 @@ export class ContractCreateComponent {
       lcMemo: null,
     },
     borrowerId: {
-      id:undefined,
+      id: undefined,
       borrowerType: 'BK',
       borrowerFirstName: null,
       borrowerLastName: null,
@@ -136,7 +136,7 @@ export class ContractCreateComponent {
 
     },
     tenantId: {
-      id:undefined,
+      id: undefined,
       tenantFirstName: null,
       tenantLastName: null,
       tenantFirstKana: null,
@@ -218,11 +218,11 @@ export class ContractCreateComponent {
   ownerkana: string;
   formBuilder: any;
   contractForm: any;
-  constructor(private router:Router,
-    private propertyService:PropertyService,
+  constructor(private router: Router,
+    private propertyService: PropertyService,
     private userService: UserInfoService,
-    private userAuthService:UserAuthService,
-    private contractService:ContractService,
+    private userAuthService: UserAuthService,
+    private contractService: ContractService,
     private sanitizer: DomSanitizer,
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -230,42 +230,42 @@ export class ContractCreateComponent {
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(LOCALE_ID) private locale: string
-) {
-      this.picData = {
-        id:null,
-        firstName: "",
-        lastName: "",
-        firstNamekana: "",
-        lastNamekana: "",
-        gender:"",
-        dateOfBirth:"",
-        department:"",
-        phone1: null,
-        phone2:0,
-        phone3:0,
-        password: "",
-        email: "",
-        postalcode1:"",
-        postalcode2:"",
-        address:"",
-        startDate: "",
-        endDate: "",
-        roleType: "",
-        bankName:"",
-        branch:"",
-        accountType:"",
-        accountNumber:"",
-        accountName:"",
-        createdDate: "",
-        modifiedDate: "",
-        apportionment:"",
-        companyId:{companyName:null},
-
-        logo:null
-      }
-      this.propertyData={
+  ) {
+    this.picData = {
       id: null,
-      companyId:{companyName:null},
+      firstName: "",
+      lastName: "",
+      firstNamekana: "",
+      lastNamekana: "",
+      gender: "",
+      dateOfBirth: "",
+      department: "",
+      phone1: null,
+      phone2: 0,
+      phone3: 0,
+      password: "",
+      email: "",
+      postalcode1: "",
+      postalcode2: "",
+      address: "",
+      startDate: "",
+      endDate: "",
+      roleType: "",
+      bankName: "",
+      branch: "",
+      accountType: "",
+      accountNumber: "",
+      accountName: "",
+      createdDate: "",
+      modifiedDate: "",
+      apportionment: "",
+      companyId: { companyName: null },
+
+      logo: null
+    }
+    this.propertyData = {
+      id: null,
+      companyId: { companyName: null },
       propertyType: "",
       status: "",
       propertyName: "",
@@ -273,7 +273,7 @@ export class ContractCreateComponent {
       floor: "",
       room: "",
       ownerName: "",
-      ownerKana:"",
+      ownerKana: "",
       owner: null,
       picName: "",
       mobileFirst: "",
@@ -292,8 +292,8 @@ export class ContractCreateComponent {
       ride1: "",
       stroll1: "",
       ride2: "",
-        stroll2: "",
-      taxRate:null,
+      stroll2: "",
+      taxRate: null,
       rentTsubo: null,
       totalRent: null,
       rentTax: "",
@@ -325,7 +325,7 @@ export class ContractCreateComponent {
       underground: "",
       elevator: false,
       structure: "",
-      buildingDate:"",
+      buildingDate: "",
       newBuild: false,
       buildNo: "",
       exclusiveArea: "",
@@ -385,19 +385,19 @@ export class ContractCreateComponent {
       managementForm: "",
 
       constructCompany: "",
-      }
-      this.contractForm = this.fb.group({
-        // Define your form controls and validators here
-        // For example:
-        propertyname: ['', Validators.required],
-        // other form controls...
-      });
+    }
+    this.contractForm = this.fb.group({
+      // Define your form controls and validators here
+      // For example:
+      propertyname: ['', Validators.required],
+      // other form controls...
+    });
 
-      const today = new Date();
-      this.maxDate = today.toISOString().split('T')[0];// Set max date to today's date in 'yyyy-MM-dd' format
-      // this.selectedPropertyName='';
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0];// Set max date to today's date in 'yyyy-MM-dd' format
+    // this.selectedPropertyName='';
 
-   }
+  }
   updateContractEndDate() {
     if (this.contract.contractStartDate && this.contract.contractLength) {
       const startDate = new Date(this.contract.contractStartDate);
@@ -412,20 +412,20 @@ export class ContractCreateComponent {
       this.contract.contractEndDate = null;
     }
   }
-    data: any;
-    // propertyIdControl: FormControl = new FormControl('', Validators.required);
-    ngOnInit() {
-      // this.getCurrentCompanyName();
-      this.getCurrentUserInfo();
+  data: any;
+  // propertyIdControl: FormControl = new FormControl('', Validators.required);
+  ngOnInit() {
+    // this.getCurrentCompanyName();
+    this.getCurrentUserInfo();
 
-      this.getPICUsers();
-      this.getProperties();
+    this.getPICUsers();
+    this.getProperties();
 
-      this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
-        this.searchByPropertyName();
-      });
+    this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+      this.searchByPropertyName();
+    });
 
-    }
+  }
 
   getCurrentUserInfo() {
     this.userAuthService.getCompanyId().subscribe(companyId => {
@@ -437,76 +437,77 @@ export class ContractCreateComponent {
     });
 
 
-    console.log("Get Login data", this.companyId);  }
+    console.log("Get Login data", this.companyId);
+  }
 
 
 
-    cancel(): void {
-      console.log('Cancel function called');
-      // Clear form values
-      this.contractForm.reset();
+  cancel(): void {
+    console.log('Cancel function called');
+    // Clear form values
+    this.contractForm.reset();
 
-      // Navigate back to "Ichiran" screen
-      this.router.navigate(['/contract-list']);
-    }
+    // Navigate back to "Ichiran" screen
+    this.router.navigate(['/contract-list']);
+  }
   getProperties() {
 
-  this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
-    this.propertyIDs = data;
+    this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+      this.propertyIDs = data;
 
-},
-  (error) => {
-    console.error('Error fetching owners:', error);
+    },
+      (error) => {
+        console.error('Error fetching owners:', error);
+      }
+    );
   }
-);
-}
 
 
 
   getPICUsers() {
 
-      this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
-        this.picUsers = data;
-        // console.log("picusers", this.ownerUsers);
-      },
-        (error) => {
-          console.error('Error fetching owners:', error);
-        });
-    }
+    this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
+      this.picUsers = data;
+      // console.log("picusers", this.ownerUsers);
+    },
+      (error) => {
+        console.error('Error fetching owners:', error);
+      });
+  }
 
-    onPICSelectionChange() {
-      this.userService.getUserById(this.picId).subscribe(
-        (data: UserInfo) => {
-          this.mobileFirst = data.phone1.toString();
-          this.mobileSecond = data.phone2.toString();
-          this.mobileThird = data.phone3.toString();
-          this.picName=data.firstName+" "+data.lastName;
-          this.picNamekana = data.firstNamekana + " " + data.lastNamekana;
-          this.picdepartment = data.department;
-        },
-        (error) => {
-          console.error('Error fetching PIC data:', error);
-        }
-      );
-    }
+  onPICSelectionChange() {
+    this.userService.getUserById(this.picId).subscribe(
+      (data: UserInfo) => {
+        this.mobileFirst = data.phone1.toString();
+        this.mobileSecond = data.phone2.toString();
+        this.mobileThird = data.phone3.toString();
+        this.picName = data.firstName + " " + data.lastName;
+        this.picNamekana = data.firstNamekana + " " + data.lastNamekana;
+        this.picdepartment = data.department;
+      },
+      (error) => {
+        console.error('Error fetching PIC data:', error);
+      }
+    );
+  }
 
   onInputChanged(): void {
     this.searchTextChanged.next(this.propertyName);
   }
 
   searchByPropertyName(): void {
-    console.log("Property Name  "+this.propertyName);
+    console.log("Property Name  " + this.propertyName);
     this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {
-      console.log("Property Name  "+this.propertyName);
+      console.log("Property Name  " + this.propertyName);
       this.results = data;
     });
   }
 
   selectPropertyName(event: MatAutocompleteSelectedEvent): void {
     console.log('Selected Property Name 02:', this.propertyName);
-  this.propertyName = event.option.value;
-  this.selectedPropertyName = this.propertyName;
-  console.log('Selected Property Name 04:', this.propertyName);
+    this.propertyName = event.option.value;
+    this.selectedPropertyName = this.propertyName;
+    console.log('Selected Property Name 04:', this.propertyName);
 
     // Call the service method and handle the subscription
     this.propertyService.getPropertiesByCompanyId(this.companyId) // Replace with your actual service method to get all properties
@@ -540,175 +541,171 @@ export class ContractCreateComponent {
       );
   }
 
- private selectedOption: string;
+  private selectedOption: string;
 
   options = [
     { name: "first", value: 1 },
     { name: "two", value: 2 }
   ]
 
-    onSubmit(contractForm: NgForm): void {
-      if (contractForm.invalid) {
-        this.handleFormError(contractForm);
-        return;
-      }
+  onSubmit(contractForm: NgForm): void {
+    if (contractForm.invalid) {
+      this.handleFormError(contractForm);
+      return;
+    }
 
-      // Fetch data based on the selected property using company ID
-      this.propertyService.getPropertiesByCompanyId(this.companyId)
-        .subscribe(
-          (allProperties: Property[]) => {
-            console.log('All Properties:', allProperties);
+    // Fetch data based on the selected property using company ID
+    this.propertyService.getPropertiesByCompanyId(this.companyId)
+      .subscribe(
+        (allProperties: Property[]) => {
+          console.log('All Properties:', allProperties);
 
-            // Find the selected property in the array
-            const selectedProperty = allProperties.find(property => property.propertyName === this.propertyName);
+          // Find the selected property in the array
+          const selectedProperty = allProperties.find(property => property.propertyName === this.propertyName);
 
-            if (selectedProperty) {
-              console.log('Selected Property:', selectedProperty);
+          if (selectedProperty) {
+            console.log('Selected Property:', selectedProperty);
 
-              // Update component properties based on the selected property
-              this.roomno = selectedProperty.room;
-              console.log('Room no:', this.roomno);
-              this.ownername = selectedProperty.ownerName;
-              this.ownerKana = selectedProperty.ownerKana;
+            // Update component properties based on the selected property
+            this.roomno = selectedProperty.room;
+            console.log('Room no:', this.roomno);
+            this.ownername = selectedProperty.ownerName;
+            this.ownerKana = selectedProperty.ownerKana;
 
-              // Update the contract object with the fetched data
-              this.contract.property = selectedProperty;
-              this.contract.propertyName = selectedProperty.propertyName;
-              this.contract.roomno = this.roomno;
-              this.contract.ownerName = this.ownername;
-              this.contract.ownerKana = this.ownerKana;
+            // Update the contract object with the fetched data
+            this.contract.property = selectedProperty;
+            this.contract.propertyName = selectedProperty.propertyName;
+            this.contract.roomno = this.roomno;
+            this.contract.ownerName = this.ownername;
+            this.contract.ownerKana = this.ownerKana;
 
-              // Fetch data based on the selected PIC
-              this.fetchPicData();
-            } else {
-              console.error('Selected property not found');
-            }
-          },
-          (error) => {
-            console.error('Error fetching Property data:', error);
+            // Fetch data based on the selected PIC
+            this.fetchPicData();
+          } else {
+            console.error('Selected property not found');
           }
-        );
-    }
-
-    handleFormError(contractForm: NgForm): void {
-      this.openAlertDialog('必要なフィールドを入力してください。');
-
-      // Mark all form controls as touched
-      Object.values(contractForm.controls).forEach(control => control.markAsTouched());
-      console.log("Form Errors");
-    }
-
-    fetchPicData(): void {
-      this.userService.getUserById(this.picId).subscribe(
-        (selectedPICData: UserInfo) => {
-          this.handlePicData(selectedPICData);
         },
-        (selectedPICDataError: HttpErrorResponse) => {
-          console.log(selectedPICDataError);
+        (error) => {
+          console.error('Error fetching Property data:', error);
         }
       );
-    }
+  }
 
-    handlePicData(selectedPICData: UserInfo): void {
-      this.picName = selectedPICData.firstName + " " + selectedPICData.lastName;
-      const mobileFirst = selectedPICData.phone1;
-      const mobileSecond = selectedPICData.phone2;
-      const mobileThird = selectedPICData.phone3;
-      const picNameKana = selectedPICData.firstNamekana + " " + selectedPICData.lastNamekana;
-      const department = selectedPICData.department;
+  handleFormError(contractForm: NgForm): void {
+    this.openAlertDialog('必要なフィールドを入力してください。');
 
-      this.picData = selectedPICData;
-      console.log("test", this.picData);
+    // Mark all form controls as touched
+    Object.values(contractForm.controls).forEach(control => control.markAsTouched());
+    console.log("Form Errors");
+  }
 
-      // Update the contract object with the fetched data
-      this.contract.companyId = { companyName: this.backendCompany.companyName };
-      this.contract.pic = this.picData;
-      this.contract.picName = this.picName;
-      this.contract.picNameKana = this.picNamekana;
-      this.contract.department = this.picdepartment;
-      this.contract.mobileFirst = this.mobileFirst;
-      this.contract.mobileSecond = this.mobileSecond;
-      this.contract.mobileThird = this.mobileThird;
+  fetchPicData(): void {
+    this.userService.getUserById(this.picId).subscribe(
+      (selectedPICData: UserInfo) => {
+        this.handlePicData(selectedPICData);
+      },
+      (selectedPICDataError: HttpErrorResponse) => {
+        console.log(selectedPICDataError);
+      }
+    );
+  }
 
-      this.submitContract();
-    }
+  handlePicData(selectedPICData: UserInfo): void {
+    this.picName = selectedPICData.firstName + " " + selectedPICData.lastName;
+    const mobileFirst = selectedPICData.phone1;
+    const mobileSecond = selectedPICData.phone2;
+    const mobileThird = selectedPICData.phone3;
+    const picNameKana = selectedPICData.firstNamekana + " " + selectedPICData.lastNamekana;
+    const department = selectedPICData.department;
 
-    submitContract(): void {
-      const formData = new FormData();
-      formData.append("contract", new Blob([JSON.stringify(this.contract)], { type: "application/json" }));
-      formData.append("borrowerId", new Blob([JSON.stringify(this.contract.borrowerId)], { type: "application/json" }));
-      formData.append("lenderId", new Blob([JSON.stringify(this.contract.lenderId)], { type: "application/json" }));
-      formData.append("tenantId", new Blob([JSON.stringify(this.contract.tenantId)], { type: "application/json" }));
-      formData.append("companyId", this.companyId.toString());
-      console.log(formData);
+    this.picData = selectedPICData;
+    console.log("test", this.picData);
 
-      this.contractService.addContract(formData).subscribe(
-        (response: Contract) => {
-          console.log(response);
-        },
-        (error: HttpErrorResponse) => {
-          console.error('Error submitting contract:', error);
-        }
-      );
-           this.router.navigate(['/contract-list']);
-            setTimeout(() => {
-              window.location.reload();
-            }, 100);
-    }
+    // Update the contract object with the fetched data
+    this.contract.companyId = { companyName: this.backendCompany.companyName };
+    this.contract.pic = this.picData;
+    this.contract.picName = this.picName;
+    this.contract.picNameKana = this.picNamekana;
+    this.contract.department = this.picdepartment;
+    this.contract.mobileFirst = this.mobileFirst;
+    this.contract.mobileSecond = this.mobileSecond;
+    this.contract.mobileThird = this.mobileThird;
 
-    openAlertDialog(message: string): void {
-      const dialogRef = this.dialog.open(AlertDialogComponent, {
-        width: '350px',
-        data: { message: message }
-      });
+    this.submitContract();
+  }
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('Dialog closed');
-      });
-    }
+  submitContract(): void {
+    const formData = new FormData();
+    formData.append("contract", new Blob([JSON.stringify(this.contract)], { type: "application/json" }));
+    formData.append("borrowerId", new Blob([JSON.stringify(this.contract.borrowerId)], { type: "application/json" }));
+    formData.append("lenderId", new Blob([JSON.stringify(this.contract.lenderId)], { type: "application/json" }));
+    formData.append("tenantId", new Blob([JSON.stringify(this.contract.tenantId)], { type: "application/json" }));
+    formData.append("companyId", this.companyId.toString());
+    console.log(formData);
 
-  keyPressAlpha(event:KeyboardEvent){
-    const inp=String.fromCharCode(event.keyCode);
-    if(/[a-zA]/.test(inp)){
+    this.contractService.addContract(formData).subscribe(
+      (response: Contract) => {
+        console.log(response);
+        this.router.navigate(['/contract-list']);
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Error submitting contract:', error);
+      }
+    );
+    //  this.router.navigate(['/contract-list']);
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 100);
+  }
+
+  openAlertDialog(message: string): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '350px',
+      data: { message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+  }
+
+  keyPressAlpha(event: KeyboardEvent) {
+    const inp = String.fromCharCode(event.keyCode);
+    if (/[a-zA]/.test(inp)) {
       return true;
     }
-    else{
+    else {
       event.preventDefault();
       return false;
     }
   }
-  keyPressNumeric(event:KeyboardEvent){
-    const inp=String.fromCharCode(event.keyCode);
+  keyPressNumeric(event: KeyboardEvent) {
+    const inp = String.fromCharCode(event.keyCode);
 
-    if(/[0-9]/.test(inp))
-    {
+    if (/[0-9]/.test(inp)) {
       return true;
     }
     event.preventDefault();
     return false;
   }
-  keyPressKana(event:KeyboardEvent)
-  {
-    const inp=String.fromCharCode(event.keyCode);
+  keyPressKana(event: KeyboardEvent) {
+    const inp = String.fromCharCode(event.keyCode);
 
-    if(/^[ァ-ヶー　]+$/.test(inp))
-    {
+    if (/^[ァ-ヶー　]+$/.test(inp)) {
       return true;
     }
-    else{
+    else {
       event.preventDefault();
       return false;
     }
   }
-  keyPressKanjihira(event:KeyboardEvent)
-  {
-    const inp=String.fromCharCode(event.keyCode);
+  keyPressKanjihira(event: KeyboardEvent) {
+    const inp = String.fromCharCode(event.keyCode);
 
-    if(/^[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$/.test(inp))
-    {
+    if (/^[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+$/.test(inp)) {
       return true;
     }
-    else{
+    else {
       event.preventDefault();
       return false;
     }

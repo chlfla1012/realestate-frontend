@@ -33,7 +33,7 @@ export class OwnercreateComponent {
   companyId: number;
   logoId: number;
   backendCompany: CompanyName = {
-    
+
     companyName: null
   };
   backendLogo: FileHandle = {
@@ -68,7 +68,7 @@ export class OwnercreateComponent {
     accountName: "",
     createdDate: "",
     modifiedDate: "",
-    companyId:{companyName:null},
+    companyId: { companyName: null },
 
 
     apportionment: "",
@@ -138,8 +138,8 @@ export class OwnercreateComponent {
 
     this.userInfo.roleType = "owner";
     if (this.userAuthService.isCompanyNameFromBackend) {
-      this.userInfo.companyId = {companyName: this.backendCompany.companyName };
-      this.userInfo.companyId = {  companyName: this.backendCompany.companyName };
+      this.userInfo.companyId = { companyName: this.backendCompany.companyName };
+      this.userInfo.companyId = { companyName: this.backendCompany.companyName };
     }
     if (this.userAuthService.isLogoFromBackend) {
       // If the logo is from the backend, set the logo ID accordingly
@@ -150,10 +150,10 @@ export class OwnercreateComponent {
     formData.append(
       "owner",
       new Blob([JSON.stringify(this.userInfo)], { type: "application/json" })
-);
+    );
 
-  formData.append("logoId",this.logoId.toString());
-  formData.append("companyId", this.companyId.toString());
+    formData.append("logoId", this.logoId.toString());
+    formData.append("companyId", this.companyId.toString());
 
 
     // this.service.addOwnerInfo(formData).subscribe(
@@ -172,18 +172,19 @@ export class OwnercreateComponent {
       this.service.addOwnerInfo(formData).subscribe(
         (response) => {
           console.log('Owner Data Added successfully', response);
+          this.router.navigate(['/owner-list']);
         },
         (error) => {
           console.error('Error saving owner', error);
         }
       );
-      this.router.navigate(['/owner-list']);
-      setTimeout(() => {
-        window.location.reload();
-      }, 20);
-      setTimeout(() => {
-        window.location.reload();
-      }, 100);
+      // this.router.navigate(['/owner-list']);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 20);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 100);
     }
   }
 
@@ -326,7 +327,7 @@ export class OwnercreateComponent {
 
     // Navigate to the previous page
   }
-  back(){
+  back() {
     window.history.back();
   }
 
