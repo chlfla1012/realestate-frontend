@@ -87,6 +87,11 @@ export class PmreportListComponent implements OnInit {
       );      
     }
 
+    navigateToCreatePage() {
+      this.router.navigate(['/report-create']);
+  
+    }
+
   search() {
     // Convert the filter values to lowercase for case-insensitive search
     const filterValuePropertyName = this.propertyName ? this.propertyName.trim().toLowerCase() : null;
