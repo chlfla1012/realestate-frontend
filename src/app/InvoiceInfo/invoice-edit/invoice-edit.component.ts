@@ -25,6 +25,12 @@ export class InvoiceEditComponent {
     companyName: null
   };
 
+  containers: boolean[] = [true, false, false, false, false];
+
+  toggleContainer(index: number) {
+    this.containers[index] = !this.containers[index];
+  }
+
   userInfo: UserInfo[];
   picId: string;
   id: string;

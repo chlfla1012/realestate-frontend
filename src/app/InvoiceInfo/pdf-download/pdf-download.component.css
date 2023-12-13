@@ -88,3 +88,7 @@
   .column-id{
     max-width:90px;
   }
+
+  .page-break{
+    page-break-before: always
+  }

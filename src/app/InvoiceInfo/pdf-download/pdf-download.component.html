@@ -71,7 +71,8 @@
         </div>
    
         <div *ngIf="filteredData && filteredData.length > 0">
-          <table  *ngFor="let item of filteredData"  class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;page-break-after: always">
+          <table class="page-break" *ngFor="let item of filteredData"  class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;">
+
             <thead>
               <tr>
                 <th>期間</th>
@@ -233,11 +234,14 @@
           </table>
         
         </div>
-      
+        
+
         <div class="col-md-6" style="margin-left:415px;margin-top: -13px;" >
           <!-- <textarea [readonly]="isTextareaReadOnly" id="w3review2" name="w3review" style="white-space: pre-line; font-size: 12px; line-height: 1.5;" rows="5" cols="50">
             <<ご連絡事項>>  
           </textarea> -->
+          <!-- <div class="page-break"></div> -->
+          <div style="padding: 10px;"></div>
           <table class="table1" style="border-collapse: collapse;width: 320px;height: 80px;line-height: 1.2;">
             <tr style="text-align: left;"><<ご連絡事項>></tr>
            

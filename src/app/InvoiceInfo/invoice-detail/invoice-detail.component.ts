@@ -23,7 +23,11 @@ export class InvoiceDetailComponent {
   backendCompany: CompanyName = {
     companyName: null
   };
+  containers: boolean[] = [true, false, false, false, false];
 
+  toggleContainer(index: number) {
+    this.containers[index] = !this.containers[index];
+  }
   backendLogo: FileHandle = {
     file: null,
     url: null

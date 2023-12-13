@@ -166,6 +166,8 @@ if (filteredDataParam) {
   }
 
 openGmail() {
+
+
   this.bcooperate = this.itemVariables.borrowerCooperate;
   console.log("the borrowercooperate open gmail" + this.bcooperate);
 
@@ -181,8 +183,21 @@ openGmail() {
       for (const contractInfo of data) {
         console.log("Borrower Mail: " + contractInfo.bcMail);
 
+        const subject = '請求書';
+        const bodyTemplate = `%recipientName%  様、
+      
+      いつもお世話になっております。
+      今月の請求書をお送り致します。
+      ご確認よろしくお願い致します。
+
+      `;
+        const body = bodyTemplate
+.replace('%recipientName%', this.itemVariables.borrowerPersonName);
         // Construct the Gmail URL with the recipient's email address
-        const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${contractInfo.bcMail}`;
+        // const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${contractInfo.bcMail}&su=${encodeURIComponent(subject)}`;
+
+        const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${contractInfo.bcMail}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
         console.log("Borrower Mail: " + contractInfo.bcMail);
 
         // Open the Gmail compose window
