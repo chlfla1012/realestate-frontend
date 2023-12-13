@@ -1,6 +1,5 @@
 import { Component,OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-// import { DataTableDirective } from 'angular-datatables';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -10,7 +9,6 @@ import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { PMReport } from 'src/app/Model/PMReport';
-//import { PMReportService } from 'src/app/Service/PMReport/pmReport.service';
 import { PmReportService } from 'src/app/Service/PMRepot/pmReport.service';
 
 @Component({
@@ -55,71 +53,39 @@ export class PmreportListComponent implements OnInit {
     }
 
   getCurrentCompanyId() {
-      this.userAuthService.getCompanyId().subscribe(companyId => {
-        this.companyId = companyId;
+      this.userAuthService.getCompanyId().subscribe(companyId => {     
+      this.companyId = companyId;
 
       });
     }
 
     getAllReportByCompanyId(){
-      console.log(this.companyId + " Hello !");
-    this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
+      console.log("companyId before API call:" + this.companyId);
+      this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
       this.report = data;
-      console.log("Report list backend data output " + this.report.companyId);
-      for (const reportInfo of data) {
-        console.log("Report list backend data output "+reportInfo.createdDate); 
-
-      }
+      console.log("companyId after API call: " + this.companyId);
       this.formatDateStrings();
-      this.dataSource = new MatTableDataSource<any>(this.report);
-      console.log("Data" + this.dataSource.data);
-      // Set the paginator for the MatTableDataSource
-      this.dataSource.paginator = this.paginator;
-      console.log("List" + this.report);
-      //  this.dtTrigger.next(null);
-    },
+      this.dataSource = new MatTableDataSource<any>(this.report);      
+      this.dataSource.paginator = this.paginator;      
+      },
       (error) => {
         console.error("Error in API call: ", error);
       }
     );
-
-    this.dataSource = new MatTableDataSource<any>(this.report);
-    console.log("Data" + this.dataSource);
-    // Set the paginator for the MatTableDataSource
-    this.dataSource.paginator = this.paginator;
-
     }
+
     loadReports() {
       this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
-        this.report = data;
-        console.log("Report list backend data output " + this.report.companyId);
-        for (const reportInfo of data) {
-          console.log("Report lists backend data output "+reportInfo.createdDate);
-  
-        }
+        this.report = data;       
         this.formatDateStrings();
-        this.dataSource = new MatTableDataSource<any>(this.report);
-        console.log("Data" + this.dataSource.data);
-        // Set the paginator for the MatTableDataSource
-        this.dataSource.paginator = this.paginator;
-        console.log("List" + this.report);
-       
+        this.dataSource = new MatTableDataSource<any>(this.report);        
+        this.dataSource.paginator = this.paginator;              
       },
         (error) => {
           console.error("Error in API call: ", error);
         }
-      );
-  
-      this.dataSource = new MatTableDataSource<any>(this.report);
-      console.log("Data" + this.dataSource);
-      // Set the paginator for the MatTableDataSource
-      this.dataSource.paginator = this.paginator;
+      );      
     }
-
-  navigateToCreatePage() {
-    this.router.navigate(['/report-create']);
-
-  }
 
   search() {
     // Convert the filter values to lowercase for case-insensitive search

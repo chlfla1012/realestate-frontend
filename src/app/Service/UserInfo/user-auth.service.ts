@@ -65,14 +65,25 @@ export class UserAuthService {
     return this.logoIdSubject.asObservable();
   }
 
-  setCompanyId(companyId: number, isCompanyIdBackend:boolean) {
+  setCompanyId(companyId: number, isCompanyIdBackend: boolean) {
     this.companyIdSubject.next(companyId);
     this.isCompanyIdBackend = isCompanyIdBackend;
-
+    // Store companyId in local storage
+    localStorage.setItem('companyId', String(companyId));
   }
+  
   getCompanyId() {
-    return this.companyIdSubject.asObservable();
+    // Retrieve companyId from local storage
+    const storedCompanyId = localStorage.getItem('companyId');
+    if (storedCompanyId) {
+      const companyId = parseInt(storedCompanyId, 10);
+      this.companyIdSubject.next(companyId);
+      return this.companyIdSubject.asObservable();
+    } else {
+      return this.companyIdSubject.asObservable();
+    }
   }
+  
   setCompanyName(companyName:CompanyName,isCompanyNameBackend:boolean ) {
     this.companyNameSubject.next(companyName); // Notify the subscribers when the companyName changes.
     this.isCompanyNameBackend = isCompanyNameBackend;
