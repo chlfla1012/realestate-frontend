@@ -19,6 +19,7 @@ import { PMReport } from 'src/app/Model/PMReport';
 import { MatTableDataSource } from '@angular/material/table';
 import { Income } from 'src/app/Model/Income';
 import { Rental } from 'src/app/Model/Rental';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 @Component({
   selector: 'app-pmreport-create',
   templateUrl: './pmreport-create.component.html',
@@ -35,6 +36,7 @@ export class PmreportCreateComponent implements OnInit {
     file: null,
     url: null
   };
+  private searchTextChanged = new Subject<string>();
   dataSource: MatTableDataSource<any>;
   dataSource2: MatTableDataSource<any>;
   companyName: CompanyName;
@@ -89,6 +91,7 @@ export class PmreportCreateComponent implements OnInit {
   expenseTotal:number = 0;;
   incomeData: Income[] = []; 
   rentalData: Rental[] = []; 
+  selectedPropertyName: string;
   pmReport: PMReport = {
     id: null,
     propertyName: "",
@@ -374,6 +377,9 @@ export class PmreportCreateComponent implements OnInit {
     this.getCurrentUserInfo();
     this.getPICUsers();
     this.getProperties();
+    this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+      this.searchByPropertyName();
+    });
  }
   getProperties() {
     this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
@@ -385,7 +391,14 @@ export class PmreportCreateComponent implements OnInit {
       }
     );
   }
-
+  searchByPropertyName(): void {
+    console.log("Property Name  " + this.propertyname);
+    this.pmReportService.findByPropertyName(this.propertyname,this.companyId).subscribe((data) => {
+      console.log("Property Name 2 " + this.propertyname);
+      console.log("Property Name 3 " + this.companyId);
+      this.results = data;
+    });
+  }
   onPropertyChange() {
     this.pmReportService.getOwnersByPropertyName(this.propertyname).
       subscribe((data: Property[]) => {
@@ -395,6 +408,14 @@ export class PmreportCreateComponent implements OnInit {
           console.error('Error fetching Property data:', error);
         }
       );
+  }
+  onInputChanged(): void {
+    this.searchTextChanged.next(this.propertyname);
+  } 
+  selectPropertyName(event: MatAutocompleteSelectedEvent): void {    
+    this.propertyname = event.option.value;
+    this.selectedPropertyName = this.propertyname;   
+    console.log("selected Property Name"+this.selectedPropertyName);
   }
 
   getCurrentUserInfo() {

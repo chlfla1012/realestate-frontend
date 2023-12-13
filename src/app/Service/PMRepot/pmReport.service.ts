@@ -115,5 +115,8 @@ deletePMReport(id: string): Observable<void> {
     })
   );
 }
+findByPropertyName(propertyName:any,id: any):Observable<Property[]>{
+  return this.http.get<Property[]>(`${this.url}searchbyPropertyName/${propertyName}/${id}`)
+}
 
 }

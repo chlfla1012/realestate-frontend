@@ -34,11 +34,21 @@
                             <label for="propertyName">物件名<span style="color: red">*</span></label>
                         </div>
                         <div style="width: 292px;margin-left:43px;">                         
-                            <mat-select [(ngModel)]="propertyname" required name="propertyname" class="form-control" (selectionChange)="onPropertyChange()">
+                            <!-- <mat-select [(ngModel)]="propertyname" required name="propertyname" class="form-control" (selectionChange)="onPropertyChange()">
                                 <mat-option *ngFor="let property of propertyIDs" [value]="property.propertyName">
                                   {{ property.propertyName }}
                                 </mat-option>
-                              </mat-select>                           
+                              </mat-select>     
+                                                   -->
+                                                   <mat-form-field appearance="fill">
+                                                    <mat-label>Property Name</mat-label>
+                                                    <input matInput [(ngModel)]="propertyname" [ngModelOptions]="{ standalone: true }" placeholder="Enter property name" (input)="onInputChanged()" [matAutocomplete]="auto">
+                                                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPropertyName($event) ">
+                                                      <mat-option *ngFor="let result of results" [value]="result.propertyName">
+                                                        {{ result.propertyName }}
+                                                      </mat-option>
+                                                    </mat-autocomplete>
+                                                  </mat-form-field>
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-2" style="margin-left: 104px;">
@@ -48,7 +58,7 @@
                         <div class="col-md-2" style="width: 292px;margin-right:20px;">
                             <div class="col-md-2" style="margin-right:-80px;width:280px;">
                                 <mat-select [(ngModel)]="ownerName" required name="ownerName" class="form-control" (selectionChange)="onOwnerSelectionChange()">
-                                    <mat-option *ngFor="let property of propertyIDs" [value]="property.ownerName">
+                                    <mat-option *ngFor="let property of results" [value]="property.ownerName">
                                       {{ property.ownerName }}
                                     </mat-option>
                                   </mat-select>                               

@@ -115,6 +115,7 @@ export class IncomeListComponent implements OnInit {
       console.log("Data" + this.dataSource);
       // Set the paginator for the MatTableDataSource
       this.dataSource.paginator = this.paginator;
+      this.search();
     });
   }
 
@@ -204,9 +205,9 @@ export class IncomeListComponent implements OnInit {
           contractType: item.contractType,
           contractId: item.contractId,
           companyId: { companyName: this.backendCompany.companyName },
-          logo: null, // You can set this to null or provide an appropriate value
-          createdDate: null, // Provide a suitable value or keep it as null
-          modifiedDate: null // Provide a suitable value or keep it as null
+          logo: null, 
+          createdDate: null, 
+          modifiedDate: null 
         };
       });
     }
@@ -220,15 +221,14 @@ export class IncomeListComponent implements OnInit {
 
     this.service.addListPaymentCheck(formData).subscribe(
       (response) => {
-        console.log('PaymentCheck Data Added successfully', response);     
-       paymentCheckForm.resetForm();
-       //this.getAllPaymentCheckByCompanyId();
+       console.log('PaymentCheck Data Added successfully', response); 
+       this.refreshData();
+       
       },
       (error) => {
         console.error('Error saving customer', error);
       }
     );
-
   }
 
   formatDateStrings() {
@@ -241,7 +241,9 @@ export class IncomeListComponent implements OnInit {
       }
     });
   }
-
-
+  refreshData(): void {
+    this.getAllPaymentCheckByCompanyId(); 
+    this.search(); 
+  }
 
 }
