@@ -76,13 +76,17 @@ export class PmreportUploadComponent {
   ngOnInit() {    
     this.id= this.userAuthService.getId();
     console.log(this.id);
+    this.managerName = localStorage.getItem('managerName') || ''; // Retrieve managerName from localStorage on page reload
     this.service.getUserById(this.id).subscribe(data=>{
       this.userInfo = data;
       this.username = data.firstName + " " + data.lastName;
       this.usernamekana = data.firstNamekana + " " + data.lastNamekana;
       console.log(this.userInfo.id)
 
-      this.managerName = this.username; 
+      this.managerName = this.username;       
+
+      // Store managerName in localStorage
+    localStorage.setItem('managerName', this.managerName);
     
     },
     
@@ -130,7 +134,7 @@ export class PmreportUploadComponent {
         (response) => {
           console.log('Backend response:', response); 
           window.alert('File uploaded successfully!');            
-          this.clearForm(userForm);        
+          window.location.reload();        
         },
         (error) => {
           console.error('Something wrong from .ts:', error);
@@ -166,14 +170,11 @@ export class PmreportUploadComponent {
     console.log('Request Payload:', requestBody);
   
   }
-  clearForm(form: NgForm) {
-    
-    form.resetForm();
-    
-  }
-
+  
   reset() {
-    this.router.navigate(['/report-upload']);    
+    window.location.reload();
+    this.createdDate = '';
+     
   }
 
 }
