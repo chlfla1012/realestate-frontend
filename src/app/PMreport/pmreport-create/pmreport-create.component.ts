@@ -20,6 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Income } from 'src/app/Model/Income';
 import { Rental } from 'src/app/Model/Rental';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 @Component({
   selector: 'app-pmreport-create',
   templateUrl: './pmreport-create.component.html',
@@ -352,11 +353,11 @@ export class PmreportCreateComponent implements OnInit {
       this.expenseRow.push({
         id: i,
         expenseDetail: '',
-        voucher: '',
+        voucher: '無し',
         expenseDate: '',
-        expenseMoney: null,
-        expenseTax: null,
-        expenseTotal: null,
+        expenseMoney: 0,
+        expenseTax: 0,
+        expenseTotal: 0,
         expenseRemarks: '',
         owner: undefined,
         pmReport: undefined
@@ -509,7 +510,7 @@ export class PmreportCreateComponent implements OnInit {
       (response: PMReport) => {
         console.log(response);
         console.log('Data added successfully');
-       // this.router.navigate(['/report-list']);
+        this.router.navigate(['/report-list']);
       },
       (error: HttpErrorResponse) => {
         console.error('Error submitting contract:', error);
@@ -597,6 +598,42 @@ export class PmreportCreateComponent implements OnInit {
       }
     });
   }
+
+  addRow() {
+    const newRow = {
+        id: this.expenseRow.length + 1,
+        expenseDetail: '',
+        voucher: '無し',
+        expenseDate: '',
+        expenseMoney: 0,
+        expenseTax: 0,
+        expenseTotal: 0,
+        expenseRemarks: '',
+        owner: undefined,
+        pmReport: undefined
+    };
+    this.expenseRow.push(newRow);
+}
+deleteLastRow() {
+  if (this.expenseRow.length > 0) {
+      this.expenseRow.pop();
+  }
+}
+
+confirmDeleteLastRow() {
+const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+  data: {
+    title: 'Confirmation',
+    message: '最後の行を削除してもよろしいでしょうか？',
+  },
+});
+
+dialogRef.afterClosed().subscribe((result) => {
+  if (result) {
+    this.deleteLastRow();
+  }
+});
+}
   
 
 }

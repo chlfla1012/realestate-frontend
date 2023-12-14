@@ -399,6 +399,12 @@
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTotal" readonly></td>
                         <td><input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseRemarks"></td>
                     </tr>
+                    <tr>
+                        <td colspan="8">
+                            <button mat-stroked-button type="button" style="width: 130px; height: 30px;" (click)="addRow()">Add Row</button>&nbsp;
+                            <button mat-stroked-button type="button" style="width: 130px; height: 30px;" (click)="confirmDeleteLastRow()">Delete Row</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
