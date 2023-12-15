@@ -27,7 +27,6 @@
   margin-top: 40px;
   border-radius: 6px 6px 6px 6px;
   background-color: rgba(249, 246, 246, 0.904);
-  font-size: 12px;
   margin-bottom: 35px;
 }
 .row.search-row{
@@ -41,17 +40,6 @@
   margin-bottom: 30px;
 }
 
-.searchBtn{
-  background-color: white;
-  /* border: 0.8px solid black; */
-}
-
-button.resetBtn{
-  color: white;
-  background: #376fc3;
-  /* background-color: rgb(29, 116, 150); */
-}
-
 .container.title-container{
   margin-top: 30px;
   width: 100%;
@@ -60,10 +48,7 @@ button.resetBtn{
   background-color: rgba(249, 246, 246, 0.904);
 
 }
-.btn-create:hover{
-  color: white;
-  background-color: rgb(128, 181, 75);
-}
+
 .mat-elevation-z7{
   width: 100%;
   height: auto;

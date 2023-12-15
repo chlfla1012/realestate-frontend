@@ -1,79 +1,81 @@
-.invoice-create-container{
+.invoice-create-container {
   margin-top: 50px;
   width: 100%;
   height: auto;
   background-color: rgb(126, 161, 154);
   border-radius: 5px 5px 5px 5px;
-  }
-.invoice.invoice-create-title-container{
+}
+
+.invoice.invoice-create-title-container {
   width: 100%;
-height: auto;
-padding-top: 40px;
-margin-left: 9px;
-background-color: rgba(249, 246, 246, 0.904);
+  height: auto;
+  padding-top: 40px;
+  margin-left: 9px;
+  background-color: rgba(249, 246, 246, 0.904);
 
-    /* background-color: brown; */
-    /* margin-top: 10px; */
-    }
-.invoice-create-title-row{
-        width: 102%;
-        height: 70px;
-        background-color: rgba(249, 246, 246, 0.904);
-        margin-bottom: 50px;
-        border-radius: 6px 6px 6px 6px;
-        /* margin-top: 50px; */
-        /* padding-top: 10px; */
-        }
+  /* background-color: brown; */
+  /* margin-top: 10px; */
+}
 
-        .container-title {
-          padding-top: 15px;
-          margin-left: 30px;
-          font-size: medium;
-          font-weight: bold;
-          font-size: 16px;
-          cursor: pointer;
-          
-      }
+.invoice-create-title-row {
+  width: 102%;
+  height: 70px;
+  background-color: rgba(249, 246, 246, 0.904);
+  margin-bottom: 50px;
+  border-radius: 6px 6px 6px 6px;
+  /* margin-top: 50px; */
+  /* padding-top: 10px; */
+}
 
-        .companytitle-container {
-          display: flex;
-          /* Use flexbox for vertical alignment */
-          align-items: center;
-          /* Center items vertically */
-          /* margin-top: 30px; */
-          width: 100%;
-          /* height: 400px; */
-          background-color: rgba(249, 246, 246, 0.904);
-        }
+.container-title {
+  padding-top: 15px;
+  margin-left: 30px;
+  font-size: medium;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
 
-        .company-container {
-          /* margin-top: -12px; */
-          width: 100%;
-          height: 300px;
-          background-color: rgba(249, 246, 246, 0.904);
-          padding-top: 20px;
-      }
+}
+
+.companytitle-container {
+  display: flex;
+  /* Use flexbox for vertical alignment */
+  align-items: center;
+  /* Center items vertically */
+  /* margin-top: 30px; */
+  width: 100%;
+  /* height: 400px; */
+  background-color: rgba(249, 246, 246, 0.904);
+}
+
+.company-container {
+  /* margin-top: -12px; */
+  width: 100%;
+  height: 300px;
+  background-color: rgba(249, 246, 246, 0.904);
+  padding-top: 20px;
+}
 
 .company-information {
-        margin-top: 20px;
-        width: 100%;
-        height: 50%;
-        /* margin-left: -1px; */
-        background-color: rgba(249, 246, 246, 0.904);
-          
-    }
+  margin-top: 20px;
+  width: 100%;
+  height: 50%;
+  /* margin-left: -1px; */
+  background-color: rgba(249, 246, 246, 0.904);
+
+}
 
 
 
-    .property-information {
-      margin-top: 20px;
-      width: 100%;
-      height: 50%;
-      /* margin-left: -7px; */
-      background-color: rgba(249, 246, 246, 0.904);
-        
-  }
-    
+.property-information {
+  margin-top: 20px;
+  width: 100%;
+  height: 50%;
+  /* margin-left: -7px; */
+  background-color: rgba(249, 246, 246, 0.904);
+
+}
+
 .propertytitle-container {
   display: flex;
   /* Use flexbox for vertical alignment */
@@ -184,28 +186,25 @@ background-color: rgba(249, 246, 246, 0.904);
 
 
 
-.invoice-create-form{
-    width: 100%;
-    height: auto;
-  }
-.button-group{
+.invoice-create-form {
+  width: 100%;
+  height: auto;
+}
+
+.button-group {
   width: 100%;
   height: 70px;
 
 }
 
 
-button{
+button {
   align-content: center;
-  color:black;
+  color: black;
   width: 150px;
-  background-color:rgb(127, 161, 154);
+  background-color: rgb(127, 161, 154);
 }
-button:hover{
-  color:white;
 
-  background-color: rgba(249, 246, 246, 0.904);
-}
 .btn-reset {
   border: 1px solid #000;
   background-color: #fff;
@@ -215,33 +214,29 @@ button:hover{
 .btn-reset {
   margin-right: 10px;
   border-radius: 5px;
-  border:0.5px #000;
+  border: 0.5px #000;
   width: 150px;
-  height: 35px; /* Add any desired margin */
+  height: 35px;
+  /* Add any desired margin */
 }
-.button-text{
-  color:black
+
+.button-text {
+  color: black
 }
-.button-text:hover{
-  color:black;
-}
-.createbutton-text{
-  color:white;
-}
-.createbutton-text:hover{
-  color:black;
-}
-.create
-{
+
+
+.create {
   margin-right: 10px;
   border-radius: 5px;
-  border:0.5px #000;
-  background-color: #376fc3; /*screenshot 3 */
+  border: 0.5px #000;
+  background-color: #376fc3;
+  /*screenshot 3 */
   width: 150px;
   height: 35px;
 }
-.button-text{
-  color:black
+
+.button-text {
+  color: black
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -251,43 +246,44 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.help-block{
+.help-block {
   color: red;
   font-size: 12px;
 }
 
-.left-label{
+.left-label {
   margin-left: 1px;
 }
 
-.left-textfield
-{
-margin-left: -38px;
+.left-textfield {
+  margin-left: -38px;
 }
-.yen{
+
+.yen {
   margin-left: -40px;
 }
 
-.inner-label{
+.inner-label {
   margin-left: -60px;
 }
-.inner-textfield{
+
+.inner-textfield {
   margin-left: -50px;
 }
-.inner-total-textfield
-{
+
+.inner-total-textfield {
   margin-left: -70px;
 }
-.inner-yen
-{
+
+.inner-yen {
   margin-left: 65px;
 }
-.inner-selectBox
-{
+
+.inner-selectBox {
   margin-left: -130px;
 }
-.month-label
-{
+
+.month-label {
   margin-left: -155px;
 }
 
@@ -330,7 +326,8 @@ margin-left: -38px;
 }
 
 .container-title {
-  
-  margin-left: 10px; /* Adjust the margin as needed to control the spacing between the arrow icon and title */
+
+  margin-left: 10px;
+  /* Adjust the margin as needed to control the spacing between the arrow icon and title */
   /* padding:5px; */
 }

@@ -27,7 +27,6 @@
     margin-top: 40px;
     border-radius: 6px 6px 6px 6px;
     background-color: rgba(249, 246, 246, 0.904);
-    font-size: 12px;
     margin-bottom: 35px;
   }
   .row.search-row{
@@ -39,15 +38,6 @@
     margin-top: 2%;
     margin-left: 37%;
     margin-bottom: 30px;
-  }
-  
-  .searchBtn{
-    background-color: white;
-  }
-  
-  .resetBtn{
-    color: white;
-    background: #376fc3;
   }
   
   .container.title-container{

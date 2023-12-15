@@ -28,7 +28,7 @@
       <div class="col-2" style="margin-top: 19px;">
         <div class="create-icon" style="margin-left: 21%">
 
-          <button mat-stroked-button style="background-color:white; width: 130px; height: 30px;"
+          <button mat-raised-button style="background-color:white; width: 130px; height: 30px;"
             (click)="navigateToCreatePage()">
 
             <mat-icon aria-hidden="false" aria-label="Example add_circle icon" fontIcon="person_add"></mat-icon>
@@ -84,14 +84,14 @@
     </div>
     <div class="row button-row">
       <div class="col-md-1">
-        <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+        <button mat-raised-button class="searchBtn" style="width: 100px; height: 30px;background-color: #376fc3;color: white;" (click)="search()">
           <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
           検索
         </button>
       </div>
       <div class="col-md-1"></div>
       <div class="col-md-2">
-        <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" (click)="reset()">リセット</button>
+        <button mat-raised-button class="resetBtn" style="width: 100px;height:30px;background-color: white;" (click)="reset()">リセット</button>
 
       </div>
     </div>
@@ -182,20 +182,17 @@
     style="margin-top: 20px;background-color:rgb(126, 161, 154);" [pageSizeOptions]="[5, 10, 25, 100]"
     aria-label="Select page">
   </mat-paginator> -->
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-</mat-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
 
 
 
 
-<mat-paginator #scheduledOrdersPaginator
-[length]="dataSource.data.length"
-[pageSize]="10"
-style="margin-top: 20px;background-color:rgb(126, 161, 154);"
-[pageSizeOptions]="[5, 10, 25, 100]"
-aria-label="Select page">
-</mat-paginator>
+  <mat-paginator #scheduledOrdersPaginator [length]="dataSource.data.length" [pageSize]="10"
+    style="margin-top: 20px;background-color:rgb(126, 161, 154);" [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page">
+  </mat-paginator>
 
 
 </div>

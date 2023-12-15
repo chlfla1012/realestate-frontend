@@ -368,7 +368,7 @@ mat-label {
 }
 
 .container-title {
-    margin-left: 10px; /* Adjust the margin as needed to control the spacing between the arrow icon and title */
+    margin-left: 10px;
+    /* Adjust the margin as needed to control the spacing between the arrow icon and title */
     /* padding:5px; */
 }
-  

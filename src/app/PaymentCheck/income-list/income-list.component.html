@@ -15,7 +15,7 @@
             <div class="row">
               <div class="col-md-4">
                 <div class="leftfield" style="margin-left: 120px;">
-                  <label for="bankName">銀行種別<span style="color: red">*</span></label>
+                  <label for="bankName" style="margin-top: 5px;">銀行種別<span style="color: red">*</span></label>
                 </div>
               </div>
               <div class="col-md-2">
@@ -36,7 +36,8 @@
               </div>
               <div class="col-md-2"></div>
               <div class="col-md-6" style="margin-right: -200px;">
-                <button mat-stroked-button style="width: 200px; height: 30px;" (click)="toFileUploadPage(selectedOption)">
+                <button mat-raised-button style="width: 200px; height: 30px;background-color: #376fc3;color: white;margin-top: 2px;"
+                  (click)="toFileUploadPage(selectedOption)">
                   アップロード
                 </button>
               </div>
@@ -45,21 +46,21 @@
         </div>
       </div>
       <!-- End of title row -->
-      <div class="container search-container" >
+      <div class="container search-container">
         <div class="row search-title-row" style="padding-top: 20px;margin-left:0px;">
           <div class="col-md-1"></div>
           <div class="col-md-2">
-            <label for="propertyName">物件名</label>
+            <label for="propertyName" style="margin-left: -20px;">物件名</label>
           </div>
           <div class="col-md-2">
           </div>
           <div class="col-md-2">
-            <label for="month">対象月</label>
+            <label for="month" style="margin-left: -10px;">対象月</label>
           </div>
           <div class="col-md-2">
           </div>
           <div class="col-md-2">
-            <label for="status">ステータス</label>
+            <label for="status" style="margin-left: -10px;">ステータス</label>
           </div>
         </div>
         <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
@@ -86,14 +87,14 @@
 
         <div class="row button-row">
           <div class="col-md-1">
-            <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+            <button mat-raised-button class="searchBtn" style="width: 100px; height: 30px;background-color: #376fc3;color: white;" (click)="search()">
               <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
               検索
             </button>
           </div>
           <div class="col-md-1"></div>
           <div class="col-md-2">
-            <button mat-stroked-button class="resetBtn" style="color:white; width: 100px;height:30px;"
+            <button mat-raised-button class="resetBtn" style="color:black; width: 100px;height:30px;"
               (click)="reset()">リセット</button>
           </div>
         </div>
@@ -101,12 +102,12 @@
       <div class="container save-container">
         <div class="col-md-1"></div>
         <div class="col-md-1">
-          <button mat-stroked-button class="submitBtn" style="width: 100px; height: 30px;" type="submit">保存</button>
+          <button mat-raised-button class="submitBtn" style="width: 100px; height: 30px;background-color: #376fc3;color: white;" type="submit">保存</button>
         </div>
         <div class="col-md-1"></div>
       </div>
       <!-- End of body -->
-      <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7" >
+      <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
         <ng-container matColumnDef="ownerName">
           <mat-header-cell *matHeaderCellDef>オーナー名前</mat-header-cell>
           <mat-cell *matCellDef="let incomecheck">{{incomecheck.ownerName}}</mat-cell>
@@ -201,7 +202,7 @@
         aria-label="Select page">
       </mat-paginator>
       <!-- End of showing table -->
-    
+
     </div>
   </form>
 </body>

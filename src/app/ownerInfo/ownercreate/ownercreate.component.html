@@ -13,14 +13,13 @@
         </div>
         <div class="col-md-2"></div>
         <div class="col-2">
-          <button mat-stroked-button style="width: 100px; height: 30px;margin-top: 19px;" (click)="back()">
-           戻る
+          <button mat-raised-button style="width: 100px; height: 30px;margin-top: 19px;" (click)="back()">
+            戻る
           </button>
-      </div>
+        </div>
       </div>
     </div>
-    <form class="form-horizontal" 
-    class="user-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <form class="form-horizontal" class="user-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
       <div class="user-container">
         <p class="container-title"></p>
         <div class="user-information">
@@ -36,7 +35,7 @@
                   <input type="text" class="form-control" id="firstName" name="firstName"
                     [(ngModel)]="userInfo.firstName" #firstName="ngModel" required
                     [ngClass]="{'is-valid':firstName.touched && firstName.invalid}" style="width: 265px;  height:35px;">
-                    <!-- is-invalid' -->
+                  <!-- is-invalid' -->
                 </div>
               </div>
               <div class="col-md-2"></div>
@@ -180,24 +179,17 @@
                 <div class="leftfield">
                   <!-- <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="userInfo.dateOfBirth"
                     name="dateOfBirth" #dateOfBirth="ngModel" style="width: 265px;  height:35px;"> -->
-                    <input 
-                    type="date" 
-                    class="form-control" 
-                    id="dateOfBirth" 
-                    [(ngModel)]="userInfo.dateOfBirth"
-                    (change)="validateBirthday()"
-                    name="dateOfBirth" 
-                    #dateOfBirth="ngModel"
-                    style="width: 265px;  height:35px;"
-                    [ngClass]="{'invalid-date': hasErrorDOB}"
-                    >
+                  <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="userInfo.dateOfBirth"
+                    (change)="validateBirthday()" name="dateOfBirth" #dateOfBirth="ngModel"
+                    style="width: 265px;  height:35px;" [ngClass]="{'invalid-date': hasErrorDOB}">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-2"></div>
               <div class="col-md-3">
-                <div  *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" class="error-message"  class="help-block">
+                <div *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" class="error-message"
+                  class="help-block">
                   {{ errorMessageDOB }}</div>
               </div>
               <div class="col-md-3"></div>
@@ -223,23 +215,13 @@
                       <!-- <input type="tel" class="form-control" id="phone1" required [(ngModel)]="userInfo.phone1"
                         name="phone1" #phone1="ngModel"  (keypress)="keyPressNumeric($event)" [maxLength]="3" [minLength]="3" 
                         [ngClass]="{'is-valid':phone1.touched && phone1.invalid}" pattern="[0-9]*" style="width: 60px;  height:35px;">  -->
-                        <input 
-                        type="tel" 
-                        class="form-control" 
-                        id="phone1" required 
-                        [(ngModel)]="userInfo.phone1"
-                        name="phone1" 
-                        #phone1="ngModel" 
-                        [maxLength]="3" 
-                        [minlength]="3"
-                        pattern="[0-9]*"
-                        (keypress)="keyPressNumeric($event)"
-                        required [ngClass]="{'is-valid':phone1.touched && phone1.invalid}"
-                        style="width: 60px;  height:35px;"
-                        >
-                      </div>
+                      <input type="tel" class="form-control" id="phone1" required [(ngModel)]="userInfo.phone1"
+                        name="phone1" #phone1="ngModel" [maxLength]="3" [minlength]="3" pattern="[0-9]*"
+                        (keypress)="keyPressNumeric($event)" required
+                        [ngClass]="{'is-valid':phone1.touched && phone1.invalid}" style="width: 60px;  height:35px;">
+                    </div>
                   </div>
-                  <div class="col-md-1"> 
+                  <div class="col-md-1">
                     <span>-</span>
                   </div>
                   <div class="col-md-3">
@@ -248,21 +230,11 @@
                         name="phone2" #phone2="ngModel" class="form-control" 
                         (keypress)="keyPressNumeric($event)" [maxLength]="4" [minLength]="4"  
                         [ngClass]="{'is-valid':phone2.touched && phone2.invalid}" pattern="[0-9]*" style="width: 60px;  height:35px;"> -->
-                        <input 
-                        type="tel" 
-                        class="form-control" 
-                        id="phone2" required 
-                        [(ngModel)]="userInfo.phone2"
-                        name="phone2" 
-                        #phone2="ngModel" 
-                        [maxLength]="4" 
-                        [minlength]="4"
-                        pattern="[0-9]*"
-                        (keypress)="keyPressNumeric($event)"
-                        required [ngClass]="{'is-valid':phone2.touched && phone2.invalid}"
-                        style="width: 60px;  height:35px;"
-                        >
-                      </div>
+                      <input type="tel" class="form-control" id="phone2" required [(ngModel)]="userInfo.phone2"
+                        name="phone2" #phone2="ngModel" [maxLength]="4" [minlength]="4" pattern="[0-9]*"
+                        (keypress)="keyPressNumeric($event)" required
+                        [ngClass]="{'is-valid':phone2.touched && phone2.invalid}" style="width: 60px;  height:35px;">
+                    </div>
                   </div>
                   <div class="col-md-1">
                     <span>-</span>
@@ -272,21 +244,11 @@
                       <!-- <input type="tel" class="form-control" id="phone3" required [(ngModel)]="userInfo.phone3"
                         name="phone3" #phone3="ngModel" (keypress)="keyPressNumeric($event)" [maxlength]="4" [minLength]="4" 
                         [ngClass]="{'is-valid':phone3.touched && phone3.invalid}" pattern="[0-9]*" style="width: 60px;  height:35px;"> -->
-                        <input 
-                        type="tel" 
-                        class="form-control" 
-                        id="phone3" required 
-                        [(ngModel)]="userInfo.phone3"
-                        name="phone3" 
-                        #phone3="ngModel" 
-                        [maxLength]="4" 
-                        [minlength]="4"
-                        pattern="[0-9]*"
-                        (keypress)="keyPressNumeric($event)"
-                        required [ngClass]="{'is-valid':phone3.touched && phone3.invalid}"
-                        style="width: 60px;  height:35px;"
-                        >
-                      </div>
+                      <input type="tel" class="form-control" id="phone3" required [(ngModel)]="userInfo.phone3"
+                        name="phone3" #phone3="ngModel" [maxLength]="4" [minlength]="4" pattern="[0-9]*"
+                        (keypress)="keyPressNumeric($event)" required
+                        [ngClass]="{'is-valid':phone3.touched && phone3.invalid}" style="width: 60px;  height:35px;">
+                    </div>
                   </div>
                 </div>
 
@@ -304,7 +266,7 @@
                 <span class="help-block" *ngIf="(phone1.touched && phone1.errors?.['required'])||
                 (phone2.touched && phone2.errors?.['required'])||
                 (phone3.touched && phone3.errors?.['required'])">
-                電話番号を入力してください。</span>
+                  電話番号を入力してください。</span>
               </div>
               <div class="col-md-3"></div>
               <div class="col-md-3">
@@ -365,8 +327,8 @@
                     <div class="leftfield">
                       <input type="text" class="form-control" id="postalcode2" required
                         [(ngModel)]="userInfo.postalcode2" name="postalcode2" #postalcode2="ngModel"
-                        (keypress)="keyPressNumeric($event)" [maxlength]="4" [minlength]="4"
-                        required [ngClass]="{'is-valid':postalcode2.touched && postalcode2.invalid}"  pattern="[0-9]*"
+                        (keypress)="keyPressNumeric($event)" [maxlength]="4" [minlength]="4" required
+                        [ngClass]="{'is-valid':postalcode2.touched && postalcode2.invalid}" pattern="[0-9]*"
                         style=" width:95px;height:35px;">
                     </div>
                   </div>
@@ -382,7 +344,7 @@
                 </div> -->
                 <span class="help-block" *ngIf="(postalcode1.touched && postalcode1.errors?.['required'])||
                 (postalcode2.touched && postalcode2.errors?.['required'])">
-                郵便番号を入力してください。</span>
+                  郵便番号を入力してください。</span>
               </div>
               <div class="col-md-3"></div>
               <div class="col-md-3">
@@ -418,7 +380,7 @@
           <div class="form-group" style="margin-top: 20px;">
             <div class="row no-gutters">
               <!-- First Column -->
-              <div class="col-md-2" >
+              <div class="col-md-2">
                 <label for="bankName"><span>金融機関名・<br>銀行名</span><span style="color: red">*</span></label>
               </div>
               <div class="col-md-3">
@@ -436,9 +398,9 @@
               <div class="col-md-3">
                 <div class="leftfield">
                   <input type="text" class="form-control" id="branch" [(ngModel)]="userInfo.branch" required
-                    [ngClass]="{'is-valid': branch.touched && branch.invalid}" pattern="^[一-龯ァ-ンー]+$" #branch="ngModel" name="branch" required
-                    style="width: 265px;  height:35px;" >
-                    <!-- (keypress)="keyPressKanjihira($event)" form-controlkeypress -->
+                    [ngClass]="{'is-valid': branch.touched && branch.invalid}" pattern="^[一-龯ァ-ンー]+$" #branch="ngModel"
+                    name="branch" required style="width: 265px;  height:35px;">
+                  <!-- (keypress)="keyPressKanjihira($event)" form-controlkeypress -->
                 </div>
               </div>
 
@@ -469,17 +431,17 @@
               <div class="col-md-3">
                 <!-- <span class="help-block" *ngIf="branch.touched && branch.errors?.['required']">
                   支店名を入力してください。</span> -->
-                  <div style="margin-left: 5px;" class="help-block">
-                    <!-- Show this message if the field has been touched but is empty -->
-                    <div *ngIf="(branch.touched || branch.dirty) && branch.hasError('required')">
-                      支店名を入力してください。
-                    </div>
-                  
-                    <!-- Show this message if the field has been touched and the data is not in Katakana -->
-                    <div *ngIf="branch.touched && branch.hasError('pattern')">
-                      支店名 に誤りがあります。
-                    </div>
+                <div style="margin-left: 5px;" class="help-block">
+                  <!-- Show this message if the field has been touched but is empty -->
+                  <div *ngIf="(branch.touched || branch.dirty) && branch.hasError('required')">
+                    支店名を入力してください。
                   </div>
+
+                  <!-- Show this message if the field has been touched and the data is not in Katakana -->
+                  <div *ngIf="branch.touched && branch.hasError('pattern')">
+                    支店名 に誤りがあります。
+                  </div>
+                </div>
               </div>
               <div class="col-md-2" style="margin-left: 100px;">
                 <span class="help-block" *ngIf="accountType.touched && accountType.errors?.['required']">
@@ -501,8 +463,9 @@
                 <div class="leftfield">
                   <input type="text" class="form-control" id="accountNumber" [(ngModel)]="userInfo.accountNumber"
                     name="accountNumber" #accountNumber="ngModel" required
-                    [ngClass]="{'is-valid': accountNumber.touched && accountNumber.invalid}" [maxlength]="7" [minlength]="7" required
-                    style="width: 265px;  height:35px;" pattern="[0-9]*" (keypress)="keyPressNumeric($event)">
+                    [ngClass]="{'is-valid': accountNumber.touched && accountNumber.invalid}" [maxlength]="7"
+                    [minlength]="7" required style="width: 265px;  height:35px;" pattern="[0-9]*"
+                    (keypress)="keyPressNumeric($event)">
                 </div>
               </div>
 
@@ -517,8 +480,8 @@
                   <input type="text" class="form-control" id="accountName" [(ngModel)]="userInfo.accountName"
                     name="accountName" #accountName="ngModel" required required
                     [ngClass]="{'is-valid': accountName.touched && accountName.invalid}"
-                    style="width: 265px;  height:35px;" pattern="^[\u30A0-\u30FF]+$" >
-                    <!-- (keypress)="keyPressKana($event)" -->
+                    style="width: 265px;  height:35px;" pattern="^[\u30A0-\u30FF]+$">
+                  <!-- (keypress)="keyPressKana($event)" -->
                 </div>
               </div>
               <div class="col-md-1">
@@ -529,9 +492,9 @@
               <div class="col-md-2">
                 <div class="leftfield">
                   <input type="text" class="form-control" id="apportionment" [(ngModel)]="userInfo.apportionment"
-                    name="apportionment" #apportionment="ngModel" 
+                    name="apportionment" #apportionment="ngModel"
                     [ngClass]="{'is-valid': apportionment.touched && apportionment.invalid}"
-                    style="width: 75px;  height:35px;" >
+                    style="width: 75px;  height:35px;">
                 </div>
               </div>
             </div>
@@ -547,9 +510,9 @@
               </div>
               <!-- <div class="col-md-3"></div> -->
               <!-- <div class="col-md-4" style="margin-left: 20px;"> -->
-                <!-- <span class="help-block" style="margin-left: 85px;" *ngIf="!accountName.valid && accountName.touched">
+              <!-- <span class="help-block" style="margin-left: 85px;" *ngIf="!accountName.valid && accountName.touched">
                   口座名義人（カナ）を入力してください。</span> -->
-                <!-- <div class="help-block" [hidden]="!accountName.hasError('pattern')">
+              <!-- <div class="help-block" [hidden]="!accountName.hasError('pattern')">
                   カタカナのみです。</div> -->
               <!-- </div> -->
               <div class="col-md-3">
@@ -578,7 +541,7 @@
                   <input type="text" class="form-control" id="password" required [(ngModel)]="userInfo.password"
                     name="password" #password="ngModel" required
                     [ngClass]="{'is-valid':password.touched && password.invalid}"
-                    pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$"  style="width: 265px;  height:35px;">
+                    pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$" style="width: 265px;  height:35px;">
 
                 </div>
               </div>
@@ -594,14 +557,15 @@
                   パスワードを8文字以上入力してください。</div>
                 <div class="help-block" [hidden]="!password.hasError('pattern')">
                   パスワードは8文字以上で、数字と英字を含める必要があります。</div> -->
-                  <div *ngIf="(password.touched || password.dirty) && password.hasError('required')" style="color: red; font-size: 13px;">
-                    パスワードを8文字以上入力してください。
-                  </div>
+                <div *ngIf="(password.touched || password.dirty) && password.hasError('required')"
+                  style="color: red; font-size: 13px;">
+                  パスワードを8文字以上入力してください。
+                </div>
 
-                  <!-- Show this message if the field has been touched and the data is not in Katakana -->
-                  <div *ngIf="password.touched && password.hasError('pattern')" style="color: red; font-size: 13px;">
-                    パスワードは8文字以上で、数字と英字を含める必要があります。
-                  </div>
+                <!-- Show this message if the field has been touched and the data is not in Katakana -->
+                <div *ngIf="password.touched && password.hasError('pattern')" style="color: red; font-size: 13px;">
+                  パスワードは8文字以上で、数字と英字を含める必要があります。
+                </div>
               </div>
             </div>
           </div>
@@ -617,8 +581,7 @@
               <div class="leftfield">
                 <input type="date" class="form-control" call id="startDate" required [(ngModel)]="userInfo.startDate"
                   name="startDate" #startDate="ngModel" required
-                  [ngClass]="{'is-valid':startDate.touched && startDate.invalid}" 
-                  (change)="checkDateRange()"
+                  [ngClass]="{'is-valid':startDate.touched && startDate.invalid}" (change)="checkDateRange()"
                   style="width: 265px;  height:35px;">
               </div>
             </div>
@@ -645,8 +608,8 @@
             <div class="col-md-2" style="margin-left: 20px;">
               <div class="leftfield">
                 <input type="date" class="form-control" id="endDate" required [(ngModel)]="userInfo.endDate"
-                  name="endDate" #endDate="ngModel" required [ngClass]="{'is-valid':endDate.touched && endDate.invalid}"                  
-                  (change)="checkDateRange() "  [ngClass]="{ 'invalid-date': hasError }"
+                  name="endDate" #endDate="ngModel" required [ngClass]="{'is-valid':endDate.touched && endDate.invalid}"
+                  (change)="checkDateRange() " [ngClass]="{ 'invalid-date': hasError }"
                   style="width: 265px;  height:35px;">
               </div>
             </div>
@@ -654,11 +617,12 @@
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-3">
-              <div *ngIf="!endDate.valid && endDate.touched" style="margin-left: 20px;" class="help-block" >
+              <div *ngIf="!endDate.valid && endDate.touched" style="margin-left: 20px;" class="help-block">
                 利用終了日を選択してください。</div>
-                <div *ngIf="errorMessageDate  && !endDate.hasError('required')" class="error-message" style="color: red; margin-left: 20px; font-size: 13px;" >
-                  {{ errorMessageDate }}
-                </div>
+              <div *ngIf="errorMessageDate  && !endDate.hasError('required')" class="error-message"
+                style="color: red; margin-left: 20px; font-size: 13px;">
+                {{ errorMessageDate }}
+              </div>
             </div>
             <div class="col-md-3"></div>
             <div class="col-md-3">
@@ -673,12 +637,12 @@
         <div class="row button-group">
           <div class="col-md-4"></div>
           <div class="col-1">
-            <button mat-stroked-button style="width: 130px; height: 30px;" type="reset"
+            <button mat-raised-button style="width: 130px; height: 30px;background-color: white;" type="reset"
               (click)="onCancel()">キャンセル</button>
           </div>
           <div class="col-md-1"></div>
           <div class="col-md-1">
-            <button mat-stroked-button style="width: 130px; height: 30px;" type="submit">登録</button>
+            <button mat-raised-button style="width: 130px; height: 30px;background-color: #376fc3;color: white;" type="submit">登録</button>
           </div>
         </div>
       </div>

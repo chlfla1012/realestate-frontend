@@ -1,13 +1,14 @@
-.container.income-list-container{
+.container.income-list-container {
   width: 100%;
   height: auto;
   margin-top: 45px;
   background-color: rgb(126, 161, 154);
   border-radius: 5px 5px 5px 5px;
- 
+
 
 }
-.container.income-list-title-container{
+
+.container.income-list-title-container {
   width: 100%;
   height: auto;
   background-color: rgba(249, 246, 246, 0.904);
@@ -15,47 +16,49 @@
   font-size: 15px;
 
 }
-.row.income-list-title-row{
+
+.row.income-list-title-row {
   width: 100%;
   height: 70px;
   border-radius: 6px 6px 6px 6px;
 }
- 
-.container.search-container{
+
+.container.search-container {
   width: 100%;
   height: 160px;
   margin-top: 40px;
   border-radius: 6px 6px 6px 6px;
   background-color: rgba(249, 246, 246, 0.904);
-  font-size: 12px;
   margin-bottom: 35px;
 }
-.row.search-row{
+
+.row.search-row {
   width: 100%;
   margin-left: 3%;
   padding-top: 3%;
 }
-.row.button-row{
+
+.row.button-row {
   margin-top: 2%;
   margin-left: 37%;
   margin-bottom: 30px;
 }
 
-.searchBtn{
+.searchBtn {
   background-color: white;
 }
 
-.resetBtn{
+.resetBtn {
   color: white;
   background: #376fc3;
 }
 
-.submitBtn{
+.submitBtn {
   color: white;
   background: #376fc3;
 }
 
-.container.title-container{
+.container.title-container {
   margin-top: 30px;
   width: 100%;
   height: 70px;
@@ -63,7 +66,8 @@
   background-color: rgba(249, 246, 246, 0.904);
 
 }
-.mat-elevation-z7{
+
+.mat-elevation-z7 {
   width: 100%;
   height: auto;
   background-color: rgba(249, 246, 246, 0.904);
@@ -71,26 +75,31 @@
   margin-top: 40px;
 
 }
-mat-header-cell{
+
+mat-header-cell {
   font-weight: bold;
 }
-.column-id{
-  max-width:90px;
+
+.column-id {
+  max-width: 90px;
 }
-.button-group{
+
+.button-group {
   width: 100%;
-  height: 70px;   
-  }
-  .form-group{
-    margin-left: 400px;
-  }
-  .container.save-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    height: 50px;
-    background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px;
-    font-size: 15px;
+  height: 70px;
+}
+
+.form-group {
+  margin-left: 400px;
+}
+
+.container.save-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 50px;
+  background-color: rgba(249, 246, 246, 0.904);
+  border-radius: 6px;
+  font-size: 15px;
 }
