@@ -29,6 +29,7 @@ export class UserAuthService {
   logo$ = this.logoSubject.asObservable();
   private logoIdSubject = new BehaviorSubject<number>(0); // Initialize the BehaviorSubject with an empty string.
   logoId$ = this.logoIdSubject.asObservable();
+  private readonly localStorageKey = 'logoData'; 
 
   private isLogoBackend = false;
   private isLogoIdBackend = false;
@@ -38,7 +39,34 @@ export class UserAuthService {
 
   
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { 
-    
+    const storedData = localStorage.getItem(this.localStorageKey);
+    if (storedData) {
+      const logoData = JSON.parse(storedData);
+      this.logoSubject.next(logoData);
+      this.logoIdSubject.next(logoData.logoId);
+      this.isLogoBackend = logoData.isLogoBackend;
+      this.isLogoIdBackend = logoData.isLogoIdBackend;
+      this.companyNameSubject.next(logoData.companyName);
+      this.companyIdSubject.next(logoData.companyId);
+      this.isCompanyNameBackend = logoData.isCompanyNameBackend;
+      this.isCompanyIdBackend = logoData.isCompanyIdBackend;
+      
+    }
+  }
+
+  private saveToLocalStorage(): void {
+    const logoData = this.logoSubject.getValue();
+    //console.log('logoData:', logoData);
+    const dataToStore = {
+      companyName: this.companyNameSubject.getValue(),
+      isCompanyNameBackend: this.isCompanyNameBackend,
+      isCompanyIdBackend: this.isCompanyIdBackend,
+      logo:this.logoSubject.getValue(),
+      logoId: this.logoIdSubject.getValue(),
+      isLogoIdBackend: this.isLogoIdBackend,
+      isLogoBackend: this.isLogoBackend
+    };
+    localStorage.setItem(this.localStorageKey, JSON.stringify(dataToStore));
   }
   
   setLogo(image: string, name: string, isLogoBackend: boolean) {
@@ -46,8 +74,34 @@ export class UserAuthService {
     const imageFile = new File([imageBlob], name);
     const imageUrl: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imageFile));
     const imageFileHandle: FileHandle = { file: imageFile, url: imageUrl };
+    this.convertFileToBase64(imageFile).then((base64Data: string) => {
+    const dataToStore = {
+      companyName: this.companyNameSubject.getValue(),
+      isCompanyNameBackend: this.isCompanyNameBackend,
+      isCompanyIdBackend: this.isCompanyIdBackend,
+      logo: base64Data, // Store the Base64 representation of the image
+      logoId: this.logoIdSubject.getValue(),
+      isLogoIdBackend: this.isLogoIdBackend,
+      isLogoBackend: this.isLogoBackend
+    };
+    localStorage.setItem(this.localStorageKey, JSON.stringify(dataToStore));
+  });
+    
     this.logoSubject.next(imageFileHandle);
     this.isLogoBackend = isLogoBackend;
+    this.saveToLocalStorage();
+  }
+
+  convertFileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        resolve(base64String.split(',')[1]); // Extracting base64 data
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
    
  
@@ -56,9 +110,9 @@ export class UserAuthService {
   }
 
   setLogoId(logoId: number,isLogoIdBackend:boolean) {
-    this.logoIdSubject.next(logoId);
-    
+    this.logoIdSubject.next(logoId);  
     this.isLogoIdBackend = isLogoIdBackend;
+    this.saveToLocalStorage();
   }
 
   getLogoId() {
@@ -87,6 +141,7 @@ export class UserAuthService {
   setCompanyName(companyName:CompanyName,isCompanyNameBackend:boolean ) {
     this.companyNameSubject.next(companyName); // Notify the subscribers when the companyName changes.
     this.isCompanyNameBackend = isCompanyNameBackend;
+    this.saveToLocalStorage();
   }
 
   getCompanyName() {
@@ -122,61 +177,64 @@ export class UserAuthService {
 
  
   setId(id: string) {
-    this.id = id; 
+    localStorage.setItem('user_id', id); 
   }
 
   getId(): string {
-    return this.id;
+    return localStorage.getItem('user_id'); 
   }
   getPicId(): string {
-    return this.picId;
+    return localStorage.getItem('pic_id');
   }
   setPicId(picId: string) {
-    this.picId = picId; 
+    localStorage.setItem('pic_id', picId);
   }
   setRoleType(roleType: string) {
-    this.roleType = roleType; 
+    localStorage.setItem('role_type', roleType); 
   }
 
   getRoleType(): string {
-    return this.roleType;
+    return localStorage.getItem('role_type');
   }
   
   setFirstName(firstName: string) {
-    this.firstName = firstName; 
+    localStorage.setItem('first_name', firstName);
   }
 
   getFirstName(): string {
-    return this.firstName;
+    return localStorage.getItem('first_name');
   }
 
   setLastName(lastName: string) {
-    this.lastName = lastName; 
+    localStorage.setItem('last_name', lastName);
   }
 
   getLastName(): string {
-    return this.lastName;
+    return localStorage.getItem('last_name');
   }
 
-  getPhone1() {
-    return this.phone1; 
-  }
   setPhone1(phone1: string) {
-    this.phone1 = phone1; 
+    localStorage.setItem('phone_1', phone1);
+  }
+
+  getPhone1(): string {
+    return localStorage.getItem('phone_1');
+  }
+
+  setPhone2(phone2: string) {
+    localStorage.setItem('phone_2', phone2);
   }
 
   getPhone2(): string {
-    return this.phone2;
+    return localStorage.getItem('phone_2');
   }
-  setPhone2(phone2: string) {
-    this.phone2 = phone2; 
+
+  setPhone3(phone3: string) {
+    localStorage.setItem('phone_3', phone3);
   }
 
   getPhone3(): string {
-    return this.phone3;
-  }
-  setPhone3(phone3: string) {
-    this.phone3 = phone3; 
+    return localStorage.getItem('phone_3');
   }
   public clear() {
   
