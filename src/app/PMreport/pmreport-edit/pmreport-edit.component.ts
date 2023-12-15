@@ -274,8 +274,7 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
       this.income.incomeRemarks = this.incomeRemarks;
       this.rental.rentalRemarks = this.rentalRemarks;
       this.income=this.incomeInfo;
-      this.rental=this.rentalInfo; 
-      
+      this.rental=this.rentalInfo;       
      
       for (let i = 0; i < this.expenseRow.length; i++) {      
         if(this.expenseRow[i].expenseDetail !== null && this.expenseRow[i].expenseDetail !== '') {
@@ -335,22 +334,16 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
       };
       this.expenseRow.push(newRow);
   }
-  deleteLastRow() {
-    if (this.expenseRow.length > 0) {
-        this.expenseRow.pop();
-        this.pmReportService.getExpenseDataById(this.id).subscribe(
-          (data) => {
-            this.expenseRow = data;
-            console.log("Expense",data);
-          });
-        this.pmReportService.deleteExpenseRow(this.expId).subscribe(
-          () => {
-            this.deleteLastRow();
-            console.log('id',this.expId);
-          },
-  
-        );
-    }
+  deleteLastRow(expId:number) {
+    console.log('id',this.expId);
+    this.pmReportService.deleteExpenseRow(this.expId).subscribe(
+      () => {
+        console.log('success id',this.expId);
+      },
+      (error) => {
+        console.error('Something wrong from .ts:', error);
+      }
+    );
 }
 confirmDeleteLastRow(event:any,expId:number) {
   const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
@@ -359,10 +352,11 @@ confirmDeleteLastRow(event:any,expId:number) {
       message: '最後の行を削除してもよろしいでしょうか？',
     },
   });
-
+console.log("Chooese ID"+expId);
+this.expId=expId;
   dialogRef.afterClosed().subscribe((result) => {
     if (result) {
-      this.deleteLastRow();
+      this.deleteLastRow(expId);
     }
   });
 }
