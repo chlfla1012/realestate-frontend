@@ -601,7 +601,7 @@ export class PmreportCreateComponent implements OnInit {
 
   addRow() {
     const newRow = {
-        id: this.expenseRow.length + 1,
+        id: null,
         expenseDetail: '',
         voucher: '無し',
         expenseDate: '',

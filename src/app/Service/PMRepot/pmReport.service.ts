@@ -119,4 +119,18 @@ findByPropertyName(propertyName:any,id: any):Observable<Property[]>{
   return this.http.get<Property[]>(`${this.url}searchbyPropertyName/${propertyName}/${id}`)
 }
 
+updatePMReport(id?: string ,expenseRow?: any){
+  return this.http.put<Expense>(`${this.url}updatePMReport/${id}`, expenseRow)
+  .pipe(
+    catchError((error: HttpHeaderResponse)=>{
+      console.error('Error:',error);
+      return throwError('Something Worng');
+    })
+  );
+}
+
+deleteExpenseRow(id: number): Observable<void>{
+  return this.http.delete<void>(`${this.url}deleteExpenseRow/${id}`)
+}
+
 }
