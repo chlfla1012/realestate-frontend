@@ -339,6 +339,11 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
     this.pmReportService.deleteExpenseRow(this.expId).subscribe(
       () => {
         console.log('success id',this.expId);
+        this.pmReportService.getExpenseDataById(this.id).subscribe(
+          (data) => {
+            this.expenseRow = data;
+            console.log("Expense",data);
+          });
       },
       (error) => {
         console.error('Something wrong from .ts:', error);
