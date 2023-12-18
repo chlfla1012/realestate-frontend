@@ -205,6 +205,13 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
+      <mat-paginator #scheduledOrdersPaginator
+      [length]="dataSource.data.length"
+      [pageSize]="10"
+      style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      aria-label="Select page">
+      </mat-paginator>
     </div>
   </div>
 </body>
