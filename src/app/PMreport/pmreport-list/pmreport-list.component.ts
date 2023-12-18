@@ -60,10 +60,9 @@ export class PmreportListComponent implements OnInit {
     }
 
     getAllReportByCompanyId(){
-      console.log("companyId before API call:" + this.companyId);
+      
       this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
-      this.report = data;
-      console.log("companyId after API call: " + this.companyId);
+      this.report = data;      
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.report);      
       this.dataSource.paginator = this.paginator;      
@@ -137,9 +136,7 @@ export class PmreportListComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         if(result){ 
           this.pmReportService.deleteReport(id).subscribe(
-            () => {
-              console.log('Customer deleted successfully.'); 
-              window.alert('Item deleted successfully!');               
+            () => {                                
               this.report = this.report?.filter((user:PMReport)=> this.report.id !== id);
               this.loadReports();              
             },
