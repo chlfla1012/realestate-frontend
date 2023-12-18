@@ -150,3 +150,9 @@ mat-label {
     border: none; /* Hide the border */
     outline: none; /* Hide the outline when focused */
   }
+  .help-block {
+    color: red;
+    /* margin-left: 30px; */
+    font-size: 12px;
+  
+  }
