@@ -15,7 +15,7 @@
       <div class="col-2" style="margin-top: 17px;">
         <div class="create-icon" style="margin-left: 21%">
        
-          <button mat-stroked-button style="background-color:white;margin-bottom: 2px; width: 100px; height: 30px;" (click)="back()">
+          <button mat-raised-button style="background-color:white;margin-bottom: 2px; width: 100px; height: 30px;" (click)="back()">
             戻る</button>
         </div>
         
@@ -110,7 +110,7 @@
       <div class="row button-row">
        
           <div class="col-md-1">
-            <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+            <button mat-raised-button class="searchBtn" style="width: 100px; height: 30px;background-color: #376fc3;color: white;" (click)="search()">
                 <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
                 検索
             </button>
@@ -120,7 +120,7 @@
     <div class="col-md-1"></div>
     <div class="col-md-2">
      
-      <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" (click)="reset()"
+      <button mat-raised-button class="resetBtn" style="width: 100px;height:30px;" (click)="reset()"
      >リセット</button>
 
     </div>
@@ -187,14 +187,14 @@ aria-label="Select page">
 <!-- </div> -->
 <div class="row button-row" style="margin-top: -20px;">
     <div class="col-md-1">
-      <button mat-stroked-button class="cancelBtn" style="width: 140px; height: 30px;" (click)="onCancel()">
+      <button mat-raised-button class="cancelBtn" style="width: 140px; height: 30px;" (click)="onCancel()">
         キャンセル
       </button>
     </div>
     <div class="col-md-2"></div>
     <div class="col-md-2">
 
-     <button mat-stroked-button class="previewBtn" style="width: 140px;height:30px;" (click)="pdfPreview()"
+     <button mat-raised-button class="previewBtn" style="width: 140px;height:30px;background-color: #376fc3;color: white;" (click)="pdfPreview()"
      >PDFプレビュー</button> 
 
     </div>

@@ -297,6 +297,7 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
         (response:Expense) => {
           console.log(response);
           console.log('Data added successfully');
+          this.router.navigate(['/report-list']);
         },
         (error: HttpErrorResponse) => {
           console.error('Error submitting contract:', error);
