@@ -47,8 +47,7 @@ export class PmreportListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentCompanyId();
-    this.getAllReportByCompanyId();
-    this.loadReports();
+    this.getAllReportByCompanyId();    
 
     }
 
@@ -60,10 +59,9 @@ export class PmreportListComponent implements OnInit {
     }
 
     getAllReportByCompanyId(){
-      console.log("companyId before API call:" + this.companyId);
+      
       this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
-      this.report = data;
-      console.log("companyId after API call: " + this.companyId);
+      this.report = data;      
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.report);      
       this.dataSource.paginator = this.paginator;      
@@ -72,20 +70,7 @@ export class PmreportListComponent implements OnInit {
         console.error("Error in API call: ", error);
       }
     );
-    }
-
-    loadReports() {
-      this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
-        this.report = data;       
-        this.formatDateStrings();
-        this.dataSource = new MatTableDataSource<any>(this.report);        
-        this.dataSource.paginator = this.paginator;              
-      },
-        (error) => {
-          console.error("Error in API call: ", error);
-        }
-      );      
-    }
+    }    
 
     navigateToCreatePage() {
       this.router.navigate(['/report-create']);
@@ -137,11 +122,9 @@ export class PmreportListComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
         if(result){ 
           this.pmReportService.deleteReport(id).subscribe(
-            () => {
-              console.log('Customer deleted successfully.'); 
-              window.alert('Item deleted successfully!');               
-              this.report = this.report?.filter((user:PMReport)=> this.report.id !== id);
-              this.loadReports();              
+            () => {                                
+              this.report = this.report?.filter((report:PMReport)=> this.report.id !== id);
+              window.location.reload();              
             },
             (error) => {
               console.error('Something wrong from .ts:', error);
@@ -155,8 +138,7 @@ export class PmreportListComponent implements OnInit {
 
     formatDateStrings() {
       this.report.forEach((report: PMReport) => {
-        if (report.createdDate !== null) {
-         const originalDate = new Date(report.createdDate); 
+        if (report.createdDate !== null) {         
          const createdDate1 = this.datepipe.transform(report.createdDate, 'yyyy-MM-dd');
          const modifiedDate1 = this.datepipe.transform(report.modifiedDate, 'yyyy-MM-dd');
          const targetMonth1 = this.datepipe.transform(report.targetMonth,'yyyy-MM-dd');

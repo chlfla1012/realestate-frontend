@@ -1,21 +1,27 @@
-.container.invoice-list-container{
-    width: 100%;
-    height: 650px;
+
+.container.pdf-collection-container{
+    width: auto;
+    height: auto;
     margin-top: 45px;
     background-color: rgb(126, 161, 154);
     border-radius: 5px 5px 5px 5px;
-   
+    padding-bottom: 5px;
   
   }
-  .container.invoice-list-title-container{
-    width: 100%;
-    height: auto;
+  body {
+    overflow: hidden;
+}
+
+
+  .container.pdf-collection-title-container{
+    width: auto;
+    height: 70px;
     background-color: rgba(249, 246, 246, 0.904);
     border-radius: 6px 6px 6px 6px;
     font-size: 15px;
   
   }
-  .row.invoice-list-title-row{
+  .row.pdf-collection-title-row{
     width: 100%;
     height: 70px;
     border-radius: 6px 6px 6px 6px;
@@ -23,7 +29,7 @@
    
   .container.search-container{
     width: 100%;
-    height: 160px;
+    height: 220px;
     margin-top: 40px;
     border-radius: 6px 6px 6px 6px;
     background-color: rgba(249, 246, 246, 0.904);
@@ -32,6 +38,7 @@
   }
   .row.search-row{
     width: 100%;
+    height: auto;
     margin-left: 3%;
     padding-top: 3%;
   }
@@ -42,14 +49,23 @@
   }
   
   .searchBtn{
-    background-color: white;
-  }
-  
-  .resetBtn{
     color: white;
     background: #376fc3;
   }
   
+  .resetBtn{
+    background-color: white;
+
+  }
+  
+  .cancelBtn{
+    background-color: white;
+  }
+  
+  .previewBtn{
+    color: white;
+    background: #376fc3;
+  }
   .container.title-container{
     margin-top: 30px;
     width: 100%;
@@ -66,12 +82,17 @@
     margin-top: 40px;
   
   }
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
   mat-header-cell{
     font-weight: bold;
   }
   .column-id{
     max-width:90px;
   }
-  body {
-    overflow: hidden;
-}
+  .hidden-table {
+    display: none;
+  }
