@@ -53,6 +53,7 @@ import { InvoiceDetailComponent } from './InvoiceInfo/invoice-detail/invoice-det
 import { PdfCollectionComponent } from './InvoiceInfo/pdf-collection/pdf-collection.component';
 import { PdfDownloadComponent } from './InvoiceInfo/pdf-download/pdf-download.component';
 import { PmreportUploadComponent } from './PMreport/pmreport-upload/pmreport-upload.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
 
@@ -61,80 +62,75 @@ const routes: Routes = [
   // { path: '**', component: PageNotFoundComponent },
 
 
-  { path: 'customer-create', component: CustomerCreateComponent },
-  {path: 'customer-list',component:CustomerListComponent},
-  { path: 'customer-update/:id', component: CustomerEditComponent },
-  { path: 'customer-details/:id', component: CustomerDetailsComponent },
+  { path: 'customer-create', component: CustomerCreateComponent, canActivate: [AuthGuard] },
+  {path: 'customer-list',component:CustomerListComponent, canActivate: [AuthGuard]},
+  { path: 'customer-update/:id', component: CustomerEditComponent, canActivate: [AuthGuard] },
+  { path: 'customer-details/:id', component: CustomerDetailsComponent, canActivate: [AuthGuard] },
 
 
-{path: 'property-list',component:PropertyListComponent},
-  { path: 'property-create', component: PropertycreateComponent },
-  { path: 'property-details/:id', component: PropertydetailComponent },
-  { path: 'property-update/:id', component: PropertyeditComponent },
-
- 
-  { path: 'income-check',component:IncomeCheckMainComponent}, 
-
+  {path: 'property-list',component:PropertyListComponent, canActivate: [AuthGuard]},
+  { path: 'property-create', component: PropertycreateComponent, canActivate: [AuthGuard] },
+  { path: 'property-details/:id', component: PropertydetailComponent, canActivate: [AuthGuard] },
+  { path: 'property-update/:id', component: PropertyeditComponent, canActivate: [AuthGuard] }, 
+  { path: 'income-check',component:IncomeCheckMainComponent, canActivate: [AuthGuard]}, 
   
-  //wathone
-  
-{path: 'contract-list',component:ContractListComponent},
-{ path: 'contract-create', component: ContractCreateComponent },
-{ path: 'contract-details/:id', component: ContractDetailsComponent },
-{ path: 'contract-update/:id', component: ContractEditComponent },
-
+  //wathone  
+{path: 'contract-list',component:ContractListComponent, canActivate: [AuthGuard]},
+{ path: 'contract-create', component: ContractCreateComponent, canActivate: [AuthGuard] },
+{ path: 'contract-details/:id', component: ContractDetailsComponent, canActivate: [AuthGuard] },
+{ path: 'contract-update/:id', component: ContractEditComponent, canActivate: [AuthGuard] },
 
 //swezin
-{ path: 'login', component: LoginComponent },
-  { path: 'header', component: HeaderComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'header', component: HeaderComponent, canActivate: [AuthGuard] },
 
-  { path: 'manager-create', component: ManagercreateComponent},
-  { path: 'manager-list', component: ManagerListComponent},
-  { path: 'manager-detail/:id', component: ManagerdetailsComponent },
-  { path: 'manager-edit/:id', component: ManagereditComponent },
+  { path: 'manager-create', component: ManagercreateComponent, canActivate: [AuthGuard]},
+  { path: 'manager-list', component: ManagerListComponent, canActivate: [AuthGuard]},
+  { path: 'manager-detail/:id', component: ManagerdetailsComponent, canActivate: [AuthGuard] },
+  { path: 'manager-edit/:id', component: ManagereditComponent, canActivate: [AuthGuard] },
 
-  { path: 'user-create', component: UsercreateComponent},
-  { path: 'user-list', component: UserListComponent},
-  { path: 'user-detail/:id', component: UserdetailsComponent},
-  { path: 'user-edit/:id', component: UsereditComponent },
+  { path: 'user-create', component: UsercreateComponent, canActivate: [AuthGuard]},
+  { path: 'user-list', component: UserListComponent, canActivate: [AuthGuard]},
+  { path: 'user-detail/:id', component: UserdetailsComponent, canActivate: [AuthGuard]},
+  { path: 'user-edit/:id', component: UsereditComponent, canActivate: [AuthGuard] },
   
-  { path: 'owner-create', component: OwnercreateComponent},
-  { path: 'owner-list', component: OwnerListComponent },
-  { path: 'owner-details/:id', component: OwnerdetailComponent},
-  { path: 'owner-edit/:id', component: OwnereditComponent },
+  { path: 'owner-create', component: OwnercreateComponent, canActivate: [AuthGuard]},
+  { path: 'owner-list', component: OwnerListComponent, canActivate: [AuthGuard] },
+  { path: 'owner-details/:id', component: OwnerdetailComponent, canActivate: [AuthGuard]},
+  { path: 'owner-edit/:id', component: OwnereditComponent, canActivate: [AuthGuard] },
   
-  { path: 'change-password', component: ChangePasswordComponent },
-  { path: 'profile-detail/:id', component: ProfileDetailsComponent },
-  { path: 'profile-edit/:id', component: ProfileEditComponent },
-  { path: 'email-request', component: EmailRequestComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'owner-main',component:OwnerMainComponent},
-  { path: 'invoice-create',component:InvoiceCreateComponent},
-  { path: 'invoice-list',component:InvoiceListComponent},
-  { path: 'invoice-detail/:id', component: InvoiceDetailComponent },
-  { path: 'invoice-edit/:id', component: InvoiceEditComponent },
-  { path: 'pdf-collection',component:PdfCollectionComponent},
-  { path: 'pdf-download',component:PdfDownloadComponent},
+  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
+  { path: 'profile-detail/:id', component: ProfileDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'profile-edit/:id', component: ProfileEditComponent, canActivate: [AuthGuard] },
+  { path: 'email-request', component: EmailRequestComponent, canActivate: [AuthGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'owner-main',component:OwnerMainComponent, canActivate: [AuthGuard]},
+  { path: 'invoice-create',component:InvoiceCreateComponent, canActivate: [AuthGuard]},
+  { path: 'invoice-list',component:InvoiceListComponent, canActivate: [AuthGuard]},
+  { path: 'invoice-detail/:id', component: InvoiceDetailComponent, canActivate: [AuthGuard] },
+  { path: 'invoice-edit/:id', component: InvoiceEditComponent, canActivate: [AuthGuard] },
+  { path: 'pdf-collection',component:PdfCollectionComponent, canActivate: [AuthGuard]},
+  { path: 'pdf-download',component:PdfDownloadComponent, canActivate: [AuthGuard]},
 
 // wathone 
 
   //chuthinzar, htoilu
- { path: 'bankformat-create', component: BankFormatCreateComponent },
- {path: 'bankformat-list',component:BankFormatListComponent},
- { path: 'bankformat-edit/:id', component: BankFormatEditComponent },
- { path: 'bankformat-detail/:id', component: BankFormatDetailComponent },
+ { path: 'bankformat-create', component: BankFormatCreateComponent, canActivate: [AuthGuard] },
+ {path: 'bankformat-list',component:BankFormatListComponent, canActivate: [AuthGuard]},
+ { path: 'bankformat-edit/:id', component: BankFormatEditComponent, canActivate: [AuthGuard] },
+ { path: 'bankformat-detail/:id', component: BankFormatDetailComponent, canActivate: [AuthGuard] },
 
- { path: 'income-list', component: IncomeListComponent },
- { path: 'income-check/:bankName',  component: IncomeCheckMainComponent},
- { path: 'income-check',component:IncomeCheckMainComponent}, 
+ { path: 'income-list', component: IncomeListComponent, canActivate: [AuthGuard] },
+ { path: 'income-check/:bankName',  component: IncomeCheckMainComponent, canActivate: [AuthGuard]},
+ { path: 'income-check',component:IncomeCheckMainComponent, canActivate: [AuthGuard]}, 
 
 
- { path: 'report-create', component: PmreportCreateComponent },
- { path: 'report-list', component: PmreportListComponent },
- { path: 'report-details/:id', component: PmreportDetailsComponent },
- { path: 'report-edit/:id', component: PmreportEditComponent },
- { path: 'report-create-pdf/:id', component: PmreportCreatePdfComponent },
- { path: 'report-upload', component: PmreportUploadComponent },
+ { path: 'report-create', component: PmreportCreateComponent, canActivate: [AuthGuard] },
+ { path: 'report-list', component: PmreportListComponent, canActivate: [AuthGuard]},
+ { path: 'report-details/:id', component: PmreportDetailsComponent, canActivate: [AuthGuard] },
+ { path: 'report-edit/:id', component: PmreportEditComponent, canActivate: [AuthGuard] },
+ { path: 'report-create-pdf/:id', component: PmreportCreatePdfComponent, canActivate: [AuthGuard] },
+ { path: 'report-upload', component: PmreportUploadComponent, canActivate: [AuthGuard] },
 
 ];
 
