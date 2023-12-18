@@ -1,0 +1,214 @@
+
+<html>
+  <body>
+<div class="container pdf-collection-container">
+  <div class="row" style="width: 100px;height: 28px;"></div>
+
+  <div class="container pdf-collection-title-container">
+    <div class="row invoice-list-title-row" >
+      <div class="col-3 icon" style="padding-top: 19px;">
+        <svg class='fontawesomesvg' xmlns="http://www.w3.org/2000/svg"  style="height: 20px;"  viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM64 224H88c30.9 0 56 25.1 56 56s-25.1 56-56 56H80v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V320 240c0-8.8 7.2-16 16-16zm24 80c13.3 0 24-10.7 24-24s-10.7-24-24-24H80v48h8zm72-64c0-8.8 7.2-16 16-16h24c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H176c-8.8 0-16-7.2-16-16V240zm32 112h8c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16h-8v96zm96-128h48c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V304 240c0-8.8 7.2-16 16-16z"/></svg>
+        <span style="margin-left: 10px;">請求書PDFコレクション画面</span>
+
+      </div>
+      <div class="col-7"></div>
+      <div class="col-2" style="margin-top: 17px;">
+        <div class="create-icon" style="margin-left: 21%">
+       
+          <button mat-stroked-button style="background-color:white;margin-bottom: 2px; width: 100px; height: 30px;" (click)="back()">
+            戻る</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container search-container">
+      <div class="row search-title-row" style="padding-top: 20px;margin-left: 0px;">
+     
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        
+          <div class="col-md-1"></div>
+          <div class="col-md-2" style="margin-left: -20px;">
+              <label for="propertyName">物件名</label>
+          </div>
+
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left: 55px;">
+              <label for="borrowerPersonName">法人名</label>
+          </div>
+        
+          <div class="col-md-2"></div>
+          <div class="col-md-2" style="margin-left: 20px;">
+              <label for="createdDate">対象月</label>
+          </div>
+      </div>   
+
+    
+  
+      <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
+    <div class="col-md-2">
+       <input type="text" id="searchPropertyName"
+      [(ngModel)]="searchPropertyName" 
+      required="propertyName"
+      name="searchPropertyName" 
+      class="form-control" 
+     
+      style="width: 150px;margin-left: 53px;">  
+     
+      <div style="margin-left:53px;" *ngIf="!searchPropertyName" class="error-message">物件名を入れてください。</div>
+    </div>
+    <div class="col-md-3">
+    
+    </div>
+    
+    <div class="col-md-2" style="margin-left: 10px;">
+      <div class="col-md-2">
+     <input type="text" id="searchBorrowerCooperate" 
+        [(ngModel)]="searchBorrowerCooperate" 
+        name="searchBorrowerPersonName" 
+
+        class="form-control"
+         style="width: 150px; margin-left: 0px;">
+         <!-- placeholder="Search Borrower Cooperate" -->
+      <!-- </div>  -->
+      </div>
+        <!-- <input [(ngModel)]="searchBorrowerCooperate" placeholder="Search Borrower Person Name" /> -->
+        <div class="col-md-3"></div>
+        <div class="col-md-2" *ngIf="!searchBorrowerCooperate" class="error-message">法人名を入れてください。</div>
+      </div>
+     
+  
+    <div class="col-md-2">
+    
+    </div>
+    <div class="col-md-2" style="margin-left: 35px;">
+
+       <div class="col-md-2">
+     
+       <input type="month"
+       class="form-control"
+       id="searchByBillingDate"
+       [(ngModel)]="searchByBillingDate"
+      #buildingDate="ngModel"
+      name="searchByBillingDate"
+       style="width: 160px;margin-left:-10px;">
+      </div>
+      <div class="col-md-3"></div>
+  <div *ngIf="!searchByBillingDate" style="margin-left: -10px;" class="error-message">対象月を入れてください。</div>
+
+
+    </div>
+    <div class="col-md-2">
+    
+    </div>
+  
+ 
+
+      <div class="row button-row">
+       
+          <div class="col-md-1">
+            <button mat-stroked-button class="searchBtn" style="width: 100px; height: 30px;" (click)="search()">
+                <mat-icon aria-hidden="false" aria-label="Example search icon" fontIcon="search"></mat-icon>
+                検索
+            </button>
+
+        </div>
+   
+    <div class="col-md-1"></div>
+    <div class="col-md-2">
+     
+      <button mat-stroked-button class="resetBtn" style="width: 100px;height:30px;" (click)="reset()"
+     >リセット</button>
+
+    </div>
+  </div>
+</div>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7" style="padding-top: 10px;">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>請求書ID</mat-header-cell>
+      <mat-cell *matCellDef="let invoice">{{invoice.id}}</mat-cell> 
+    </ng-container>
+    
+    <ng-container matColumnDef="propertyName">
+      <mat-header-cell *matHeaderCellDef>物件名</mat-header-cell> 
+      <mat-cell *matCellDef="let invoice">{{invoice.propertyName}}</mat-cell>  
+    </ng-container>
+    
+      <ng-container matColumnDef="roomNo">
+        <mat-header-cell *matHeaderCellDef>号室</mat-header-cell>
+        <mat-cell *matCellDef="let invoice">{{invoice.roomNo}}</mat-cell>
+      </ng-container> 
+      <ng-container matColumnDef="personName">
+        <mat-header-cell *matHeaderCellDef>担当者</mat-header-cell>
+        <mat-cell *matCellDef="let invoice">{{invoice.personName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="borrowerCooperate">
+         <mat-header-cell *matHeaderCellDef>法人名</mat-header-cell>
+        <mat-cell *matCellDef="let invoice">{{invoice.borrowerCooperate}}</mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="borrowerPersonName">
+        <mat-header-cell *matHeaderCellDef>法人担当者</mat-header-cell>
+       <mat-cell *matCellDef="let invoice">{{invoice.borrowerPersonName}}</mat-cell>
+     </ng-container>
+      <ng-container matColumnDef="createdDate">
+          <mat-header-cell *matHeaderCellDef>登録日</mat-header-cell>
+          <mat-cell *matCellDef="let invoice">{{invoice.createdDate}}</mat-cell>
+          <!-- <th mat-header-cell *matHeaderCellDef>登録日</th> -->
+          <!-- <td mat-cell *matCellDef="let customer">{{ customer.createdDate }}</td> -->
+        </ng-container>
+        <ng-container matColumnDef="modifiedDate">
+          <mat-header-cell *matHeaderCellDef>更新日</mat-header-cell>
+          <mat-cell *matCellDef="let invoice">{{invoice.modifiedDate}}</mat-cell>
+          <!-- <th mat-header-cell *matHeaderCellDef>更新日</th> -->
+          <!-- <td mat-cell *matCellDef="let customer">{{ customer.modifiedDate }}</td> -->
+        </ng-container>
+    
+      
+    
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator #scheduledOrdersPaginator
+[length]="dataSource.data.length"
+[pageSize]="10"
+style="margin-top: 20px;background-color:rgb(126, 161, 154);"
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
+  
+<!-- </div> -->
+<div class="row button-row" style="margin-top: -20px;">
+    <div class="col-md-1">
+      <button mat-stroked-button class="cancelBtn" style="width: 140px; height: 30px;" (click)="onCancel()">
+        キャンセル
+      </button>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-2">
+
+     <button mat-stroked-button class="previewBtn" style="width: 140px;height:30px;" (click)="pdfPreview()"
+     >PDFプレビュー</button> 
+
+    </div>
+  </div>
+
+
+
+
+</div>
+
+</body>
+
+</html>
+   
+
+
+  
