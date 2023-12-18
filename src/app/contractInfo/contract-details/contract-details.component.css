@@ -216,11 +216,7 @@ button{
   width: 150px;
   background-color:rgb(127, 161, 154);
 }
-button:hover{
-  color:white;
 
-  background-color: rgba(249, 246, 246, 0.904);
-}
 .help-block{
   color: red;
   /* margin-left: 30px; */

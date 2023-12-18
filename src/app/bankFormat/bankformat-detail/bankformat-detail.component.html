@@ -14,18 +14,18 @@
         <div class="col-4" style="margin-top: 19px;">
           <div class="row">
             <div class="col-2">
-              <button mat-stroked-button class="backBtn" style="width: 100px; height: 30px;"
+              <button mat-raised-button class="backBtn" style="width: 100px; height: 30px;"
                 (click)="back()">戻る</button>
             </div>
             <div class="col-md-2"></div>
             <div class="col-md-2">
-              <button mat-stroked-button class="updateBtn" style="width: 100px; height: 30px;"
+              <button mat-raised-button class="updateBtn" style="width: 100px; height: 30px;"
                 (click)="navigateToUpdatePage(bankformat.id)">
                 <mat-icon aria-hidden="false" aria-label="Example edit icon" fontIcon="edit"></mat-icon>編集</button>
             </div>
             <div class="col-md-2"></div>
             <div class="col-2">
-              <button mat-stroked-button class="deleteBtn" style="width: 100px; height: 30px;"
+              <button mat-raised-button class="deleteBtn" style="width: 100px; height: 30px;"
                 (click)="confirmDelete(bankformat.id,bankformat.bankName)">
                 <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>削除</button>
             </div>
@@ -47,23 +47,8 @@
               </div>
               <div class="col-md-2" style="margin-top: 60px;">
                 <div class="leftfield">
-                  <!-- <div class="col-md-2"> -->
-                  <mat-select class="form-control" id="bankName" name="bankName" [(ngModel)]="bankformat.bankName"
-                    [ngClass]="{'is-valid':bankName.touched && bankName.invalid}" required #bankName="ngModel"
-                    style="width: 282px;margin-left: 5px;" disabled>
-                    <mat-option value="みずほ銀行">みずほ銀行</mat-option>
-                    <mat-option value="三菱UFJ銀行">三菱UFJ銀行</mat-option>
-                    <mat-option value="三井住友銀行">三井住友銀行</mat-option>
-                    <mat-option value="りそな銀行">りそな銀行</mat-option>
-                    <mat-option value="ゆうちょ銀行">ゆうちょ銀行</mat-option>
-                    <mat-option value="東京三菱UFJ銀行">東京三菱UFJ銀行</mat-option>
-                    <mat-option value="新生銀行">新生銀行</mat-option>
-                    <mat-option value="セブン銀行">セブン銀行</mat-option>
-                    <mat-option value="あおぞら銀行">あおぞら銀行</mat-option>
-                    <mat-option value="楽天銀行">楽天銀行</mat-option>
-                    <mat-option value="Pay Pay銀行">Pay Pay銀行</mat-option>
-                  </mat-select>
-                  <!-- </div> -->
+                  <input type="text"  id="bankName" [(ngModel)]="bankformat.bankName" name="bankName" class="form-control"
+                    value="bankName" required #bankName="ngModel" disabled style="width: 282px; height:35px;">
                 </div>
               </div>
             </div>

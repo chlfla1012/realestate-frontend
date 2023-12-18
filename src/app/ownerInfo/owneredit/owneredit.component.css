@@ -71,12 +71,6 @@ button.register{
   background: #376fc3;
 }
 
-button:hover{
-    color:rgb(127, 161, 154);
-    background-color: rgba(249, 246, 246, 0.904);
-
-    /* background-color: rgba(249, 246, 246, 0.904); */
-}
   .edit-button{
     width: 150px;
     height: 35px;

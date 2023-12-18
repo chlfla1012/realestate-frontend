@@ -20,12 +20,12 @@
   
             <div class="col-md-4"></div>
             <div class="col-md-3">
-                <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToPreivousPage()">
+                <button mat-raised-button style="width: 100px; height: 30px;"  (click)="navigateToPreivousPage()">
                    戻る
                 </button>
             </div>
             <div class="col-md-3">
-                <button mat-stroked-button style="width: 100px; height: 30px;"  (click)="navigateToUpdatePage(invoiceInfo.id)">
+                <button mat-raised-button style="width: 100px; height: 30px;"  (click)="navigateToUpdatePage(invoiceInfo.id)">
                     <mat-icon aria-hidden="false"
                      aria-label="Example edit icon" fontIcon="edit"></mat-icon>
                     編集
@@ -33,7 +33,7 @@
             </div>
   
             <div class="col-md-2">
-                <button mat-stroked-button style="width: 100px; height: 30px;background-color:red;" 
+                <button mat-raised-button style="width: 100px; height: 30px;background-color:red;" 
                   (click)="confirmDelete(invoiceInfo.id,invoiceInfo.propertyName)">
                     <mat-icon aria-hidden="false" 
                     aria-label="Example delete icon" fontIcon="delete"></mat-icon>
