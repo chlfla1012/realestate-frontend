@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Borrower } from 'src/app/Model/Borrower';
@@ -17,6 +18,7 @@ import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-servi
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { AlertDialogComponent } from 'src/app/contractInfo/contract-create/AlertDialogComponent';
 
 @Component({
   selector: 'app-invoice-create',
@@ -408,6 +410,7 @@ export class InvoiceCreateComponent {
     private propertyService: PropertyService,
     private invoiceService: InvoiceServiceService,
     private userAuthService: UserAuthService,
+    private dialog: MatDialog,
     //@Inject(LOCALE_ID) private locale: string
   ) {
     this.picData = {
@@ -637,12 +640,12 @@ export class InvoiceCreateComponent {
       this.contractIDs = data;
       for (const contractInfo of data) {
         this.getContractId = contractInfo.id;
-        // this.propertyIdforEdit = contractInfo.property.Id;
+        //this.propertyIdforEdit = contractInfo.property.Id;
         this.getBorrowerCoporate = contractInfo.borrower.borrowerCooperate;
         console.log("Hello Contract " + this.getContractId);
         console.log("the contract length " + contractInfo.borrower.borrowerCooperate);
-        console.log("法人担当者名　"+this.bcpicName);
-        console.log("物件ID　"+this.propertyIdforEdit);
+       //console.log("法人担当者名　"+contractInfo.property.Id);
+      //console.log("物件ID　"+contractInfo.property.Id);
       }
     }, (error) => {
       console.error('Error fetching owners:', error);
@@ -658,6 +661,25 @@ export class InvoiceCreateComponent {
       console.error('Error fetching owners:', error);
     }
     );
+  }
+
+  openAlertDialog(message: string): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '350px',
+      data: { message: message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+  }
+
+  handleFormError(contractForm: NgForm): void {
+    this.openAlertDialog('必要なフィールドを入力してください。');
+
+    // Mark all form controls as touched
+    Object.values(contractForm.controls).forEach(control => control.markAsTouched());
+    console.log("Form Errors");
   }
 
   onPropertySelectionChange() {
@@ -680,8 +702,6 @@ export class InvoiceCreateComponent {
 
       );
   }
-
-   
 
   onContractSelectionChange() {
     this.contractService.getcontractById(this.contractId).
@@ -970,11 +990,7 @@ export class InvoiceCreateComponent {
 
   onSubmit(invoiceForm: NgForm) {
     if (invoiceForm.invalid) {
-      // If the form is invalid, mark all form controls as touched
-      Object.keys(invoiceForm.controls).forEach((key) => {
-        invoiceForm.controls[key].markAsTouched();
-      });
-      console.log("Form Errors");
+      this.handleFormError(invoiceForm);
       return;
     }
     //不動産会社情報

@@ -218,13 +218,10 @@
                               (keypress)="keyPressNumeric($event)"
                             required [ngClass]="{'is-valid':phone3.touched && phone3.invalid}"
                             style="width: 60px;  height:35px;"
-
                             pattern="[0-9]*">
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                   <div class="col-md-1"></div>
                   <div class="col-md-2">
@@ -238,7 +235,7 @@
                     <!-- <input type="date" class="form-control"
                        id="dateOfBirth" [(ngModel)]="userInfo.dateOfBirth"
                       name="dateOfBirth" style="width: 265px;  height:35px;"> -->
-                      <input 
+                    <input 
                     type="date" 
                     class="form-control" 
                     id="dateOfBirth" 
@@ -262,15 +259,13 @@
                     
                   </div>
                   <div class="col-md-3"></div>
-                  <div class="col-md-4" style="margin-left:70px;">
-                    <!-- <span class="help-block" style="font-size: 12px;"
-                    *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')"
-                   >
-                      {{ errorMessageDOB }}</span> -->
-                      <div  *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" class="error-message"  class="help-block">
-                        {{ errorMessageDOB }}</div>
+                  <div class="col-md-3">
+                    <div class="help-block"
+                    *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" 
+                    class="error-message"  class="help-block">
+                      {{ errorMessageDOB }}
+                    </div> 
                   </div>
-
                 </div>
 <!-- 
                 <div class="row">
@@ -297,7 +292,10 @@
                   </div>
                   <div class="col-md-2">
                     <div>
-                      <select class="form-control" id="gender" required [(ngModel)]="userInfo.gender" name="gender"
+                      <select 
+                      class="form-control" 
+                      id="gender"  
+                      [(ngModel)]="userInfo.gender" name="gender"
                         #gender="ngModel" style="width: 75px;  height:35px;">
                         <option value="男性">男性</option>
                         <option value="女性">女性</option>
@@ -415,8 +413,14 @@
                   </div>
                   <div class="col-md-2">
                     <!-- <div> -->
-                    <input type="text" class="form-control" id="address"  [(ngModel)]="userInfo.address"
-                      name="address" #address="ngModel" style="width: 265px;  height:35px;">
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    id="address"  
+                    [(ngModel)]="userInfo.address"
+                      name="address" 
+                      #address="ngModel" 
+                      style="width: 265px;  height:35px;">
                     <!-- </div> -->
                   </div>
 

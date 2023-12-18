@@ -31,6 +31,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ContractCreateComponent {
+  @ViewChild('f') myForm!: NgForm;
   companyId: number;
   backendCompany: CompanyName = {
 
@@ -580,9 +581,11 @@ export class ContractCreateComponent {
             this.contract.ownerKana = this.ownerKana;
 
             // Fetch data based on the selected PIC
+
             this.fetchPicData();
           } else {
             console.error('Selected property not found');
+            this.handleFormError(contractForm);
           }
         },
         (error) => {
@@ -606,6 +609,7 @@ export class ContractCreateComponent {
       },
       (selectedPICDataError: HttpErrorResponse) => {
         console.log(selectedPICDataError);
+        this.handleFormError(this.myForm);
       }
     );
   }

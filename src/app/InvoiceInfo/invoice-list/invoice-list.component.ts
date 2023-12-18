@@ -163,9 +163,9 @@ export class InvoiceListComponent {
             // this.showDeleteSuccessSnackbar(name);
             console.log('Property deleted successfully.');
 
-            // setTimeout(() => {
-            //   window.location.reload();
-            //   }, 20);
+            setTimeout(() => {
+              window.location.reload();
+              }, 20);
           },
           (error) => {
             console.error('An error occurred:', error);
