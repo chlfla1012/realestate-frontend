@@ -36,11 +36,6 @@
     background-color: white;
   }
   
-  .resetBtn{
-    color: white;
-    background: #376fc3;
-  }
-
   .error-message {
     color: red;
     font-size: 12px;
