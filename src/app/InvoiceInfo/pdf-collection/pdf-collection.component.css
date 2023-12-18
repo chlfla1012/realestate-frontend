@@ -1,15 +1,20 @@
 
 .container.pdf-collection-container{
-    width: 100%;
+    width: auto;
     height: auto;
     margin-top: 45px;
     background-color: rgb(126, 161, 154);
     border-radius: 5px 5px 5px 5px;
-   
+    padding-bottom: 5px;
   
   }
+  body {
+    overflow: hidden;
+}
+
+
   .container.pdf-collection-title-container{
-    width: 100%;
+    width: auto;
     height: 70px;
     background-color: rgba(249, 246, 246, 0.904);
     border-radius: 6px 6px 6px 6px;

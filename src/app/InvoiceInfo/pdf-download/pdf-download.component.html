@@ -71,7 +71,7 @@
         </div>
    
         <div *ngIf="filteredData && filteredData.length > 0">
-          <table class="page-break" *ngFor="let item of filteredData"  class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;">
+          <table *ngFor="let item of filteredData"  class="table-to-convert" id="table-to-convert" style="margin-inline:100px;margin-bottom: 20px;page-break-after: always;">
 
             <thead>
               <tr>
