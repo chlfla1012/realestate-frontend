@@ -126,14 +126,10 @@ export class PmreportUploadComponent {
       formData.append('managerName', this.managerName);
   
       this.pmReportUploadService.uploadFile(formData).pipe(
-        tap(() => {
-          //console.log('FormData:', formData);
-          console.log('Created Date:', this.createdDate);
+        tap(() => {          
         })
       ).subscribe(
-        (response) => {
-          console.log('Backend response:', response); 
-          window.alert('File uploaded successfully!');            
+        (response) => {                   
           window.location.reload();        
         },
         (error) => {
