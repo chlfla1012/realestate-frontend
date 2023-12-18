@@ -1,4 +1,4 @@
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,113 +15,118 @@ import { BankFormatService } from 'src/app/Service/BankFormat/bankFormat.service
   templateUrl: './bankformat-list.component.html',
   styleUrls: ['./bankformat-list.component.css']
 })
-export class BankFormatListComponent implements OnInit{
+export class BankFormatListComponent implements OnInit {
   searchByCreatedDate: Date;
-  selectedOption:string;
+  selectedOption: string;
   searchBankName: string;
-  bankName:string;
+  bankName: string;
   deleteStatus: boolean;
-  bankformat:any;
+  bankformat: any;
   filteredData: BankFormat[] = [];
- 
- // searchText:string;
+
+  // searchText:string;
   dataSource: MatTableDataSource<any>;
-  
-  displayedColumns: string[] = [ 'id','bankName','date','content','income','remark',`createdDate`,'modifiedDate',' '];
+
+  displayedColumns: string[] = ['id', 'bankName', 'date', 'content', 'income', 'remark', `createdDate`, 'modifiedDate', ' '];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private service: BankFormatService,
     private datepipe: DatePipe,
     private router: Router, private dialog: MatDialog,
-    private snackBar: MatSnackBar) { 
-     this.dataSource = new MatTableDataSource<any>([]); // Initialize the dataSource with an empty array or your data
-     this.dataSource.paginator=this.paginator;
+    private snackBar: MatSnackBar) {
+    this.dataSource = new MatTableDataSource<any>([]); // Initialize the dataSource with an empty array or your data
+    this.dataSource.paginator = this.paginator;
   }
-  
-  ngOnInit(): void {   
-    this.getAllBankFormat();    
-    }
 
-  getAllBankFormat(){
-      this.service.getBankFormat().subscribe(data => {
-        this.bankformat = data;
-        this.formatDateStrings();
-        this.dataSource = new MatTableDataSource<any>(this.bankformat);
-      console.log("Data"+this.dataSource);
+  ngOnInit(): void {
+    this.getAllBankFormat();
+  }
+
+  getAllBankFormat() {
+    this.service.getBankFormat().subscribe(data => {
+      this.bankformat = data;
+      this.formatDateStrings();
+      this.dataSource = new MatTableDataSource<any>(this.bankformat);
+      console.log("Data" + this.dataSource);
       // Set the paginator for the MatTableDataSource
       this.dataSource.paginator = this.paginator;
-      console.log("Data ID"+this.bankformat.id);
+      console.log("Data ID" + this.bankformat.id);
+    });
+  }
 
-      });
+  handleOptionChange(options: string, id: string, bankName: string) {
+    switch (options) {
+      case 'delete': this.confirmDelete(id, bankName); break;
+      case 'details': this.detailsBankFormat(id); break;
+      case 'update': this.updateBankFormat(id); break;
     }
-   
-    handleOptionChange(options:string,id:string,bankName:string){    
-      switch(options){       
-        case 'delete': this.confirmDelete(id, bankName); break;        
-        case 'details':this.detailsBankFormat(id);break;
-        case 'update': this.updateBankFormat(id);break;
-      }  
-    }
-    
-    confirmDelete(id: string, bankName: string): void {
+  }
+
+  confirmDelete(id: string, bankName: string): void {
     console.log(this.bankformat.id)
-      const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
-        data: {
-          message: `選択された会社名：「${bankName}」の内容を削除します`,
-        },
-      });
-      console.log(this.bankformat.id)
-
-      dialogRef.afterClosed().subscribe((result) => {      
-          this.service.deleteBankFormat(id).subscribe(
-            () => {
-    // Item deleted successfully, update your local data source or UI.
-              console.log('BankFormat deleted successfully.');
-            },           
-          );
-        });
-      }
-
-      formatDateStrings() {
-        this.bankformat.forEach((bankformat:BankFormat) => {
-          if (bankformat.createdDate !== null) {
-           const originalDate = new Date(bankformat.createdDate); 
-           const createdDate1 = this.datepipe.transform(bankformat.createdDate, 'yyyy-MM-dd');
-           const modifiedDate1 = this.datepipe.transform(bankformat.modifiedDate, 'yyyy-MM-dd');
-           bankformat.createdDate = createdDate1 ?? bankformat.createdDate;
-           bankformat.modifiedDate = modifiedDate1 ?? bankformat.modifiedDate;    
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+      data: {
+        message: `選択された会社名：「${bankName}」の内容を削除します`,
+      },
+    });
+    console.log(this.bankformat.id)
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.service.deleteBankFormat(id).subscribe(() => {
+           this.bankformat = this.bankformat?.filter((bank:BankFormat)=> bank.id !== id);         
+            console.log('Property deleted successfully.');
+            setTimeout(() => {
+              window.location.reload();
+              }, 20);
+          },
+          (error) => {
+            console.error('An error occurred:', error);           
+            
           }
-        });
+        );
       }
-     
-      updateBankFormat(id: string){
-        console.log("ID:"+id);
-        this.router.navigate(['/bankformat-edit', id]);
+    });
+  }
+  formatDateStrings() {
+    this.bankformat.forEach((bankformat: BankFormat) => {
+      if (bankformat.createdDate !== null) {
+        const originalDate = new Date(bankformat.createdDate);
+        const createdDate1 = this.datepipe.transform(bankformat.createdDate, 'yyyy-MM-dd');
+        const modifiedDate1 = this.datepipe.transform(bankformat.modifiedDate, 'yyyy-MM-dd');
+        bankformat.createdDate = createdDate1 ?? bankformat.createdDate;
+        bankformat.modifiedDate = modifiedDate1 ?? bankformat.modifiedDate;
       }
-      
-      detailsBankFormat(id: string) {
-        this.router.navigate(['/bankformat-detail', id]);
-      }
-  
-      navigateToCreatePage() {
-        this.router.navigate(['/bankformat-create']);
-    
-      }
-  
+    });
+  }
+
+  updateBankFormat(id: string) {
+    console.log("ID:" + id);
+    this.router.navigate(['/bankformat-edit', id]);
+  }
+
+  detailsBankFormat(id: string) {
+    this.router.navigate(['/bankformat-detail', id]);
+  }
+
+  navigateToCreatePage() {
+    this.router.navigate(['/bankformat-create']);
+
+  }
+
   search() {
     // Convert the filter values to lowercase for case-insensitive search
     const filterValueBankName = this.bankName ? this.bankName.trim().toLowerCase() : null;
-     
+
     // Convert the selected date to the desired format (e.g., "YYYY-MM-DD")
     const filterValueCreatedDate = this.searchByCreatedDate
       ? this.datepipe.transform(this.searchByCreatedDate, 'yyyy-MM-dd')
       : null;
-  
-      
+
+
     // Use the MatTableDataSource filterPredicate to filter the data
     this.dataSource.filterPredicate = (data: any, filter: string) => {
       const bankformat = data as BankFormat;
-  
+
       // Check if the property name, property type, and created date match the search criteria
       return (!filterValueBankName || bankformat.bankName.toLowerCase().includes(filterValueBankName)) &&
         ((!filterValueCreatedDate || bankformat.createdDate === filterValueCreatedDate));
@@ -131,10 +136,10 @@ export class BankFormatListComponent implements OnInit{
   reset() {
     this.bankName = '';
     this.searchByCreatedDate = null;
-     // Clear the filter by setting it to null
+    // Clear the filter by setting it to null
     this.dataSource.filter = null;
   }
 
-  
+
 
 }

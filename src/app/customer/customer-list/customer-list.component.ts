@@ -108,18 +108,22 @@ export class CustomerListComponent implements OnInit{
         },
       });
       console.log(this.customer.id)
-
-      dialogRef.afterClosed().subscribe((result) => {
-      
-          this.service.deleteCustomer(id).subscribe(
-            () => {
-    // Item deleted successfully, update your local data source or UI.
-              console.log('Customer deleted successfully.');
-            },
-           
-          );
-        
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.service.deleteCustomer(id).subscribe(() => {
+          this.customer = this.customer?.filter((customers: Customer) => customers.id !== id);    
+            console.log('Customer deleted successfully.');
+            setTimeout(() => {
+              window.location.reload();
+              }, 20);
+          },
+          (error) => {
+            console.error('An error occurred:', error);           
+            
+          }
+        );
+      }
+    });
     }
   
 
