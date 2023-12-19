@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
 import { tap } from 'rxjs';
 import { PMReportUpload } from 'src/app/Model/PMReportUpload';
+import { PMReport } from 'src/app/Model/PMReport';
 
 @Component({
   selector: 'app-pmreport-upload',
@@ -17,9 +18,9 @@ import { PMReportUpload } from 'src/app/Model/PMReportUpload';
 })
 export class PmreportUploadComponent {
 
-  id:string;
-  
-  report:any;
+  id: string;
+  companyId: number;
+  report: any;
   errorMessage: string = '';
   username: string;
   usernamekana: string;
@@ -29,37 +30,37 @@ export class PmreportUploadComponent {
   fileName: string = '';
   fileContent: File | undefined;
   datepipe: any;
-
+  results: any;
   userInfo: UserInfo = {
-    id:null,
+    id: null,
     firstName: "",
     lastName: "",
     firstNamekana: "",
     lastNamekana: "",
-    gender:"",
-    dateOfBirth:"",
-    department:"",
+    gender: "",
+    dateOfBirth: "",
+    department: "",
     phone1: 0,
-    phone2:0,
-    phone3:0,
+    phone2: 0,
+    phone3: 0,
     password: "",
     email: "",
-    postalcode1:"",
-    postalcode2:"",
-    address:"",
+    postalcode1: "",
+    postalcode2: "",
+    address: "",
     startDate: "",
     endDate: "",
     roleType: "",
-    bankName:"",
-    branch:"",
-    accountType:"",
-    accountNumber:"",
-    accountName:"",
+    bankName: "",
+    branch: "",
+    accountType: "",
+    accountNumber: "",
+    accountName: "",
     createdDate: "",
     modifiedDate: "",
-    companyId:{companyName:null},
-    apportionment:"",
-    logo:null
+    companyId: { companyName: null },
+    apportionment: "",
+    logo: null
   }
 
   constructor(
@@ -67,43 +68,49 @@ export class PmreportUploadComponent {
     private service: UserInfoService,
     private router: Router,
     private route: ActivatedRoute,
-    private pmReportUploadService: PmReportUploadService 
-  ) { this.createdDate = new Date().toISOString().substring(0, 10);
-    
+    private pmReportUploadService: PmReportUploadService
+  ) {
+    this.createdDate = new Date().toISOString().substring(0, 10);
+
   }
 
 
-  ngOnInit() {    
-    this.id= this.userAuthService.getId();
+  ngOnInit() {
+    this.id = this.userAuthService.getId();
     console.log(this.id);
     this.managerName = localStorage.getItem('managerName') || ''; // Retrieve managerName from localStorage on page reload
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).subscribe(data => {
       this.userInfo = data;
       this.username = data.firstName + " " + data.lastName;
       this.usernamekana = data.firstNamekana + " " + data.lastNamekana;
       console.log(this.userInfo.id)
 
-      this.managerName = this.username;       
+      this.managerName = this.username;
 
       // Store managerName in localStorage
-    localStorage.setItem('managerName', this.managerName);
-    
+      localStorage.setItem('managerName', this.managerName);     
+      this.getCurrentCompanyId();
+      this.onOwnerSelectionChange();
     },
-    
-    (error) => {
-      console.error('Error saving customer', error)
-      console.log(error)
-     }
-  );
-  }
 
+      (error) => {
+        console.error('Error saving customer', error)
+        console.log(error)
+      }
+    );
+  }
+  getCurrentCompanyId() {
+    this.userAuthService.getCompanyId().subscribe(companyId => {     
+    this.companyId = companyId;
+    });
+  }
   onDateChange(event: Event) {
     const selectedDate = (event.target as HTMLInputElement).value;
     console.log('Selected Date:', selectedDate);
     this.createdDate = selectedDate;
   }
-  
-  
+
+
 
   onFileSelected(event: any): void {
     this.fileContent = event.target.files[0]; // Get the selected file
@@ -116,7 +123,7 @@ export class PmreportUploadComponent {
   }
 
   onSubmit(userForm: NgForm) {
-    
+
     if (this.fileContent) {
       const formData = new FormData();
       formData.append('fileContent', this.fileContent);
@@ -124,34 +131,34 @@ export class PmreportUploadComponent {
       formData.append('createdDate', this.createdDate);
       formData.append('ownerName', this.ownerName);
       formData.append('managerName', this.managerName);
-  
+
       this.pmReportUploadService.uploadFile(formData).pipe(
-        tap(() => {          
+        tap(() => {
         })
       ).subscribe(
-        (response) => {                   
-          window.location.reload();        
+        (response) => {
+          window.location.reload();
         },
         (error) => {
           console.error('Something wrong from .ts:', error);
         }
       );
     }
-  const pdfInputField: HTMLInputElement = document.getElementById('fileContent') as HTMLInputElement;
-  if (!pdfInputField.files || pdfInputField.files.length === 0) {
-    console.log('PDF file is required');
-    return;
-  }
-  const ownerNameField: HTMLInputElement = document.getElementById('ownerName') as HTMLInputElement;
+    const pdfInputField: HTMLInputElement = document.getElementById('fileContent') as HTMLInputElement;
+    if (!pdfInputField.files || pdfInputField.files.length === 0) {
+      console.log('PDF file is required');
+      return;
+    }
+    const ownerNameField: HTMLInputElement = document.getElementById('ownerName') as HTMLInputElement;
     if (!ownerNameField.value && (userForm.submitted || userForm.dirty)) {
-      console.log('Owner Name is required');      
-      return; 
+      console.log('Owner Name is required');
+      return;
     }
 
     const createdDateField: HTMLInputElement = document.getElementById('createdDate') as HTMLInputElement;
     if (!createdDateField.value && (userForm.submitted || userForm.dirty)) {
-      console.log('Created Date is required');      
-      return; 
+      console.log('Created Date is required');
+      return;
     }
 
     //check for request body
@@ -162,15 +169,22 @@ export class PmreportUploadComponent {
       ownerName: this.ownerName,
       managerName: this.managerName
     };
-  
+
     console.log('Request Payload:', requestBody);
-  
+
   }
-  
+
   reset() {
     window.location.reload();
     this.createdDate = '';
-     
+
+  }
+  onOwnerSelectionChange() {
+    console.log("This is owner name"+this.companyId);
+    this.pmReportUploadService.getOwnerName(this.companyId).subscribe((data) => {
+      this.results = data;
+      console.log("This is owner list"+this.results);
+    });
   }
 
 }

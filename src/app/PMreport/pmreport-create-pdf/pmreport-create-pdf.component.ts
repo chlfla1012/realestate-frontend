@@ -323,28 +323,7 @@ export class PmreportCreatePdfComponent {
       html2pdf()
         .from(element)
         .set(pdfOptions)
-        .save();    
-    // const mainContainer = document.getElementById('contentToConvert');
-    // mainContainer.style.fontSize = '12px';
-
-    // // Specify the selector for the tables you want to include in the PDF
-    // const tableSelector = '.table';
-    // const tables = document.querySelectorAll(tableSelector);
-  
-    // tables.forEach((table, index) => {
-    //   // Add a page break before each table (except the first one)
-    //   if (index > 0) {
-    //     const blankPage = document.createElement('div');
-    //     blankPage.style.pageBreakBefore = 'always';
-    //     mainContainer.appendChild(blankPage);
-    //   }
-    // });
-  
-    // // Generate PDF with keepTogether option
-    // html2pdf()
-    //   .from(mainContainer)
-    //   .set({ ...pdfOptions, keepTogether: '.table' }) // Keep tables together
-    //   .save();
+        .save();     
   }
 
     sentMail() {
@@ -366,7 +345,6 @@ export class PmreportCreatePdfComponent {
         .replace('%password%', this.password)
         .replace('%websiteLink%', 'http://localhost:4200/login');
       const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${this.ownerMail}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
       // Open the Gmail compose window
       window.open(gmailURL, '_blank');
     }

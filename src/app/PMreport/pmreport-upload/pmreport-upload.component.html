@@ -29,6 +29,15 @@
             <label for="ownerName" style="margin-top: 5px;">オーナー名前<span style="color: red">*</span></label> <!--手入力 -->
           </div>
           <div class="col-md-2">
+          <mat-select [(ngModel)]="ownerName" required name="ownerName"
+          class="form-control">
+          <!-- (selectionChange)="onOwnerSelectionChange()" -->
+          <mat-option *ngFor="let pmreport of results" [value]="pmreport.ownerName">
+              {{ pmreport.ownerName }}
+          </mat-option>
+      </mat-select>
+    </div>
+          <!-- <div class="col-md-2">
             <input type="text" id="ownerName" required [(ngModel)]="ownerName" name="ownerName"
               #ownerNameField="ngModel" class="form-control" style="width: 150px;margin-left: 40px;">
             <div
@@ -36,7 +45,7 @@
               style="width:400px;" class="error-message">
               <span *ngIf="ownerNameField.errors?.['required']" style="margin-left: 40px;">オーナー名前を入力してください。</span>
             </div>
-          </div>
+          </div> -->
 
           <div class="col-md-2"></div>
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { PMReportUpload } from 'src/app/Model/PMReportUpload';
 import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders,HttpResponse } from "@angular/common/http";
 import { Observable, catchError, map, of, throwError } from "rxjs";
+import { PMReport } from 'src/app/Model/PMReport';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class PmReportUploadService {
     return this.http.get<any[]>(`${this.url}pmreport/pmReportByOwnerName/${ownerName}`);
   }
 
-  // downloadReportById(id: number): Observable<Blob> {
-  //   return this.http.get(`${this.url}pmreport/download/${id}`, { responseType: 'blob' });
-  // }
+  getOwnerName(companyId:any):Observable<PMReport[]>{
+    return this.http.get<PMReport[]>(`${this.url}ownerNameById/${companyId}`);
+  }
 }
 
