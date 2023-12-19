@@ -51,7 +51,8 @@ export class CustomerEditComponent implements OnInit{
     id:string;
     data:any;
   constructor(private service: CustomerService, 
-    private route: ActivatedRoute, private router : Router) { }
+    private route: ActivatedRoute, 
+    private userAuthService: UserAuthService,private router : Router) { }
 
  
   ngOnInit(): void {
@@ -77,18 +78,12 @@ export class CustomerEditComponent implements OnInit{
     this.service.updateCustomer(this.id, this.customer).subscribe(
       (response: Customer) => {
         console.log(response);
-        window.history.back();
+        this.router.navigate(['/customer-list']);
       },
       (error: HttpErrorResponse) => {
         console.log(error);
       }
     );
-     
-    // window.history.back();
-    // setTimeout(()=>{
-    //     window.location.reload();
-    //   }, 100);
-
   }
 
   back(){
