@@ -12,11 +12,7 @@
         <div class="col-md-5 icon" style="margin-top: 19px;">
           <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"
             style="padding-top:3px;"></mat-icon>
-<<<<<<< HEAD
           <span style="margin-left: 10px;margin-bottom:0px">請求書登録画面</span>
-=======
-          <span style="margin-left: 10px;margin-bottom:0px">請求書情報登録画面</span>
->>>>>>> 3b5b5f89b507929e55a61fbf1ac649f852ede0cb
         </div>
         <div class="col-md-5"></div>
         <div class="col-md-2" style="margin-top: 19px;">
@@ -347,7 +343,7 @@
                     <div class="col-md-2 left-textfield">
                       <input type="text" class="form-control" id="rentPrice" [(ngModel)]="rentPrice" name="rentPrice"
                         #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)" readonly
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                        style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1091,7 +1087,7 @@
                     <div class="col-md-1 inner-total-textfield">
                       <input type="number" class="form-control" id="electricBillTotal" [(ngModel)]="electricBillTotal"
                         name="electricBillTotal" [value]="electricBillTotal" readonly #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)" [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+                        (keypress)="keyPressNumeric($event)"
                         style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
@@ -1128,7 +1124,7 @@
                       <input type="number" class="form-control" id="electricBillTax"
                         [(ngModel)]="invoiceInfo.invoicelistObj.electricBillTax" name="electricBillTax"
                         (change)="electricBillCalculate()" #rent="ngModel" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                        style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1158,7 +1154,7 @@
                       <input type="text" class="form-control" id="waterUsageAmount"
                         [(ngModel)]="invoiceInfo.invoicelistObj.waterUsageAmount" name="waterUsageAmount"
                         #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                        style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">
@@ -1207,7 +1203,7 @@
                       <input type="number" class="form-control" id="waterBillTax"
                         [(ngModel)]="invoiceInfo.invoicelistObj.waterBillTax" name="waterBillTax"
                         (change)="waterBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)" [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+                        (keypress)="keyPressNumeric($event)"
                         style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
@@ -1238,7 +1234,7 @@
                       <input type="text" class="form-control" id="gasUsageAmount"
                         [(ngModel)]="invoiceInfo.invoicelistObj.gasUsageAmount" name="gasUsageAmount" #rent="ngModel"
                         pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                        style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">
@@ -1250,7 +1246,7 @@
                     <div class="col-md-1 inner-total-textfield">
                       <input type="number" class="form-control" id="gasBillTotal" [(ngModel)]="gasBillTotal"
                         name="gasBillTotal" #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        readonly [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+                        readonly 
                         style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
@@ -1263,7 +1259,7 @@
                       <div class=" inner">
                         <input type="date" class="form-control" id="gasBillStartDate"
                           [(ngModel)]="invoiceInfo.invoicelistObj.gasBillStartDate" name="gasBillStartDate"
-                          style="width: 125px;  height:35px;" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)">
+                          style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
@@ -1274,7 +1270,7 @@
                         <input type="date" class="form-control" id="gasBillEndDate"
                           [(ngModel)]="invoiceInfo.invoicelistObj.gasBillEndDate" name="gasBillEndDate"
                           style="width: 125px;  height:35px;margin-left: -25px;" pattern="^[0-9]+$"
-                          (keypress)="keyPressNumeric($event)">
+                          >
                       </div>
                     </div>
                   </div>
@@ -1288,7 +1284,7 @@
                       <input type="number" class="form-control" id="gasBillTax"
                         [(ngModel)]="invoiceInfo.invoicelistObj.gasBillTax" name="gasBillTax"
                         (change)="gasBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)" [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+                        (keypress)="keyPressNumeric($event)"
                         style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
@@ -1321,7 +1317,7 @@
                       <input type="number" class="form-control" id="constructionBillTax"
                         [(ngModel)]="invoiceInfo.invoicelistObj.constructionBillTax" name="constructionBillTax"
                         (change)="constructionBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)" [ngClass]="{'is-valid':rent.touched && rent.invalid}"
+                        (keypress)="keyPressNumeric($event)"
                         style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
@@ -1335,7 +1331,7 @@
                       <input type="number" class="form-control" id="constructionBillTotal"
                         [(ngModel)]="constructionBillTotal" name="constructionBillTotal" #rent="ngModel"
                         pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                        style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1400,8 +1396,8 @@
 
                     <div class="col-md-1 inner-total-textfield">
                       <input type="number" class="form-control" id="workFirstTotal" [(ngModel)]="workFirstTotal"
-                        name="workFirstTotal" #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;"
+                        name="workFirstTotal" #rent="ngModel"
+                        style="width: 170px;  height:35px;"
                         readonly>
                     </div>
                     <div class="col-md-1 inner-yen">
@@ -1415,7 +1411,7 @@
                       <div class=" inner">
                         <input type="date" class="form-control" id="workUsagePeriodFirst"
                           [(ngModel)]="invoiceInfo.invoicelistObj.workUsagePeriodFirst" name="workUsagePeriodFirst"
-                          style="width: 125px;  height:35px;" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)">
+                          style="width: 125px;  height:35px;" >
                       </div>
                     </div>
                   </div>
@@ -1473,8 +1469,8 @@
 
                     <div class="col-md-1 inner-total-textfield">
                       <input type="number" class="form-control" id="workSecondTotal" [(ngModel)]="workSecondTotal"
-                        name="workSecondTotal" #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;"
+                        name="workSecondTotal" #rent="ngModel"
+                        style="width: 170px;  height:35px;"
                         readonly>
                     </div>
                     <div class="col-md-1 inner-yen">
@@ -1488,7 +1484,7 @@
                       <div class=" inner">
                         <input type="date" class="form-control" id="workUsagePeriodSecond"
                           [(ngModel)]="invoiceInfo.invoicelistObj.workUsagePeriodSecond" name="workUsagePeriodSecond"
-                          style="width: 125px;  height:35px;" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)">
+                          style="width: 125px;  height:35px;">
                       </div>
                     </div>
                   </div>
@@ -1529,7 +1525,7 @@
                         <input type="number" class="form-control" id="totalSumPrice" [(ngModel)]="totalSumPrice"
                           name="totalSumPrice" (change)="totalSumCalculate()" #rent="ngModel" pattern="^[0-9]+$"
                           (keypress)="keyPressNumeric($event)" readonly
-                          [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                          style="width: 170px;  height:35px;">
                       </div>
                       <div class="col-md-1 inner-yen">
                         ￥
