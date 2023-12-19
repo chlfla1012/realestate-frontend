@@ -11,7 +11,11 @@
             <div class="row invoice-edit-title-row">
                 <div class="col-md-5 icon" style="margin-top: 19px;">
                     <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" style="padding-top:3px;"></mat-icon>
+<<<<<<< HEAD
+                    <span style="margin-left: 10px;margin-bottom:0px">請求書編集画面</span>
+=======
                     <span style="margin-left: 10px;margin-bottom:0px">請求書情報編集画面</span>
+>>>>>>> 3b5b5f89b507929e55a61fbf1ac649f852ede0cb
                 </div>
                 <div class="col-md-5"></div>
                 <div class="col-md-2" style="margin-top: 19px;">
@@ -199,13 +203,12 @@
                                     <div class="col-1">
                                       <mat-select 
                                       class="form-control"
-                                      (selectionChange)="onPropertySelectionChange()" 
-                                      required 
                                       [(ngModel)]="propertyId"
                                       id="propertyId"
                                       name="propertyId"
                                       #propertyIdControl="ngModel"
-                                      style="width: 265px; height:35px;" 
+                                      style="width: 265px; height:35px;"
+                                      disabled 
                                       >
                                       <mat-option *ngFor="let property of propertyIDs"
                                         [value]="property.id">{{property.propertyName}}
@@ -355,13 +358,12 @@
                                       style="width: 265px; height:35px;"> -->
                                       <mat-select 
                                       class="form-control"
-                                      required 
                                       [(ngModel)]="contractId"
                                       id="contractId"
                                       name="contractId"
                                       #contractIdControl="ngModel"
-                                      (selectionChange)="onContractSelectionChange()" 
-                                      style="width: 265px; height:35px;" 
+                                      style="width: 265px; height:35px;"
+                                      disabled 
                                       >
                                       <mat-option *ngFor="let contract of contractIDs"
                                         [value]="contract.id">{{contract.borrower.borrowerCooperate}}

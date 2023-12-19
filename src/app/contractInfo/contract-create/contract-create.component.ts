@@ -564,7 +564,6 @@ export class ContractCreateComponent {
       this.handleFormError(contractForm);
       return;
     }
-
     // Fetch data based on the selected property using company ID
     this.propertyService.getPropertiesByCompanyId(this.companyId)
       .subscribe(

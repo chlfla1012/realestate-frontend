@@ -355,6 +355,7 @@ export class InvoiceEditComponent {
         this.invoiceInfo.paymentDueDate = data.paymentDueDate;
         //console.log("This is invoice info billing data "+this.invoiceInfo.billingDate);
         this.invoiceInfo.propertyid = data.propertyid;
+        this.invoiceInfo.propertyName = data.propertyName;
         this.invoiceInfo.roomNo = data.roomNo;
         this.invoiceInfo.floor = data.floor;
         this.invoiceInfo.buildingPostalFirst = data.buildingPostalFirst;
@@ -364,7 +365,8 @@ export class InvoiceEditComponent {
         this.contractId = this.invoiceInfo.contractData;
         this.billingDate = this.invoiceInfo.billingDate;
         this.bcpicName = this.invoiceInfo.borrowerPersonName;
-        this.propertyId = this.invoiceInfo.propertyid;
+        this.propertyId =  this.invoiceInfo.propertyid;
+        this.propertyname = this. invoiceInfo.propertyName;
         this.roomno = this.invoiceInfo.roomNo;
         this.floor = this.invoiceInfo.floor;
         this.buildingPostalCode1 = this.invoiceInfo.buildingPostalFirst;
@@ -606,23 +608,23 @@ export class InvoiceEditComponent {
   ) {}
 
 
-  onPropertySelectionChange() {
-    this.propertyService.getPropertyById(this.propertyId).
-      subscribe((data: any) => {
-        this.roomno = data.room;
-        this.floor = data.floor;
-        this.propertyname = data.propertyName;
-        this.buildingPostalCode1 = data.postalFirst;
-        this.buildingPostalCode2 = data.postalLast;
-        this.buildingAddress = data.address;
-        console.log("this is check for selected property room " + this.roomno);
-      },
-        (error) => {
-          console.error('Error fetching Property data:', error);
-        }
+  // onPropertySelectionChange() {
+  //   this.propertyService.getPropertyById(this.propertyId).
+  //     subscribe((data: any) => {
+  //       this.roomno = data.room;
+  //       this.floor = data.floor;
+  //       this.propertyname = data.propertyName;
+  //       this.buildingPostalCode1 = data.postalFirst;
+  //       this.buildingPostalCode2 = data.postalLast;
+  //       this.buildingAddress = data.address;
+  //       console.log("this is check for selected property room " + this.roomno);
+  //     },
+  //       (error) => {
+  //         console.error('Error fetching Property data:', error);
+  //       }
 
-      );
-  }
+  //     );
+  // }
 
   onContractSelectionChange() {
     this.contractService.getcontractById(this.contractId).
@@ -925,7 +927,7 @@ export class InvoiceEditComponent {
    // this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
     //物件情報
-    this.invoiceInfo.propertyid = this.propertyId;
+    //this.invoiceInfo.propertyid = this.propertyId;
     this.invoiceInfo.propertyName = this.propertyname;
     this.invoiceInfo.roomNo = this.roomno;
     this.invoiceInfo.floor = this.floor;
