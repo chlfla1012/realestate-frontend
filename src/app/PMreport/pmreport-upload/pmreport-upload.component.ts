@@ -137,7 +137,8 @@ export class PmreportUploadComponent {
         })
       ).subscribe(
         (response) => {
-          window.location.reload();
+          //window.location.reload();
+          this.router.navigate(['/report-list']);
         },
         (error) => {
           console.error('Something wrong from .ts:', error);
