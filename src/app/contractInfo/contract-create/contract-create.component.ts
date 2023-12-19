@@ -45,6 +45,7 @@ export class ContractCreateComponent {
   // propertyName: string = '';
   // results: any[] = [];
   selectedProperty: any;
+  // isItemSelected = true; 
 
   propertyName: string;
   selectedPropertyName: string;
@@ -505,8 +506,17 @@ export class ContractCreateComponent {
   }
 
   selectPropertyName(event: MatAutocompleteSelectedEvent): void {
+
     console.log('Selected Property Name 02:', this.propertyName);
     this.propertyName = event.option.value;
+
+    // if (event.option.value === null) {
+    //   this.isItemSelected = true;
+    //  } else {
+    //     this.isItemSelected = false;
+    //   }
+
+    
     this.selectedPropertyName = this.propertyName;
     console.log('Selected Property Name 04:', this.propertyName);
 

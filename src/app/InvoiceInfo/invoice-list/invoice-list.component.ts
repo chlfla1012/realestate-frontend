@@ -32,8 +32,7 @@ export class InvoiceListComponent {
   dataSource: MatTableDataSource<any>;
 
   displayedColumns: string[] = ['id', 'propertyName', 'roomNo',
-    'personName', 'borrowerCooperate', 'borrowerPersonName',
-    'status', 'createdDate', 'modifiedDate', ' '];
+    'personName', 'borrowerCooperate', 'borrowerPersonName', 'createdDate', 'modifiedDate', ' '];
 
   // constructor(private router: Router,
   //   private invoiceInfoService: InvoiceInfoService

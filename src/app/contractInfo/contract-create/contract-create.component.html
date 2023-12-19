@@ -56,20 +56,35 @@
                       <div class="leftfiedl">
                         <mat-form-field appearance="fill" style="width: 260px;">
                           <mat-label>Property Name</mat-label>
+                       
                           <input matInput [(ngModel)]="propertyName" [ngModelOptions]="{ standalone: true }"
-                            placeholder="Enter property name" (input)="onInputChanged()" [matAutocomplete]="auto">
-                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPropertyName($event) ">
-                            <mat-option *ngFor="let result of results" [value]="result.propertyName">
-                              {{ result.propertyName }}
-                            </mat-option>
-                          </mat-autocomplete>
+                          placeholder="Enter property name" (input)="onInputChanged()" [matAutocomplete]="auto">
+                   
+                   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPropertyName($event)">
+                     <mat-option *ngFor="let result of results" [value]="result.propertyName">
+                       {{ result.propertyName }}
+                     </mat-option>
+                   </mat-autocomplete>
+                  
                         </mat-form-field>
                       </div>
+                    
+                          <!-- <div *ngIf="propertyName.hasError('required') && propertyName.touched">
+                            物件名を検索してください。
+                          </div> -->
+                          <div class="row">
+                          <div class="col-md-10 help-block">
+                            <div *ngIf="propertyName == null">
+                              物件名を検索してください。
+                           </div>
+                          </div>
+                        </div>
                     </div>
+
                     <div class="col-md-4">
                       <div class="inner">
                         <div class="text-center">
-                          <label for="roomno" style="margin-top: 10px;">号室<span style="color: red">*</span></label>
+                          <label for="roomno" style="margin-top: 10px;">号室</label>
                         </div>
                       </div>
                     </div>
@@ -85,7 +100,7 @@
                   <div class="row no-gutters">
                     <div class="col-md-2">
                       <div class="text-center inner">
-                        <label for="ownername">オーナー名前<span style="color: red">*</span></label>
+                        <label for="ownername">オーナー名前</label>
                       </div>
                     </div>
                     <div class="col-md-2">
@@ -97,7 +112,7 @@
                     <div class="col-md-4">
                       <div class="inner">
                         <div class="text-center">
-                          <label for="ownerkana"> オーナー名前（カナ）<span style="color: red">*</span></label>
+                          <label for="ownerkana"> オーナー名前（カナ）</label>
                         </div>
                       </div>
                     </div>

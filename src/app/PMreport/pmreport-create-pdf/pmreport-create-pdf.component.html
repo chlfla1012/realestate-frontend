@@ -518,13 +518,13 @@
                                 (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.serviceFeesTotal | number: '1.0-0' }}</td>
                                 <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
                                 (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
+                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.totalRental | number: '1.0-0' }}</td>
+                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
+                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
                                 (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.deposit | number: '1.0-0' }}</td>
                                 <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
                                 (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
                                 (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.toalDeposit | number: '1.0-0' }}</td>
-                                <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
-                                (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
-                                (rental.contractStartDate ? 'black' : 'green'))" style="text-align: right;">{{rental.totalRental | number: '1.0-0' }}</td>
                                 <td [style.color]="(isOneMonthAway(rental.contractEndDate) && rental.contractStartDate) ? 'red' :
                                 (rental.contractStartDate && isSameMonth(rental.contractStartDate) ? 'blue' :
                                 (rental.contractStartDate ? 'black' : 'green'))">{{rental.contractStartDate | date:'yyyy/MM/dd'}}</td>

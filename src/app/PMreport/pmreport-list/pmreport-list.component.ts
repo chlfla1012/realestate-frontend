@@ -73,8 +73,10 @@ export class PmreportListComponent implements OnInit {
     }    
 
     navigateToCreatePage() {
-      this.router.navigate(['/report-create']);
-  
+      this.router.navigate(['/report-create']);  
+    }
+    navigateToUploadPage() {
+      this.router.navigate(['/report-upload']);  
     }
 
   search() {

@@ -48,7 +48,7 @@
                                     style="color: red">*</span></label>
                         </div>
                         <div class="col-md-2" style="width: 292px;margin-right:20px;">
-                            <div class="col-md-2" style="margin-right:-80px;width:350px;">
+                            <div class="col-md-2" style="margin-right:-80px;width: 282px;">
                                 <!-- <mat-select [(ngModel)]="ownerName" required name="ownerName" class="form-control" (selectionChange)="onOwnerSelectionChange()">
                                     <mat-option *ngFor="let property of propertyIDs" [value]="property.ownerName">
                                       {{ property.ownerName }}
@@ -392,7 +392,7 @@
                         </td>
                         <td><input type="text" [ngModelOptions]="{standalone: true}" placeholder="YY/MM" style="text-align: center;width: 100px;" maxlength="5" [(ngModel)]="row.expenseDate"></td>
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;"  [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseMoney" (input)="onInputChange()" ></td>
-                        <td><input type="number" style="border: none;box-shadow: none;outline: none;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
+                        <td><input type="number" style="border: none;box-shadow: none;outline: none;width: 130px;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTax" (input)="onInputChange()" ></td>
                         <td><input type="number" style="border: none;box-shadow: none;outline: none;" [ngModelOptions]="{standalone: true}"  [(ngModel)]="row.expenseTotal" readonly></td>
                         <td><input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="row.expenseRemarks"></td>
                         <td><button mat-icon-button type="button" (click)="confirmDeleteLastRow($event,row.id)"><mat-icon>delete</mat-icon></button></td>
