@@ -69,9 +69,6 @@
                         </mat-form-field>
                       </div>
                     
-                          <!-- <div *ngIf="propertyName.hasError('required') && propertyName.touched">
-                            物件名を検索してください。
-                          </div> -->
                           <div class="row">
                           <div class="col-md-10 help-block">
                             <div *ngIf="propertyName == null">
@@ -88,12 +85,17 @@
                         </div>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="leftfield">
-                        <input type="text" id="roomno" [(ngModel)]="roomno" name="roomno" class="form-control"
-                          value="roomno" readonly style="width: 265px; height:35px;margin-top: 7px;">
+                    
+                    <div class="col-md-2" style="width: 292px;margin-right:20px;">
+                      <div class="col-md-2" style="margin-right:-80px;width:280px;margin-top: 20px;">
+                        <mat-select [(ngModel)]="room" required name="room" class="form-control" (selectionChange)="onRoomSelectionChange()">
+                          <mat-option *ngFor="let result of resultsByPropertyName" [value]="result.room">
+                            {{ result.room }}
+                          </mat-option>
+                        </mat-select>
+                        
                       </div>
-                    </div>
+                  </div>
                   </div>
                 </div>
                 <div class="form-group" style="margin-top: 20px;">
@@ -127,12 +129,7 @@
               </div>
             </div>
           </div>
-          <div class="lendertitle-container">
-            <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span> -->
-            <!-- <p class="container-title" (click)="toggleContainer(i)">貸主情報</p> -->
+          <div class="lendertitle-container">            
           </div>
           <div *ngIf="i === 1">
             <div class="lender-container">
@@ -1888,11 +1885,7 @@
             </div>
           </div>
           <div class="banktitle-container">
-            <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span>
-            <p class="container-title" (click)="toggleContainer(i)">振込先銀行口座情報</p> -->
+           
           </div>
           <div *ngIf="i === 5">
             <div class="bank-container">
@@ -2055,11 +2048,7 @@
             </div>
           </div>
           <div class="pictitle-container">
-            <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span> -->
-            <!-- <p class="container-title">担当者情報</p> -->
+          
           </div>
           <div *ngIf="i === 6">
             <div class="pic-container">

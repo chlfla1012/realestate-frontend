@@ -62,8 +62,11 @@ addContract(contract: any){
   findByPropertyNameContaining(propertyName:any):Observable<Property[]>{
     return this.http.get<Property[]>(`${this.url}searchbyPropertyName/${propertyName}`)
   }
-  getPropertyByName(propertyName?:string): Observable<Property>{
-    return this.http.get<Property>(`${this.url}property/${propertyName}`)
+  getPropertyByName(propertyName?:string): Observable<Property[]>{
+    return this.http.get<Property[]>(`${this.url}propertyByPropertyName/${propertyName}`)
+  }
+  getOwnerByRoom(room?:string): Observable<Property[]>{
+    return this.http.get<Property[]>(`${this.url}ownerByRoom/${room}`)
   }
 
 }

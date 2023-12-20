@@ -20,14 +20,11 @@ import { Subject, debounceTime } from 'rxjs';
 
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-// import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
-// import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
-
 @Component({
   selector: 'app-contract-create',
   templateUrl: './contract-create.component.html',
   styleUrls: ['./contract-create.component.css'],
-  providers: [DatePipe],// Provide DatePipe,
+  providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ContractCreateComponent {
@@ -37,32 +34,33 @@ export class ContractCreateComponent {
 
     companyName: null
   };
-  maxDate: string;  // Property to hold the max contract start date
+  maxDate: string; 
   companyName: CompanyName;
   selectedaccounttype: string = 'regular';
   lendertype: string;
   borrowertype: string;
-  // propertyName: string = '';
-  // results: any[] = [];
   selectedProperty: any;
-  // isItemSelected = true; 
 
   propertyName: string;
   selectedPropertyName: string;
   results: any[] = [];
+  resultsByPropertyName: any[] = [];
+  resultsByRoom: any[] = [];
   private searchTextChanged = new Subject<string>();
   containers: boolean[] = [true, false, false, false, false, false, false];
 
   errorMessage: string = '';
   picId: string;
-  propertyId: string;
+  propertyId: Property;
 
   picName: string;
   picNamekana: string;
   picdepartment: string;
   propertyname: string;
-  roomno: string;
-  ownername: string;
+
+  room: string;
+  ownername: string; 
+
   ownernamekana: string;
   mobileFirst: string;
   mobileSecond: string;
@@ -207,10 +205,7 @@ export class ContractCreateComponent {
     this.containers[index] = !this.containers[index];
   }
 
-  // toggleContainer() {
-  //   this.containerVisible = !this.containerVisible;
-  // }
-  @ViewChild('searchModal') searchModal: any; // Add this line
+  @ViewChild('searchModal') searchModal: any; 
   filteredProperties: Property[];
   searchText: string;
 
@@ -389,16 +384,12 @@ export class ContractCreateComponent {
       constructCompany: "",
     }
     this.contractForm = this.fb.group({
-      // Define your form controls and validators here
-      // For example:
-      propertyname: ['', Validators.required],
-      // other form controls...
+      // Define your form controls and validators here     
+      propertyname: ['', Validators.required],      
     });
 
     const today = new Date();
     this.maxDate = today.toISOString().split('T')[0];// Set max date to today's date in 'yyyy-MM-dd' format
-    // this.selectedPropertyName='';
-
   }
   updateContractEndDate() {
     if (this.contract.contractStartDate && this.contract.contractLength) {
@@ -414,18 +405,19 @@ export class ContractCreateComponent {
       this.contract.contractEndDate = null;
     }
   }
-  data: any;
-  // propertyIdControl: FormControl = new FormControl('', Validators.required);
-  ngOnInit() {
-    // this.getCurrentCompanyName();
+  data: any;  
+  ngOnInit() {    
     this.getCurrentUserInfo();
 
     this.getPICUsers();
     this.getProperties();
 
     this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
-      this.searchByPropertyName();
+      this.searchByPropertyName();     
     });
+
+    this.getPropertyBySelectedPropertyName();
+    this.onRoomSelectionChange();
 
   }
 
@@ -442,14 +434,9 @@ export class ContractCreateComponent {
     console.log("Get Login data", this.companyId);
   }
 
-
-
   cancel(): void {
-    console.log('Cancel function called');
-    // Clear form values
-    this.contractForm.reset();
-
-    // Navigate back to "Ichiran" screen
+    console.log('Cancel function called');    
+    this.contractForm.reset();   
     this.router.navigate(['/contract-list']);
   }
   getProperties() {
@@ -463,14 +450,10 @@ export class ContractCreateComponent {
       }
     );
   }
-
-
-
   getPICUsers() {
 
     this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
-      this.picUsers = data;
-      // console.log("picusers", this.ownerUsers);
+      this.picUsers = data;      
     },
       (error) => {
         console.error('Error fetching owners:', error);
@@ -497,61 +480,43 @@ export class ContractCreateComponent {
     this.searchTextChanged.next(this.propertyName);
   }
 
-  searchByPropertyName(): void {
-    console.log("Property Name  " + this.propertyName);
-    this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {
-      console.log("Property Name  " + this.propertyName);
+  searchByPropertyName(): void {    
+    this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {      
       this.results = data;
+      console.log("searchByPropertyName() 01:" + this.propertyName);     
     });
-  }
-
+  } 
   selectPropertyName(event: MatAutocompleteSelectedEvent): void {
+      
+    this.propertyName = event.option.value;    
+    this.selectedPropertyName = this.propertyName;   
+    this.getPropertyBySelectedPropertyName(); 
+  }  
+  getPropertyBySelectedPropertyName():void {    
+    console.log("Proper Name for rooms:" + this.propertyName);    
+    this.contractService.getPropertyByName(this.propertyName).subscribe((data) => {           
+    this.resultsByPropertyName = data;
+    console.log("resultsByPropertyName:" + this.resultsByPropertyName);
+      
+    });
 
-    console.log('Selected Property Name 02:', this.propertyName);
-    this.propertyName = event.option.value;
+  }   
+  onRoomSelectionChange(): void {       
+    console.log ("onRoom SelectionChange : " + this.room);
+    this.contractService.getOwnerByRoom(this.room).subscribe(
+      (allProperties: Property[])=>{
+        const selectedProperty = allProperties.find(property => property.room === this.room);
+        if(selectedProperty){
+          this.ownername = selectedProperty.ownerName;
+          this.ownerKana = selectedProperty.ownerKana;
+        } 
+      },
+      (error) => {
+        console.error('Error fetching Property data:', error);
+         }
+    );
 
-    // if (event.option.value === null) {
-    //   this.isItemSelected = true;
-    //  } else {
-    //     this.isItemSelected = false;
-    //   }
-
-    
-    this.selectedPropertyName = this.propertyName;
-    console.log('Selected Property Name 04:', this.propertyName);
-
-    // Call the service method and handle the subscription
-    this.propertyService.getPropertiesByCompanyId(this.companyId) // Replace with your actual service method to get all properties
-      .subscribe(
-        (allProperties: Property[]) => {
-          console.log('All Properties:', allProperties);
-
-          // Find the selected property in the array
-          const selectedProperty = allProperties.find(property => property.propertyName === this.propertyName);
-
-          if (selectedProperty) {
-            console.log('Selected Property:', selectedProperty);
-
-            // Update component properties based on the selected property
-            this.roomno = selectedProperty.room;
-            console.log('Room no:', this.roomno);
-            this.ownername = selectedProperty.ownerName;
-            this.ownerKana = selectedProperty.ownerKana;
-
-            // Optionally, do additional actions if needed
-
-            // Trigger the change detection manually (if needed)
-            // this.changeDetectorRef.detectChanges();
-          } else {
-            console.error('Selected property not found');
-          }
-        },
-        (error) => {
-          console.error('Error fetching Property data:', error);
-        }
-      );
-  }
-
+  }     
   private selectedOption: string;
 
   options = [
@@ -564,6 +529,7 @@ export class ContractCreateComponent {
       this.handleFormError(contractForm);
       return;
     }
+
     // Fetch data based on the selected property using company ID
     this.propertyService.getPropertiesByCompanyId(this.companyId)
       .subscribe(
@@ -571,26 +537,25 @@ export class ContractCreateComponent {
           console.log('All Properties:', allProperties);
 
           // Find the selected property in the array
-          const selectedProperty = allProperties.find(property => property.propertyName === this.propertyName);
+          const selectedProperty = allProperties.find(property => property.room === this.room);
 
           if (selectedProperty) {
             console.log('Selected Property:', selectedProperty);
 
             // Update component properties based on the selected property
-            this.roomno = selectedProperty.room;
-            console.log('Room no:', this.roomno);
+            this.room = selectedProperty.room;
+            console.log('Room no:', this.room);
             this.ownername = selectedProperty.ownerName;
             this.ownerKana = selectedProperty.ownerKana;
 
             // Update the contract object with the fetched data
             this.contract.property = selectedProperty;
             this.contract.propertyName = selectedProperty.propertyName;
-            this.contract.roomno = this.roomno;
+            this.contract.roomno = this.room;
             this.contract.ownerName = this.ownername;
             this.contract.ownerKana = this.ownerKana;
 
             // Fetch data based on the selected PIC
-
             this.fetchPicData();
           } else {
             console.error('Selected property not found');
@@ -603,6 +568,7 @@ export class ContractCreateComponent {
       );
   }
 
+  
   handleFormError(contractForm: NgForm): void {
     this.openAlertDialog('必要なフィールドを入力してください。');
 
@@ -664,11 +630,7 @@ export class ContractCreateComponent {
       (error: HttpErrorResponse) => {
         console.error('Error submitting contract:', error);
       }
-    );
-    //  this.router.navigate(['/contract-list']);
-    //   setTimeout(() => {
-    //     window.location.reload();
-    //   }, 100);
+    );    
   }
 
   openAlertDialog(message: string): void {
