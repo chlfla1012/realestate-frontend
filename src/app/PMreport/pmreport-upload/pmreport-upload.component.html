@@ -53,9 +53,13 @@
             <label for="createdDate" style="margin-top: 5px;">発行日<span style="color: red">*</span></label> <!--calendar -->
           </div>
           <div class="col-md-2">
-            <input type="date" id="createdDate" required [(ngModel)]="createdDate" name="createdDate"
-              #createdDateField="ngModel" class="form-control" style="width: 170px; margin-left: 18px;"
-              (input)="onDateChange($event)">
+            <input 
+            type="date" 
+            id="createdDate" 
+            required 
+            [(ngModel)]="createdDate" name="createdDate"
+            #createdDateField="ngModel" class="form-control" style="width: 170px; margin-left: 18px;"
+            (input)="onDateChange($event)">
             <div *ngIf="createdDateField.invalid && (createdDateField.dirty || createdDateField.touched)"
               class="error-message">
               <span *ngIf="createdDateField.errors?.['required']">発行日を選択してください。</span>

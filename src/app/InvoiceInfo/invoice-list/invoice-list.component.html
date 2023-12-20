@@ -58,26 +58,25 @@
         </div>
       </div>
 
-      <div class="row search-row" style="padding-top: 1%;margin-left:30px;">
-        <div class="col-md-3">
-          <input type="text" id="searchPropertyName" [(ngModel)]="searchPropertyName" name="searchPropertyName"
-            class="form-control" style="width: 150px;margin-left: 260px;">
-
-        </div>
-        <div class="col-md-2">
-          <!-- <input type="text" id="searchLenderPersonName"
-      [(ngModel)]="searchLenderPersonName" 
-      name="searchLenderPersonName" 
-      class="form-control" 
-      style="width: 150px;margin-left: 260px;"> -->
-        </div>
-        <div class="col-md-2" style="margin-left: 100px;">
-          <input type="date" id="searchByBillingDate" [(ngModel)]="searchByBillingDate" name="searchByBillingDate"
-            class="form-control" style="width: 150px; margin-left: 210px;">
-        </div>
-        <div class="col-md-2">
-
-        </div>
+      <div class="row search-row" style="padding-top: 1%;">
+          <input 
+          type="text" 
+          id="searchPropertyName" 
+          [(ngModel)]="searchPropertyName" 
+          name="searchPropertyName"
+          class="form-control" 
+          style="width: 150px;margin-left: 260px;">
+        
+        <div class="col-md-2"> </div>
+          <input 
+          type="date" 
+          id="searchByBillingDate" 
+          [(ngModel)]="searchByBillingDate" 
+          name="searchByBillingDate"
+          class="form-control" 
+          style="width: 150px; margin-left: 210px;">
+        
+        <div class="col-md-2"></div>
 
         <div class="row button-row">
           <div class="col-md-1">
@@ -95,9 +94,8 @@
 
           </div>
         </div>
-
       </div>
-
+    </div>
 
       <mat-table #table [dataSource]="dataSource" matSort aria-level="Elements" class="mat-elevation-z7">
 
@@ -212,7 +210,7 @@
       [pageSizeOptions]="[5, 10, 25, 100]"
       aria-label="Select page">
       </mat-paginator>
-    </div>
+    
   </div>
 </body>
 

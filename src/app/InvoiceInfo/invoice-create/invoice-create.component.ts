@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,9 +35,10 @@ export class InvoiceCreateComponent {
   }
   errorMessage: string = '';
   currentDate = new Date().toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
-  // currentDate = new Date().toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
-  // currentDate:string = new Date().toISOString().split('T')[0];
-  //不動産会社情報 line 27~37//////
+  todayDate: Date = new Date();
+  currentMonth: number = new Date().getMonth() + 1;
+
+  
   userInfo: UserInfo[];
   picId: string;//to retrieve the company address and postal code by user table and company table;
   companyfullName: string;
@@ -100,62 +102,89 @@ export class InvoiceCreateComponent {
   parkingFeePrice: number;
   parkingFeeConsumeTax: number;
   parkingFeeTotalPrice: number;
+  parkingStartDate: string;
+  parkingEndDate: string;
 
   bicycleParkingFeePrice: number;
   bicycleParkingFeeConsumeTax: number;
   bicycleParkingFeeTotalPrice: number;
+  bicycleStartDate: string;
+  bicycleEndDate: string;
 
   keymoneyFeePrice: number;
   keymoneyFeeConsumeTax: number;
   keymoneyFeeTotalPrice: number;
+  keymoneyStartDate: string;
+  keymoneyEndDate: string;
 
   shikikinPrice: number;
   shikikinConsumeTax: number;
   shikikinTotalPrice: number;
+  shikikinStartDate: string;
+  shikikinEndDate: string;
 
   depositPrice: number;
   depositConsumeTax: number;
   depositTotalPrice: number;
+  depositStartDate: string;
+  depositEndDate: string;
 
   renewalFeePrice: number;
   renewalFeeConsumeTax: number;
   renewalFeeTotalPrice: number;
+  renewalStartDate: string;
+  renewalEndDate: string;
 
   repairCostPrice: number;
   repairCostConsumeTax: number;
   repairCostTotalPrice: number;
+  repairCostStartDate: string;
+  repairCostEndDate: string;
 
   penaltyFeePrice: number;
   penaltyFeeConsumeTax: number;
   penaltyFeeTotalPrice: number;
+  penaltyStartDate: string;
+  penaltyEndDate: string;
 
   signboardFeePrice: number;
   signboardFeeConsumeTax: number;
   signboardFeeTotalPrice: number;
+  signboardStartDate: string;
+  signboardEndDate: string;
 
   electricBill: number = 0;
   electricBillTax: number = 0;
   electricBillTotal: number = 0;
+  electricBillStartDate: string;
+  electricBillEndDate: string;
 
   waterBill: number;
   waterBillTax: number;
   waterBillTotal: number;
+  waterBillStartDate: string;
+  waterBillEndDate: string;
 
   gasBill: number;
   gasBillTax: number;
   gasBillTotal: number;
+  gasBillStartDate: string;
+  gasBillEndDate: string;
 
   constructionBill: number;
   constructionBillTax: number;
   constructionBillTotal: number;
+  constructionTodayDate: string;
 
   workAmountFirst: number;
   workTaxFirst: number;
   workFirstTotal: number;
+  workFirstTodayDate: string;
 
   workAmountSecond: number;
   workTaxsecond: number;
   workSecondTotal: number;
+  workSecondTodayDate: string;
 
   totalSumOne: number;
   totalSumTwo: number;
@@ -401,7 +430,7 @@ export class InvoiceCreateComponent {
     borrowerId: undefined,
     tenantId: undefined
   }
-  invoiceForm: any;
+  // invoiceForm: any;
   propertyIdforEdit:string;
 
   constructor(private router: Router,
@@ -411,8 +440,11 @@ export class InvoiceCreateComponent {
     private invoiceService: InvoiceServiceService,
     private userAuthService: UserAuthService,
     private dialog: MatDialog,
+    private datePipe: DatePipe
     //@Inject(LOCALE_ID) private locale: string
   ) {
+    this.calculateDateRange();
+
     this.picData = {
       id: null,
       firstName: "",
@@ -583,6 +615,7 @@ export class InvoiceCreateComponent {
 
   ngOnInit() {
     console.log(this.currentDate);
+    console.log(this.currentMonth);
     console.log("Company Name "+this.backendCompany.companyName);
     this.companyfullName = this.userAuthService.getFirstName() + " " + this.userAuthService.getLastName();
     this.companyphone1 = this.userAuthService.getPhone1();
@@ -674,11 +707,11 @@ export class InvoiceCreateComponent {
     });
   }
 
-  handleFormError(contractForm: NgForm): void {
+  handleFormError(invoiceForm: NgForm): void {
     this.openAlertDialog('必要なフィールドを入力してください。');
 
     // Mark all form controls as touched
-    Object.values(contractForm.controls).forEach(control => control.markAsTouched());
+    Object.values(invoiceForm.controls).forEach(control => control.markAsTouched());
     console.log("Form Errors");
   }
 
@@ -701,6 +734,39 @@ export class InvoiceCreateComponent {
         }
 
       );
+  }
+
+  calculateDateRange() {
+    const firstDayOfMonth = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth(), 1);
+    const lastDayOfMonth = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth() + 1, 0);
+
+    this.parkingStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.parkingEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.bicycleStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.bicycleEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.keymoneyStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.keymoneyEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.shikikinStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.shikikinEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.depositStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.depositEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.renewalStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.renewalEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.repairCostStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.repairCostEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.penaltyStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.penaltyEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.signboardStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.signboardEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.electricBillStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.electricBillEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.waterBillStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.waterBillEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.gasBillStartDate = this.datePipe.transform(firstDayOfMonth, 'yyyy-MM-dd');
+    this.gasBillEndDate = this.datePipe.transform(lastDayOfMonth, 'yyyy-MM-dd');
+    this.constructionTodayDate = this.datePipe.transform(this.todayDate, 'yyyy-MM-dd');
+    this.workFirstTodayDate = this.datePipe.transform(this.todayDate, 'yyyy-MM-dd');
+    this.workSecondTodayDate = this.datePipe.transform(this.todayDate, 'yyyy-MM-dd');
   }
 
   onContractSelectionChange() {
@@ -1031,45 +1097,78 @@ export class InvoiceCreateComponent {
     this.invoiceInfo.invoicelistObj.parkingFee = this.parkingFeePrice;
     this.invoiceInfo.invoicelistObj.parkingFeeTax = this.parkingFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.parkingFeeTotal = this.parkingFeeTotalPrice;
+    this.invoiceInfo.invoicelistObj.parkingStartDate =this.parkingStartDate;
+    this.invoiceInfo.invoicelistObj.parkingEndDate =this.parkingEndDate;
 
     this.invoiceInfo.invoicelistObj.bicycleParkingFee = this.bicycleParkingFeePrice;
     this.invoiceInfo.invoicelistObj.bicycleParkingFeeTax = this.bicycleParkingFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.bicycleParkingFeeTotal = this.bicycleParkingFeeTotalPrice;
+    this.invoiceInfo.invoicelistObj.bicycleParkingStartDate =this.bicycleStartDate;
+    this.invoiceInfo.invoicelistObj.bicycleParkingEndDate =this.bicycleEndDate;
 
     this.invoiceInfo.invoicelistObj.keymoney = this.keymoneyFeePrice;
     this.invoiceInfo.invoicelistObj.keymoneyTax = this.keymoneyFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.keymoneyTotal = this.keymoneyFeeTotalPrice; 
+    this.invoiceInfo.invoicelistObj.keymoneyStartDate =this.keymoneyStartDate;
+    this.invoiceInfo.invoicelistObj.keymoneyEndDate =this.keymoneyEndDate;
 
     this.invoiceInfo.invoicelistObj.shikikin = this.shikikinPrice;
     this.invoiceInfo.invoicelistObj.shikikinTax = this.shikikinConsumeTax;
     this.invoiceInfo.invoicelistObj.shikikinTotal = this.shikikinTotalPrice;
+    this.invoiceInfo.invoicelistObj.shikikinStartDate =this.shikikinStartDate;
+    this.invoiceInfo.invoicelistObj.shikikinEndDate =this.shikikinEndDate;
 
     this.invoiceInfo.invoicelistObj.deposit = this.depositPrice;
     this.invoiceInfo.invoicelistObj.depositTax = this.depositConsumeTax;
     this.invoiceInfo.invoicelistObj.depositTotal = this.depositTotalPrice;
+    this.invoiceInfo.invoicelistObj.depositStartDate =this.depositStartDate;
+    this.invoiceInfo.invoicelistObj.depositEndDate =this.depositEndDate;
 
     this.invoiceInfo.invoicelistObj.renewalFee = this.renewalFeePrice;
     this.invoiceInfo.invoicelistObj.renewalFeeTax = this.renewalFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.renewalFeeTotal = this.renewalFeeTotalPrice;
+    this.invoiceInfo.invoicelistObj.renewalFeeStartDate =this.renewalStartDate;
+    this.invoiceInfo.invoicelistObj.renewalFeeEndDate =this.renewalEndDate;
 
     this.invoiceInfo.invoicelistObj.repairCost = this.repairCostPrice;
     this.invoiceInfo.invoicelistObj.repairCostTax = this.repairCostConsumeTax;
     this.invoiceInfo.invoicelistObj.repairCostTotal = this.repairCostTotalPrice;
+    this.invoiceInfo.invoicelistObj.repairCostStartDate =this.repairCostStartDate;
+    this.invoiceInfo.invoicelistObj.repairCostEndDate =this.repairCostEndDate;
 
     this.invoiceInfo.invoicelistObj.penaltyFee = this.penaltyFeePrice;
     this.invoiceInfo.invoicelistObj.penaltyFeeTax = this.penaltyFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.penaltyFeeTotal = this.penaltyFeeTotalPrice;
+    this.invoiceInfo.invoicelistObj.penaltyFeeStartDate =this.penaltyStartDate;
+    this.invoiceInfo.invoicelistObj.penaltyFeeEndDate =this.penaltyEndDate;
 
     this.invoiceInfo.invoicelistObj.signboard = this.signboardFeePrice;
     this.invoiceInfo.invoicelistObj.signboardTax = this.signboardFeeConsumeTax;
     this.invoiceInfo.invoicelistObj.signboardTotal = this.signboardFeeTotalPrice;
+    this.invoiceInfo.invoicelistObj.signboardStartDate =this.signboardStartDate;
+    this.invoiceInfo.invoicelistObj.signboardEndDate =this.signboardEndDate;
 
     this.invoiceInfo.invoicelistObj.electricBillTotal = this.electricBillTotal;
+    this.invoiceInfo.invoicelistObj.electricBillStartDate =this.electricBillStartDate;
+    this.invoiceInfo.invoicelistObj.electricBillEndDate =this.electricBillEndDate;
+
     this.invoiceInfo.invoicelistObj.waterBillTotal =this.waterBillTotal;
+    this.invoiceInfo.invoicelistObj.waterBillStartDate =this.waterBillStartDate;
+    this.invoiceInfo.invoicelistObj.waterBillEndDate =this.waterBillEndDate;
+
     this.invoiceInfo.invoicelistObj.gasBillTotal = this.gasBillTotal;
+    this.invoiceInfo.invoicelistObj.gasBillStartDate =this.gasBillStartDate;
+    this.invoiceInfo.invoicelistObj.gasBillEndDate =this.gasBillEndDate;
+
     this.invoiceInfo.invoicelistObj.constructionBillTotal = this.constructionBillTotal;
+    this.invoiceInfo.invoicelistObj.constructionBillUsagePeriod =this.constructionTodayDate;
+
     this.invoiceInfo.invoicelistObj.workAmountTotalFirst = this.workFirstTotal;
+    this.invoiceInfo.invoicelistObj.workUsagePeriodFirst =this.workFirstTodayDate;
+
     this.invoiceInfo.invoicelistObj.workTotalSecond = this.workSecondTotal;
+    this.invoiceInfo.invoicelistObj.workUsagePeriodSecond =this.workSecondTodayDate;
+
     this.invoiceInfo.invoicelistObj.total = this.totalSumPrice;
 
     //振込先情報
@@ -1127,6 +1226,7 @@ export class InvoiceCreateComponent {
       return false;
     }
   }
+
   keyPressNumeric(event: KeyboardEvent) {
     const inp = String.fromCharCode(event.keyCode);
 

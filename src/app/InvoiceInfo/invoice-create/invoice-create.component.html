@@ -45,8 +45,15 @@
                       </div>
                     </div>
                     <div class="col-2">
-                      <input type="text" id="companyName" [(ngModel)]="backendCompany.companyName" name="companyName"
-                        class="form-control" readonly disabled style="width: 265px;">
+                      <input 
+                      type="text" 
+                      id="companyName" 
+                      [(ngModel)]="backendCompany.companyName" 
+                      name="companyName"
+                      class="form-control" 
+                      readonly 
+                      disabled 
+                      style="width: 265px;">
                     </div>
                     <div class=" col-md-1"></div>
                     <div class=" col-md-3">
@@ -55,15 +62,27 @@
                     <div class=" col-md-3">
                       <div class="row">
                         <div class="col-md-5">
-                          <input type="text" class="form-control" id="companypostalCode1"
-                            [(ngModel)]="companypostalCode1" name="companypostalCode1" readonly disabled
-                            style=" width:100px;height:35px;">
+                          <input 
+                          type="text" 
+                          class="form-control" 
+                          id="companypostalCode1"
+                          [(ngModel)]="companypostalCode1" 
+                          name="companypostalCode1" 
+                          readonly 
+                          disabled
+                          style=" width:100px;height:35px;">
 
                         </div>-
                         <div class="col-md-5">
-                          <input type="text" class="form-control" id="companypostalCode2"
-                            [(ngModel)]="companypostalCode2" name="companypostalCode2" readonly disabled
-                            style=" width:100px;height:35px;">
+                          <input 
+                          type="text" 
+                          class="form-control" 
+                          id="companypostalCode2"
+                          [(ngModel)]="companypostalCode2" 
+                          name="companypostalCode2" 
+                          readonly 
+                          disabled
+                          style=" width:100px;height:35px;">
                         </div>
                       </div>
                     </div>
@@ -77,9 +96,15 @@
                       </div>
                     </div>
                     <div class="col-md-2">
-                      <input type="text" class="form-control" id="companyfullName" [(ngModel)]="companyfullName"
-                        name="companyfullName" #picIdControl="ngModel" readonly disabled
-                        style="width: 265px; height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="companyfullName" 
+                      [(ngModel)]="companyfullName"
+                      name="companyfullName"
+                      readonly 
+                      disabled
+                      style="width: 265px; height:35px;">
                     </div>
                     <div class="col-md-4">
                       <div class="inner">
@@ -90,9 +115,16 @@
                     </div>
                     <div class="col-md-3">
                       <div class="leftfield">
-                        <input type="text" id="companyAddress" [(ngModel)]="companyAddress" name="companyAddress"
-                          class="form-control" value="companyAddress" readonly disabled
-                          style="width: 265px; height:35px;">
+                        <input 
+                        type="text" 
+                        id="companyAddress" 
+                        [(ngModel)]="companyAddress" 
+                        name="companyAddress"
+                        class="form-control" 
+                        value="companyAddress" 
+                        readonly 
+                        disabled
+                        style="width: 265px; height:35px;">
                       </div>
                     </div>
                   </div>
@@ -106,20 +138,45 @@
                     <div class=" col-md-3">
                       <div class="row">
                         <div class="col-md-3">
-                          <input type="tel" class="form-control" id="companyphone1" [(ngModel)]="companyphone1"
-                            name="companyphone1" value="companyphone1" readonly disabled
-                            style="width: 60px;  height:35px;">
+                          <input 
+                          type="tel" 
+                          class="form-control" 
+                          id="companyphone1" 
+                          [(ngModel)]="companyphone1"
+                          name="companyphone1" 
+                          value="companyphone1" 
+                          readonly 
+                          disabled
+                          style="width: 60px;  height:35px;">
                         </div>
                         <div class="col-md-1">-</div>
                         <div class="col-md-4">
-                          <input type="tel" class="form-control" id="companyphone2" [(ngModel)]="companyphone2"
-                            name="companyphone2" value="companyphone2" readonly disabled
-                            style="width: 66px;  height:35px;" class="form-control" [maxLength]="4">
+                          <input 
+                          type="tel" 
+                          class="form-control" 
+                          id="companyphone2" 
+                          [(ngModel)]="companyphone2"
+                          name="companyphone2" 
+                          value="companyphone2" 
+                          readonly 
+                          disabled
+                          style="width: 66px;  height:35px;"
+                          [maxLength]="4">
                         </div>
                         -
-                        <div class="col-md-3"><input type="tel" id="companyphone3" [(ngModel)]="companyphone3"
-                            name="companyphone3" value="companyphone3" readonly disabled
-                            style="width: 62px;  height:35px;" class="form-control" [maxlength]="4"></div>
+                        <div class="col-md-3">
+                          <input 
+                          type="tel" 
+                          id="companyphone3" 
+                          [(ngModel)]="companyphone3"
+                          name="companyphone3" 
+                          value="companyphone3" 
+                          readonly 
+                          disabled
+                          style="width: 62px;  height:35px;" 
+                          class="form-control" 
+                          [maxlength]="4">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -152,11 +209,8 @@
                       #propertyIdControl="ngModel"
                       style="width: 265px; height:35px;"
                       >
-                        <mat-option 
-                        *ngFor="let property of propertyIDs" 
-                        [value]="property.id"
-                        >
-                          {{property.propertyName}}
+                        <mat-option *ngFor="let property of propertyIDs" 
+                          [value]="property.id">{{property.propertyName}}
                         </mat-option>
                       </mat-select>
                     </div>
@@ -167,14 +221,24 @@
                     <div class=" col-md-3">
                       <div class="row">
                         <div class="col-md-5">
-                          <input type="text" class="form-control" id="buildingPostalCode1"
-                            [(ngModel)]="buildingPostalCode1" name="buildingPostalCode1" readonly
-                            style=" width:100px;height:35px;">
+                          <input 
+                          type="text" 
+                          class="form-control" 
+                          id="buildingPostalCode1"
+                          [(ngModel)]="buildingPostalCode1" 
+                          name="buildingPostalCode1" 
+                          readonly
+                          style=" width:100px;height:35px;">
                         </div>-
                         <div class="col-md-5">
-                          <input type="text" class="form-control" id="buildingPostalCode2"
-                            [(ngModel)]="buildingPostalCode2" name="buildingPostalCode2" readonly
-                            style=" width:100px;height:35px;">
+                          <input 
+                          type="text" 
+                          class="form-control" 
+                          id="buildingPostalCode2"
+                          [(ngModel)]="buildingPostalCode2" 
+                          name="buildingPostalCode2" 
+                          readonly
+                          style=" width:100px;height:35px;">
                         </div>
                       </div>
                     </div>
@@ -197,9 +261,15 @@
                       </div>
                       <div class="col-md-2">
                         <div class=" leftfiedl">
-                          <input type="text" id="roomno" [(ngModel)]="roomno" name="roomno" class="form-control"
-                            value="roomno" readonly style="width: 265px; height:35px;">
-
+                          <input 
+                          type="text" 
+                          id="roomno" 
+                          [(ngModel)]="roomno" 
+                          name="roomno" 
+                          class="form-control"
+                          value="roomno" 
+                          readonly 
+                          style="width: 265px; height:35px;">
                         </div>
                       </div>
                       <div class="col-md-2"></div>
@@ -210,8 +280,15 @@
                       </div>
                       <div class="col-md-2">
                         <div class=" leftfiedl">
-                          <input type="text" id="buildingAddress" [(ngModel)]="buildingAddress" name="buildingAddress"
-                            class="form-control" value="buildingAddress" readonly style="width: 265px; height:35px;">
+                          <input 
+                          type="text" 
+                          id="buildingAddress" 
+                          [(ngModel)]="buildingAddress" 
+                          name="buildingAddress"
+                          class="form-control" 
+                          value="buildingAddress" 
+                          readonly 
+                          style="width: 265px; height:35px;">
                         </div>
                       </div>
                     </div>
@@ -227,8 +304,15 @@
                       </div>
                       <div class="col-md-3">
                         <div class="leftfield">
-                          <input type="text" id="floor" [(ngModel)]="floor" name="floor" class="form-control"
-                            value="floor" readonly style="width: 265px; height:35px;">
+                          <input 
+                          type="text" 
+                          id="floor" 
+                          [(ngModel)]="floor" 
+                          name="floor" 
+                          class="form-control"
+                          value="floor" 
+                          readonly 
+                          style="width: 265px; height:35px;">
                         </div>
                       </div>
                     </div>
@@ -256,9 +340,16 @@
                                             value="lenderCooperate"
                                             
                                             style="width: 265px; height:35px;"> -->
-                      <mat-select class="form-control" (selectionChange)="onContractSelectionChange()" required
-                        [(ngModel)]="contractId" id="contractId" name="contractId" #contractIdControl="ngModel"
-                        style="width: 265px; height:35px;">
+                      <mat-select 
+                      class="form-control" 
+                      (selectionChange)="onContractSelectionChange()" 
+                      required
+                      [(ngModel)]="contractId" 
+                      id="contractId" 
+                      name="contractId" 
+                      #contractIdControl="ngModel"
+                      style="width: 265px; height:35px;"
+                      >
                         <mat-option *ngFor="let contract of contractIDs"
                           [value]="contract.id">{{contract.borrower.borrowerCooperate}}
                         </mat-option>
@@ -269,8 +360,15 @@
                       <label for="bcpicName" style="margin-left: 150px;">法人担当者名前</label>
                     </div>
                     <div class=" col-md-3">
-                      <input type="text" id="bcpicName" readonly [(ngModel)]="bcpicName" name="bcpicName"
-                        class="form-control" value="bcpicName" style="width: 265px; height:35px;">
+                      <input 
+                      type="text" 
+                      id="bcpicName" 
+                      readonly 
+                      [(ngModel)]="bcpicName" 
+                      name="bcpicName"
+                      class="form-control" 
+                      value="bcpicName" 
+                      style="width: 265px; height:35px;">
                     </div>
                   </div>
                   <div class="row no-gutters">
@@ -293,9 +391,15 @@
 
                     <div class="col-md-2">
                       <div class=" leftfiedl">
-                        <input type="date" id="currentDate" [ngModel]="currentDate | date:'yyyy-MM-dd'"
-                          name="currentDate" readonly class="form-control" value="currentDate"
-                          style="width: 265px; height:35px;">
+                        <input 
+                        type="date" 
+                        id="currentDate" 
+                        [ngModel]="currentDate | date:'yyyy-MM-dd'"
+                        name="currentDate" 
+                        readonly 
+                        class="form-control" 
+                        value="currentDate"
+                        style="width: 265px; height:35px;">
 
                       </div>
                     </div>
@@ -307,10 +411,16 @@
                     </div>
                     <div class="col-md-2">
                       <div class=" leftfiedl">
-                        <input type="date" id="paymentDueDate" [(ngModel)]="invoiceInfo.paymentDueDate"
-                          name="paymentDueDate" class="form-control" value="paymentDueDate" #paymentDueDate="ngModel"
-                          required style="width: 265px; height:35px;"
-                          [ngClass]="{'is-valid': paymentDueDate.touched && paymentDueDate.invalid}">
+                        <input 
+                        type="date" 
+                        id="paymentDueDate" 
+                        [(ngModel)]="invoiceInfo.paymentDueDate"
+                        name="paymentDueDate" 
+                        class="form-control" 
+                        value="paymentDueDate" 
+                        #paymentDueDate="ngModel"
+                        required style="width: 265px; height:35px;"
+                        [ngClass]="{'is-valid': paymentDueDate.touched && paymentDueDate.invalid}">
                       </div>
                     </div>
                   </div>
@@ -341,9 +451,14 @@
                       <label for="rent">賃料</label>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="rentPrice" [(ngModel)]="rentPrice" name="rentPrice"
-                        #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="rentPrice" 
+                      [(ngModel)]="rentPrice" 
+                      name="rentPrice"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -353,8 +468,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="rentConsumeTax" [(ngModel)]="rentConsumeTax"
-                        name="rentConsumeTax" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="rentConsumeTax" 
+                      [(ngModel)]="rentConsumeTax"
+                      name="rentConsumeTax"
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
 
                     <div class="col-md-1 inner-yen">
@@ -365,8 +486,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="rentTotalPrice" [(ngModel)]="rentTotalPrice"
-                        name="rentTotalPrice" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="rentTotalPrice" 
+                      [(ngModel)]="rentTotalPrice"
+                      name="rentTotalPrice" 
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -377,11 +504,14 @@
                     </div>
                     <div class="col-md-1">
                       <div class="inner-selectBox">
-                        <mat-select class="form-control" id="rentUsagePeriod"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.rentUsagePeriod" name="rentUsagePeriod"
-                          #rentUsagePeriod="ngModel" required
-                          [ngClass]="{'is-valid':rentUsagePeriod.touched && rentUsagePeriod.invalid}"
-                          style="width: 80px;">
+                        <mat-select 
+                        class="form-control" id="rentUsagePeriod"
+                        [(ngModel)]="invoiceInfo.invoicelistObj.rentUsagePeriod" name="rentUsagePeriod"
+                        #rentUsagePeriod="ngModel" 
+                        required
+                        [ngClass]="{'is-valid':rentUsagePeriod.touched && rentUsagePeriod.invalid}"
+                        style="width: 80px;"
+                        >
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
                           <mat-option value="3">3</mat-option>
@@ -396,6 +526,8 @@
                           <mat-option value="12">12</mat-option>
                         </mat-select>
                       </div>
+                      
+                      
                     </div>
 
                     <div class="col-md-1 month-label">
@@ -406,10 +538,11 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-4"></div>
                     <div class="col-md-3">
-                      <div class="help-block" style="margin-left:55px"
-                        *ngIf="rentUsagePeriod.touched && rentUsagePeriod.errors?.['required']">
+                      <!-- <div class="help-block" style="margin-left:55px"
+                        *ngIf="rentUsagePeriod.touched && rentUsagePeriod.errors?.['required']"
+                      >
                         家賃利用期間を選択してください。
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -421,8 +554,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="managementFeePrice" [(ngModel)]="managementFeePrice"
-                        name="managementFeePrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="managementFeePrice" 
+                      [(ngModel)]="managementFeePrice"
+                      name="managementFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -431,9 +571,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="managementFeeConsumeTax"
-                        [(ngModel)]="managementFeeConsumeTax" name="managementFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="managementFeeConsumeTax"
+                      [(ngModel)]="managementFeeConsumeTax" 
+                      name="managementFeeConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -443,9 +588,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="managementFeeTotalPrice"
-                        [(ngModel)]="managementFeeTotalPrice" name="managementFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="managementFeeTotalPrice"
+                      [(ngModel)]="managementFeeTotalPrice" 
+                      name="managementFeeTotalPrice"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -455,9 +605,15 @@
                     </div>
                     <div class="col-md-1">
                       <div class="inner-selectBox">
-                        <mat-select name="serviceFeeUsagePeriod" class="form-control" id="serviceFeeUsagePeriod"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.serviceFeeUsagePeriod" name="serviceFeeUsagePeriod"
-                          #rentTax="ngModel" style="width: 80px;">
+                        <mat-select 
+                        name="serviceFeeUsagePeriod" 
+                        class="form-control" 
+                        id="serviceFeeUsagePeriod"
+                        [(ngModel)]="invoiceInfo.invoicelistObj.serviceFeeUsagePeriod" 
+                        name="serviceFeeUsagePeriod"
+                        #serviceFeeUsagePeriod="ngModel" 
+                        style="width: 80px;"
+                        >
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
                           <mat-option value="3">3</mat-option>
@@ -485,8 +641,14 @@
                       <label for="brokerageFee" style="font-size: 14px;font-weight: 16px;">仲介手数料</label>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="brokerageFeePrice" [(ngModel)]="brokerageFeePrice"
-                        name="brokerageFeePrice" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="brokerageFeePrice" 
+                      [(ngModel)]="brokerageFeePrice"
+                      name="brokerageFeePrice" 
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -495,9 +657,15 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="brokerageFeeConsumeTax"
-                        [(ngModel)]="brokerageFeeConsumeTax" name="brokerageFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="brokerageFeeConsumeTax"
+                      [(ngModel)]="brokerageFeeConsumeTax" 
+                      name="brokerageFeeConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -507,9 +675,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="brokerageFeeTotalPrice"
-                        [(ngModel)]="brokerageFeeTotalPrice" name="brokerageFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="brokerageFeeTotalPrice"
+                      [(ngModel)]="brokerageFeeTotalPrice" 
+                      name="brokerageFeeTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -519,9 +692,15 @@
                     </div>
                     <div class="col-md-1">
                       <div class="inner-selectBox">
-                        <mat-select name="brokerageFeeUsagePeriod" class="form-control" id="brokerageFeeUsagePeriod"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.brokerageFeeUsagePeriod"
-                          name="brokerageFeeUsagePeriod" #rentTax="ngModel" style="width: 80px;">
+                        <mat-select 
+                        name="brokerageFeeUsagePeriod" 
+                        class="form-control" 
+                        id="brokerageFeeUsagePeriod"
+                        [(ngModel)]="invoiceInfo.invoicelistObj.brokerageFeeUsagePeriod"
+                        name="brokerageFeeUsagePeriod" 
+                        #brokerageFeeUsagePeriod="ngModel"
+                        style="width: 80px;"
+                        >
                           <mat-option value="1">1</mat-option>
                           <mat-option value="2">2</mat-option>
                           <mat-option value="3">3</mat-option>
@@ -551,8 +730,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="parkingFeePrice" [(ngModel)]="parkingFeePrice"
-                        name="parkingFeePrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="parkingFeePrice" 
+                      [(ngModel)]="parkingFeePrice"
+                      name="parkingFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -561,9 +747,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="parkingFeeConsumeTax"
-                        [(ngModel)]="parkingFeeConsumeTax" name="parkingFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="parkingFeeConsumeTax"
+                      [(ngModel)]="parkingFeeConsumeTax" 
+                      name="parkingFeeConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -572,9 +763,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="parkingFeeTotalPrice"
-                        [(ngModel)]="parkingFeeTotalPrice" name="parkingFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="parkingFeeTotalPrice"
+                      [(ngModel)]="parkingFeeTotalPrice" 
+                      name="parkingFeeTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -583,17 +779,25 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="parkingStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.parkingStartDate" name="parkingStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="parkingStartDate"
+                      [(ngModel)]="parkingStartDate" 
+                      name="parkingStartDate"
+                      style="width: 125px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-label" style="margin-left: -85px;">
                       <label for="parkingEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
-                      <input type="date" class="form-control" id="parkingEndDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.parkingEndDate" name="parkingEndDate"
-                        style="width: 125px;  height:35px;margin-left: -25px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="parkingEndDate"
+                      [(ngModel)]="parkingEndDate" 
+                      name="parkingEndDate"
+                      style="width: 125px;  height:35px;margin-left: -25px;">
                     </div>
 
                   </div>
@@ -606,9 +810,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="bicycleParkingFeePrice"
-                        [(ngModel)]="bicycleParkingFeePrice" name="bicycleParkingFeePrice"
-                        style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="bicycleParkingFeePrice"
+                      [(ngModel)]="bicycleParkingFeePrice" 
+                      name="bicycleParkingFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -617,9 +827,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="bicycleParkingFeeConsumeTax"
-                        [(ngModel)]="bicycleParkingFeeConsumeTax" name="bicycleParkingFeeConsumeTax" #rent="ngModel"
-                        readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="bicycleParkingFeeConsumeTax"
+                      [(ngModel)]="bicycleParkingFeeConsumeTax" 
+                      name="bicycleParkingFeeConsumeTax" 
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -628,9 +843,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="bicycleParkingFeeTotalPrice"
-                        [(ngModel)]="bicycleParkingFeeTotalPrice" name="bicycleParkingFeeTotalPrice" #rent="ngModel"
-                        readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="bicycleParkingFeeTotalPrice"
+                      [(ngModel)]="bicycleParkingFeeTotalPrice" 
+                      name="bicycleParkingFeeTotalPrice" 
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -639,17 +859,25 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="parkingStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.bicycleParkingStartDate" name="parkingStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="parkingStartDate"
+                      [(ngModel)]="bicycleStartDate" 
+                      name="parkingStartDate"
+                      style="width: 125px;  height:35px;">
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="bicycleParkingEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
-                      <input type="date" class="form-control" id="parkingEndDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.bicycleParkingEndDate" name="parkingEndDate"
-                        style="width: 125px;  height:35px;margin-left: -25px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="bicycleEndDate"
+                      [(ngModel)]="bicycleEndDate" 
+                      name="bicycleEndDate"
+                      style="width: 125px;  height:35px;margin-left: -25px;">
                     </div>
                   </div>
                 </div>
@@ -661,8 +889,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="keymoneyFeePrice" [(ngModel)]="keymoneyFeePrice"
-                        name="keymoneyFeePrice" #keymoney="ngModel" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="keymoneyFeePrice" 
+                      [(ngModel)]="keymoneyFeePrice"
+                      name="keymoneyFeePrice" 
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -671,9 +906,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="keymoneyFeeConsumeTax"
-                        [(ngModel)]="keymoneyFeeConsumeTax" name="keymoneyFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="keymoneyFeeConsumeTax"
+                      [(ngModel)]="keymoneyFeeConsumeTax" 
+                      name="keymoneyFeeConsumeTax"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -682,9 +922,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="keymoneyFeeTotalPrice"
-                        [(ngModel)]="keymoneyFeeTotalPrice" name="keymoneyFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="keymoneyFeeTotalPrice"
+                      [(ngModel)]="keymoneyFeeTotalPrice" 
+                      name="keymoneyFeeTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -694,18 +939,26 @@
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="keymoneyStartDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.keymoneyStartDate" name="keymoneyStartDate"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="keymoneyStartDate"
+                        [(ngModel)]="keymoneyStartDate" 
+                        name="keymoneyStartDate"
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="keymoneyEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
-                      <input type="date" class="form-control" id="keymoneyEndDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.keymoneyEndDate" name="keymoneyEndDate"
-                        style="width: 125px;  height:35px;margin-left: -25px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="keymoneyEndDate"
+                      [(ngModel)]="keymoneyEndDate" 
+                      name="keymoneyEndDate"
+                      style="width: 125px;  height:35px;margin-left: -25px;">
                     </div>
                   </div>
                 </div>
@@ -717,18 +970,31 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="shikikinPrice" [(ngModel)]="shikikinPrice"
-                        name="shikikinPrice" #keymoney="ngModel" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="shikikinPrice" 
+                      [(ngModel)]="shikikinPrice"
+                      name="shikikinPrice" 
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
                     </div>
-                    <div class="col-1 inner-label">
+                    <div class="col-md-1 inner-label">
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="shikikinConsumeTax" [(ngModel)]="shikikinConsumeTax"
-                        name="shikikinConsumeTax" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="shikikinConsumeTax"
+                      [(ngModel)]="shikikinConsumeTax" 
+                      name="shikikinConsumeTax"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -737,8 +1003,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="shikikinTotalPrice" [(ngModel)]="shikikinTotalPrice"
-                        name="shikikinTotalPrice" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="shikikinTotalPrice"
+                      [(ngModel)]="shikikinTotalPrice" 
+                      name="shikikinTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -752,26 +1024,27 @@
                         type="date" 
                         class="form-control" 
                         id="shikikinStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.shikikinStartDate"
+                        [(ngModel)]="shikikinStartDate" 
                         name="shikikinStartDate"
-                        style="width: 125px;  height:35px;" 
-                        >
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
-                      <label for="shikikinEndDate">利用終了日</label>
+                      <label for="keymoneyEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
-                      <div class=" inner">
-                        <input type="date" class="form-control" id="shikikinEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.shikikinEndDate" name="shikikinEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
-                      </div>
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="shikikinEndDate"
+                      [(ngModel)]="shikikinEndDate" 
+                      name="shikikinEndDate"
+                      style="width: 125px;  height:35px;margin-left: -25px;">
                     </div>
                   </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 20px;">
+                 <div class="form-group" style="margin-top: 20px;">
                   <div class="row no-gutters">
                     <div class="col-md-1">
                       <div class="text-center left-label">
@@ -779,8 +1052,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="depositPrice" [(ngModel)]="depositPrice"
-                        name="depositPrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="depositPrice" 
+                      [(ngModel)]="depositPrice"
+                      name="depositPrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -789,8 +1069,15 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="depositConsumeTax" [(ngModel)]="depositConsumeTax"
-                        name="depositConsumeTax" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="depositConsumeTax" 
+                      [(ngModel)]="depositConsumeTax"
+                      name="depositConsumeTax" 
+                      readonly 
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -799,8 +1086,15 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="depositTotalPrice" [(ngModel)]="depositTotalPrice"
-                        name="depositTotalPrice" #rent="ngModel" readonly style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="depositTotalPrice" 
+                      [(ngModel)]="depositTotalPrice"
+                      name="depositTotalPrice" 
+                      readonly 
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -809,18 +1103,28 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="depositStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.depositStartDate" name="depositStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="depositStartDate"
+                      [(ngModel)]="depositStartDate" 
+                      name="depositStartDate"
+                      style="width: 125px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="depositEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="depositEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.depositEndDate" name="depositEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="depositEndDate"
+                        [(ngModel)]="depositEndDate" 
+                        name="depositEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
@@ -833,8 +1137,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="renewalFeePrice" [(ngModel)]="renewalFeePrice"
-                        name="renewalFeePrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="renewalFeePrice" 
+                      [(ngModel)]="renewalFeePrice"
+                      name="renewalFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -843,9 +1154,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="renewalFeeConsumeTax"
-                        [(ngModel)]="renewalFeeConsumeTax" name="renewalFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="renewalFeeConsumeTax"
+                      [(ngModel)]="renewalFeeConsumeTax" 
+                      name="renewalFeeConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -854,9 +1170,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="renewalFeeTotalPrice"
-                        [(ngModel)]="renewalFeeTotalPrice" name="renewalFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="renewalFeeTotalPrice"
+                      [(ngModel)]="renewalFeeTotalPrice" 
+                      name="renewalFeeTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -865,18 +1186,27 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="renewalFeeStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.renewalFeeStartDate" name="renewalFeeStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="renewalFeeStartDate"
+                      [(ngModel)]="renewalStartDate" 
+                      name="renewalFeeStartDate"
+                      style="width: 125px;  height:35px;">
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="renewalFeeEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="renewalFeeEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.renewalFeeEndDate" name="renewalFeeEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="renewalFeeEndDate"
+                        [(ngModel)]="renewalEndDate" 
+                        name="renewalFeeEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
@@ -889,8 +1219,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="repairCostPrice" [(ngModel)]="repairCostPrice"
-                        name="repairCostPrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="repairCostPrice" 
+                      [(ngModel)]="repairCostPrice"
+                      name="repairCostPrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -899,9 +1236,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="repairCostConsumeTax"
-                        [(ngModel)]="repairCostConsumeTax" name="repairCostConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="repairCostConsumeTax"
+                      [(ngModel)]="repairCostConsumeTax" 
+                      name="repairCostConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -910,9 +1252,15 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="repairCostTotalPrice"
-                        [(ngModel)]="repairCostTotalPrice" name="repairCostTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="repairCostTotalPrice"
+                      [(ngModel)]="repairCostTotalPrice" 
+                      name="repairCostTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -921,18 +1269,28 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="repairCostStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.repairCostStartDate" name="repairCostStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="repairCostStartDate"
+                      [(ngModel)]="repairCostStartDate" 
+                      name="repairCostStartDate"
+                      style="width: 125px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="repairCostEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="repairCostEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.repairCostEndDate" name="repairCostEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="repairCostEndDate"
+                        [(ngModel)]="repairCostEndDate" 
+                        name="repairCostEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
@@ -945,8 +1303,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="penaltyFeePrice" [(ngModel)]="penaltyFeePrice"
-                        name="penaltyFeePrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="penaltyFeePrice" 
+                      [(ngModel)]="penaltyFeePrice"
+                      name="penaltyFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -955,9 +1320,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="penaltyFeeConsumeTax"
-                        [(ngModel)]="penaltyFeeConsumeTax" name="penaltyFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="penaltyFeeConsumeTax"
+                      [(ngModel)]="penaltyFeeConsumeTax" 
+                      name="penaltyFeeConsumeTax" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -966,9 +1336,15 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="penaltyFeeTotalPrice"
-                        [(ngModel)]="penaltyFeeTotalPrice" name="penaltyFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="penaltyFeeTotalPrice"
+                      [(ngModel)]="penaltyFeeTotalPrice" 
+                      name="penaltyFeeTotalPrice" 
+                      readonly
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -978,9 +1354,13 @@
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="penaltyFeeStartDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.penaltyFeeStartDate" name="penaltyFeeStartDate"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="penaltyFeeStartDate"
+                        [(ngModel)]="penaltyStartDate" 
+                        name="penaltyFeeStartDate"
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
@@ -988,9 +1368,14 @@
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="penaltyFeeEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.penaltyFeeEndDate" name="penaltyFeeEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="penaltyFeeEndDate"
+                        [(ngModel)]="penaltyEndDate" 
+                        name="penaltyFeeEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
 
@@ -1004,8 +1389,15 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="text" class="form-control" id="signboardFeePrice" [(ngModel)]="signboardFeePrice"
-                        name="signboardFeePrice" style="width: 170px;  height:35px;" readonly>
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="signboardFeePrice" 
+                      [(ngModel)]="signboardFeePrice"
+                      name="signboardFeePrice"
+                      style="width: 170px;  height:35px;" 
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1014,9 +1406,14 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="signboardFeeConsumeTax"
-                        [(ngModel)]="signboardFeeConsumeTax" name="signboardFeeConsumeTax" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="signboardFeeConsumeTax"
+                      [(ngModel)]="signboardFeeConsumeTax" 
+                      name="signboardFeeConsumeTax"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1025,9 +1422,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="text" class="form-control" id="signboardFeeTotalPrice"
-                        [(ngModel)]="signboardFeeTotalPrice" name="signboardFeeTotalPrice" #rent="ngModel" readonly
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="signboardFeeTotalPrice"
+                      [(ngModel)]="signboardFeeTotalPrice" 
+                      name="signboardFeeTotalPrice"  
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1036,24 +1438,34 @@
                       <label for="parkingfee">利用開始日</label>
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
-                      <input type="date" class="form-control" id="signboardStartDate"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.signboardStartDate" name="signboardStartDate"
-                        style="width: 125px;  height:35px;">
+                      <input 
+                      type="date" 
+                      class="form-control" 
+                      id="signboardStartDate"
+                      [(ngModel)]="signboardStartDate" 
+                      name="signboardStartDate"
+                      style="width: 125px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
                       <label for="signboardEndDate">利用終了日</label>
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="signboardEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.signboardEndDate" name="signboardEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="signboardEndDate"
+                        [(ngModel)]="signboardEndDate" 
+                        name="signboardEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
                 </div>
                 <br>
-                <div class="form-group" style="margin-top: 20px;">
+                 <div class="form-group" style="margin-top: 20px;">
                   <div class="row no-gutters">
                     <div class="col-md-1">
                       <div class="text-center left-label">
@@ -1061,10 +1473,17 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="electricBill"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.electricBill" name="electricBill"
-                        (change)="electricBillCalculate()" style="width: 170px;  height:35px;"
-                        >
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="electricBill"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.electricBill" 
+                      name="electricBill"
+                      #electricBill="ngModel"
+                      (change)="electricBillCalculate()" 
+                      style="width: 170px;  height:35px;"
+                      pattern="^[0-9]+$"
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1073,10 +1492,16 @@
                       <label for="rent">使用料</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="electricUsageAmount"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.electricUsageAmount" name="electricUsageAmount"
-                        #rent="ngModel" pattern="^[0-9]+$" 
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="electricUsageAmount"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.electricUsageAmount" 
+                      name="electricUsageAmount"
+                      #electricUsageAmount="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">kwh</p>
@@ -1085,10 +1510,15 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="electricBillTotal" [(ngModel)]="electricBillTotal"
-                        name="electricBillTotal" [value]="electricBillTotal" readonly #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="electricBillTotal" 
+                      [(ngModel)]="electricBillTotal"
+                      name="electricBillTotal" 
+                      [value]="electricBillTotal" 
+                      readonly 
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1098,9 +1528,13 @@
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="electricBillStartDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.electricBillStartDate" name="electricBillStartDate"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="electricBillStartDate"
+                        [(ngModel)]="electricBillStartDate" 
+                        name="electricBillStartDate"
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
@@ -1108,9 +1542,13 @@
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="electricBillEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.electricBillEndDate" name="electricBillEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="electricBillEndDate"
+                        [(ngModel)]="electricBillEndDate" 
+                        name="electricBillEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;">
                       </div>
                     </div>
                   </div>
@@ -1121,10 +1559,16 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="electricBillTax"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.electricBillTax" name="electricBillTax"
-                        (change)="electricBillCalculate()" #rent="ngModel" (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="electricBillTax"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.electricBillTax" 
+                      name="electricBillTax"
+                      (change)="electricBillCalculate()" 
+                      #electricBillTax="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1139,10 +1583,17 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="waterBill"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.waterBill" name="waterBill"
-                        (change)="waterBillCalculate()" style="width: 170px;  height:35px;" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="waterBill"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.waterBill" 
+                      name="waterBill"
+                      #waterBill="ngModel"
+                      (change)="waterBillCalculate()" 
+                      style="width: 170px;  height:35px;" 
+                      pattern="^[0-9]+$"
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1151,10 +1602,16 @@
                       <label for="rent">使用料</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="waterUsageAmount"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.waterUsageAmount" name="waterUsageAmount"
-                        #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="waterUsageAmount"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.waterUsageAmount" 
+                      name="waterUsageAmount"
+                      #waterUsageAmount="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">
@@ -1165,9 +1622,14 @@
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="waterBillTotal" [(ngModel)]="waterBillTotal"
-                        name="waterBillTotal" #rent="ngModel" readonly
-                        [ngClass]="{'is-valid':rent.touched && rent.invalid}" style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="waterBillTotal" 
+                      [(ngModel)]="waterBillTotal"
+                      name="waterBillTotal" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1177,9 +1639,13 @@
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="waterBillStartDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.waterBillStartDate" name="waterBillStartDate"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="waterBillStartDate"
+                        [(ngModel)]="waterBillStartDate" 
+                        name="waterBillStartDate"
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
@@ -1187,9 +1653,14 @@
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="waterBillEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.waterBillEndDate" name="waterBillEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="waterBillEndDate"
+                        [(ngModel)]="waterBillEndDate" 
+                        name="waterBillEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
@@ -1200,11 +1671,17 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="waterBillTax"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.waterBillTax" name="waterBillTax"
-                        (change)="waterBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="waterBillTax"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.waterBillTax"
+                      name="waterBillTax"
+                      (change)="waterBillCalculate()" 
+                      #waterBillTax="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1220,9 +1697,17 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="gasBill"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.gasBill" name="gasBill" (change)="gasBillCalculate()"
-                        style="width: 170px;  height:35px;" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="gasBill"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.gasBill" 
+                      name="gasBill"
+                      #waterBill="ngModel"
+                      (change)="gasBillCalculate()" 
+                      style="width: 170px;  height:35px;" 
+                      pattern="^[0-9]+$"
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
@@ -1231,23 +1716,34 @@
                       <label for="rent">使用料</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="text" class="form-control" id="gasUsageAmount"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.gasUsageAmount" name="gasUsageAmount" #rent="ngModel"
-                        pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="text" 
+                      class="form-control" 
+                      id="gasUsageAmount"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.gasUsageAmount" 
+                      name="gasUsageAmount"
+                      #gasUsageAmount="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">
                         m²</p>
                     </div>
+
                     <div class="col-md-1 inner-label">
                       <label for="rent">合計</label>
                     </div>
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="gasBillTotal" [(ngModel)]="gasBillTotal"
-                        name="gasBillTotal" #rent="ngModel" pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        readonly 
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="gasBillTotal" 
+                      [(ngModel)]="gasBillTotal"
+                      name="gasBillTotal" 
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1257,9 +1753,13 @@
                     </div>
                     <div class="col-md-2" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="gasBillStartDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.gasBillStartDate" name="gasBillStartDate"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="gasBillStartDate"
+                        [(ngModel)]="gasBillStartDate" 
+                        name="gasBillStartDate"
+                        style="width: 125px;  height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1" style="margin-left: -85px;">
@@ -1267,10 +1767,14 @@
                     </div>
                     <div class="col-md-1">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="gasBillEndDate"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.gasBillEndDate" name="gasBillEndDate"
-                          style="width: 125px;  height:35px;margin-left: -25px;" pattern="^[0-9]+$"
-                          >
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="gasBillEndDate"
+                        [(ngModel)]="gasBillEndDate" 
+                        name="gasBillEndDate"
+                        style="width: 125px;  height:35px;margin-left: -25px;"
+                        >
                       </div>
                     </div>
                   </div>
@@ -1281,19 +1785,26 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="gasBillTax"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.gasBillTax" name="gasBillTax"
-                        (change)="gasBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="gasBillTax"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.gasBillTax"
+                      name="gasBillTax"
+                      (change)="gasBillCalculate()" 
+                      #gasBillTax="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 yen">
                       <p class="yenfield">円</p>
                     </div>
                   </div>
                 </div>
+                
 
-                <div class="form-group" style="margin-top: 20px;">
+               <div class="form-group" style="margin-top: 20px;">
                   <div class="row no-gutters">
                     <div class="col-md-1">
                       <div class="text-center left-label">
@@ -1301,10 +1812,17 @@
                       </div>
                     </div>
                     <div class="col-md-2 left-textfield">
-                      <input type="number" class="form-control" id="constructionBill"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.constructionBill" (change)="constructionBillCalculate()"
-                        name="constructionBill" style="width: 170px;  height:35px;" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="constructionBill"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.constructionBill" 
+                      (change)="constructionBillCalculate()"
+                      name="constructionBill"
+                      #constructionBill="ngModel"
+                      style="width: 170px;  height:35px;" 
+                      pattern="^[0-9]+$"
+                      >
                     </div>
 
                     <div class="col-md-1 yen">
@@ -1314,11 +1832,17 @@
                       <label for="rent">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="number" class="form-control" id="constructionBillTax"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.constructionBillTax" name="constructionBillTax"
-                        (change)="constructionBillCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="constructionBillTax"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.constructionBillTax" 
+                      name="constructionBillTax"
+                      (change)="constructionBillCalculate()" 
+                      #constructionBillTax="ngModel" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1328,10 +1852,14 @@
                     </div>
 
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="constructionBillTotal"
-                        [(ngModel)]="constructionBillTotal" name="constructionBillTotal" #rent="ngModel"
-                        pattern="^[0-9]+$" (keypress)="keyPressNumeric($event)"
-                        style="width: 170px;  height:35px;">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="constructionBillTotal"
+                      [(ngModel)]="constructionBillTotal" 
+                      name="constructionBillTotal"
+                      readonly
+                      style="width: 170px;  height:35px;">
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1342,15 +1870,19 @@
                     </div>
                     <div class="col-md-1" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="constructionBillUsagePeriod"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.constructionBillUsagePeriod"
-                          name="constructionBillUsagePeriod" style="width: 125px;  height:35px;" pattern="^[0-9]+$"
-                          (keypress)="keyPressNumeric($event)">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="constructionTodayDate"
+                        [(ngModel)]="constructionTodayDate"
+                        name="constructionTodayDate"
+                        style="width: 125px;  height:35px;" 
+                        >
                       </div>
                     </div>
 
                   </div>
-                </div>
+                </div> 
 
 
                 <div class="form-group" style="margin-top: 20px;">
@@ -1370,9 +1902,15 @@
                     </div>
                     <div class="col-md-2 left-textfield">
                       <div class=" leftfiedl">
-                        <input type="text" id="workNameFirst" [(ngModel)]="invoiceInfo.invoicelistObj.workNameFirst"
-                          name="workNameFirst" class="form-control" value="buildingAddress"
-                          style="width: 170px; height:35px;">
+                        <input 
+                        type="text" 
+                        id="workNameFirst" 
+                        [(ngModel)]="invoiceInfo.invoicelistObj.workNameFirst"
+                        name="workNameFirst"
+                        #workNameFirst="ngModel"
+                        class="form-control" 
+                        value="buildingAddress"
+                        style="width: 170px; height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1 yen">
@@ -1382,9 +1920,15 @@
                       <label for="roomno">作業料</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="number" id="workAmountFirst" [(ngModel)]="invoiceInfo.invoicelistObj.workAmountFirst"
-                        name="workAmountFirst" (change)="workFirstCalculate()" class="form-control"
-                        value="workAmountFirst" style="width: 170px; height:35px;">
+                      <input 
+                      type="number" id="workAmountFirst" 
+                      [(ngModel)]="invoiceInfo.invoicelistObj.workAmountFirst"
+                      name="workAmountFirst" 
+                      (change)="workFirstCalculate()" 
+                      class="form-control"
+                      value="workAmountFirst" 
+                      pattern="^[0-9]+$"
+                      style="width: 170px; height:35px;">
                     </div>
 
                     <div class="col-md-1 inner-yen">
@@ -1395,10 +1939,15 @@
                     </div>
 
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="workFirstTotal" [(ngModel)]="workFirstTotal"
-                        name="workFirstTotal" #rent="ngModel"
-                        style="width: 170px;  height:35px;"
-                        readonly>
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="workFirstTotal" 
+                      [(ngModel)]="workFirstTotal"
+                      name="workFirstTotal" 
+                      style="width: 170px;  height:35px;"
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1409,9 +1958,13 @@
                     </div>
                     <div class="col-md-1" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="workUsagePeriodFirst"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.workUsagePeriodFirst" name="workUsagePeriodFirst"
-                          style="width: 125px;  height:35px;" >
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="workFirstTodayDate"
+                        [(ngModel)]="workFirstTodayDate" 
+                        name="workFirstTodayDate"
+                        style="width: 125px;  height:35px;" >
                       </div>
                     </div>
                   </div>
@@ -1427,10 +1980,17 @@
                       <label for="roomno">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="number" class="form-control" id="workTaxFirst"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.workTaxFirst" name="workTaxFirst"
-                        (change)="workFirstCalculate()" style="width: 170px;  height:35px;" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="workTaxFirst"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.workTaxFirst" 
+                      name="workTaxFirst"
+                      #workTaxFirst="ngModel"
+                      (change)="workFirstCalculate()" 
+                      style="width: 170px;  height:35px;"
+                      pattern="^[0-9]+$"
+                      >
                     </div>
                   </div>
                   <br>
@@ -1442,9 +2002,14 @@
                     </div>
                     <div class="col-md-2 left-textfield">
                       <div class=" leftfiedl">
-                        <input type="text" id="workNameSecond" [(ngModel)]="invoiceInfo.invoicelistObj.workNameSecond"
-                          name="workNameSecond" class="form-control" value="workNameSecond"
-                          style="width: 170px; height:35px;">
+                        <input 
+                        type="text" 
+                        id="workNameSecond" 
+                        [(ngModel)]="invoiceInfo.invoicelistObj.workNameSecond"
+                        name="workNameSecond" 
+                        class="form-control"
+                        value="workNameSecond"
+                        style="width: 170px; height:35px;">
                       </div>
                     </div>
                     <div class="col-md-1 yen">
@@ -1454,10 +2019,17 @@
                       <label for="roomno">作業料</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="number" id="workAmountSecond"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.workAmountSecond" name="workAmountSecond"
-                        (change)="workSecondCalculate()" class="form-control" value="buildingAddress"
-                        style="width: 170px; height:35px;">
+                      <input 
+                      type="number" 
+                      id="workAmountSecond"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.workAmountSecond" 
+                      name="workAmountSecond"
+                      (change)="workSecondCalculate()" 
+                      class="form-control" 
+                      value="buildingAddress"
+                      style="width: 170px; height:35px;"
+                      pattern="^[0-9]+$"
+                      >
                     </div>
 
                     <div class="col-md-1 inner-yen">
@@ -1468,10 +2040,15 @@
                     </div>
 
                     <div class="col-md-1 inner-total-textfield">
-                      <input type="number" class="form-control" id="workSecondTotal" [(ngModel)]="workSecondTotal"
-                        name="workSecondTotal" #rent="ngModel"
-                        style="width: 170px;  height:35px;"
-                        readonly>
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="workSecondTotal" 
+                      [(ngModel)]="workSecondTotal"
+                      name="workSecondTotal" 
+                      style="width: 170px;  height:35px;"
+                      readonly
+                      >
                     </div>
                     <div class="col-md-1 inner-yen">
                       <p class="yenfield">円</p>
@@ -1482,9 +2059,13 @@
                     </div>
                     <div class="col-md-1" style="margin-left: -20px;">
                       <div class=" inner">
-                        <input type="date" class="form-control" id="workUsagePeriodSecond"
-                          [(ngModel)]="invoiceInfo.invoicelistObj.workUsagePeriodSecond" name="workUsagePeriodSecond"
-                          style="width: 125px;  height:35px;">
+                        <input 
+                        type="date" 
+                        class="form-control" 
+                        id="workSecondTodayDate"
+                        [(ngModel)]="workSecondTodayDate" 
+                        name="workSecondTodayDate"
+                        style="width: 125px;  height:35px;" >
                       </div>
                     </div>
                   </div>
@@ -1500,10 +2081,15 @@
                       <label for="roomno">消費税</label>
                     </div>
                     <div class="col-md-1 inner-textfield">
-                      <input type="number" class="form-control" id="workTaxsecond"
-                        [(ngModel)]="invoiceInfo.invoicelistObj.workTaxsecond" name="workTaxsecond"
-                        (change)="workSecondCalculate()" style="width: 170px;  height:35px;" pattern="^[0-9]+$"
-                        (keypress)="keyPressNumeric($event)">
+                      <input 
+                      type="number" 
+                      class="form-control" 
+                      id="workTaxsecond"
+                      [(ngModel)]="invoiceInfo.invoicelistObj.workTaxsecond" name="workTaxsecond"
+                      (change)="workSecondCalculate()"
+                      pattern="^[0-9]+$"
+                      style="width: 170px;  height:35px;"
+                      >
                     </div>
                   </div>
                 </div>
@@ -1522,10 +2108,15 @@
                       <!-- <div class="col-md-1 inner-yen"></div> -->
                       <div class="col-md-2 inner-yen">全ての合計</div>
                       <div class="col-md-1 inner-total-textfield" style="margin-left: -130px;">
-                        <input type="number" class="form-control" id="totalSumPrice" [(ngModel)]="totalSumPrice"
-                          name="totalSumPrice" (change)="totalSumCalculate()" #rent="ngModel" pattern="^[0-9]+$"
-                          (keypress)="keyPressNumeric($event)" readonly
-                          style="width: 170px;  height:35px;">
+                        <input 
+                        type="number" 
+                        class="form-control" 
+                        id="totalSumPrice" 
+                        [(ngModel)]="totalSumPrice"
+                        name="totalSumPrice" 
+                        (change)="totalSumCalculate()" 
+                        readonly
+                        style="width: 170px;  height:35px;">
                       </div>
                       <div class="col-md-1 inner-yen">
                         ￥

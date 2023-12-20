@@ -121,8 +121,8 @@ export class InvoiceListComponent {
       const invoice = data as Invoice;// Replace 'Property' with your actual data type
       console.log("Billing date data in the list page "+invoice.billingDate);
       // Check if the property name and property type match the search criteria
-      return ((!filterValuePropertyName || invoice.propertyName.toLowerCase().includes(filterValuePropertyName))) &&
-             ((!filterValuesearchByBillingDate || invoice.billingDate == filterValuesearchByBillingDate));
+      return ((!filterValuePropertyName || invoice.propertyName.toLowerCase().includes(filterValuePropertyName)))&&
+             (!filterValuesearchByBillingDate || invoice.billingDate == filterValuesearchByBillingDate);
     };
   
     // Apply the filter
