@@ -193,7 +193,8 @@ export class InvoiceDetailComponent {
         // console.log("The contract length is "+data.contractLength);
         // console.log("The lender ID is "+data.lender.lenderType);
         // console.log("the lender name is"+data.lender.lenderFirstName);
-        console.log("This is detail data "+this.invoiceInfo.paymentDueDate);
+        console.log("This is detail data "+this.invoiceList.rentUsagePeriod);
+        console.log("This is detail data "+this.invoiceList.renewalFeeTotal);
         console.log("This is detail data "+this.invoiceInfo.billingDate);
       },
    

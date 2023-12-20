@@ -1177,6 +1177,11 @@ export class InvoiceCreateComponent {
     this.invoiceInfo.accountType = this.accountType;
     this.invoiceInfo.accountNo = this.accountNo;
     this.invoiceInfo.accountName = this.accountName;
+
+    if (this.userAuthService.isLogoFromBackend) {
+      // If the logo is from the backend, set the logo ID accordingly
+      this.invoiceInfo.logoId = { file: this.backendLogo.file, url: this.backendLogo.url };
+    }
     const formData = new FormData();
 
     formData.append(
@@ -1187,10 +1192,13 @@ export class InvoiceCreateComponent {
       "invoiceList",
       new Blob([JSON.stringify(this.invoiceInfo.invoicelistObj)], { type: "application/json" })
     );
+    formData.append("logoId", this.logoId.toString());
+    console.log("this is logoID is "+this.logoId);
+
     formData.append(
       "companyId", this.companyId.toString());
     // formData.append("contractId", this.contractId);
-    console.log(formData.getAll);
+    //console.log(formData.getAll);
     this.invoiceService.addInvoice(formData).subscribe((response: Invoice) => {
       console.log("Invoice response " + response);
       this.router.navigate(['/invoice-list']);

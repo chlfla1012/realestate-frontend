@@ -444,7 +444,7 @@ export class InvoiceEditComponent {
 
         this.invoiceList.renewalFee = data.invoiceMoneyList.renewalFee;
         this.invoiceList.renewalFeeTax = data.invoiceMoneyList.renewalFeeTax;
-        this.invoiceList.renewalFeeTotal = data.invoiceMoneyList.depositTotal;
+        //this.invoiceList.renewalFeeTotal = data.invoiceMoneyList.depositTotal;
         this.invoiceInfo.invoicelistObj.renewalFeeStartDate = data.invoiceMoneyList.renewalFeeStartDate;
         this.invoiceInfo.invoicelistObj.renewalFeeEndDate = data.invoiceMoneyList.renewalFeeEndDate;
         this.renewalFeePrice = this.invoiceList.renewalFee;
@@ -519,7 +519,7 @@ export class InvoiceEditComponent {
         this.invoiceList.total = data.invoiceMoneyList.total;
         this.totalSumPrice = this.invoiceList.total;
         this.invoiceInfo.information = data.information;
-        //this.invoiceInfo.invoicelistObj.rentUsagePeriod = this.invoiceList.rentUsagePeriod;
+        this.invoiceInfo.invoicelistObj.rentUsagePeriod = this.invoiceList.rentUsagePeriod;
         this.invoiceInfo.bankName = data.bankName;
         this.invoiceInfo.branchName = data.branchName;
         this.invoiceInfo.accountName = data.accountName;
