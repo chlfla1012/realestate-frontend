@@ -347,6 +347,7 @@ export class PmreportCreatePdfComponent {
     formData.append('fileName', filename);
     formData.append('createdDate', this.pdfCreatedDate);
     formData.append('ownerName', this.ownerName);
+    formData.append('managerName', this.picNameKana);
     
     this.pmReportUploadService.uploadFile(formData).pipe(
       tap(() => {
