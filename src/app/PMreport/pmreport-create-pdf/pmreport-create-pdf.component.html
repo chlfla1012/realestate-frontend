@@ -394,7 +394,7 @@
                                 <td style="text-align: right;">{{income.shikiken | number: '1.0-0' }}</td>
                                 <td style="text-align: right;">{{income.tax | number: '1.0-0' }}</td>
                                 <td style="text-align: right;">{{income.others | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{income.totalIncome | number: '1.0-0' }}</td>                               
+                                <td style="text-align: right;">{{income.totalIncome+income.others | number: '1.0-0' }}</td>                               
                                 <td>{{income.incomeRemarks}}</td>
                             </tr>
                             <tr class="rowcolor">
@@ -414,7 +414,7 @@
                                 <td style="text-align: right;">{{ calculateSum('shikiken') | number: '1.0-0' }}</td>
                                 <td style="text-align: right;">{{ calculateSum('tax') | number: '1.0-0' }}</td>
                                 <td style="text-align: right;">{{ calculateSum('others') | number: '1.0-0' }}</td>
-                                <td style="text-align: right;">{{ calculateSum('totalIncome') | number: '1.0-0' }}</td>    
+                                <td style="text-align: right;">{{ calculateSum('totalIncome')+calculateSum('others') | number: '1.0-0' }}</td>    
                                 <td></td> 
                             </tr>
                         </tbody>
