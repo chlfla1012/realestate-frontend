@@ -9,6 +9,8 @@ import { PmReportService } from 'src/app/Service/PMRepot/pmReport.service';
 import * as html2pdf from 'html2pdf.js';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
+import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
+import { tap } from 'rxjs';
 
 
 @Component({
@@ -57,6 +59,7 @@ export class PmreportCreatePdfComponent {
   ownerAddress: string;
   address: string;
   createdDate: string;
+  pdfCreatedDate: string;
   backendCompany: CompanyName = {
     companyName: null
   };
@@ -92,8 +95,8 @@ export class PmreportCreatePdfComponent {
     ownerAddress: "",
     password: "",
     companyId: { companyName: null },
-    logo: null, 
-    pic:null,
+    logo: null,
+    pic: null,
   }
   income: Income = {
     id: null,
@@ -170,7 +173,9 @@ export class PmreportCreatePdfComponent {
   }
 
   constructor(private service: PmReportService,
-    private route: ActivatedRoute, private router: Router, private userAuthService: UserAuthService,private cdr: ChangeDetectorRef) {
+    private route: ActivatedRoute, private router: Router, private userAuthService: UserAuthService,
+    private cdr: ChangeDetectorRef, private pmReportUploadService: PmReportUploadService) {
+
   }
 
   onContentChange(event: Event): void {
@@ -309,26 +314,59 @@ export class PmreportCreatePdfComponent {
     const formattedDate = this.formatDate(today);
     const element = document.getElementById('contentToConvert');
     const pdfOptions = {
-      filename: `pmreport_(${formattedDate}).pdf`,
+      filename: `Pmreport_${this.ownerName}for(${formattedDate}).pdf`,
       image: { type: 'jpeg', quality: 0.6 },
-      html2canvas: { scale: 2 }, 
+      html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'legal', orientation: 'landscape' },
       compress: true,
     };
 
+    // Apply styles to the element
     element.style.fontSize = '12px';
     element.style.marginBottom = '12mm';
     element.style.padding = '3px';
-   
-      html2pdf()
-        .from(element)
-        .set(pdfOptions)
-        .save();     
+
+    // Generate the PDF
+    html2pdf().from(element).set(pdfOptions).output('blob').then((pdf) => {
+      // Create a File object from the Blob
+      const file = new File([pdf], pdfOptions.filename, { type: 'application/pdf' });
+      // Save the File or do whatever you need with it
+      this.savePdf(file, pdfOptions.filename);
+    }).catch((error) => {
+      console.error('Error generating PDF:', error);
+    });
+  }
+  savePdf(pdf: File, filename: string) {
+    // Create a FormData object and append the PDF file
+    const formData = new FormData();
+    this.pdfCreatedDate = new Date().toISOString().substring(0, 10);
+    console.log("User Name"+this.picNameKana);
+    console.log("User Name"+this.picName);
+    // Append the PDF file to the FormData
+    formData.append('fileContent', pdf);
+    formData.append('fileName', filename);
+    formData.append('createdDate', this.pdfCreatedDate);
+    formData.append('ownerName', this.ownerName);
+    
+    this.pmReportUploadService.uploadFile(formData).pipe(
+      tap(() => {
+        console.log('PDF uploaded successfully.');
+      })
+    ).subscribe(
+      (response) => {
+        console.log('PDF uploaded successfully response.');
+      },
+      (error) => {
+        console.error('Something went wrong during PDF upload:', error);
+      }
+    );
   }
 
-    sentMail() {
-      const subject = 'レポートのお知らせ';
-      const bodyTemplate = `%recipientName%  様、
+
+  sentMail() {
+    this.generatePDF();
+    const subject = 'レポートのお知らせ';
+    const bodyTemplate = `%recipientName%  様、
 
 いつもお世話になっております。
 今月のPMレポートの作成が完了しましたのでお送り致します。
@@ -337,37 +375,53 @@ export class PmreportCreatePdfComponent {
 上のアカウント名やパスワードを使って以下のリンクから確認することができます。
 ウェブサイトへのリンク: %websiteLink%
 
-よろしくお願いいたします。`;
-
-      const body = bodyTemplate
-        .replace('%recipientName%', this.ownerName)
-        .replace('%username%', this.emailId)
-        .replace('%password%', this.password)
-        .replace('%websiteLink%', 'http://localhost:4200/login');
-      const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${this.ownerMail}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      // Open the Gmail compose window
-      window.open(gmailURL, '_blank');
-    }
+よろしくお願いいたします。
 
 
-    isOneMonthAway(endDate: string): boolean {
-      const oneMonthLater = new Date();
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);  
-      const contractEndDate = new Date(endDate);      
-        return contractEndDate.getFullYear() === oneMonthLater.getFullYear() &&
-        contractEndDate.getMonth() === oneMonthLater.getMonth() &&
-        contractEndDate.getDate() === oneMonthLater.getDate();
-    }
+%picNameKana%
+%companyName%
+〒 %userPostalFirst%-%userPostalSecond% %address%
+TEL: %mobileFirst%-%mobileSecond%-%mobileThird%
+`;
 
-    isSameMonth(contractStartDate: string): boolean {
-      const today = new Date();
-      const startDate = new Date(contractStartDate);
-  
-      return startDate.getFullYear() === today.getFullYear() &&
-             startDate.getMonth() === today.getMonth();
-    }
-    navigateToPreivousPage() {
-      window.history.back();
-    }
+    const body = bodyTemplate
+      .replace('%recipientName%', this.ownerName)
+      .replace('%username%', this.emailId)
+      .replace('%password%', this.password)
+      .replace('%companyName%', this.companyName)
+      .replace('%userPostalFirst%', this.userPostalFirst)
+      .replace('%userPostalSecond%', this.userPostalSecond)
+      .replace('%mobileFirst%', this.mobileFirst)
+      .replace('%mobileSecond%', this.mobileSecond)
+      .replace('%mobileThird%', this.mobileThird)
+      .replace('%picNameKana%', this.picNameKana)
+      .replace('%address%', this.address)
+      .replace('%websiteLink%', 'http://localhost:4200/login');
+    const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${this.ownerMail}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // Open the Gmail compose window
+    window.open(gmailURL, '_blank');
 
   }
+
+
+  isOneMonthAway(endDate: string): boolean {
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+    const contractEndDate = new Date(endDate);
+    return contractEndDate.getFullYear() === oneMonthLater.getFullYear() &&
+      contractEndDate.getMonth() === oneMonthLater.getMonth() &&
+      contractEndDate.getDate() === oneMonthLater.getDate();
+  }
+
+  isSameMonth(contractStartDate: string): boolean {
+    const today = new Date();
+    const startDate = new Date(contractStartDate);
+
+    return startDate.getFullYear() === today.getFullYear() &&
+      startDate.getMonth() === today.getMonth();
+  }
+  navigateToPreivousPage() {
+    window.history.back();
+  }
+
+}
