@@ -35,8 +35,8 @@ getOwnerName(ownerName: string): Observable<UserInfo[]> {
       })
     );
 }
-getIncomeInformation(ownerName: string): Observable<Income[]> {
-  return this.http.get<Income[]>(`${this.url}incomeInfo/${ownerName}`)
+getIncomeInformation(ownerName: string,propertyName: string): Observable<Income[]> {
+  return this.http.get<Income[]>(`${this.url}incomeInfo/${ownerName}/${propertyName}`)
     .pipe(
       catchError(error => {
         console.error("Error in getIncomeInfo", error);
@@ -44,8 +44,8 @@ getIncomeInformation(ownerName: string): Observable<Income[]> {
       })
     );
 }
-getRentalInformation(ownerName: string): Observable<Rental[]> {
-  return this.http.get<Rental[]>(`${this.url}rentalInfo/${ownerName}`)
+getRentalInformation(ownerName: string,propertyName: string): Observable<Rental[]> {
+  return this.http.get<Rental[]>(`${this.url}rentalInfo/${ownerName}/${propertyName}`)
     .pipe(
       catchError(error => {
         console.error("Error in getIncomeInfo", error);
