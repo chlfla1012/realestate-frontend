@@ -564,19 +564,19 @@ export class PmreportCreateComponent implements OnInit {
           this.password=owner.password;
         }       
       });
-    this.pmReportService.getIncomeInformation(this.ownerName).subscribe(data => {
+    this.pmReportService.getIncomeInformation(this.ownerName,this.propertyname).subscribe(data => {
       console.log("This is income" + data);
       this.incomeInfo = data;
       this.incomeInfo.forEach(income => income.owner = this.owner);
       for (const income of this.incomeInfo) {
         this.incomeData=income;
         this.incomeTotal+=income.totalIncome;  
-        console.log("This is income total" + this.incomeTotal);    
+        console.log("This is income total" + this.ownerName,this.propertyname);    
       }
       this.dataSource = new MatTableDataSource<any>(this.incomeInfo);
     });
-    this.pmReportService.getRentalInformation(this.ownerName).subscribe(data => {
-      console.log("This is rental" + data);
+    this.pmReportService.getRentalInformation(this.ownerName,this.propertyname).subscribe(data => {
+      console.log("This is rental" + this.ownerName,this.propertyname);
       this.rentalInfo = data;
       this.rentalInfo.forEach(rental => rental.owner = this.owner);
       this.dataSource2 = new MatTableDataSource<any>(this.rentalInfo);
