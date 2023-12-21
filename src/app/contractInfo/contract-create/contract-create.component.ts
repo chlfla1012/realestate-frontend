@@ -260,6 +260,7 @@ export class ContractCreateComponent {
       modifiedDate: "",
       apportionment: "",
       companyId: { companyName: null },
+      signature:null,
 
       logo: null
     }
