@@ -17,7 +17,8 @@ export class ManagercreateComponent {
   data:any;
   errorMessage: string = '';
   logoSizeError: string = '';
-  url: SafeUrl;
+  url1: SafeUrl;
+  url2: SafeUrl;
   hasError: boolean = false;
   dateOfBirth:string ='';
   isAbove20:boolean = false;
@@ -57,7 +58,8 @@ export class ManagercreateComponent {
     apportionment:"",
     companyId:null,
 
-    logo:null
+    logo:null,
+    signature:null
 
 
     // customer: null
@@ -104,6 +106,15 @@ export class ManagercreateComponent {
     }
     else if (!this.userInfo.logo || !this.userInfo.logo.file) {
       formData.append("logo", new Blob(), null);
+    }
+
+    if (this.userInfo.signature && this.userInfo.signature.file) {
+
+      formData.append('signature', this.userInfo.signature.file, this.userInfo.signature.file.name); // Append the 'logo' File object with filename
+
+    }
+    else if (!this.userInfo.signature || !this.userInfo.signature.file) {
+      formData.append("signature", new Blob(), null);
     }
     // if (!this.hasError ) {
     //   this.service.addManagerInfo(formData).subscribe(
@@ -358,27 +369,47 @@ export class ManagercreateComponent {
       this.errorMessage = ''; // Clear the error message if input is valid
     }
   }
-  onSelectFile(event: any) {
+  onSelectFile(event: any,imageNumber: number) {
   
     if (event.target.files && event.target.files[0]) {
-      
       const file = event.target.files[0];
+      const fileHandle: FileHandle = {
+        file,
+        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+      };
+
       if (file) {
-        if (file.size > 1 * 1024 * 1024) { // Check if file size is greater than 2MB
-          this.logoSizeError = '1MB以下のイメージを選択してください。';
+        if (file.size > 1 * 1024 * 1024) {
+           // Check if file size is greater than 2MB
+           if (imageNumber === 1) {
+            this.logoSizeError = '1MB以下のイメージを選択してください。';
+            this.userInfo.logo = null;
+  
+            this.url1 = null;
+          } else if (imageNumber === 2) {
+            this.logoSizeError = '1MB以下のイメージを選択してください。';
+  
+            this.userInfo.signature = null;
+            this.url2 = null;
+          }
          
-        }
-        else {
-          this.logoSizeError = '';
-          const fileHandle: FileHandle = {
-            file,
-            url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
-          };
-          this.userInfo.logo = fileHandle;
-          this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
-        }
+        }else {
+          if (imageNumber === 1) {
+            this.logoSizeError = '';
+            this.userInfo.logo = fileHandle;
+  
+            this.url1 = fileHandle.url;
+          }
+          else if (imageNumber === 2) {
+            this.logoSizeError = '';
+  
+            this.userInfo.signature = fileHandle;
+            this.url2 = fileHandle.url;
+          }
       }
      
     }
   }
+
+}
 }

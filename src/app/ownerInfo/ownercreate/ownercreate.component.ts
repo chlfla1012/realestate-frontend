@@ -72,7 +72,8 @@ export class OwnercreateComponent {
 
 
     apportionment: "",
-    logo: null
+    logo: null,
+    signature: null
   }
   constructor(private router: Router, private service: UserInfoService, private userAuthService: UserAuthService) {
   }

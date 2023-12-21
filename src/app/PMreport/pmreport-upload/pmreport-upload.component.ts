@@ -60,7 +60,8 @@ export class PmreportUploadComponent {
     modifiedDate: "",
     companyId: { companyName: null },
     apportionment: "",
-    logo: null
+    logo: null,
+    signature: null
   }
 
   constructor(

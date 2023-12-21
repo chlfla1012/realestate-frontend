@@ -30,6 +30,7 @@ export interface UserInfo{
     modifiedDate: string
     companyId:CompanyName
     logo:FileHandle
+    signature:FileHandle
     apportionment:string
 
 }

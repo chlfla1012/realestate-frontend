@@ -2,12 +2,13 @@ import { CompanyName } from "./CompanyName"
 import { Contract } from "./Contract"
 import { FileHandle } from "./FileHandle"
 import { InvoiceList } from "./InvoiceList"
+import { UserInfo } from "./userInfo"
 
 export class Invoice{
 id: string
 companyId:CompanyName
 logoId:FileHandle
-//userId:UserInfo
+userId:UserInfo
 contractObj:Contract
 contractData:string
 invoicelistObj:InvoiceList

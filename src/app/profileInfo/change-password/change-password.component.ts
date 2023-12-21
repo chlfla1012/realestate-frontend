@@ -58,7 +58,8 @@ export class ChangePasswordComponent {
     companyId: { companyName: null },
     apportionment:"",
 
-    logo: null
+    logo: null,
+    signature: null
   }
   ngOnInit() {
     //this.roleType = this.userAuthService.getRoleType();

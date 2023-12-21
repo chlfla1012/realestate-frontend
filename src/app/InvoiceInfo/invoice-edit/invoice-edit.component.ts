@@ -302,6 +302,7 @@ export class InvoiceEditComponent {
     //userId: null,
     contractObj: null,
     logoId: null,
+    userId:null
     // status: ''
   }
 

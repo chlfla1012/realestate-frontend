@@ -54,7 +54,8 @@ export class OwnerMainComponent {
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
   }
   
 

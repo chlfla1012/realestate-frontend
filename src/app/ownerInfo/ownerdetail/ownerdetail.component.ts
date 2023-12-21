@@ -44,7 +44,8 @@ export class OwnerdetailComponent {
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
 
 
     // customer: null

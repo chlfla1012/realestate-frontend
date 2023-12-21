@@ -48,7 +48,8 @@ export class ResetPasswordComponent {
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
   }
 
   id: string;

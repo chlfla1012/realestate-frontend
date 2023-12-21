@@ -166,6 +166,7 @@ export class InvoiceDetailComponent {
     //userId: null,
     contractObj: null,
     logoId: null,
+    userId:null
     // status: ''
   }
 

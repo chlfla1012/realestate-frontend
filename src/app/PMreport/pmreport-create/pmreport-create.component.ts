@@ -347,7 +347,8 @@ export class PmreportCreateComponent implements OnInit {
       modifiedDate: "",
       companyId: { companyName: null },
       apportionment: "",
-      logo: null
+      logo: null,
+      signature: null
     }
     for (let i = 1; i <= 5; i++) {
       this.expenseRow.push({

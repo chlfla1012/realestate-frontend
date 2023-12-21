@@ -258,7 +258,8 @@ export class ContractCreateComponent {
       apportionment: "",
       companyId: { companyName: null },
 
-      logo: null
+      logo: null,
+      signature: null
     }
     this.propertyData = {
       id: null,
