@@ -16,7 +16,8 @@ import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 })
 export class ManagereditComponent implements OnInit{
   @ViewChild('f') myForm!: NgForm;
-    url: SafeUrl;
+    url1: SafeUrl;
+    url2: SafeUrl;
     logoSizeError: string = '';
     hasError: boolean = false;
     errorMessageDate: string;
@@ -54,32 +55,20 @@ export class ManagereditComponent implements OnInit{
     modifiedDate: "",
     companyId:{companyName:null},
     apportionment:"",
-
     logo:null,
     signature: null
-
-
     // customer: null
   }
     id:string;
-  data:any;
+    data:any;
   constructor(private service: UserInfoService, 
     private route: ActivatedRoute, private router: Router,
     private sanitizer: DomSanitizer) { }
 
- 
   ngOnInit(): void {
     this.getManagerById();
-    
-    // this.id = this.route.snapshot.params['id'];
-
-    // this.service.getUserById(this.id).subscribe(data=>{
-    //   this.userInfo = data
-    //   console.log(this.userInfo.id)
-    // })
-  
-  
   }
+
   getManagerById() {
     this.id = this.route.snapshot.params['id'];
 
@@ -87,35 +76,30 @@ export class ManagereditComponent implements OnInit{
       (data: any) => {
       this.userInfo = data;
         this.userInfo.logo = this.createImage(data.logo.image, data.logo.name);
+        this.userInfo.signature = this.createImage(data.signature.image, data.signature.name);
         console.log(data.logo.logo);
         console.log(data.logo.name);
-      this.url = this.userInfo.logo.url;
-      
-      
-      console.log(this.userInfo.id)
+      this.url1 = this.userInfo.logo.url;
+      this.url2 = this.userInfo.signature.url;
+      // console.log("This is URL 1 "+data.logo.name);
     })
+    // console.log("This is URL 2 "+this.url2);
   }
   public createImage(image,name):FileHandle  {
-    console.log('Inside createImages()');
-  
-      console.log('Processing image:', image);
-  
+    //console.log('Inside createImages()');
+      //console.log('Processing image:', image);
       const image1Blob = this.dataURItoBlob(image);
-      console.log('Image1 blob:', image1Blob);
-  
+      //console.log('Image1 blob:', image1Blob);
       const image1File = new File([image1Blob], name);
-
-    
-    const image1FileHandle: FileHandle = {
+      const image1FileHandle: FileHandle = {
       file: image1File,
       url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
-    }
-    console.log(image1FileHandle);
-     return image1FileHandle;
+      }
+     // console.log(image1FileHandle);
+       return image1FileHandle;
   
-     
-
   }
+
   public dataURItoBlob(image) {
     const byteString = window.atob(image);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -141,20 +125,6 @@ export class ManagereditComponent implements OnInit{
     }
     // this.userInfo = formData.value
     console.log("submit" + this.userInfo.id);
-
-    
-    
-  // this.customer.item = this.formData.value.item;
-  // this.customer.companyName = this.formData.value.companyName;
-  // this.customer.nameKana = this.formData.value.nameKana;
-  // this.customer.personName = this.formData.value.personName;
-  // this.customer.mobileFirst = this.formData.value.mobileFirst;
-  // this.customer.mobileSecond = this.formData.value.mobileSecond;
-  // this.customer.mobileThird = this.formData.value.mobileThird;
-  // this.customer.mailAdd = this.formData.value.mailAdd;
-  // this.customer.postalFirst = this.formData.value.postalFirst;
-  // this.customer.postalSecond = this.formData.value.postalSecond;
-  // this.customer.memo = this.formData.value.memo;
   const formData = new FormData();
 
   formData.append(
@@ -187,25 +157,29 @@ export class ManagereditComponent implements OnInit{
     formData.append("logo", new Blob(), null);
   }
 
+  if (this.userInfo.signature && this.userInfo.signature.file) {
+
+    formData.append('signature', this.userInfo.signature.file, this.userInfo.signature.file.name); // Append the 'logo' File object with filename
+
+  }
+  else if (!this.userInfo.signature || !this.userInfo.signature.file) {
+    formData.append('signature', new Blob(), null);
+  }
+
 //   if (!this.hasError && !this.hasErrorDOB) {
 //     this.service.updateManager(this.id,formData).subscribe(
 //       (response) => {
-//         console.log('Manager Data Updated successfully', response);
-        
+//         console.log('Manager Data Updated successfully', response);       
 //       },
 //       (error) => {
 //         console.error('Error updating manager', error);
-        
-        
-//       }
-      
+//       }     
 //     );
 //     // window.history.back();
 //     // setTimeout(()=>{
 //     //     window.location.reload();
 //     //   }, 100);
-//   }
-  
+//   } 
 //   this.router.navigate(['/manager-list']);
 //   setTimeout(() => {
 //    window.location.reload();
@@ -215,21 +189,17 @@ if (!this.hasError) {
     this.service.updateManager(this.id,formData).subscribe(
             (response) => {
               console.log('Manager Data Updated successfully', response);
-              
             },
             (error) => {
               console.error('Error updating manager', error);
-              
-              
             }
-    
   );
   window.history.back();
   setTimeout(()=>{
       window.location.reload();
     }, 100);
   }
-  this.router.navigate(['/manager-list']);
+  //this.router.navigate(['/manager-list']);
   setTimeout(()=>{
       window.location.reload();
     }, 100);
@@ -287,25 +257,48 @@ if (!this.hasError) {
       }
     }
   }
-  onSelectFile(event: any) {
+  onSelectFile(event: any,imageNumber: number) {
+  
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const fileHandle: FileHandle = {
+        file,
+        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+      };
+
       if (file) {
-        if (file.size > 1 * 1024 * 1024) { // Check if file size is greater than 2MB
-          this.logoSizeError = '1MB以下のイメージを選択してください。';
+        if (file.size > 1 * 1024 * 1024) {
+           // Check if file size is greater than 2MB
+           if (imageNumber === 1) {
+            this.logoSizeError = '1MB以下のイメージを選択してください。';
+            this.userInfo.logo = null;
+  
+            this.url1 = null;
+          } else if (imageNumber === 2) {
+            this.logoSizeError = '1MB以下のイメージを選択してください。';
+  
+            this.userInfo.signature = null;
+            this.url2 = null;
+          }
          
-        }
-        else {
-          this.logoSizeError = '';
-          const fileHandle: FileHandle = {
-            file,
-            url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
-          };
-          this.userInfo.logo = fileHandle;
-          this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
-        }
+        }else {
+          if (imageNumber === 1) {
+            this.logoSizeError = '';
+            this.userInfo.logo = fileHandle;
+  
+            this.url1 = fileHandle.url;
+          }
+          else if (imageNumber === 2) {
+            this.logoSizeError = '';
+  
+            this.userInfo.signature = fileHandle;
+            this.url2 = fileHandle.url;
+          }
       }
-}
+     
+    }
   }
+
+}
  
   }

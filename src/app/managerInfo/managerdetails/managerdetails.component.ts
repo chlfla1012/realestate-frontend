@@ -16,7 +16,8 @@ import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/dele
 export class ManagerdetailsComponent {
   id: string;
   data: any;
-  url: SafeUrl;
+  url1: SafeUrl;
+  url2: SafeUrl;
   userInfo: UserInfo = {
     id: null,
     firstName: "",
@@ -74,9 +75,11 @@ export class ManagerdetailsComponent {
       (data: any) => {
       this.userInfo = data;
         this.userInfo.logo = this.createImage(data.logo.image, data.logo.name);
+        this.userInfo.signature = this.createImage(data.signature.image, data.signature.name);
         // console.log(data.logo.logo);
         // console.log(data.logo.name);
-        this.url = this.userInfo.logo.url;
+        this.url1 = this.userInfo.logo.url;
+        this.url2 = this.userInfo.signature.url;
         console.log(this.userInfo.companyId);
 
         console.log(this.userInfo.companyId.companyName);
