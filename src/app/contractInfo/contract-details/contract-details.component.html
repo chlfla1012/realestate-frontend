@@ -573,8 +573,7 @@
                             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                             style="width:265px;height:35px" >
                           </div>
-                      </div>
-
+                      </div>                    
 
                   </div>
                   <div class="row">
@@ -1144,6 +1143,19 @@
                             </div>
                         </div>
 
+                      <div class="col-md-4">
+                        <div class="inner">
+                          <div class="text-center">
+                            <label for="borrowerRegNo">法人登録番号<span style="color: red">*</span></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="leftfield">
+                          <input type="text" id="borrowerRegNo" class="form-control" readonly disabled
+                            [(ngModel)]="borrower.borrowerRegNo" name="borrowerRegNo" >                               
+                        </div>
+                      </div>
 
                     </div>
                     <div class="row">
@@ -1156,9 +1168,9 @@
                         メールアドレスに誤りがあります。
                       </div>
                     </div>
-                      <div class="col-md-3"></div>
-                      <div class="col-md-3">
-                      </div>
+                    
+                      
+
                     </div>
                     </div>
                     <div class="form-group" style="margin-top: 20px;">

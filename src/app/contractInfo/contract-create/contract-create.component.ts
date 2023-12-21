@@ -120,6 +120,9 @@ export class ContractCreateComponent {
       borrowerAddress: null,
       borrowerMemo: null,
       borrowerCooperate: null,
+
+      borrowerRegNo:null,
+
       bcKana: null,
       bcpicFirstName: null,
       bcpicLastName: null,
@@ -258,8 +261,7 @@ export class ContractCreateComponent {
       apportionment: "",
       companyId: { companyName: null },
 
-      logo: null,
-      signature: null
+      logo: null
     }
     this.propertyData = {
       id: null,
@@ -409,14 +411,11 @@ export class ContractCreateComponent {
   data: any;  
   ngOnInit() {    
     this.getCurrentUserInfo();
-
     this.getPICUsers();
     this.getProperties();
-
     this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
       this.searchByPropertyName();     
     });
-
     this.getPropertyBySelectedPropertyName();
     this.onRoomSelectionChange();
 
@@ -524,6 +523,16 @@ export class ContractCreateComponent {
     { name: "first", value: 1 },
     { name: "two", value: 2 }
   ]
+  validateBorrowerRegNo() {
+    const regExp = /^[T]\d{13}$/; // Regular expression for the specified format
+    const borrowerRegNoControl = this.contractForm.controls.borrowerRegNo;
+
+    if (!regExp.test(borrowerRegNoControl.value)) {
+      borrowerRegNoControl.setErrors({ pattern: true });
+    } else {
+      borrowerRegNoControl.setErrors(null);
+    }
+  }
 
   onSubmit(contractForm: NgForm): void {
     if (contractForm.invalid) {
@@ -622,6 +631,7 @@ export class ContractCreateComponent {
     formData.append("tenantId", new Blob([JSON.stringify(this.contract.tenantId)], { type: "application/json" }));
     formData.append("companyId", this.companyId.toString());
     console.log(formData);
+    console.log("borrower Reg No: " + this.contract.borrowerId.borrowerRegNo) ;  
 
     this.contractService.addContract(formData).subscribe(
       (response: Contract) => {

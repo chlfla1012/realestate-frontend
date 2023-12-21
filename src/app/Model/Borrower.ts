@@ -13,6 +13,9 @@ export interface Borrower{
   borrowerAddress:string;
   borrowerMemo:string;
   borrowerCooperate:string;
+
+  borrowerRegNo:string;
+
   bcKana:string;
   bcpicFirstName:string;
   bcpicLastName:string;
