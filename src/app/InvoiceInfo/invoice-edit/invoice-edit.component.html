@@ -11,11 +11,7 @@
             <div class="row invoice-edit-title-row">
                 <div class="col-md-5 icon" style="margin-top: 19px;">
                     <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" style="padding-top:3px;"></mat-icon>
-<<<<<<< HEAD
                     <span style="margin-left: 10px;margin-bottom:0px">請求書編集画面</span>
-=======
-                    <span style="margin-left: 10px;margin-bottom:0px">請求書情報編集画面</span>
->>>>>>> 3b5b5f89b507929e55a61fbf1ac649f852ede0cb
                 </div>
                 <div class="col-md-5"></div>
                 <div class="col-md-2" style="margin-top: 19px;">
@@ -341,22 +337,13 @@
                         <div class="billingperiod-container">
                             <!-- <p class="container-title">請求期間情報</p> -->
                             <div class="billingperiod-infomation">
-                              <div class="form-group" style="margin-top: 20px;">
-                                <div class="row no-gutters">
+                              <div class="form-group">
+                                <div class="row">
                                   <div class="col-md-2">
-                                      <div class="text-center inner">
-                                        <label for="lenderCooperate" >法人名<span style="color: red">*</span></label>
-                                      </div>
+                                    <label for="tax rate" style="margin-left: 70px;">法人名<span style="color: red;">*</span></label>
                                   </div>
-                                  <div class="col-1">
-                                    <!-- <input type="text"  id="lenderCooperate"
-                                      [(ngModel)]="contractBorrowerName"
-                                      name="lenderCooperate"
-                                      class="form-control"
-                                      value="lenderCooperate"
-                                      
-                                      style="width: 265px; height:35px;"> -->
-                                      <mat-select 
+                                  <div class="col-2">
+                                    <mat-select 
                                       class="form-control"
                                       [(ngModel)]="contractId"
                                       id="contractId"
@@ -369,41 +356,13 @@
                                         [value]="contract.id">{{contract.borrower.borrowerCooperate}}
                                       </mat-option>
                                       </mat-select>
-                                </div>
-                                <div class=" col-md-2"></div>
-                                  <div class=" col-md-3" >
-                                    <label for="bcpicName" style="margin-left: 150px;">法人担当者名前</label>
+                                  </div>
+                                  <div class=" col-md-1"></div>
+                                  <div class=" col-md-3">
+                                    <label for="bcpicName" style="margin-left: 190px;">請求日</label>
                                   </div>
                                   <div class=" col-md-3">
-                                    <input type="text"  
-                                    id="bcpicName"
-                                    readonly
-                                        [(ngModel)]="bcpicName"
-                                        name="bcpicName"
-                                        class="form-control"
-                                        value="bcpicName"
-                                        style="width: 265px; height:35px;">
-                                  </div>
-                                </div>
-                                <div class="row no-gutters">
-                                  <div class="col-md-2"></div>
-                                  <div class="col-md-3">
-                                    <div class="help-block">
-                                  </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="form-group" style="margin-top: 20px;">
-                                <div class="row no-gutters">
-                                  <div class="col-md-2">
-                                      <div class="text-center inner">
-                                        <label for="billingDate" >請求日<span style="color: red">*</span></label>
-                                      </div>
-                                  </div>
-                                  
-                                  <div class="col-md-2">
-                                    <div class=" leftfiedl">
-                                      <input type="date"  
+                                    <input type="date"  
                                       id="billingDate"
                                       [ngModel]="invoiceInfo.billingDate | date:'yyyy-MM-dd'"
                                       name="billingDate"
@@ -412,37 +371,115 @@
                                       value="currentDate"
                                       style="width: 265px; height:35px;"
                                       >
-                                      <!-- style="width: 265px; height:35px;" -->
-                                    </div>
+                                  </div>
                                 </div>
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2">
-                                      <div class="text-center inner">
-                                        <label for="paymentDueDate" >支払期間<span style="color: red">*</span></label>
-                                      </div>
+                                <!-- <div class="row no-gutters">
+                                  <div class="col-md-2"></div>
+                                  <div class="col-md-3">
+                                    <div class="help-block" style="margin-right:20px"
+                                      *ngIf="!contractId && (f.submitted || f.controls['contractId'].touched)">
+                                      法人名を選択してください。
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+                              <div class="form-group" style="margin-top: 20px;">
+                                <div class="row no-gutters">
+                                  <div class="col-md-2">
+                                    <div class="text-center inner">
+                                      <label for="billingDate">法人担当者名前</label>
+                                    </div>
+                                  </div>
+              
+                                  <div class="col-md-2">
+                                    <div class=" leftfiedl">
+                                      <input 
+                                      type="text" 
+                                      id="bcpicName" 
+                                      readonly 
+                                      [(ngModel)]="bcpicName" 
+                                      name="bcpicName"
+                                      class="form-control" 
+                                      value="bcpicName" 
+                                      style="width: 265px; height:35px;"
+                                      >
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2"></div>
+                                  <div class="col-md-2">
+                                    <div class="text-center inner">
+                                      <label for="paymentDueDate">支払期間<span style="color: red">*</span></label>
+                                    </div>
                                   </div>
                                   <div class="col-md-2">
-                                      <div class=" leftfiedl">
-                                        <input type="date"  
-                                        id="paymentDueDate"
-                                        [(ngModel)]="invoiceInfo.paymentDueDate"
-                                        name="paymentDueDate"
-                                        class="form-control"
-                                        value="paymentDueDate"
-                                        
-                                        style="width: 265px; height:35px;">
-                                      </div>
+                                    <div class=" leftfiedl">
+                                      <input 
+                                      type="date" 
+                                      id="paymentDueDate" 
+                                      [(ngModel)]="invoiceInfo.paymentDueDate"
+                                      name="paymentDueDate" 
+                                      class="form-control" 
+                                      value="paymentDueDate" 
+                                      #paymentDueDate="ngModel"
+                                      required style="width: 265px; height:35px;"
+                                      [ngClass]="{'is-valid': paymentDueDate.touched && paymentDueDate.invalid}">
+                                    </div>
                                   </div>
+                                </div>
+                                <div class="row no-gutters">
+                                  <div class="col-md-8"></div>
+                                  <div class="col-md-3">
+                                    <div class="help-block" style="margin-right:25px"
+                                      *ngIf="paymentDueDate.touched && paymentDueDate.errors?.['required']">
+                                      支払期間を選択してください。
+                                    </div>
                                   </div>
+                                </div>
                               </div>
-                            
+              
+                              <div class="form-group" style="margin-top: 20px;">
+                                <div class="row no-gutters">
+                                  <div class="col-md-2">
+                                    <div class="text-center inner">
+                                      <label for="billingDate">登録番号</label>
+                                    </div>
+                                  </div>
+              
+                                  <div class="col-md-2">
+                                    <div class=" leftfiedl">
+                                      <input 
+                                      type="text" 
+                                      id="bcRegNo" 
+                                      [ngModel]="bcRegNo"
+                                      name="bcRegNo" 
+                                      readonly 
+                                      class="form-control" 
+                                      value="bcRegNo"
+                                      style="width: 265px; height:35px;">
+              
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2"></div>
+                                  <div class="col-md-2"></div>
+                                  <div class="col-md-2">
+                                    <div class=" leftfiedl"></div>
+                                  </div>
+                                </div>
+                                <div class="row no-gutters">
+                                  <div class="col-md-8"></div>
+                                  <div class="col-md-3">
+                                    <!-- <div class="help-block" style="margin-right:25px"
+                                      *ngIf="paymentDueDate.touched && paymentDueDate.errors?.['required']">
+                                      支払期間を選択してください。
+                                    </div> -->
+                                  </div>
+                                </div>
+                              </div>
+              
+                              <br>
                             </div>
                         </div>
                     </div>
-
-
-
-
 
                     <div class="paymentttitle-container">
                         <!-- <span class="arrow-icon"

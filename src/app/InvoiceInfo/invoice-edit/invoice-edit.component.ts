@@ -32,6 +32,7 @@ export class InvoiceEditComponent {
   }
 
   userInfo: UserInfo[];
+  userData:UserInfo;
   picId: string;
   id: string;
   companyfullName: string;
@@ -48,6 +49,7 @@ export class InvoiceEditComponent {
 
   getContractId: string;
   getBorrowerCoporate: string;
+  
 
   propertyIDs: Property[];
   propertyId: string;
@@ -57,7 +59,9 @@ export class InvoiceEditComponent {
   buildingPostalCode1: string;
   buildingPostalCode2: string;
   buildingAddress: string;
+ // bcCorporateName:string;
   bcpicName: string;
+  bcRegNo:string;
 
   taxRate: number;
 
@@ -191,6 +195,7 @@ export class InvoiceEditComponent {
     address: "",
     borrowerCooperate: "",
     borrowerPersonName: "",
+    borrowerRegNo: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -351,10 +356,13 @@ export class InvoiceEditComponent {
 
         this.invoiceInfo.borrowerCooperate = data.borrowerCooperate;
         this.invoiceInfo.borrowerPersonName = data.borrowerPersonName;
+        this.invoiceInfo.borrowerRegNo =data.borrowerRegNo;
         this.invoiceInfo.contractData = data.contractData;
+        console.log("This is invoice info　ID  "+this.invoiceInfo.contractData);
         this.invoiceInfo.billingDate = data.billingDate;
         this.invoiceInfo.paymentDueDate = data.paymentDueDate;
-        //console.log("This is invoice info billing data "+this.invoiceInfo.billingDate);
+        console.log("This is invoice info  "+this.invoiceInfo.borrowerCooperate);
+        console.log("This is invoice info  "+this.invoiceInfo.borrowerRegNo);
         this.invoiceInfo.propertyid = data.propertyid;
         this.invoiceInfo.propertyName = data.propertyName;
         this.invoiceInfo.roomNo = data.roomNo;
@@ -364,7 +372,9 @@ export class InvoiceEditComponent {
         this.invoiceInfo.address = data.address;
 
         this.contractId = this.invoiceInfo.contractData;
+        console.log("This is invoice info　ID  "+this.contractId);
         this.billingDate = this.invoiceInfo.billingDate;
+       // this.bcCorporateName =this.invoiceInfo.borrowerCooperate;
         this.bcpicName = this.invoiceInfo.borrowerPersonName;
         this.propertyId =  this.invoiceInfo.propertyid;
         this.propertyname = this. invoiceInfo.propertyName;
@@ -559,6 +569,7 @@ export class InvoiceEditComponent {
         this.userInfo = data;
         console.log("User address by company id " + data);
         for (const user of this.userInfo) {
+          this.userData =user;
           this.companypostalCode1 = user.postalcode1.toString();
           this.companypostalCode2 = user.postalcode2.toString();
           this.companyAddress = user.address;
@@ -578,6 +589,7 @@ export class InvoiceEditComponent {
       for (const contractInfo of data) {
         this.getContractId = contractInfo.id;
         this.getBorrowerCoporate = contractInfo.borrower.borrowerCooperate;
+        this.bcRegNo =contractInfo.borrower.borrowerRegNo;
        // this.bcpicName = data.borrower.bcpicFirstName + " " + data.borrower.bcpicLastName;
         console.log("Hello Contract " + this.getContractId);
         console.log("the contract length " + contractInfo.borrower.borrowerCooperate);
@@ -921,12 +933,15 @@ export class InvoiceEditComponent {
     this.invoiceInfo.companyPostalFirst = this.companypostalCode1;
     this.invoiceInfo.companyPostalSecond = this.companypostalCode2;
     this.invoiceInfo.companyAddress = this.companyAddress;
+    this.invoiceInfo.userId = this.userData;
     //this.electricBillTotal = this.electricBill + this.electricBillTax;
     //請求期間情報
     this.invoiceInfo.borrowerCooperate = this.getBorrowerCoporate;
     this.invoiceInfo.borrowerPersonName = this.bcpicName;
    // this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
+    this.invoiceInfo.borrowerRegNo =this.bcRegNo;
+    console.log("this.invoiceInfo.borrowerRegNo "+this.invoiceInfo.borrowerRegNo);
     //物件情報
     //this.invoiceInfo.propertyid = this.propertyId;
     this.invoiceInfo.propertyName = this.propertyname;
@@ -1019,7 +1034,7 @@ export class InvoiceEditComponent {
       console.log("Invoice response " + this.id);
     }
     );
-    this.router.navigate(['/invoice-list']);
+    //this.router.navigate(['/invoice-list']);
   }
 
   navigateToPreivousPage() 

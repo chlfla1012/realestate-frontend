@@ -28,6 +28,7 @@ buildingPostalLast: string
 address: string
 borrowerCooperate:string
 borrowerPersonName:string
+borrowerRegNo: string
 billingDate:string
 paymentDueDate:string
 // rent:number

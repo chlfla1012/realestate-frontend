@@ -60,6 +60,7 @@ export class InvoiceCreateComponent {
   buildingPostalCode2: string;
   buildingAddress: string;
   bcpicName: string;
+  bcRegNo:string;
   billingDate: string;
 
   taxRate: number;
@@ -208,6 +209,7 @@ export class InvoiceCreateComponent {
   contractId: string;
   getContractId: string;
   getBorrowerCoporate: string;
+  //getRegNo:string;
   //getBorrowerId:Long;
 
 
@@ -253,6 +255,7 @@ export class InvoiceCreateComponent {
     address: "",
     borrowerCooperate: "",
     borrowerPersonName: "",
+    borrowerRegNo: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -683,7 +686,8 @@ export class InvoiceCreateComponent {
         this.getContractId = contractInfo.id;
         //this.propertyIdforEdit = contractInfo.property.Id;
         this.getBorrowerCoporate = contractInfo.borrower.borrowerCooperate;
-        console.log("Hello Contract " + this.getContractId);
+        //this.getRegNo = contractInfo.borrower.borrowerRegNo;
+        //console.log("Hello Contract Registration number " + this.getRegNo);
         console.log("the contract length " + contractInfo.borrower.borrowerCooperate);
        //console.log("法人担当者名　"+contractInfo.property.Id);
       //console.log("物件ID　"+contractInfo.property.Id);
@@ -780,8 +784,9 @@ export class InvoiceCreateComponent {
   onContractSelectionChange() {
     this.contractService.getcontractById(this.contractId).
       subscribe((data: any) => {
-        // this.getBorrowerCoporate =data.borrower.borrowerCooperate;
+        this.getBorrowerCoporate =data.borrower.borrowerCooperate;
         this.bcpicName = data.borrower.bcpicFirstName + " " + data.borrower.bcpicLastName;
+        this.bcRegNo =data.borrower.borrowerRegNo;
         console.log("担当者名 is "+this.bcpicName);
         //this.billingDate = data.createdDate;
         this.taxRate = data.taxRate;
@@ -1082,6 +1087,8 @@ export class InvoiceCreateComponent {
     this.invoiceInfo.borrowerPersonName = this.bcpicName;
     this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
+    this.invoiceInfo.borrowerRegNo =this.bcRegNo;
+    console.log("this.invoiceInfo.borrowerRegNo "+this.invoiceInfo.borrowerRegNo);
     //物件情報
     this.invoiceInfo.propertyid = this.propertyIdforEdit;
     this.invoiceInfo.propertyName = this.propertyname;

@@ -55,6 +55,7 @@ export class InvoiceDetailComponent {
     address: "",
     borrowerCooperate: "",
     borrowerPersonName: "",
+    borrowerRegNo: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
