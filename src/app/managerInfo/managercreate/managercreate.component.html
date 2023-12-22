@@ -122,7 +122,6 @@
                 </div>
                 <div class="col-md-4">
                   <div class="row" style="width: 100%;">
-
                     <img [src]="url2" class="img-reponsive">
                   </div>
 
@@ -135,6 +134,7 @@
                     name="signature"
                     class="form-control" 
                     ngModel
+                    required
                     #signature="ngModel" 
                     style="width: 265px;margin-left: 10px;">
                     <div class="help-block" *ngIf="logoSizeError">{{ logoSizeError }}</div>
@@ -148,10 +148,13 @@
                 <div class="help-block" *ngIf="!firstName.valid && firstName.touched">
                   会社名を入力してください。</div>
               </div> -->
-                <div class="col-md-3"></div>
+                <div class="col-md-6"></div>
                 <div class="col-md-3">
-                  <!-- <div class="help-block" *ngIf="!lastName.valid && lastName.touched">
-                  名を入力してください。</div> -->
+                  <div *ngIf="signature.invalid && (signature.dirty || signature.touched)">
+                    <div class="help-block" *ngIf="signature">
+                      不動産会社の印鑑を選択してください。
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
