@@ -71,6 +71,10 @@ export class PmreportCreateComponent implements OnInit {
   ownerPostalSecond: string;
   ownerAddress: string;
   results: any[] = [];
+  filteredResults: any[] = [];
+  filteredOwner: any[] = [];
+  uniqueOwnerNames: Set<string> = new Set<string>();
+  uniqueOwnerNamesArray: string[] = [];
   userPostalFirst: string;
   userPostalSecond: string;
   userAddress: string;
@@ -378,7 +382,7 @@ export class PmreportCreateComponent implements OnInit {
     this.getCurrentUserInfo();
     this.getPICUsers();
     this.getProperties();
-    this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+    this.searchTextChanged.pipe(debounceTime(200)).subscribe(() => {
       this.searchByPropertyName();
     });
  }
@@ -398,6 +402,7 @@ export class PmreportCreateComponent implements OnInit {
       console.log("Property Name 2 " + this.propertyname);
       console.log("Property Name 3 " + this.companyId);
       this.results = data;
+      
     });
   }
   onPropertyChange() {
@@ -412,12 +417,38 @@ export class PmreportCreateComponent implements OnInit {
   }
   onInputChanged(): void {
     this.searchTextChanged.next(this.propertyname);
-  } 
+    const uniquePropertyNames = new Set<string>();
+    // Filter results based on property name and remove duplicates
+    this.filteredResults = this.results.filter(result => {
+      const propertyName = result.propertyName.toLowerCase();
+      if (!uniquePropertyNames.has(propertyName) && propertyName.includes(this.propertyname.toLowerCase())) {
+        uniquePropertyNames.add(propertyName);
+        return true;
+      }
+      return false;
+    }); 
+
+    // Reset the set of unique owner names
+    this.uniqueOwnerNames = new Set<string>();
+    // Filter unique owner names
+    this.results.forEach(result => {
+      const ownerName = result.ownerName;
+      this.uniqueOwnerNames.add(ownerName);
+    });
+    // Convert set to array
+    this.uniqueOwnerNamesArray = Array.from(this.uniqueOwnerNames);
+    
+   } 
+
+
   selectPropertyName(event: MatAutocompleteSelectedEvent): void {    
     this.propertyname = event.option.value;
-    this.selectedPropertyName = this.propertyname;   
+    this.selectedPropertyName = this.propertyname;
+    this.onInputChanged();
+    this.onOwnerSelectionChange();
     console.log("selected Property Name"+this.selectedPropertyName);
   }
+ 
 
   getCurrentUserInfo() {
     this.userAuthService.getCompanyId().subscribe(companyId => {
