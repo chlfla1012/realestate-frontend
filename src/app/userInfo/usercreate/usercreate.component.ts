@@ -20,6 +20,8 @@ export class UsercreateComponent {
 
   data: any;
   errorMessage: string = '';
+  mail:boolean= false;
+  emailErr: string = '';
   url: SafeUrl;
 
   companyId: number;
@@ -77,11 +79,7 @@ export class UsercreateComponent {
 
   }
 
-
-
-
   getCurrentUserInfo() {
-
     //getting companyName and logo of current loggined manager
 
     this.userAuthService.getCompanyId().subscribe(companyId => {
@@ -100,11 +98,7 @@ export class UsercreateComponent {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
-
-
   }
-
-
 
   onSubmit(userForm: NgForm) {
     if (userForm.invalid) {
@@ -146,23 +140,26 @@ export class UsercreateComponent {
     // }
     formData.append("companyId", this.companyId.toString());
     console.log(formData.getAll);
-    if (!this.hasError && !this.hasErrorDOB) {
-      // console.log(this.hasError);
-
-      this.service.addUserInfo(formData).subscribe(
-        (response) => {
-          console.log('User Data Added successfully', response);
-          this.router.navigate(['/user-list']);
-        },
-        (error) => {
-          console.error('Error saving user', error);
+    this.service.checkEmailExists(this.userInfo.email).subscribe(
+      (response) => {
+        if(response !=null){
+          this.mail=false;
+          this.emailErr= "メールはすでに存在します。";
+         // this.openAlertDialog("メールはすでに存在します。");
+        }else{
+           if (!this.hasError && !this.hasErrorDOB) {
+          // console.log(this.hasError);
+          this.service.addUserInfo(formData).subscribe(
+            (response) => {
+              console.log('User Data Added successfully', response);
+              this.router.navigate(['/user-list']);
+            },
+            (error) => {
+              console.error('Error saving user', error);
+          });
         }
-      );
-      // this.router.navigate(['/user-list']);
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 100);
-    }
+      }         
+    });
   }
 
   back() {

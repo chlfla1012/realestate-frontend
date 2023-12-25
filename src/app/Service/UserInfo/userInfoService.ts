@@ -97,6 +97,15 @@ import { UserAuthService } from "./user-auth.service";
           })
         );
       }
+
+      checkEmailExists(email: string): Observable<UserInfo> {
+        return this.http.post<any>(`${this.url}sameEmailCheck`,email).pipe(
+          catchError((error) => {
+            console.error('Error:', error);
+            return throwError('Something went wrong');
+          })
+        );
+      }
   //get all users
       getUserInfo(): Observable<UserInfo[]>{
         return this.http.get<UserInfo[]>(this.url+'userInfo')

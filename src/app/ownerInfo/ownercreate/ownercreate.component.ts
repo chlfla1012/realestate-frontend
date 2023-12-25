@@ -17,6 +17,8 @@ export class OwnercreateComponent {
   @ViewChild('f') myForm!: NgForm;
 
   data: any;
+  mail:boolean= false;
+  emailErr: string = '';
   errorMessage: string = '';
   hasError: boolean = false;
   dateOfBirth: string = '';
@@ -75,16 +77,17 @@ export class OwnercreateComponent {
     logo: null,
     signature: null
   }
-  constructor(private router: Router, private service: UserInfoService, private userAuthService: UserAuthService) {
+  constructor(
+    private router: Router, 
+    private service: UserInfoService, 
+    private userAuthService: UserAuthService) {
   }
 
   ngOnInit(): void {
     // this.getLoginUserLogo();
     this.getCurrentUserInfo();
-
   }
   getCurrentUserInfo() {
-
     //getting companyName and logo of current loggined manager
 
     this.userAuthService.getCompanyId().subscribe(companyId => {
@@ -103,28 +106,8 @@ export class OwnercreateComponent {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
-
-
   }
 
-  /*getLoginUserLogo() {
-
-
-    this.userAuthService.getCompanyName().subscribe(companyName => {
-      this.companyName = companyName;
-    });
-
-    this.userAuthService.getLogoId().subscribe(logoId => {
-      this.logoId = logoId;
-    });
-
-    this.userAuthService.getLogo().subscribe(backendLogo => {
-      this.backendLogo = backendLogo;
-    });
-    console.log("Get Login data",this.companyName, this.logoId);
-
-    
-  }*/
 
   onSubmit(userForm: NgForm) {
     if (userForm.invalid) {
@@ -155,104 +138,28 @@ export class OwnercreateComponent {
 
     formData.append("logoId", this.logoId.toString());
     formData.append("companyId", this.companyId.toString());
-
-
-    // this.service.addOwnerInfo(formData).subscribe(
-    //      (response) => {
-    //         console.log('Owner Data Added successfully', response);
-    //        },
-    //        (error) => {
-    //        console.error('Error saving owner', error);
-    //     }
-    // );
-
     formData.append("logoId", this.logoId.toString());
-
-    if (!this.hasError && !this.hasErrorDOB) {
-      console.log(this.companyId);
-      this.service.addOwnerInfo(formData).subscribe(
-        (response) => {
-          console.log('Owner Data Added successfully', response);
-          this.router.navigate(['/owner-list']);
+    this.service.checkEmailExists(this.userInfo.email).subscribe(
+      (response) => {
+        if(response !=null){
+          this.mail=false;
+          this.emailErr= "メールはすでに存在します。";
+         // this.openAlertDialog("メールはすでに存在します。");
+        }else{
+            if (!this.hasError && !this.hasErrorDOB) {
+              console.log(this.companyId);
+              this.service.addOwnerInfo(formData).subscribe(
+             (response) => {
+              console.log('Owner Data Added successfully', response);
+             this.router.navigate(['/owner-list']);
         },
         (error) => {
           console.error('Error saving owner', error);
-        }
-      );
-      // this.router.navigate(['/owner-list']);
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 20);
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 100);
-    }
-  }
-
-
-  /*onSubmit(ownerForm: NgForm) {
-    if (ownerForm.invalid) {
-      Object.keys(ownerForm.controls).forEach((key) => {
-        ownerForm.controls[key].markAsTouched();
-      });
-      console.log("Form Errors");
-      return;
-    }
-    const formData = new FormData();
-
-    this.userInfo.roleType = "owner";
-    this.userInfo.companyId = this.companyName;
-    if (this.userAuthService.isLogoFromBackend) {
-      this.userInfo.logo = { file: this.backendLogo.file, url: this.backendLogo.url };
-    }
-    
-    console.log("Owner Data", this.userInfo);
-    formData.append(
-      "owner",
-      new Blob([JSON.stringify(this.userInfo)], { type: "application/json" })
-    );
-
-    formData.append("logoId", this.logoId.toString());
-
-
-    this.service.addOwnerInfo(formData).subscribe(
-      (response) => {
-        console.log('Owner Data Added successfully', response);
-      },
-      (error) => {
-        console.error('Error saving owner', error);
+        });
       }
-    );
- 
-    this.router.navigate(['/owner-list']);
-    setTimeout(() => {
-      window.location.reload();
-    }, 20);
-  }*/
-
-  //   if (formData.invalid) {
-  //     // If the form is invalid, mark all form controls as touched
-  //     Object.keys(formData.controls).forEach((key) => {
-  //       formData.controls[key].markAsTouched();
-  //     });
-  //     console.log("Form Errors");
-  //     return;
-  //   }
-  //   this.userInfo = formData.value;
-  //   this.userInfo.roleType ="owner"
-  //   console.log(this.userInfo);
-  //   this.service.addUserInfo(this.userInfo).subscribe((userInfo: any) => {
-  //     console.log("Customer Data Added successfully")
-  //   },
-
-  //   (error) => {
-  //     console.error('Error saving customer', error)
-  //     console.log(error)
-  //    }
-  // );
-  // this.router.navigate(['/']);
-
-
+    }         
+  });
+}
 
   keyPressAlpha(event: KeyboardEvent) {
     const inp = String.fromCharCode(event.keyCode);

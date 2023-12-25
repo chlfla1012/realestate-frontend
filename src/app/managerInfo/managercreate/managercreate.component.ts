@@ -6,6 +6,8 @@ import { FileHandle } from 'src/app/Model/FileHandle';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/contractInfo/contract-create/AlertDialogComponent';
 
 
 @Component({
@@ -15,6 +17,8 @@ import { Component, ViewChild } from '@angular/core';
 })
 export class ManagercreateComponent {
   data:any;
+  mail:boolean= false;
+  emailErr: string = '';
   errorMessage: string = '';
   logoSizeError: string = '';
   url1: SafeUrl;
@@ -60,13 +64,13 @@ export class ManagercreateComponent {
 
     logo:null,
     signature:null
-
-
     // customer: null
   }
  
 
-  constructor(private router: Router, private service: UserInfoService,
+  constructor(private router: Router, 
+    private service: UserInfoService,
+    private dialog: MatDialog,
     private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void { }
@@ -81,13 +85,10 @@ export class ManagercreateComponent {
       console.log("Form Errors");
       return;
     }
-    // this.userInfo = managerForm.value;
-
-    const formData = new FormData();
     
+    const formData = new FormData();
     this.userInfo.roleType = "manager"
-    console.log("manager data", this.userInfo.companyId);
-  
+   // console.log("manager data", this.userInfo.companyId);
   
     formData.append(
       "manager",
@@ -100,157 +101,56 @@ export class ManagercreateComponent {
     );
     
     if (this.userInfo.logo && this.userInfo.logo.file) {
-
       formData.append('logo', this.userInfo.logo.file, this.userInfo.logo.file.name); // Append the 'logo' File object with filename
-
     }
     else if (!this.userInfo.logo || !this.userInfo.logo.file) {
       formData.append("logo", new Blob(), null);
     }
 
     if (this.userInfo.signature && this.userInfo.signature.file) {
-
       formData.append('signature', this.userInfo.signature.file, this.userInfo.signature.file.name); // Append the 'logo' File object with filename
-
     }
     else if (!this.userInfo.signature || !this.userInfo.signature.file) {
       formData.append("signature", new Blob(), null);
     }
-    // if (!this.hasError ) {
-    //   this.service.addManagerInfo(formData).subscribe(
-    //     (response) => {
-    //       console.log('Manager Data Added successfully', response);
-    //       // window.history.back();
-    //   // setTimeout(()=>{
-    //   //     window.location.reload();
-    //   //   }, 100);
-    //     },
-    //     (error) => {
-    //       console.error('Error saving manager', error);
-          
-    //     }
-        
-    //   );
-     
-     
-    // }
-    if (!this.hasError) {
-      if(!this.hasErrorDOB){
-      this.service.addManagerInfo(formData).subscribe(
+    
+      this.service.checkEmailExists(this.userInfo.email).subscribe(
         (response) => {
-          console.log('Manager Data Added successfully', response);
-          console.log("success")
-          this.router.navigate(['/manager-list']);
-        },
-        (error) => {
-          console.error('Error saving manager', error);
-          console.log("fail")
+          if(response !=null){
+            this.mail=false;
+            this.emailErr= "メールはすでに存在します。";
+           // this.openAlertDialog("メールはすでに存在します。");
+          }else{
+            //this.mail=true;
+            if(!this.hasError && !this.hasErrorDOB){
+              this.service.addManagerInfo(formData).subscribe(
+                (response) => {
+                    console.log('Manager Data Added successfully', response);
+                    console.log("This is email "+this.userInfo.email);
+                    console.log("success")
+                    this.router.navigate(['/manager-list']);
+                },
+                (error) => {
+                    console.error('Error saving manager', error);
+                    console.log("fail")
+                });
+            }
+          }
           
-        }
-        
-      );
-      // window.history.back();
-      // setTimeout(()=>{
-      //     window.location.reload();
-      //   }, 100);
-      }
-      // this.router.navigate(['/manager-list']);
-      // setTimeout(()=>{
-      //     window.location.reload();
-      //   }, 100);
-    }
-    
-  //   this.router.navigate(['/manager-list']);
-  //   setTimeout(() => {
-  //    window.location.reload();
-  //  }, 100);
-   
-  //   if (!this.hasErrorDOB) {
-  //     this.service.addUserInfo(formData).subscribe(
-  //       (response) => {
-  //          console.log('User Data Added successfully', response);
-  //         },
-  //         (error) => {
-  //         console.error('Error saving user', error);
-  //      }
-  //  );
-  
-  //  this.router.navigate(['/user-list']);
-  //  setTimeout(() => {
-  //    window.location.reload();
-  //  }, 100);
-  //   }
-//   if (!this.hasErrorDOB) {
-//     this.service.addUserInfo(formData).subscribe(
-//       (response) => {
-//          console.log('User Data Added successfully', response);
-//         },
-//         (error) => {
-//         console.error('Error saving user', error);
-//      }
-//  );
-
-//  this.router.navigate(['/manager-list']);
-//  setTimeout(() => {
-//    window.location.reload();
-//  }, 100);
-//   }
-
-    //navigate to manager list page and refresh 
-    // this.router.navigate(['/manager-list']);
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 20);
-    
+        });
   }
   
+  openAlertDialog(message: string): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '350px',
+      data: { message: message }
+    });
 
-  /*onSubmit(formData:NgForm){
-    if (formData.invalid) {
-      // If the form is invalid, mark all form controls as touched
-      Object.keys(formData.controls).forEach((key) => {
-        formData.controls[key].markAsTouched();
-      });
-      console.log("Form Errors");
-      return;
-    }
-    this.userInfo = formData.value;
-    this.userInfo.roleType ="manager"
-    console.log(this.userInfo);
-    this.service.addUserInfo(this.userInfo).subscribe((userInfo: any) => {
-      console.log("Customer Data Added successfully")
-      this.router.navigate(['/manager-list']);
-      //console.log(data.phone1)
-    },
-    
-    (error) => {
-      console.error('Error saving customer', error)
-      console.log(error)
-     }
-  );
-  //this.router.navigate(['/']);
-  }*/
-  
-  // validateBirthday(){
-  //   if (this.userInfo.dateOfBirth){
-  //     const today: Date = new Date();
-  //     const inputDate: Date = new Date(this.userInfo.dateOfBirth);
-  //     const age: number = today.getFullYear() - inputDate.getFullYear();
-  //     if(this.isAbove20 = age < 20){
-  //       console.log("Test above 20"+this.isAbove20);
-  //       this.errorMessageDOB = '生年月日は 20 年以上前の日付を選択してください。';   
-  //       this.hasErrorDOB = true;
-  //     }  
-  //     else{
-  //       console.log("Test above 20 else "+this.isAbove20);
-  //       this.isAbove20=false;
-  //       this.errorMessageDOB = '';
-  //       this.hasErrorDOB = false;
-  //     } 
-      
-  //   }
-    
-  // }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed');
+    });
+  }
+
   validateBirthday(){
     if (this.userInfo.dateOfBirth){
       const today: Date = new Date();
@@ -267,17 +167,17 @@ export class ManagercreateComponent {
         this.isAbove20=false;
         this.errorMessageDOB = '';
         this.hasErrorDOB = false;
-      } 
-      
+      }
     }
-    
   }
 
-  onReset() {
+  onReset() 
+  {
     window.history.back();
-
   }
-  back(){
+
+  back()
+  {
     window.history.back();
   }
 
@@ -291,6 +191,7 @@ export class ManagercreateComponent {
       return false;
     }
   }
+
   keyPressNumeric(event:KeyboardEvent){
     const inp=String.fromCharCode(event.keyCode);
 
@@ -329,6 +230,7 @@ export class ManagercreateComponent {
       return false;
     }
   }
+
   keyPressKana(event:KeyboardEvent)
   {
     const inp=String.fromCharCode(event.keyCode);

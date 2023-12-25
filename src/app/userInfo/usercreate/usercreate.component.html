@@ -351,7 +351,11 @@
               <div class="col-md-2"></div>
               <div class="col-md-3">
                 <div class="help-block" *ngIf="!email.valid && email.touched">
-                  メールアドレスに誤りがあります。</div>
+                  メールアドレスに誤りがあります。
+                </div>
+                <div class="help-block" *ngIf="mail==false">
+                  {{emailErr}}
+                </div>
                 <!-- <div class="help-block" [hidden]="!email.hasError('pattern')">
                     正しいメールアドレスを使ってください。</div> -->
               </div>

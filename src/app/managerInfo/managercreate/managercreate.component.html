@@ -26,31 +26,9 @@
         <div class="user-container">
           <p class="container-title"></p>
 
-          <div class="user-information">
+          <div class="user-information" >
             <div class="form-group" style="margin-top: 20px;">
               <div class="row company-info">
-
-                <!-- <div class="col-md-2" >
-                  <label for="companyName" style="margin-left: 15%;">所属会社名
-                    <span style="color: red">*</span></label>
-                
-                   
-              </div>
-             
-
-              <div class="col-md-3" style="margin-left: 0%;">
-                  <input type="text" 
-                  class="form-control" 
-                  id="companyId" 
-                  required 
-                  [(ngModel)]="userInfo.companyId"
-                  name="companyId"
-                  style="width: 265px;  height:35px;"
-                  #companyId="ngModel"
-
-                  required [ngClass]="{'is-valid':companyId.touched && companyId.invalid}"
-
-                  > -->
                 <div class="col-md-2">
                   <div class="text-center inner">
                     <label for="companyName">所属会社名<span style="color: red">*</span></label>
@@ -63,22 +41,29 @@
                       [ngClass]="{'is-valid':companyId.touched && companyId.invalid}"
                       style="width: 265px;  height:35px;">
                   </div>
-
-
                   <span class="help-block" style="width:100%;font-size:12px;"
                     *ngIf="!companyId.valid && companyId.touched">
                     所属会社名を入力してください。
                   </span>
-
-
                 </div>
                 <div class="col-md-2"></div>
-                <div class="col-md-1">
-                  <label for="logo">ロゴ</label>
+              </div>
+              <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 20px;">
+              <div class="row company-info">
+                <div class="col-md-2">
+                  <div class="text-center inner">
+                    <label for="logo">ロゴ</label>
+                  </div>
                 </div>
                 <div class="col-md-4">
                   <div class="row" style="width: 100%;">
-
                     <img [src]="url1" class="img-reponsive">
                   </div>
 
@@ -98,25 +83,6 @@
                     <div class="help-block" *ngIf="logoSizeError">{{ logoSizeError }}</div>
                   </div>
                 </div>
-
-              </div>
-              <div class="row">
-                <div class="col-md-2"></div>
-                <!-- <div class="col-md-3">
-                <div class="help-block" *ngIf="!firstName.valid && firstName.touched">
-                  会社名を入力してください。</div>
-              </div> -->
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <!-- <div class="help-block" *ngIf="!lastName.valid && lastName.touched">
-                  名を入力してください。</div> -->
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-top: 20px;">
-              <div class="row company-info">
-                <div class="col-md-6"></div>
                 <div class="col-md-2">
                   <label for="logo">不動産会社印鑑<span style="color: red">*</span></label>
                 </div>
@@ -144,10 +110,6 @@
               </div>
               <div class="row">
                 <div class="col-md-2"></div>
-                <!-- <div class="col-md-3">
-                <div class="help-block" *ngIf="!firstName.valid && firstName.touched">
-                  会社名を入力してください。</div>
-              </div> -->
                 <div class="col-md-6"></div>
                 <div class="col-md-3">
                   <div *ngIf="signature.invalid && (signature.dirty || signature.touched)">
@@ -249,20 +211,6 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="col-md-3">
-                  <div class="help-block" style="margin-left: 5px;" *ngIf="!firstNamekana.valid && firstNamekana.touched">
-                  姓（カナ）を入力してください。
-                  </div>
-                  <div 
-                  class="help-block" style="margin-left: 20px;"
-                  [hidden]="!lastNamekana.hasError('pattern')"
-                  >
-                  姓（カナ）に誤りがあります。
-                  </div>
-                </div>-->
-                  <!-- <div class="help-block" [hidden]="!firstNamekana.hasError('pattern')">
-                    {{"姓（カナ）に誤りがあります。"}}
-                  </div> -->
                   <div class="col-md-3"></div>
                   <div class="col-md-3">
                     <div class="help-block" style="margin-left: 20px;">
@@ -274,21 +222,6 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="col-md-3">
-                  <div 
-                    class="help-block"
-                    style="margin-left: 20px;"
-                    *ngIf="!lastNamekana.valid && lastNamekana.touched"
-                  >
-                    名（カナ）を入力してください。
-                  </div>
-                  <div 
-                  class="help-block" style="margin-left: 20px;"
-                  [hidden]="!lastNamekana.hasError('pattern')"
-                  >
-                  名（カナ）に誤りがあります。
-                  </div>
-                </div>-->
                 </div>
               </div>
             </div>
@@ -307,37 +240,6 @@
                       <option value="男性">男性</option>
                       <option value="女性">女性</option>
                     </select>
-                    <!-- <mat-select
-                  class="form-control"
-                  id="gender"
-                  [(ngModel)]="userInfo.gender"
-                  name="gender"
-                  #gender="ngModel" 
-                  [ngClass]="{'is-valid':gender.touched && gender.invalid}"
-                  style="width: 75px;  height:35px;"
-                  >
-                    <mat-option value="男性">男性</mat-option>
-                    <mat-option value="女性">女性</mat-option>
-                  </mat-select> -->
-                    <!-- <div class="col-md-2">
-                    <label class="radio-inline">
-                      <input type="radio" 
-                      [(ngModel)]="userInfo.gender" 
-                      name="gender" 
-                      value="男性"  
-                      #gender="ngModel">
-                      男性
-                    </label>
-                    <label class="radio-inline">
-                      <input 
-                      type="radio" 
-                      [(ngModel)]="userInfo.gender" 
-                      name="gender" 
-                      value="女性" 
-                      #gender="ngModel">
-                      女性
-                    </label>
-                  </div> -->
                   </div>
                 </div>
               </div>
@@ -361,43 +263,23 @@
                 </div>
                 <div class="col-md-2">
                   <div>
-                    <!-- <input 
-                  type="date" 
-                  class="form-control" 
-                  id="dateOfBirth"  
-                  [(ngModel)]="userInfo.dateOfBirth"
-                  name="dateOfBirth" 
-                  #dateOfBirth="ngModel"
-                  style="width: 265px;  height:35px;"
-                  > -->
-
-                    <!-- <input 
+                    <input 
                     type="date" 
                     class="form-control" 
                     id="dateOfBirth" 
                     [(ngModel)]="userInfo.dateOfBirth"
-                    (change)="validateBirthday()"
+                    (change)="validateBirthday()" 
                     name="dateOfBirth" 
                     #dateOfBirth="ngModel"
-                    style="width: 265px;  height:35px;"
+                    style="width: 265px;  height:35px;" 
                     [ngClass]="{'invalid-date': hasErrorDOB}"
-                    > -->
-
-                    <input type="date" class="form-control" id="dateOfBirth" [(ngModel)]="userInfo.dateOfBirth"
-                      (change)="validateBirthday()" name="dateOfBirth" #dateOfBirth="ngModel"
-                      style="width: 265px;  height:35px;" [ngClass]="{'invalid-date': hasErrorDOB}">
+                    >
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
-                  <!-- <div
-                  style="margin-left: 26px;"
-                   class="help-block" *ngIf="!dateOfBirth.valid && dateOfBirth.touched">
-                   生年月日を選択してください。</div> -->
-                  <!-- <div  *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" class="error-message"  class="help-block">
-                    {{ errorMessageDOB }}</div> -->
                   <div *ngIf=" errorMessageDOB  && !dateOfBirth.hasError('required')" class="error-message"
                     class="help-block">
                     {{ errorMessageDOB }}</div>
@@ -523,10 +405,12 @@
               <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-3">
-                  <div class="help-block" *ngIf="!email.valid && email.touched">
-                    メールアドレスに誤りがあります。</div>
-                  <!-- <div class="help-block" [hidden]="!email.hasError('pattern')">
-                  正しいメールアドレスを使ってください。</div> -->
+                  <div class="help-block" *ngIf="!email.valid && email.touched && mail==false">
+                    メールアドレスに誤りがあります。
+                  </div>
+                  <div class="help-block" *ngIf="mail==false">
+                    {{emailErr}}
+                  </div>
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
@@ -703,7 +587,6 @@
         <div class="form-group" style="margin-top: 20px;margin-bottom:20px;">
           <div class="row button-group">
             <div class="col-md-4">
-
             </div>
             <div class="col-1">
               <button mat-raised-button style="width: 130px; height: 30px;" type="reset"
