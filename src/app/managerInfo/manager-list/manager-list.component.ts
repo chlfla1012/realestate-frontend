@@ -49,7 +49,8 @@ export class ManagerListComponent implements OnInit {
       modifiedDate: "",
       companyId:{companyName:null},
       apportionment: "",
-      logo: null
+      logo: null,
+      signature: null
     },
     // Add more UserInfo objects here if needed
     

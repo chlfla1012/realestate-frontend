@@ -135,6 +135,7 @@ contract:Contract={
     borrowerAddress: null,
     borrowerMemo: null,
     borrowerCooperate: null,
+    borrowerRegNo: null,
     bcKana: null,
     bcpicFirstName: null,
     bcpicLastName: null,

@@ -51,7 +51,8 @@ export class EmailRequestComponent implements OnInit{
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
   }
 
   constructor(private http: HttpClient,private userAuthService:UserAuthService,

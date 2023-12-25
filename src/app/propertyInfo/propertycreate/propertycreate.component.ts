@@ -234,7 +234,8 @@ export class PropertycreateComponent {
       companyId: { companyName: null },
       apportionment: "",
 
-      logo: null
+      logo: null,
+      signature: null
     }
   }
 
@@ -466,6 +467,7 @@ export class PropertycreateComponent {
         file,
         url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
       };
+      
       console.log(file.size);
       if (file.size > 1 * 1024 * 1024) {
         if (imageNumber === 1) {

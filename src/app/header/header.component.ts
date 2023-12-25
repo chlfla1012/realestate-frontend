@@ -52,7 +52,8 @@ export class HeaderComponent {
     modifiedDate: "",
     companyId:{companyName:null},
     apportionment:"",
-    logo:null
+    logo:null,
+    signature: null
 
 
     // customer: null

@@ -48,7 +48,8 @@ export class UserdetailsComponent {
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
 
 
     // customer: null

@@ -11,7 +11,6 @@
                  fontIcon="user" style="padding-top:3px;">person</mat-icon>
                       <span style="margin-left: 10px;">管理者情報詳細画面
                       </span>
-
                 </div>
             </div>
             <div class="col-2"></div>
@@ -41,41 +40,23 @@
                             <mat-icon aria-hidden="false" aria-label="Example delete icon" fontIcon="delete"></mat-icon>
                             削除
                         </button>
-
                     </div>
                 </div>
-
              </div>
     </div>
     </div>
       <form class="form-horizontal user-create-form">
         <div class="user-container">
           <p class="container-title"></p>
-
         <div class="user-information">
-          <!-- <div class="form-group" style="margin-top: 20px;">
-            <div class="row no-gutters">
-             
-              <div class="col-md-3">
-                <div class="leftfield">
-                
-                </div>
-              </div>
-
-            </div>
-          </div> -->
           <div class="form-group">
           </div>
-              
-              
+
           <div class="form-group" style="margin-top: 20px;">
             <div class="row company-info">
-              
               <div class="col-md-2" >
                   <label for="companyName" style="margin-left: 15%;">所属会社名
                     <span style="color: red">*</span></label>
-                
-                   
               </div>
               <div class="col-md-3" style="margin-left: 0%;">
                   <input type="text" 
@@ -87,11 +68,7 @@
                   style="width: 265px;  height:35px;"
                   #companyName="ngModel"
                   disabled
-
-
                   >
-                 
-                   
               </div>
               <div class="col-md-2"></div>
               <div class="col-md-1">
@@ -99,18 +76,32 @@
                 </div>
                 <div class="col-md-4">
                   <div class="row" style="width: 100%;">
-
-                    <img [src]="url"
+                    <img [src]="url1"
                     class="img-reponsive"
                     style="width:280px;height:200px;"
                     alt=""
                     >
                   </div>
-       
-              
-               
             </div>
             </div>
+            <br>
+            <div class="row company-info">
+              <div class="col-md-6"></div>
+              <div class="col-md-2">
+                <label for="logo">不動産会社印鑑<span style="color: red">*</span></label>
+              </div>
+              <div class="col-md-4">
+                <div class="row" style="width: 100%;">
+                  <img [src]="url2"
+                  class="img-reponsive"
+                  style="width:280px;height:200px;"
+                  alt=""
+                  >
+                </div>
+              </div>
+
+            </div>
+
             <div class="row no-gutters" style="margin-top: 20px;">
               <div class="col-md-2">
                 <div class="text-center inner">

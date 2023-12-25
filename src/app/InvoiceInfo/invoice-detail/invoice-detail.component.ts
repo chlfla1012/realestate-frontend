@@ -55,6 +55,7 @@ export class InvoiceDetailComponent {
     address: "",
     borrowerCooperate: "",
     borrowerPersonName: "",
+    borrowerRegNo: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -166,6 +167,7 @@ export class InvoiceDetailComponent {
     //userId: null,
     contractObj: null,
     logoId: null,
+    userId:null
     // status: ''
   }
 

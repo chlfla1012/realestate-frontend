@@ -29,17 +29,14 @@ export class ContractDetailsComponent {
   lendertype: string;
   borrowertype: string;
   data: any;
-
-  // contracts:any;
+  
   id: string;
-  propertyid: number;
-  // contracts: any;
+  propertyid: number;  
   deleteStatus: boolean;
   picId: string;
 
  containers: boolean[] = [true, false, false, false, false, false, false];
- errorMessage: string = '';
-  // picId:string;
+ errorMessage: string = '';  
   propertyId:string;
 
   picName:string;
@@ -59,8 +56,6 @@ export class ContractDetailsComponent {
   lender:Lender;
   borrower:Borrower;
   tenant:Tenant;
-// lendertype: string;
-// borrowertype: string;
 contract:Contract={
   companyId: {
     companyName: null
@@ -235,12 +230,6 @@ constructor(private contractService:ContractService,
     this.picId = this.contract.pic?.id;
     this.picName = this.contract.picName;
      console.log("The Contract ID is "+data.id);
-     console.log("The contract length is "+data.contractLength);
-     console.log("The lender ID is "+data.lender.id);
-     console.log("the lender name is"+data.lender.lenderFirstName);
-     console.log("the pic id "+this.contract.picName);
-
-
    },
 
    (error) => {

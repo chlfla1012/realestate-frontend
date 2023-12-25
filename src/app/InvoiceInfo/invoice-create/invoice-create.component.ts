@@ -40,6 +40,7 @@ export class InvoiceCreateComponent {
 
   
   userInfo: UserInfo[];
+  userData:UserInfo;
   picId: string;//to retrieve the company address and postal code by user table and company table;
   companyfullName: string;
   companyphone1: string;
@@ -48,6 +49,8 @@ export class InvoiceCreateComponent {
   companypostalCode1: string;
   companypostalCode2: string;
   companyAddress: string;
+  userId:string;
+
   //物件情報 line 38~45//////
   propertyId: string;
   propertyname: string;
@@ -57,6 +60,7 @@ export class InvoiceCreateComponent {
   buildingPostalCode2: string;
   buildingAddress: string;
   bcpicName: string;
+  bcRegNo:string;
   billingDate: string;
 
   taxRate: number;
@@ -205,6 +209,7 @@ export class InvoiceCreateComponent {
   contractId: string;
   getContractId: string;
   getBorrowerCoporate: string;
+  //getRegNo:string;
   //getBorrowerId:Long;
 
 
@@ -222,7 +227,7 @@ export class InvoiceCreateComponent {
   containers: boolean[] = [true, false, false, false, false];
   logoImage: SafeUrl;
   ///////////////******************************** *////////////// 
-  userData: UserInfo;
+  //userData: UserInfo;
   picData: UserInfo;
   contracts: Contract;
   borrower: Borrower;
@@ -250,6 +255,7 @@ export class InvoiceCreateComponent {
     address: "",
     borrowerCooperate: "",
     borrowerPersonName: "",
+    borrowerRegNo: "",
     paymentDueDate: "",
     billingDate: null,
     invoicelistObj: {
@@ -361,6 +367,7 @@ export class InvoiceCreateComponent {
     //userId: null,
     contractObj: null,
     logoId: null,
+    userId:null
     // status: ''
   }
 
@@ -475,7 +482,8 @@ export class InvoiceCreateComponent {
       apportionment: "",
       companyId: { companyName: null },
 
-      logo: null
+      logo: null,
+      signature:null
     }
     this.contractData1 = {
       companyId: { companyName: null },
@@ -655,10 +663,13 @@ export class InvoiceCreateComponent {
         this.userInfo = data;
         console.log("User address by company id " + data);
         for (const user of this.userInfo) {
+          this.userData =user;
           this.companypostalCode1 = user.postalcode1.toString();
           this.companypostalCode2 = user.postalcode2.toString();
           this.companyAddress = user.address;
+          this.userId = user.id;
           console.log("Company Address : " + this.companyAddress);
+          console.log("User Id : " + this.userId);
         }
         // console.log(this.companyAddress);
       },
@@ -675,7 +686,8 @@ export class InvoiceCreateComponent {
         this.getContractId = contractInfo.id;
         //this.propertyIdforEdit = contractInfo.property.Id;
         this.getBorrowerCoporate = contractInfo.borrower.borrowerCooperate;
-        console.log("Hello Contract " + this.getContractId);
+        //this.getRegNo = contractInfo.borrower.borrowerRegNo;
+        //console.log("Hello Contract Registration number " + this.getRegNo);
         console.log("the contract length " + contractInfo.borrower.borrowerCooperate);
        //console.log("法人担当者名　"+contractInfo.property.Id);
       //console.log("物件ID　"+contractInfo.property.Id);
@@ -772,8 +784,9 @@ export class InvoiceCreateComponent {
   onContractSelectionChange() {
     this.contractService.getcontractById(this.contractId).
       subscribe((data: any) => {
-        // this.getBorrowerCoporate =data.borrower.borrowerCooperate;
+        this.getBorrowerCoporate =data.borrower.borrowerCooperate;
         this.bcpicName = data.borrower.bcpicFirstName + " " + data.borrower.bcpicLastName;
+        this.bcRegNo =data.borrower.borrowerRegNo;
         console.log("担当者名 is "+this.bcpicName);
         //this.billingDate = data.createdDate;
         this.taxRate = data.taxRate;
@@ -1068,11 +1081,14 @@ export class InvoiceCreateComponent {
     this.invoiceInfo.companyPostalFirst = this.companypostalCode1;
     this.invoiceInfo.companyPostalSecond = this.companypostalCode2;
     this.invoiceInfo.companyAddress = this.companyAddress;
+    this.invoiceInfo.userId = this.userData;
     //請求期間情報
     this.invoiceInfo.borrowerCooperate = this.getBorrowerCoporate;
     this.invoiceInfo.borrowerPersonName = this.bcpicName;
     this.invoiceInfo.billingDate = this.currentDate.toString();
     this.invoiceInfo.contractData = this.getContractId;
+    this.invoiceInfo.borrowerRegNo =this.bcRegNo;
+    console.log("this.invoiceInfo.borrowerRegNo "+this.invoiceInfo.borrowerRegNo);
     //物件情報
     this.invoiceInfo.propertyid = this.propertyIdforEdit;
     this.invoiceInfo.propertyName = this.propertyname;

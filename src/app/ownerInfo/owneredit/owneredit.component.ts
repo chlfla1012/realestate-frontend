@@ -50,7 +50,8 @@ export class OwnereditComponent implements OnInit {
     companyId:{companyName:null},
     apportionment: "",
 
-    logo: null
+    logo: null,
+    signature: null
 
 
     // customer: null

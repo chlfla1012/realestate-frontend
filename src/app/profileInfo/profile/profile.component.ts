@@ -44,7 +44,8 @@ export class ProfileComponent {
     companyId:{companyName:null},
     apportionment:"",
 
-    logo:null
+    logo:null,
+    signature: null
   }
   constructor(
     private userAuthService: UserAuthService,
