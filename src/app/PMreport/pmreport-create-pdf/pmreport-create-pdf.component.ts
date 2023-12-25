@@ -314,7 +314,7 @@ export class PmreportCreatePdfComponent {
     const formattedDate = this.formatDate(today);
     const element = document.getElementById('contentToConvert');
     const pdfOptions = {
-      filename: `Pmreport_${this.ownerName}for(${formattedDate}).pdf`,
+      filename: `Pmreport_for_${this.ownerName}_(${formattedDate}).pdf`,
       image: { type: 'jpeg', quality: 0.6 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: 'mm', format: 'legal', orientation: 'landscape' },
@@ -337,20 +337,15 @@ export class PmreportCreatePdfComponent {
     });
   }
   savePdf(pdf: File, filename: string) {
-    // Create a FormData object and append the PDF file
     const formData = new FormData();
-    this.pdfCreatedDate = new Date().toISOString().substring(0, 10);
-    console.log("User Name"+this.picNameKana);
-    console.log("User Name"+this.picName);
-    // Append the PDF file to the FormData
+    this.pdfCreatedDate = new Date().toISOString().substring(0, 10);   
     formData.append('fileContent', pdf);
     formData.append('fileName', filename);
     formData.append('createdDate', this.pdfCreatedDate);
     formData.append('ownerName', this.ownerName);
     formData.append('managerName', this.picNameKana);
     
-    this.pmReportUploadService.uploadFile(formData).pipe(
-      tap(() => {
+    this.pmReportUploadService.uploadFile(formData).pipe(tap(() => {
         console.log('PDF uploaded successfully.');
       })
     ).subscribe(

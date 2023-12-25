@@ -21,7 +21,7 @@
             </div>
             <div class="card-body">            
               <div *ngFor="let report of reports">
-                <span>{{ report.createdDate }} : </span><a [href]="'http://localhost:8080/pmreport/download/' + report.id">{{ report.fileName }}</a>                
+                <span>{{ report.createdDate }} : </span><a [href]="'http://localhost:8080/pmreport/download/' + report.fileName">{{ report.fileName }}</a>                
                 <br>
               </div>
             </div>
