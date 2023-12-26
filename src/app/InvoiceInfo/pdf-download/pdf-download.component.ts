@@ -3,11 +3,14 @@ import { Router } from '@angular/router';
 import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-service.service';
 import { Invoice } from 'src/app/Model/Invoice';
 import { InvoiceList } from 'src/app/Model/InvoiceList';
-
+import { FileHandle } from 'src/app/Model/FileHandle';
 import { ActivatedRoute } from '@angular/router';
 import { Borrower } from 'src/app/Model/Borrower';
 import * as html2pdf from 'html2pdf.js';
 import { MatTableDataSource } from '@angular/material/table';
+import { UserInfo } from 'src/app/Model/userInfo';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { tap } from 'rxjs';
 
 
 @Component({
@@ -23,7 +26,9 @@ export class PdfDownloadComponent implements OnInit{
   borrowerData:Borrower;
   invoiceList:InvoiceList[];
   invoiceMoneyList: InvoiceList;
-  // isTextareaReadOnly: boolean = true; // Set to true to make it read-only
+  userId:UserInfo
+  url: SafeUrl ;
+ testing:string;
 
   borrowerCooperate:string;
   companyId: number;
@@ -40,26 +45,32 @@ sumOfAmount: number = 0;
   invoiceInfo: any;
   bc:string;
   bcooperate:string;
-
+invoiceId:string;
 dataSource: MatTableDataSource<any>;
 displayedColumns: string[] = ['period','itemNo', 'amount', 'tax', 'total'];
   contractIDs: any;
   getContractId: any;
   getBorrowerCoporate: any;
+  createdDate: string;
+  personName: string;
+  filename: string;
 
 constructor( private invoiceService: InvoiceServiceService,
+              private sanitizer: DomSanitizer,
               private route: ActivatedRoute,
               private router: Router ) { }
 
 
 ngOnInit() {
 
+  // this.getSignatureImage();
 //pass filtered data from pdf collection
   const filteredDataParam = this.route.snapshot.queryParams['filteredData'];
 
 
 if (filteredDataParam) {
   this.filteredData = JSON.parse(filteredDataParam);
+
 ;
 
   // Extract properties from filteredData and assign to itemVariables 
@@ -90,18 +101,67 @@ if (filteredDataParam) {
      accountType:item.accountType,
      accountNo:item.accountNo,
      accountName:item.accountName,
-     information:item.information
+     information:item.information,
+     userId:item.userId,
+     url:item.userId.signature.url,
+     borrowerRegNo:item.borrowerRegNo,
+
 
     }
  
   }
-      // Add more properties as needed
+
+console.log("Register No."+this.itemVariables.borrowerRegNo)
     const bc=this.itemVariables.borrowerCooperate;
-    console.log('Item Variables:',this.itemVariables);
-    console.log("the borrower cooperate is ",this.invoiceInfo.invoiceMoneyList.rent);
-    // console.log("the bc name is "+this.borrowerCooperate);
+    this.testing=this.itemVariables.userId;
+    console.log('Item Variables:',this.invoiceId);
+
+    console.log('Item userId:',this.itemVariables.userId.signature);
+
+
+
+    console.log("the borrower cooperate is ",this.itemVariables.userId.signature.id);
+
+    this.url = this.createImages(this.itemVariables.userId.signature.image, this.itemVariables.userId.signature.name).url;
+
+    console.log("Image URL " + this.url);
 }
   }
+  
+
+  public createImages(image,name):FileHandle  {
+    console.log('Inside createImages()');
+  
+      console.log('Processing image:', image);
+  
+      const image1Blob = this.dataURItoBlob(image);
+      console.log('Image1 blob:', image1Blob);
+  
+      const image1File = new File([image1Blob], name);
+  
+    
+    const image1FileHandle: FileHandle = {
+      file: image1File,
+      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+    }
+     return image1FileHandle;
+  
+     
+  
+  }
+  public dataURItoBlob(image) {
+    const byteString = window.atob(image);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+  
+    for(let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+  
+  const blob = new Blob([int8Array]);
+    return blob;
+  }
+
   calculateTotal(invoiceMoneyList: any): number {
     // Calculate the total based on the properties of invoiceMoneyList
     return (
@@ -124,39 +184,7 @@ if (filteredDataParam) {
     );
   }
 
-  generatePDF() {
-    const today = new Date();
-    const formattedDate = this.formatDate(today);
-    const pdfOptions = {
-      filename: `Invoice_${this.itemVariables.borrowerPersonName}(${formattedDate}).pdf`,
-      image: { type: 'jpeg', quality: 0.78 },
-      html2canvas: { scale: 4 },
-      jsPDF: { unit: 'mm', format: 'A4', printBackground: true },
-      compress: true,
-    };
   
-    const mainContainer = document.getElementById('contentToConvert');
-    mainContainer.style.fontSize = '12px';
-
-    // Specify the selector for the tables you want to include in the PDF
-    const tableSelector = '.table-to-convert';
-    const tables = document.querySelectorAll(tableSelector);
-  
-    tables.forEach((table, index) => {
-      // Add a page break before each table (except the first one)
-      if (index > 0) {
-        const blankPage = document.createElement('div');
-        blankPage.style.pageBreakBefore = 'always';
-        mainContainer.appendChild(blankPage);
-      }
-    });
-  
-    // Generate PDF with keepTogether option
-    html2pdf()
-      .from(mainContainer)
-      .set({ ...pdfOptions, keepTogether: '.table-to-convert' }) // Keep tables together
-      .save();
-  }
   private formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -165,7 +193,67 @@ if (filteredDataParam) {
     return `${year}-${month}-${day}`;
   }
 
+
 openGmail() {
+
+  const today = new Date();
+  const formattedDate = this.formatDate(today);
+  // const filename = `Invoice_${this.itemVariables.borrowerPersonName}(${formattedDate}).pdf`;
+  const filename = `Invoice.pdf`;
+
+
+  const pdfOptions = {
+    filename: filename,
+    image: { type: 'jpeg', quality: 0.78 },
+    html2canvas: { scale: 4 },
+    jsPDF: { unit: 'mm', format: 'A4', printBackground: true },
+    compress: true,
+  };
+
+  const mainContainer = document.getElementById('contentToConvert');
+  mainContainer.style.fontSize = '12px';
+
+  // Specify the selector for the tables you want to include in the PDF
+  const tableSelector = '.table-to-convert';
+  const tables = document.querySelectorAll(tableSelector);
+
+  tables.forEach((table, index) => {
+    // Add a page break before each table (except the first one)
+    if (index > 0) {
+      const blankPage = document.createElement('div');
+      blankPage.style.pageBreakBefore = 'always';
+      mainContainer.appendChild(blankPage);
+    }
+  });
+
+  html2pdf().from(mainContainer).set(pdfOptions).output('blob').then((pdf) => {
+    // Create a File object from the Blob
+    const file = new File([pdf], pdfOptions.filename, { type: 'application/pdf' });
+    // Save the File 
+    this.savePdf(file, pdfOptions.filename);
+  }).catch((error) => {
+    console.error('Error generating PDF:', error);
+  });
+}
+savePdf(pdf: File, filename: string) {
+  const formData = new FormData();
+  this.createdDate = new Date().toISOString().substring(0, 10);   
+  formData.append('fileContent', pdf);
+  formData.append('fileName', filename);
+  formData.append('createdDate', this.createdDate);
+  
+  this.invoiceService.uploadFile(formData).pipe(tap(() => {
+      console.log('PDF uploaded successfully.');
+    })
+  ).subscribe(
+    (response) => {
+      console.log('PDF uploaded successfully response.');
+    },
+    (error) => {
+      console.error('Something went wrong during PDF upload:', error);
+    }
+  );
+
 
 
   this.bcooperate = this.itemVariables.borrowerCooperate;
@@ -185,15 +273,37 @@ openGmail() {
 
         const subject = '請求書';
         const bodyTemplate = `%recipientName%  様、
+        
       
       いつもお世話になっております。
       今月の請求書をお送り致します。
       ご確認よろしくお願い致します。
-
+      %websiteLink%
+      %personName%
+      %companyName%
+      〒%companyPostalFirst%-%companyPostalSecond% %address%
+      %mobileFirst%-%mobileSecond%-%mobileThird%
       `;
+
+
+      const concatenatedLink = 'http://localhost:8080/download/' + filename;
+
         const body = bodyTemplate
-.replace('%recipientName%', this.itemVariables.borrowerPersonName);
-        // Construct the Gmail URL with the recipient's email address
+
+
+.replace('%recipientName%', this.itemVariables.borrowerPersonName)
+.replace('%personName%', this.itemVariables.personName)
+.replace('%companyName%', this.itemVariables.companyName)
+.replace('%mobileFirst%', this.itemVariables.mobileFirst)
+.replace('%mobileSecond%', this.itemVariables.mobileSecond)
+.replace('%mobileThird%', this.itemVariables.mobileThird)
+.replace('%companyPostalFirst%', this.itemVariables.companyPostalFirst)
+.replace('%companyPostalSecond%', this.itemVariables.companyPostalSecond)
+.replace('%address%', this.itemVariables.address)
+.replace('%websiteLink%', concatenatedLink);
+// .replace('%filename%',filename);
+
+// Construct the Gmail URL with the recipient's email address
         // const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${contractInfo.bcMail}&su=${encodeURIComponent(subject)}`;
 
         const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=${contractInfo.bcMail}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -208,6 +318,8 @@ openGmail() {
       console.error('Error fetching owners:', error);
     }
   );
+
+ 
 }
 
   onCancel() {
