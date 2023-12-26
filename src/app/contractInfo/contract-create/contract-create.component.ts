@@ -389,7 +389,8 @@ export class ContractCreateComponent {
     }
     this.contractForm = this.fb.group({
       // Define your form controls and validators here     
-      propertyname: ['', Validators.required],      
+      propertyname: ['', Validators.required],  
+      borrowerRegNo: ['', Validators.pattern(/^T\d{13}$/)]    
     });
 
     const today = new Date();

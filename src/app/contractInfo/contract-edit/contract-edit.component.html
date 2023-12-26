@@ -72,12 +72,17 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-3"> 
-                  <div class="leftfield">
-                      <input type="text"  id="roomno" [(ngModel)]="roomno" name="roomno"
-                      class="form-control" value="roomno" readonly style="width: 265px; height:35px;">
-                    </div>
-                </div>
+
+                <div class="col-md-2" style="width: 292px;margin-right:20px;">
+                      <div class="col-md-2" style="margin-right:-80px;width:280px;margin-top: 20px;">
+                        <mat-select [(ngModel)]="room" required name="room" class="form-control" (selectionChange)="onRoomSelectionChange()">
+                          <mat-option *ngFor="let result of resultsByPropertyName" [value]="result.room">
+                            {{ result.room }}
+                          </mat-option>
+                        </mat-select>
+                        
+                      </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group" style="margin-top: 20px;">
@@ -111,12 +116,7 @@
           </div>
           </div>
         </div>
-        <div class="lendertitle-container">
-          <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span> -->
-        <!-- <p class="container-title" (click)="toggleContainer(i)">貸主情報</p> -->
+        <div class="lendertitle-container">     
       </div>
       <div *ngIf="i === 1">
         <div class="lender-container">
@@ -136,10 +136,7 @@
                   <label class="radio-inline">
                     <input type="radio" [(ngModel)]="lender.lenderType" name="lendertype" value="LK" #lendertypeInput="ngModel">
                     法人
-                  </label>
-                  <!-- <input type="text" class="form-control" readonly
-                  [(ngModel)]="lender.lenderType" id="lenderType"
-                  name="lendertype"> -->
+                  </label>                  
                 </div>
               </div>
             </div>
@@ -147,10 +144,7 @@
             <div class="form-group" style="margin-top: 20px;">
               <div class="row no-gutters">
                 <div class="col-md-3"></div>
-                <div class="col-md-2">
-                  <!-- <div *ngIf="lendertypeInput.invalid && (lendertypeInput.dirty ||lendertypeInput.touched)" style="color: red;">
-                    貸主タイプを選択してください！。
-                  </div> -->
+                <div class="col-md-2">                  
                 </div>
               </div>
             </div>
@@ -195,19 +189,14 @@
                     <div class="col-md-3　help-block"  style="margin-left: 0px;">
                       <div *ngIf="lenderFirstName.hasError('required')  && lenderFirstName.touched" >
                         貸主姓を入力してください。
-                    </div>
-                    <!-- <div *ngIf="borrowerFirstName.hasError('pattern') && borrowerFirstKana.touched" >
-                      借主名（カナ）に誤りがあります。
-                    </div> -->
+                    </div>                    
                   </div>
                       <div class="col-md-3"></div>
                       <div class="col-md-3 help-block"  style="margin-left: 0px;">
                         <div *ngIf="lenderLastName.hasError('required')  && lenderLastName.touched" >
                           貸主名を入力してください。
                       </div>
-                      <!-- <div *ngIf="borrowerLastKana.hasError('pattern') && borrowerLastKana.touched" >
-                        借主姓（カナ）に誤りがあります。
-                      </div> -->
+                     
                     </div>
                    </div>
                 </div>
@@ -396,10 +385,7 @@
                     <div class="col-md-3 help-block"  style="margin-left: 0px;">
                       <div *ngIf="lenderCooperate.hasError('required')  && lenderCooperate.touched" >
                         貸主法人名を入力してください。
-                    </div>
-                    <!-- <div *ngIf="bcKana.hasError('pattern') && bcKana.touched" >
-                      借主法人名（カナ）に誤りがあります。
-                    </div> -->
+                    </div>                    
                   </div>
                     <div class="col-md-3"></div>
                     <div class="col-md-3 help-block"  style="margin-left: 0px;">
@@ -678,11 +664,7 @@
       </div>
         <!-- 貸主情報 -->
         <div class="borrowertitle-container">
-          <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span>
-            <p class="container-title" (click)="toggleContainer(i)">借主情報</p> -->
+          
         </div>
         <div *ngIf="i === 2">
           <div class="borrower-container">
@@ -704,9 +686,7 @@
                       <input type="radio" [(ngModel)]="borrower.borrowerType" name="borrowertype" value="BH" #borrowertypeInput="ngModel">
                       法人
                     </label>
-                    <!-- <input type="text" class="form-control" readonly
-                    [(ngModel)]="borrower.borrowerType" id="borrowerType"
-                    name="lendertype"> -->
+                    
                   </div>
                 </div>
               </div>
@@ -715,9 +695,7 @@
                   <div class="row no-gutters">
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
-                      <!-- <div *ngIf="borrowertypeInput.invalid && (borrowertypeInput.dirty || borrowertypeInput.touched)" style="color: red;">
-                        借主タイプを選択してください！。
-                      </div> -->
+                     
                     </div>
                   </div>
                 </div>
@@ -764,18 +742,14 @@
                         <div *ngIf="borrowerFirstName.hasError('required')  && borrowerFirstName.touched" >
                           借主名を入力してください。
                       </div>
-                      <!-- <div *ngIf="borrowerFirstName.hasError('pattern') && borrowerFirstKana.touched" >
-                        借主名（カナ）に誤りがあります。
-                      </div> -->
+                      
                     </div>
                         <div class="col-md-3"></div>
                         <div class="col-md-3　help-block"  style="margin-left: 0px;">
                           <div *ngIf="borrowerLastName.hasError('required')  && borrowerLastName.touched" >
                             借主名を入力してください。
                         </div>
-                        <!-- <div *ngIf="borrowerLastKana.hasError('pattern') && borrowerLastKana.touched" >
-                          借主姓（カナ）に誤りがあります。
-                        </div> -->
+                      
                       </div>
                     </div>
                     </div>
@@ -966,9 +940,7 @@
                         <div *ngIf="borrowerCooperate.hasError('required')  && borrowerCooperate.touched" >
                           借主法人名（カナ）を入力してください。
                       </div>
-                      <!-- <div *ngIf="bcKana.hasError('pattern') && bcKana.touched" >
-                        借主法人名（カナ）に誤りがあります。
-                      </div> -->
+                      
                     </div>
                       <div class="col-md-3"></div>
                       <div class="col-md-3　help-block"  style="margin-left: 0px;">
@@ -1100,6 +1072,21 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                          <div class="inner">
+                            <div class="text-center">
+                              <label for="borrowerRegNo">法人登録番号<span style="color: red">*</span></label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="leftfield">
+                            <input type="text" id="borrowerRegNo" class="form-control" placeholder="例-T1234567890123"
+                              [(ngModel)]="borrower.borrowerRegNo" name="borrowerRegNo"
+                              #borrowerRegNo="ngModel" required style="width:255px;height: 35px;" (blur)="validateBorrowerRegNo()"
+                              pattern="T\d{13}" title="正しいフォーマットで入力してください"  maxlength="14">                               
+                          </div>
+                        </div>
 
                     </div>
                     <div class="row">
@@ -1112,9 +1099,12 @@
                         メールアドレスに誤りがあります。
                       </div>
                     </div>
-                      <div class="col-md-3"></div>
-                      <div class="col-md-3">
-                      </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3　help-block" style="margin-left: 0px;">
+                      <div *ngIf="borrowerRegNo.hasError('required')  && borrowerRegNo.touched">
+                        法人登録番号を入力してください。
+                      </div>                                                   
+                    </div>
                     </div>
                     </div>
                     <div class="form-group" style="margin-top: 20px;">
@@ -1244,15 +1234,10 @@
           </div>
         </div>
         <div class="tenanttitle-container">
-          <!-- <span class="arrow-icon"
-          [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-          (click)="toggleContainer(i)">
-        </span>
-            <p class="container-title" (click)="toggleContainer(i)">入居者情報</p> -->
+        
         </div>
         <div *ngIf="i === 3">
-          <div class="tenant-container">
-            <!-- <p class="container-title">入居者情報</p> -->
+          <div class="tenant-container">            
             <div class="tenant-infomation">
               <div class="form-group" style="margin-top: 20px;">
                 <div class="row no-gutters">
@@ -1295,9 +1280,7 @@
                       <div *ngIf="tenantFirstName.hasError('required')  && tenantFirstName.touched" >
                           入居者姓を入力してください。
                     </div>
-                    <!-- <div *ngIf="borrowerFirstName.hasError('pattern') && borrowerFirstKana.touched" >
-                        借主名（カナ）に誤りがあります。
-                    </div> -->
+                    
                   </div>
                   <div class="col-md-3"></div>
                   <div class="col-md-3　help-block"  style="margin-left: 0px;">
@@ -1403,15 +1386,11 @@
           </div>
         </div>
         <div class="contracttitle-container">
-          <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span>
-            <p class="container-title" (click)="toggleContainer(i)">契約情報</p> -->
+          
         </div>
         <div *ngIf="i === 4">
           <div class="contract-container">
-            <!-- <p class="container-title">契約情報</p> -->
+           
             <div class="contract-infomation">
               <div class="form-group">
                 <div class="row no-gutters">
@@ -1533,11 +1512,7 @@
                             <mat-option value="事務所">事務所</mat-option>
                             <mat-option value="倉庫">倉庫</mat-option>
                             <mat-option value="その他">その他</mat-option>
-                          </mat-select>
-                          <!-- <input type="text" class="form-control"
-                          id="classification"
-                          [(ngModel)]="contract.classification"
-                           name="classification" style="width: 100px;margin-left:0px;"> -->
+                          </mat-select>                          
                       </div>
                   </div>
                   <div class="col-md-3">
@@ -1637,10 +1612,8 @@
               <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-2">
-                    <!-- <span
-                    style="margin-left: 26px;"
-                     class="help-block" *ngIf="!propertyName.valid && propertyName.touched">物件名を入力してください</span> -->
-　　　　　　　　　　　　　　　　　　<span
+                    
+                    <span
                      class="help-block"
                      *ngIf="rent.touched && rent.errors?.['required']">
                      家賃を入力してください。</span>
@@ -2049,16 +2022,10 @@
 
           </div>
         </div>
-        <div class="banktitle-container">
-          <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span>
-            <p class="container-title" (click)="toggleContainer(i)">振込先銀行口座情報</p> -->
+        <div class="banktitle-container">          
         </div>
         <div *ngIf="i === 5">
-          <div class="bank-container">
-            <!-- <p class="container-title">振込先銀行口座情報</p> -->
+          <div class="bank-container">        
             <div class="bank-infomation">
                 <div class="form-group">
                   <div class="row no-gutters">
@@ -2244,16 +2211,10 @@
             </div>
           </div>
         </div>
-        <div class="pictitle-container">
-          <!-- <span class="arrow-icon"
-    [ngClass]="{'arrow-down': isContainerOpen(i), 'arrow-up': !isContainerOpen(i)}"
-    (click)="toggleContainer(i)">
-  </span> -->
-            <!-- <p class="container-title">担当者情報</p> -->
+        <div class="pictitle-container">          
         </div>
         <div *ngIf="i === 6">
-          <div class="pic-container">
-            <!-- <p  *ngIf="i === 6" class="container-title">担当者情報</p> -->
+          <div class="pic-container">            
             <div class="pic-infomation">
                 <div class="form-group">
                   <div class="row no-gutters">
@@ -2263,17 +2224,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class=" inner">
-                          <!-- <select [(ngModel)]="picId"
-                          id="picId"
-                          name="picId"
-                          class="form-control"
-                            required
-                          #picIdControl="ngModel">
-                        <option *ngFor="let pic of picUsers"
-                          [value]="pic.id">{{pic.firstName}}{{pic.lastName}}
-                        </option>
-                          </select> -->
+                        <div class=" inner">                          
                           <mat-select
                           required [(ngModel)]="picId"
                           id="picId"
@@ -2312,10 +2263,7 @@
                   <div class="row no-gutters">
                     <div class="col-md-2"></div>
                     <div class="col-md-3">
-                      <div class="help-block">
-                      <!-- <div *ngIf="picIdControl.invalid && (picIdControl.dirty || picIdControl.touched)" style="color: red;">
-                     担当者名前を選択してください。
-                      </div> -->
+                      <div class="help-block">                      
                     </div>
                     </div>
                   </div>
