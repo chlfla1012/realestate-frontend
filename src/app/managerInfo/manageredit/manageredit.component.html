@@ -73,10 +73,10 @@
                 </div>
               </div>
               <div class="col-md-4">
-                <div class="row">
+                <div class="row" >
                   <img [src]="url1" class="img-reponsive">
                 </div>
-              <div class="row" style="width: 100%;">
+              <div class="row"  >
                 <input type='file'
                 (change)="onSelectFile($event,1)"
                 accept="image/*"
@@ -84,7 +84,7 @@
                 name="logo"
                 ngModel name="logo"
                 #logo="ngModel"
-                style="width: 265px;"
+                
                 >
                 <div class="help-block" *ngIf="logoSizeError">{{ logoSizeError }}</div>
               </div>
@@ -94,20 +94,19 @@
                 <label for="logo">不動産会社印鑑<span style="color: red">*</span></label>
               </div>
               <div class="col-md-4">
-                <div class="row" style="width: 100%;">
+                <div class="row" >
                   <img [src]="url2" class="img-reponsive">
                 </div>
-                <div class="row" style="width: 100%;">
+                <div class="row"  >
                   <input 
                   type='file' 
                   (change)="onSelectFile($event,2)" 
                   accept="image/*" 
                   id="signature" 
                   name="signature"
-                  class="form-control" 
-                  ngModel
+                  ngModel name="signature"
                   #signature="ngModel" 
-                  style="width: 265px;margin-left: 10px;"
+                  
                   >
                   <div class="help-block" *ngIf="logoSizeError">{{ logoSizeError }}</div>
                 </div>
@@ -648,7 +647,7 @@
                 <label for="startDate">利用開始日<span style="color: red">*</span></label>
               </div>
             </div>
-            <div class="col-md-2" style="margin-left: 20px;">
+            <div class="col-md-2" >
               <div class="leftfield">
                 <input type="date" class="form-control" id="startDate" required [(ngModel)]="userInfo.startDate"
                   name="startDate" #startDate="ngModel" required
@@ -661,7 +660,7 @@
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-3">
-              <div style="margin-left: 25px;" class="help-block" *ngIf="!startDate.valid && startDate.touched">
+              <div  class="help-block" *ngIf="!startDate.valid && startDate.touched">
                 利用開始日を選択してください。</div>
             </div>
             <div class="col-md-3"></div>
@@ -676,7 +675,7 @@
                 <label for="startdate">利用終了日<span style="color: red">*</span></label>
               </div>
             </div>
-            <div class="col-md-2" style="margin-left: 20px;">
+            <div class="col-md-2" >
               <div class="leftfield">
                 <input type="date" class="form-control" id="endDate" required [(ngModel)]="userInfo.endDate"
                   name="endDate" #endDate="ngModel" required
@@ -690,7 +689,7 @@
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-3">
-              <div *ngIf="!endDate.valid && endDate.touched" style="margin-left: 20px;" class="help-block" >
+              <div *ngIf="!endDate.valid && endDate.touched"  class="help-block" >
                 利用終了日を選択してください。</div>
                 <div *ngIf="errorMessageDate  && !endDate.hasError('required')" class="error-message" style="color: red; margin-left: 20px; font-size: 13px;" >
                   {{ errorMessageDate }}

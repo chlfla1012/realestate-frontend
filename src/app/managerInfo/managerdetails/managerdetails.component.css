@@ -87,6 +87,10 @@
     font-size: 12px;
   
   }
+  img{
+    height: 200px;
+    width: 285px;
+}
   /* input.ng-invalid.ng-touched {
     border: 2px solid red;
   } */
