@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -35,16 +35,15 @@ export class ContractEditComponent {
     companyName: null
   };
   @ViewChild('f') myForm!: NgForm;
-  maxDate: string;  // Property to hold the max contract start date
+  contractForm: any;
+  maxDate: string;  
   selectedaccounttype:string='regular';
   lendertype: string;
   borrowertype: string;
-  data: any;
-
-  // contracts:any;
+  data: any;  
   id: string;
   propertyid: number;
-  // contracts: any;
+  
   deleteStatus: boolean;
   picId: string;
   selectedProperty: any;
@@ -52,19 +51,19 @@ export class ContractEditComponent {
   propertyName: string ;
   selectedPropertyName: string;
   results: any[] = [];
-  private searchTextChanged = new Subject<string>();
-  //searchTextChanged = this.searchTextSubject.asObservable(); //suwai
+  resultsByPropertyName: any[] = [];
+  resultsByRoom: any[] = [];
+  private searchTextChanged = new Subject<string>(); 
 
  containers: boolean[] = [true, false, false, false, false, false, false];
- errorMessage: string = '';
-  // picId:string;
+ errorMessage: string = ''; 
   propertyId:string;
 
   picName:string;
   picNamekana:string;
   picdepartment:string;
   propertyname:string;
-  roomno:string;
+  room:string;
   ownername:string;
   ownernamekana:string;
   mobileFirst:string;
@@ -80,9 +79,7 @@ export class ContractEditComponent {
   lender:Lender;
   borrower:Borrower;
   tenant:Tenant;
-// lendertype: string;
-// borrowertype: string;
-contract:Contract={
+  contract:Contract={
   companyId: {
     companyName: null
   },
@@ -135,7 +132,9 @@ contract:Contract={
     borrowerAddress: null,
     borrowerMemo: null,
     borrowerCooperate: null,
-    borrowerRegNo: null,
+
+    borrowerRegNo:null,
+    
     bcKana: null,
     bcpicFirstName: null,
     bcpicLastName: null,
@@ -218,6 +217,7 @@ contract:Contract={
 }
   locale: string;
   ownerUsers: any;
+  
 
 toggleContainer(index: number) {
   this.containers[index] = !this.containers[index];
@@ -230,14 +230,13 @@ updateContractEndDate() {
     startDate.setDate(startDate.getDate() - 1);
 
     // Format the date with the Japanese locale
-    const datePipe = new DatePipe(this.locale);
-    // this.contractEndDate=this.contract.contractEndDate;
+    const datePipe = new DatePipe(this.locale);    
     this.contract.contractEndDate = datePipe.transform(startDate, 'yyyy-MM-dd');
   } else {
     this.contract.contractEndDate = null;
   }
 }
-@ViewChild('searchModal') searchModal: any; // Add this line
+@ViewChild('searchModal') searchModal: any;
 filteredProperties: Property[];
 searchText: string;
 
@@ -246,26 +245,35 @@ ownerKana: string;
 ownerData: UserInfo;
 ownerkana: string;
 
-constructor(private contractService:ContractService,
+constructor(
+  private fb: FormBuilder,
+  private contractService:ContractService,
   private userService:UserInfoService,
   private userAuthService: UserAuthService,
   private sanitizer:DomSanitizer,
   private propertyService:PropertyService,
- private route:ActivatedRoute,
+  private route:ActivatedRoute,
   private router: Router,
   private dialog: MatDialog,
-    private snackBar: MatSnackBar) {
+  private snackBar: MatSnackBar) {
+    this.contractForm = this.fb.group({
+      // Define your form controls and validators here     
+      propertyname: ['', Validators.required],  
+      borrowerRegNo: ['', Validators.pattern(/^T\d{13}$/)]    
+    });
 
- }
+   }
+
  ngOnInit(): void {
-   this. getcontractById();
-   this.getUsersbyPIC();
-  //  this.getPropertyById();
+  this. getcontractById();
+  this.getUsersbyPIC();  
   this.getCurrentUserInfo();
   this.getProperties();
   this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
-    this.searchByPropertyName();
+  this.searchByPropertyName();
   });
+  this.getPropertyBySelectedPropertyName();
+  this.onRoomSelectionChange();  
  }
 
  getProperties() {
@@ -301,11 +309,8 @@ constructor(private contractService:ContractService,
   }
   
   getUsersByOwner() {
-    // console.log("start owner ", this.ownerUsers);
-
     this.userService.getOwners().subscribe(data => {
-      this.ownerUsers = data;
-      // console.log("owners", this.ownerUsers);
+      this.ownerUsers = data;    
     },
       (error) => {
         console.error('Error fetching owners:', error);
@@ -357,54 +362,54 @@ onInputChanged(): void {
 }
 
 searchByPropertyName(): void {
-  console.log("Property Name  "+this.propertyName);
   this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {
-    console.log("Property Name  "+this.propertyName);
     this.results = data;
   });
 }
 
 selectPropertyName(event: MatAutocompleteSelectedEvent): void {
-  console.log('Selected Property Name 02:', this.propertyName);
-  this.propertyName = event.option.value;
-  this.selectedPropertyName = this.propertyName;
-  console.log('Selected Property Name 04:', this.propertyName);
+      
+  this.propertyName = event.option.value;    
+  this.selectedPropertyName = this.propertyName;   
+  this.getPropertyBySelectedPropertyName(); 
+}  
+getPropertyBySelectedPropertyName():void {    
+  this.contractService.getPropertyByName(this.propertyName).subscribe((data) => {           
+  this.resultsByPropertyName = data;
+  console.log("resultsByPropertyName:" + this.resultsByPropertyName);
+    
+  });
 
-  // Call the service method and handle the subscription
-  this.propertyService.getPropertiesByCompanyId(this.companyId) // Replace with your actual service method to get all properties
-    .subscribe(
-      (allProperties: Property[]) => {
-        console.log('All Properties:', allProperties);
+}  
+onRoomSelectionChange(): void {       
+  console.log ("onRoom SelectionChange : " + this.room);
+  this.contractService.getOwnerByRoom(this.room).subscribe(
+    (allProperties: Property[])=>{
+      const selectedProperty = allProperties.find(property => property.room === this.room);
+      if(selectedProperty){
+        this.ownername = selectedProperty.ownerName;
+        this.ownerKana = selectedProperty.ownerKana;
+        this.propertyId = selectedProperty.id;
+      } 
+    },
+    (error) => {
+      console.error('Error fetching Property data:', error);
+       }
+  );
 
-        // Find the selected property in the array
-        const selectedProperty = allProperties.find(property => property.propertyName === this.propertyName);
+} 
+validateBorrowerRegNo() {
+  const regExp = /^[T]\d{13}$/; // Regular expression for the specified format
+  const borrowerRegNoControl = this.contractForm.controls.borrowerRegNo;
 
-        if (selectedProperty) {
-          console.log('Selected Property:', selectedProperty);
-
-          // Update component properties based on the selected property
-          this.roomno = selectedProperty.room;
-          console.log('Room no:', this.roomno);
-          this.ownername = selectedProperty.ownerName;
-          this.ownerKana = selectedProperty.ownerKana;
-          this.propertyId = selectedProperty.id; //added by suwai
-          console.log('propertyId:', this.propertyId);
-
-          // Optionally, do additional actions if needed
-
-          // Trigger the change detection manually (if needed)
-          // this.changeDetectorRef.detectChanges();
-        } else {
-          console.error('Selected property not found');
-        }
-      },
-      (error) => {
-        console.error('Error fetching Property data:', error);
-      }
-    );
+  if (!regExp.test(borrowerRegNoControl.value)) {
+    borrowerRegNoControl.setErrors({ pattern: true });
+  } else {
+    borrowerRegNoControl.setErrors(null);
+  }
 }
-
-    onSubmit(formData:NgForm){
+onSubmit(formData:NgForm){
+      
       this.userService.getUserById(this.picId).subscribe
       ((selectedPICData: UserInfo) => {
         this.picName = selectedPICData.firstName +" "+
@@ -418,10 +423,11 @@ selectPropertyName(event: MatAutocompleteSelectedEvent): void {
         
         // Update the contract object with the fetched data       
         this.contract.propertyName = this.propertyName;
-        this.contract.roomno = this.roomno;
+        this.contract.roomno = this.room;
         this.contract.ownerName = this.ownername;
         this.contract.ownerKana = this.ownerKana;
         this.contract.property.id = this.propertyId;
+        console.log("this.contract.property.id : " + this.contract.property.id);
                 
         this.contract.pic = this.picData;
         this.contract.picName = this.picName;
@@ -429,8 +435,7 @@ selectPropertyName(event: MatAutocompleteSelectedEvent): void {
         this.contract.mobileSecond = this.mobileSecond;
         this.contract.mobileThird = this.mobileThird;
 
-        console.log(this.contract.mobileFirst);
-        // console.log(this.contract.owner);
+        console.log(this.contract.mobileFirst);    
       if (formData.invalid) {
         Object.keys(formData.controls).forEach((key) => {
           formData.controls[key].markAsTouched();
@@ -447,18 +452,17 @@ selectPropertyName(event: MatAutocompleteSelectedEvent): void {
           console.log(error);
         }
       )
-
+      
       window.history.back();
       setTimeout(()=>{
           window.location.reload();
         }, 100);
-      //this.router.navigate(['contract-list']);
 
     },
-                  (selectedPICData: HttpErrorResponse) => {
-                    console.log(selectedPICData);
-                  }
-                );
+      (selectedPICData: HttpErrorResponse) => {
+      console.log(selectedPICData);
+    }
+    );
   }
 
    keyPressAlpha(event:KeyboardEvent){
@@ -532,8 +536,6 @@ selectPropertyName(event: MatAutocompleteSelectedEvent): void {
   }
 navigateToUpdatePage(id: string) {
  this.router.navigate(['/contract-update',id]);
- // window.history.back();
-
 }
 navigateToPreivousPage() {
   window.history.back();

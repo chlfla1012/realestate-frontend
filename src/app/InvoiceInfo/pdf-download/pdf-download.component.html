@@ -12,7 +12,7 @@
 
         <!-- <script src="https://unpkg.com/html2pdf.js"></script> -->
         <svg class='fontawesomesvg' xmlns="http://www.w3.org/2000/svg"  style="height: 20px;"  viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM64 224H88c30.9 0 56 25.1 56 56s-25.1 56-56 56H80v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V320 240c0-8.8 7.2-16 16-16zm24 80c13.3 0 24-10.7 24-24s-10.7-24-24-24H80v48h8zm72-64c0-8.8 7.2-16 16-16h24c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H176c-8.8 0-16-7.2-16-16V240zm32 112h8c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16h-8v96zm96-128h48c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H304v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V304 240c0-8.8 7.2-16 16-16z"/></svg>
-        <span style="margin-left: 10px;">請求書PDFコレクション画面</span>
+        <span style="margin-left: 10px;">請求書PDFダウンロード画面</span>
 
       </div>
       <div class="col-7"></div>
@@ -55,14 +55,23 @@
           <p>担当：{{itemVariables.personName}}</p>
           <p>電話番号：{{itemVariables.mobileFirst}}-{{itemVariables.mobileSecond}}-{{itemVariables.mobileThird}}</p>
           <p>{{itemVariables.address}}</p>
+          <p>登録番号：{{itemVariables.borrowerRegNo}}</p>
 
         </div>
         <div class="col-md-3" style="margin-left: 30px; line-height: 1;">
           <p>{{itemVariables.billingDate}}</p>
           <p>{{itemVariables.paymentDueDate| date:"MM/dd/yyyy" }}</p>
           <!-- {{ '2023-11-28' | date:"yyyy/MM/dd" }} -->
+          <div class="col-md-2">
+            <img [src]="url" style="object-fit:contain;
+            width:60px;
+            height:60px;" class="img-reponsive">
         </div>
-       </div>
+        </div>
+        </div>
+        
+       
+       
 
         <!-- <div class="col-md-1" style="padding-top: 0px;"></div> -->
         <div class="col-md-6" style="padding-bottom: 10px;padding-top: 8px; margin-left: 50px; line-height: 1.2;" >
@@ -142,7 +151,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.shikikin !== 0">
-                    <td>{{ item.invoiceMoneyList.shikikinStartDate }}~{{ item.invoiceMoneyList.shikikinEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.shikikinStartDate| date:"MM/dd" }}~{{ item.invoiceMoneyList.shikikinEndDate| date:"MM/dd" }}</td>
                     <td>敷金</td>
                     <td>{{ item.invoiceMoneyList.shikikin }}</td>
                     <td>{{ item.invoiceMoneyList.shikikinTax }}</td>
@@ -150,7 +159,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.deposit !== 0">
-                    <td>{{ item.invoiceMoneyList.depositStartDate }}~{{ item.invoiceMoneyList.depositEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.depositStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.depositEndDate | date:"MM/dd"}}</td>
                     <td>保証金
                     </td>
                     <td>{{ item.invoiceMoneyList.deposit }}</td>
@@ -159,7 +168,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.renewalFee !== 0">
-                    <td>{{ item.invoiceMoneyList.renewalFeeStartDate }}~{{ item.invoiceMoneyList.renewalFeeEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.renewalFeeStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.renewalFeeEndDate| date:"MM/dd" }}</td>
                     <td>更新料
                     </td>
                     <td>{{ item.invoiceMoneyList.renewalFee }}</td>
@@ -168,7 +177,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.repairCost !== 0">
-                    <td>{{ item.invoiceMoneyList.repairCostStartDate }}~{{ item.invoiceMoneyList.repairCostEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.repairCostStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.repairCostEndDate | date:"MM/dd"}}</td>
                     <td>退去時補修費
                     </td>
                     <td>{{ item.invoiceMoneyList.repairCost }}</td>
@@ -177,7 +186,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.penaltyFee !== 0">
-                    <td>{{ item.invoiceMoneyList.penaltyFeeStartDate }}~{{ item.invoiceMoneyList.penaltyFeeEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.penaltyFeeStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.penaltyFeeEndDate | date:"MM/dd"}}</td>
                     <td>違約金</td>
                     <td>{{ item.invoiceMoneyList.penaltyFee }}</td>
                     <td>{{ item.invoiceMoneyList.penaltyFeeTax }}</td>
@@ -185,7 +194,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.signboard !== 0">
-                    <td>{{ item.invoiceMoneyList.signboardStartDate }}~{{ item.invoiceMoneyList.signboardEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.signboardStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.signboardEndDate | date:"MM/dd"}}</td>
                     <td>看板料</td>
                     <td>{{ item.invoiceMoneyList.signboard }}</td>
                     <td>{{ item.invoiceMoneyList.signboardTax }}</td>
@@ -193,7 +202,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.electricBill !== null">
-                    <td>{{ item.invoiceMoneyList.electricBillStartDate }}~{{ item.invoiceMoneyList.electricBillEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.electricBillStartDate| date:"MM/dd" }}~{{ item.invoiceMoneyList.electricBillEndDate | date:"MM/dd"}}</td>
                     <td>電気代</td>
                     <td>{{ item.invoiceMoneyList.electricBill }}</td>
                     <td>{{ item.invoiceMoneyList.electricBillTax }}</td>
@@ -201,7 +210,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.waterBill !== null">
-                    <td>{{ item.invoiceMoneyList.waterBillStartDate }}~{{ item.invoiceMoneyList.waterBillEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.waterBillStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.waterBillEndDate | date:"MM/dd"}}</td>
                     <td>水道代</td>
                     <td>{{ item.invoiceMoneyList.waterBill }}</td>
                     <td>{{ item.invoiceMoneyList.waterBillTax }}</td>
@@ -209,7 +218,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.gasBill !== null">
-                    <td>{{ item.invoiceMoneyList.gasBillStartDate }}~{{ item.invoiceMoneyList.gasBillEndDate }}</td>
+                    <td>{{ item.invoiceMoneyList.gasBillStartDate | date:"MM/dd"}}~{{ item.invoiceMoneyList.gasBillEndDate | date:"MM/dd"}}</td>
                     <td>ガス代</td>
                     <td>{{ item.invoiceMoneyList.gasBill }}</td>
                     <td>{{ item.invoiceMoneyList.gasBillTax }}</td>
@@ -217,7 +226,7 @@
                   </tr>
 
                   <tr *ngIf="item.invoiceMoneyList.constructionBill !== null">
-                    <td>{{ item.invoiceMoneyList.constructionBillUsagePeriod }}</td>
+                    <td>{{ item.invoiceMoneyList.constructionBillUsagePeriod | date:"MM/dd"}}</td>
                     <td>工事費</td>
                     <td>{{ item.invoiceMoneyList.constructionBill }}</td>
                     <td>{{ item.invoiceMoneyList.constructionBillTax }}</td>
@@ -250,16 +259,7 @@
         </div>
      
         <div class="col-md-6" style="margin-left:415px;padding-top: 6px;">
-          <!-- <textarea [readonly]="isTextareaReadOnly" id="w3review" name="w3review" style="font-size: 12px; line-height: 1.5;" rows="5" cols="50">
-            <<お振込み先>>
-            金融機関名: {{itemVariables.bankName}}
-            支店: {{itemVariables.branchName}}
-            口座番号: {{itemVariables.accountType}} {{itemVariables.accountNo}} 
-            口座名義人: {{itemVariables.accountName}}
-          </textarea> -->
-
-
-          
+       
           <table class="table1" style="border-collapse: collapse;width: 320px;line-height: 1.2;">
             <tr style="text-align: left;"><<お振込み先>></tr>
             <tr></tr>
@@ -276,17 +276,17 @@
       &nbsp;
 
   
-      <div class="row button-row" style="margin-left: 190px; padding-top: 25px;">
+      <div class="row button-row" style="margin-left: 250px; padding-top: 25px;">
           <div class="col-md-2">
             <button mat-stroked-button class="resetBtn" style="width: 130px; height: 30px;" (click)=" onCancel()">
               キャンセル
             </button>
           </div>
-          <div class="col-md-2" style="margin-left: 25px;">
+          <!-- <div class="col-md-2" style="margin-left: 25px;">
            <button mat-stroked-button class="downloadPDFBtn" style="width: 130px;height:30px;" (click)="generatePDF()"
            >ダウンロード</button> 
-          </div>
-          <div class="col-md-2" style="margin-left: 25px;">
+          </div> -->
+          <div class="col-md-2" style="margin-left: 50px;">
       
            <button mat-stroked-button class="sentBtn" style="width: 130px;height:30px;" (click)="openGmail()"
            >送信</button> 
