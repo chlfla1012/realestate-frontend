@@ -196,6 +196,8 @@ export class PropertycreateComponent {
 
   maxSelectSize: number = 1048576; // 1 MB
   maxTextAreaSize: number = 2097152; // 2 MB
+  //formSubmitted: boolean = false;
+  //errorMessage:string = '';
 
   constructor(private router: Router,
     private userService: UserInfoService,
@@ -307,7 +309,7 @@ export class PropertycreateComponent {
       console.log("Form Errors");
       return;
     }
-
+    //this.formSubmitted = true;
     this.userService.getUserById(this.ownerId).subscribe
       ((selectedOwnerData: UserInfo) => {
         this.ownerName = selectedOwnerData.firstName + " " + selectedOwnerData.lastName;
@@ -353,15 +355,15 @@ export class PropertycreateComponent {
                 console.log(error);
               }
             );
-
-
-
           },
             (selectedPICData: HttpErrorResponse) => {
               console.log(selectedPICData);
             }
           );
       },
+      // (error) => {
+      //   this.errorMessage = "オーナー名前を選択してください。";
+      // } 
         (selectedOwnerDataError: HttpErrorResponse) => {
           console.log(selectedOwnerDataError);
         }

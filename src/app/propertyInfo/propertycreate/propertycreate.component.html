@@ -110,8 +110,12 @@
                                         </div>
                                         <div class="col-md-4"></div>
                                         <div class="col-md-3">
-                                            <mat-error class="help-block" style="margin-left:14px"
+                                            <!-- <mat-error class="help-block" style="margin-left:14px"
                                                 *ngIf="!ownerId && (f.submitted || f.controls['ownerId'].touched)">
+                                                オーナー名前を選択してください。
+                                            </mat-error> -->
+                                            <mat-error class="help-block" style="margin-left:14px"
+                                                *ngIf="!ownerId && (f.submitted && f.controls['ownerId'].touched) ">
                                                 オーナー名前を選択してください。
                                             </mat-error>
                                         </div>
@@ -178,8 +182,12 @@
                                         </div> -->
                                         <div class="col-md-4"></div>
                                         <div class="col-md-3">
-                                            <mat-error class="help-block" style="margin-left: 10px;"
+                                            <!-- <mat-error class="help-block" style="margin-left: 10px;"
                                                 *ngIf="!picId && (f.submitted || f.controls['picId'].touched)">
+                                                担当者名前を選択してください。
+                                            </mat-error> -->
+                                            <mat-error class="help-block" style="margin-left: 10px;"
+                                                *ngIf="!picId && (f.submitted && f.controls['picId'].touched)">
                                                 担当者名前を選択してください。
                                             </mat-error>
                                         </div>
