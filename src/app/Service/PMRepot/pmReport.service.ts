@@ -8,14 +8,14 @@ import { debounceTime } from 'rxjs/operators';
 import { Income } from "src/app/Model/Income";
 import { Rental } from "src/app/Model/Rental";
 import { Expense } from "src/app/Model/Expense";
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PmReportService {
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
   pmReport:PMReport;
 
   constructor(private http: HttpClient) { }

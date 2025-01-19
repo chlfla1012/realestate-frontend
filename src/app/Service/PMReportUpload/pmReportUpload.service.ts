@@ -3,13 +3,14 @@ import { PMReportUpload } from 'src/app/Model/PMReportUpload';
 import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders,HttpResponse } from "@angular/common/http";
 import { Observable, catchError, map, of, throwError } from "rxjs";
 import { PMReport } from 'src/app/Model/PMReport';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PmReportUploadService {
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
   pmReportUpload: PMReportUpload;
     constructor(private http: HttpClient) { }
 

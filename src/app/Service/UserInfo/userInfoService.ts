@@ -3,14 +3,14 @@ import { Injectable } from "@angular/core";
 import { Observable, catchError, map, of, throwError } from "rxjs";
 import { UserInfo } from "../../Model/userInfo";
 import { UserAuthService } from "./user-auth.service";
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
     providedIn: 'root'
   })
   export class UserInfoService {
 
-    private url = "http://localhost:8080/";
+    private url = environment.hostUrl;
     userInfo :UserInfo;
   
     constructor(private http: HttpClient,private userAuthService: UserAuthService) { }

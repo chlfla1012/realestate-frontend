@@ -2,14 +2,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders } from "
 import { Injectable } from "@angular/core";
 import { Observable, catchError, map, of, throwError } from "rxjs";
 import { IncomeCheck } from 'src/app/Model/IncomeCheck';
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeCheckService {
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
   incomeCheck: IncomeCheck;
 
   constructor(private http: HttpClient) { }

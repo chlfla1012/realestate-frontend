@@ -6,7 +6,7 @@ import { Invoice } from 'src/app/Model/Invoice';
 import { Property } from 'src/app/Model/Property';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Borrower } from 'src/app/Model/Borrower';
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class InvoiceServiceService{
   getInvoiceByCompanyId(companyId: number) {
     throw new Error('Method not implemented.');
   }
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
   filteredDataArray: Invoice[];
 
   constructor(private http: HttpClient) { }

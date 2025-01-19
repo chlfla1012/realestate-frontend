@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { tap } from 'rxjs';
-
+import { environment } from '../../../environment/environment';
 
 @Component({
   selector: 'app-pdf-download',
@@ -286,7 +286,7 @@ savePdf(pdf: File, filename: string) {
       `;
 
 
-      const concatenatedLink = 'http://localhost:8080/download/' + filename;
+      const concatenatedLink = environment.hostUrl + '/download/' + filename;
 
         const body = bodyTemplate
 

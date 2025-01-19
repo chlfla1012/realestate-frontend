@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders } from '
 import { Observable, catchError ,throwError} from 'rxjs'
 import { Contract } from 'src/app/Model/Contract';
 import { Property } from 'src/app/Model/Property';
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class ContractService {
   //   throw new Error('Method not implemented.');
   // }
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaderResponse, HttpHeaders } from "
 import { Injectable } from "@angular/core";
 import { Observable, catchError, map, of, throwError } from "rxjs";
 import { BankFormat } from 'src/app/Model/BankFormat';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BankFormatService {
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
   bankformat: BankFormat;
 
   constructor(private http: HttpClient) { }

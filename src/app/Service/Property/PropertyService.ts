@@ -4,14 +4,14 @@ import { Observable, catchError ,throwError} from 'rxjs'
 import { Property } from 'src/app/Model/Property';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { Contract } from 'src/app/Model/Contract';
-
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyService {
 
-  private url = "http://localhost:8080/";
+  private url = environment.hostUrl;
 
   constructor(private http: HttpClient) { }
  //create property

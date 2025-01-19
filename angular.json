@@ -25,17 +25,16 @@
               "src/assets"
             ],
             "styles": [
-             "node_modules/bootstrap/dist/css/bootstrap.min.css",
-             "node_modules/bootstrap/dist/css/bootstrap.css",
-             "src/styles.css",
-             "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/styles.css",
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "allowedCommonJsDependencies": [
               "dayjs",
               "dayjs/locale/ja",
               "papaparse"
             ]
-            
           },
           "configurations": {
             "production": {
@@ -51,7 +50,13 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "fileReplacements": [
+                {
+                  "replace": "src/environment/environment.ts",
+                  "with": "src/environment/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "buildOptimizer": false,
@@ -59,7 +64,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environment/environment.ts",
+                  "with": "src/environment/environment.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -94,22 +105,18 @@
               "src/favicon.ico",
               "src/assets"
             ],
-
-           
-
             "styles": [
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-            "node_modules/datatables.net/js/jquery.dataTables.js",
-            "node_modules/bootstrap/dist/js/bootstrap.js"
-            ]          
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           }
         },
         "deploy": {
