@@ -12,6 +12,8 @@ import { EmailRequestComponent } from './forgotPasswordInfo/email-request/email-
 import { ResetPasswordComponent } from './forgotPasswordInfo/reset-password/reset-password.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
+import { LandingPageComponent } from './landingPage/landingPage.component';
+import { ContactPageComponent } from './contact/contactPage.component';
 import { ManagerListComponent } from './managerInfo/manager-list/manager-list.component';
 import { ManagerdetailsComponent } from './managerInfo/managerdetails/managerdetails.component';
 import { ManagereditComponent } from './managerInfo/manageredit/manageredit.component';
@@ -58,7 +60,7 @@ import { AuthGuard } from './auth.guard';
 const routes: Routes = [
 
   //eiphyu
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/LP', pathMatch: 'full'},
   // { path: '**', component: PageNotFoundComponent },
 
 
@@ -80,6 +82,8 @@ const routes: Routes = [
 { path: 'contract-details/:id', component: ContractDetailsComponent, canActivate: [AuthGuard] },
 { path: 'contract-update/:id', component: ContractEditComponent, canActivate: [AuthGuard] },
 
+  { path: 'LP', component: LandingPageComponent },
+  { path: 'contact', component: ContactPageComponent },
 //swezin
   { path: 'login', component: LoginComponent },
   { path: 'header', component: HeaderComponent, canActivate: [AuthGuard] },

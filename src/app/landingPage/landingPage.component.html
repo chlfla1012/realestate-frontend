@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ラクイエクラウド - 不動産管理クラウドシステム</title>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <img src="assets/logo.png" alt="RAKUIE CLOUD" routerLink="/LP" class="logo">
+
+      <nav class="nav-links">
+        <a routerLink="/LP">HOME</a>
+        <a routerLink="/contact">問い合わせ</a>
+        <button routerLink="/login">ログイン</button>
+      </nav>
+
+      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+    </div>
+
+    <div class="mobile-menu" [class.active]="menuOpen">
+      <a routerLink="/LP" (click)="closeMenu()">HOME</a>
+      <a routerLink="/contact" (click)="closeMenu()">問い合わせ</a>
+      <button routerLink="/login" (click)="closeMenu()">ログイン</button>
+    </div>
+  </header>
+
+  <section class="hero-container">
+    <div class="hero-text fade-in-on-scroll">
+      <h2>不動産管理業務、これひとつで完結</h2>
+      <p>ラクイエクラウドで<br>物件・契約・入居者・収支をクラウドで一元管理</p>
+      <button routerLink="/contact">問い合わせ</button>
+    </div>
+    <div class="hero-image fade-in-on-scroll">
+      <img src="assets/lp_hero.png" alt="メインビジュアル">
+    </div>
+  </section>
+
+  <!-- システム概要 -->
+  <section class="system-section">
+    <div class="slide-up-on-scroll">
+      <h2>システム概要</h2>
+        <p class="system-intro">
+          このクラウドシステムは、不動産業務をオンラインで一元管理するために設計されています。
+          <span class="highlight-blue">契約・収支・入居者などの情報</span>を簡単かつ安全に管理できます。
+        </p>
+    </div>
+  
+
+  <div class="system-grid slide-up-on-scroll">
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_01.png" alt="アカウント管理"></div>
+      <h3>アカウント管理</h3>
+      <p>役割ごとに機能や画面のアクセスを制限できるアカウント管理機能を提供しています。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox">
+        <img src="assets/lp_system_02.png" alt="物件管理">
+      </div>
+      <h3>物件管理</h3>
+      <p>物件情報の登録・編集・削除に加え、写真や設備情報もまとめて管理できる機能を提供しています。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_03.png" alt="契約管理"></div>
+      <h3>契約管理</h3>
+      <p>契約内容の登録や更新、終了手続きまでをスムーズに行える契約管理機能をご利用いただけます。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_04.png" alt="入居者管理"></div>
+      <h3>入居者管理</h3>
+      <p>入居者の基本情報に加え、連絡先や居住履歴なども一括で管理でき、業務の見える化を実現します。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_05.png" alt="収支管理"></div>
+      <h3>収支管理</h3>
+      <p>家賃や修繕費などの収入・支出項目を分類して記録し、収支状況をリアルタイムで把握することが可能です。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_06.png" alt="入金チェック"></div>
+      <h3>入金チェック</h3>
+      <p>月別に契約者ごとの入金状況を一覧で確認でき、未入金の把握や督促業務を効率化します。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_07.png" alt="PMレポート"></div>
+      
+      <h3>PMレポート</h3>
+      <p>オーナー向けに収支報告書を自動生成し、PDF出力やメール送信までも一貫して対応できます。</p>
+    </div>
+    <div class="system-item">
+      <div class="system-item-imgbox"><img src="assets/lp_system_08.png" alt="取引先管理"></div>
+      
+      <h3>取引先管理</h3>
+      <p>業者ごとの連絡先や対応履歴を簡単に登録・編集・削除でき、スムーズな業務連携を支援します。</p>
+    </div>
+  </div>
+</section>
+
+
+  <!-- メリットキャッチ -->
+  <section class="benefit-catch">
+    <div class="catch-text fade-in-on-scroll">
+      <p>
+        事務作業の手間を減らし、収支を可視化しながら、<br>
+        クラウドで
+        <span class="highlight">安全かつどこからでもスマート</span>
+        に不動産管理してみませんか？
+      </p>
+    </div>
+    <div class="catch-image fade-in-on-scroll">
+      <img src="assets/lp_qa.png" alt="サービス説明ビジュアル">
+    </div>
+  </section>
+
+  <!-- 導入メリット -->
+  <section class="fade-in-on-scroll" style="padding: 4rem 2rem; text-align: center;">
+    <img src="assets/lp_merit.png" alt="メリット図解" style="width: 100%; max-width: 600px;">
+    <h3 style="margin-top: 2rem;">導入メリット</h3>
+    <p>日々の業務を効率化しながら、収支状況も可視化して管理。どこからでも安心して操作できる環境を構築します。</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section fade-in-on-scroll">
+    <div class="faq-wrapper">
+      <div class="faq-title">
+        <h3>よくある質問</h3>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let faq of faqList; let i = index">
+          <button class="faq-question" (click)="toggleFAQ(i)">
+            <span class="faq-q">Q. {{ faq.question }}</span>
+            <span class="arrow" [class.open]="faq.open">▼</span>
+          </button>
+          <div
+            class="faq-answer"
+            [@toggleAnswer]="faq.open ? 'open' : 'closed'"
+          >
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- お問い合わせ -->
+<footer class="footer-section">
+  <p class="footer-text">導入に関するご相談は、どうぞお気軽にご連絡ください。</p>
+  <button class="footer-button" routerLink="/contact">問い合わせ</button>
+  <p class="copyright">&copy; 2025 不動産管理クラウドシステム. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

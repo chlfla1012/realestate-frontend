@@ -14,6 +14,6 @@ export class AppComponent {
 
 
   shouldShowHeader(): boolean {
-    return this.router.url !== '/login' && this.router.url !== '/email-request' && this.router.url !== '/reset-password';
+    return this.router.url !== '/login' && this.router.url !== '/email-request' && this.router.url !== '/reset-password' && this.router.url !== '/LP'&& this.router.url !== '/contact';
   }
 }

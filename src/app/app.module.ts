@@ -26,6 +26,8 @@ import { CustomerDetailsComponent } from './customer/customer-details/customer-d
 
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
+import { LandingPageComponent } from './landingPage/landingPage.component';
+import { ContactPageComponent } from './contact/contactPage.component';
 
 import { HeaderComponent } from './header/header.component';
 import {MatButtonModule} from '@angular/material/button';
@@ -131,6 +133,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ManagerListComponent,
 
     LoginComponent,
+    LandingPageComponent,
+    ContactPageComponent,
     ChangePasswordComponent,
     EmailRequestComponent,
     ResetPasswordComponent,

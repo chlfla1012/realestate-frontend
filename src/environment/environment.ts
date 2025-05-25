@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    hostUrl: 'http://localhost:8080/'
+    hostUrl: 'https://witts-sol/api/'
   };
   
