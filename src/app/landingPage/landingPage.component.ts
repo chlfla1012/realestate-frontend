@@ -35,7 +35,7 @@ export class LandingPageComponent implements AfterViewInit {
   faqList = [
     {
       question: '導入費用は？',
-      answer: '無料プランをご用意しております。必要に応じて有料プランも選択可能です。',
+      answer: '導入費用につきましては、お気軽にお問い合わせください。',
       open: false,
     },
     {

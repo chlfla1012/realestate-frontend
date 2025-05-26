@@ -354,13 +354,33 @@ header p {
 .footer-section {
   background-color: #1e2a38;
   color: white;
+  padding: 3rem 1rem 1rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 2rem 0rem 0rem 0rem;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  margin-bottom: 1.5rem;
+}
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+  opacity: 0.95;
 }
 
 .footer-text {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  max-width: 600px;
 }
 
 .footer-button {
@@ -368,15 +388,15 @@ header p {
   color: #1e2a38;
   border: none;
   padding: 0.75rem 2rem;
-  border-radius: 4px;
+  border-radius: 6px;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .footer-button:hover {
-  background-color: #f0f0f0;
+  background-color: #f2f2f2;
 }
 
 .footer-button:active {
@@ -385,10 +405,10 @@ header p {
 
 .copyright {
   margin-top: 2rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #ccc;
-  margin-bottom: 0;
 }
+
 
 @media (max-width: 768px) {
   .hero-text,
