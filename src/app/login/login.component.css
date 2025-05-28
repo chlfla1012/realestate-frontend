@@ -147,5 +147,26 @@ margin: 15px;
     margin-top: 10px;
 }
 
+.footer-section {
+  background-color: #1e2a38;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.copyright {
+  font-size: 0.85rem;
+  color: #ccc;
+}
 
 
