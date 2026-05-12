@@ -7,8 +7,10 @@
 <body>
 <div class="wrapper">
   <form #loginForm="ngForm" (ngSubmit)="loginUser(f)" #f="ngForm">
+    <h3 style="font-weight: 600;">不動産管理システム</h3>
     <div class="login-image">
-      <img src="assets/logo_white_full.png">
+      <!-- <img src="assets/images/starlight.jpg"> -->
+      <mat-icon class="login-icon">home</mat-icon>
     </div>
     <div class="input-box">
       <label for="email">メールアドレス</label>
@@ -67,11 +69,4 @@
 
   </form>
 </div>
-<footer class="footer-section">
-  <div class="footer-inner">
-    <p class="copyright">
-      © 2025 WITTS Technology Inc. All Rights Reserved.
-    </p>
-  </div>
-</footer>
 </body>

@@ -33,7 +33,7 @@
   <div class="container"  >
     <div id="contentToConvert" >
       
-    <div class="row title-row" *ngIf="filteredData">
+    <div class="row title-row" *ngIf="filteredData.length > 0 && itemVariables?.borrowerRegNo">
       
         <div  class="title" style="margin-top: 18px;">
             <h1>請求書</h1>

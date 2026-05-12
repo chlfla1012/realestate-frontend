@@ -27,15 +27,15 @@ export class PdfDownloadComponent implements OnInit{
   invoiceList:InvoiceList[];
   invoiceMoneyList: InvoiceList;
   userId:UserInfo
-  url: SafeUrl ;
+  url: SafeUrl | string;
  testing:string;
 
   borrowerCooperate:string;
   companyId: number;
   // status: string = 'OK';
-  filteredData: any[];
+  filteredData: any[] = [];
 // bcMail: string;
-itemVariables: any; 
+itemVariables: any = {}; 
 // dataSource: MatTableDataSource<any>;
 sumOfAmount: number = 0;
   invoice: Invoice[];
@@ -62,70 +62,191 @@ constructor( private invoiceService: InvoiceServiceService,
 
 
 ngOnInit() {
+  this.setMockInvoiceData();
+}
 
-  // this.getSignatureImage();
-//pass filtered data from pdf collection
-  const filteredDataParam = this.route.snapshot.queryParams['filteredData'];
+  private initializeInvoiceData(data: any[]) {
+    this.filteredData = Array.isArray(data) ? data : [];
 
-
-if (filteredDataParam) {
-  this.filteredData = JSON.parse(filteredDataParam);
-
-;
-
-  // Extract properties from filteredData and assign to itemVariables 
-  for (const item of this.filteredData) {
-    this.itemVariables={
-      id:item.id,
-     companyPostalFirst:item.companyPostalFirst,
-     companyPostalSecond:item.companyPostalSecond,
-     companyName:item.companyId.companyName,
-     companyAddress:item.companyAddress,
-     personName:item.personName,
-     mobileFirst:item.mobileFirst,
-     mobileSecond:item.mobileSecond,
-     mobileThird:item.mobileThird,
-     propertyName:item.propertyName,
-     roomNo:item.roomNo,
-     floor:item.floor,
-     buildingPostalFirst:item.buildingPostalFirst,
-     buildingPostalLast:item.buildingPostalLast,
-     address:item.address,
-     borrowerCooperate:item.borrowerCooperate,
-     borrowerPersonName:item.borrowerPersonName,
-     paymentDueDate:item.paymentDueDate,
-     
-     billingDate:item.billingDate,
-     bankName:item.bankName,
-     branchName:item.branchName,
-     accountType:item.accountType,
-     accountNo:item.accountNo,
-     accountName:item.accountName,
-     information:item.information,
-     userId:item.userId,
-     url:item.userId.signature.url,
-     borrowerRegNo:item.borrowerRegNo,
-
-
+    if (!this.filteredData || this.filteredData.length === 0) {
+      this.itemVariables = {};
+      this.url = 'assets/logo.png';
+      return;
     }
- 
+
+    const item = this.filteredData[0];
+
+    this.itemVariables = {
+      id: item.id,
+      companyPostalFirst: item.companyPostalFirst,
+      companyPostalSecond: item.companyPostalSecond,
+      companyName: item.companyId?.companyName ?? item.companyName,
+      companyAddress: item.companyAddress,
+      personName: item.personName,
+      mobileFirst: item.mobileFirst,
+      mobileSecond: item.mobileSecond,
+      mobileThird: item.mobileThird,
+      propertyName: item.propertyName,
+      roomNo: item.roomNo,
+      floor: item.floor,
+      buildingPostalFirst: item.buildingPostalFirst,
+      buildingPostalLast: item.buildingPostalLast,
+      address: item.address,
+      borrowerCooperate: item.borrowerCooperate,
+      borrowerPersonName: item.borrowerPersonName,
+      paymentDueDate: item.paymentDueDate,
+      billingDate: item.billingDate,
+      bankName: item.bankName,
+      branchName: item.branchName,
+      accountType: item.accountType,
+      accountNo: item.accountNo,
+      accountName: item.accountName,
+      information: item.information,
+      userId: item.userId,
+      url: item.userId?.signature?.url,
+      borrowerRegNo: item.borrowerRegNo,
+    };
+
+    console.log('Register No.' + this.itemVariables.borrowerRegNo);
+    this.testing = this.itemVariables.userId;
+    console.log('Item Variables:', this.invoiceId);
+    console.log('Item userId:', this.itemVariables.userId?.signature);
+
+    if (this.itemVariables.userId?.signature?.image && this.itemVariables.userId?.signature?.name) {
+      console.log('the borrower cooperate is ', this.itemVariables.userId.signature.id);
+      this.url = this.createImages(
+        this.itemVariables.userId.signature.image,
+        this.itemVariables.userId.signature.name
+      ).url;
+    } else {
+      this.url = 'assets/logo.png';
+    }
+
+    console.log('Image URL ' + this.url);
   }
 
-console.log("Register No."+this.itemVariables.borrowerRegNo)
-    const bc=this.itemVariables.borrowerCooperate;
-    this.testing=this.itemVariables.userId;
-    console.log('Item Variables:',this.invoiceId);
+  private setMockInvoiceData() {
+    const mockInvoiceMoneyList = {
+      rent: 165330,
+      rentTax: 18370,
+      rentTotal: 183700,
+      rentUsagePeriod: '1',
+      brokerageFee: 0,
+      brokerageFeeTax: 0,
+      brokerageFeeTotal: 0,
+      brokerageFeeUsagePeriod: '',
+      serviceFee: 4500,
+      serviceFeeTax: 0,
+      serviceFeeTotal: 4500,
+      serviceFeeUsagePeriod: '1',
+      parkingFee: 0,
+      parkingFeeTax: 0,
+      parkingFeeTotal: 0,
+      parkingStartDate: '',
+      parkingEndDate: '',
+      bicycleParkingFee: 0,
+      bicycleParkingFeeTax: 0,
+      bicycleParkingFeeTotal: 0,
+      bicycleParkingStartDate: '',
+      bicycleParkingEndDate: '',
+      keymoney: 0,
+      keymoneyTax: 0,
+      keymoneyTotal: 0,
+      keymoneyStartDate: '',
+      keymoneyEndDate: '',
+      shikikin: 0,
+      shikikinTax: 0,
+      shikikinTotal: 0,
+      shikikinStartDate: '',
+      shikikinEndDate: '',
+      deposit: 0,
+      depositTax: 0,
+      depositTotal: 0,
+      depositStartDate: '',
+      depositEndDate: '',
+      renewalFee: 0,
+      renewalFeeTax: 0,
+      renewalFeeTotal: 0,
+      renewalFeeStartDate: '',
+      renewalFeeEndDate: '',
+      repairCost: 0,
+      repairCostTax: 0,
+      repairCostTotal: 0,
+      repairCostStartDate: '',
+      repairCostEndDate: '',
+      penaltyFee: 0,
+      penaltyFeeTax: 0,
+      penaltyFeeTotal: 0,
+      penaltyFeeStartDate: '',
+      penaltyFeeEndDate: '',
+      signboard: 0,
+      signboardTax: 0,
+      signboardTotal: 0,
+      signboardStartDate: '',
+      signboardEndDate: '',
+      electricBill: null,
+      electricBillTax: 0,
+      electricUsageAmount: 0,
+      electricBillUsageFee: 0,
+      electricBillTotal: 0,
+      electricBillStartDate: '',
+      electricBillEndDate: '',
+      waterBill: null,
+      waterBillTax: 0,
+      waterUsageAmount: 0,
+      waterBillUsageFee: 0,
+      waterBillTotal: 0,
+      waterBillStartDate: '',
+      waterBillEndDate: '',
+      gasBill: null,
+      gasBillTax: 0,
+      gasUsageAmount: 0,
+      gasBillUsageFee: 0,
+      gasBillTotal: 0,
+      gasBillStartDate: '',
+      gasBillEndDate: '',
+      constructionBill: null,
+      constructionBillTax: 0,
+      constructionBillTotal: 0,
+      constructionBillUsagePeriod: '',
+    };
 
-    console.log('Item userId:',this.itemVariables.userId.signature);
+    const mockData = [{
+      id: 'mock-invoice-1',
+      companyPostalFirst: '111',
+      companyPostalSecond: '0035',
+      companyId: {
+        companyName: '株式会社ベストホーム',
+      },
+      companyAddress: '東京都台東区西浅草2丁目14番13号',
+      personName: '権 勇',
+      mobileFirst: '03',
+      mobileSecond: '5806',
+      mobileThird: '1677',
+      propertyName: 'NWビル花川戸',
+      roomNo: '401',
+      floor: '4F',
+      buildingPostalFirst: '111',
+      buildingPostalLast: '0033',
+      address: '東京都台東区花川戸1-11-4 NWビル花川戸 4F',
+      borrowerCooperate: '田中商事',
+      borrowerPersonName: '田中 一朗',
+      borrowerRegNo: 'T7010501038250',
+      paymentDueDate: '2025-01-23',
+      billingDate: '12/04/2024',
+      bankName: '朝日信用金庫',
+      branchName: '合羽橋支店',
+      accountType: '普通',
+      accountNo: '0544872',
+      accountName: 'ベストホーム',
+      information: 'お振込み手数料はご負担ください。',
+      userId: {
+        signature: null,
+      },
+      invoiceMoneyList: mockInvoiceMoneyList,
+    }];
 
-
-
-    console.log("the borrower cooperate is ",this.itemVariables.userId.signature.id);
-
-    this.url = this.createImages(this.itemVariables.userId.signature.image, this.itemVariables.userId.signature.name).url;
-
-    console.log("Image URL " + this.url);
-}
+    this.initializeInvoiceData(mockData);
   }
   
 
