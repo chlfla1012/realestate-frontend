@@ -1,5 +1,5 @@
 export const environment = {
     production: true,
-    hostUrl: '/api/'
+    hostUrl: '/realestate-api/'
   };
   
