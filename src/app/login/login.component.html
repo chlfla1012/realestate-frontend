@@ -22,7 +22,7 @@
       [(ngModel)]="userInfo.email"
       #email="ngModel"
       name="email"
-      pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+      pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
       required [ngClass]="{'is-valid':email.touched && email.invalid || ( email.invalid)}">
       <i class='bx bxs-envelope'></i>
       <span  class="help-block" *ngIf="!email.valid && (email.touched )">
