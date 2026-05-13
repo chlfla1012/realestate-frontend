@@ -1,69 +1,94 @@
 <html>
-
 <body>
   <div class="container income-check-container">
-    <div class="row" style="width: 100%;height:28px;"></div>
+    <div class="row" style="width:100%; height:28px;"></div>
+
+    <!-- 타이틀 바 -->
     <div class="container income-check-title-container">
-      <div class="row income-check-title-row">
-        <div class="col-md-3 icon" style="margin-top: 19px;">
-          <mat-icon style="padding-top:3px;">check_box</mat-icon>
-          <span style="margin-left: 10px;margin-bottom:0px">入金チェック画面</span>
+      <div class="title-bar">
+        <div class="title-left">
+          <mat-icon>check_box</mat-icon>
+          <span>入金チェック画面</span>
+          <span class="bank-badge">
+            <mat-icon>account_balance</mat-icon>{{ bankName }}
+          </span>
         </div>
-        <div class="col-md-5"></div>
-        <div class="col-4" style="margin-top: 19px;">
-          <div class="row">
-            <div class="col-4">
-              <!-- <input type="file" (change)="onFileSelected($event)" accept=".csv"> -->
-              <div class="custom-file-input" style="margin-left: 100px;">
-                <input type="file" (change)="onFileSelected($event)" accept=".csv" id="fileInput" class="hidden-input">
-                <label for="fileInput" style="text-align: center;cursor: pointer;background-color: #376fc3;color: white;">
-                  <span> アップロード</span>
-                </label>
-              </div>
-            </div>
-            <div class="col-2">
-              <button mat-raised-button class="backBtn" style="width: 100px; height: 30px;margin-left: 100px;"
-                (click)="back()">戻る</button>
-            </div>
-
-          </div>
-        </div>
-
+        <button mat-raised-button class="backBtn" (click)="back()">戻る</button>
       </div>
     </div>
-    <form class="form-horizontal" class="income-check-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
+
+    <!-- 업로드 옵션 카드 2개 -->
+    <div class="upload-options">
+
+      <!-- CSV 카드 -->
+      <div class="upload-card" [class.active]="uploadType === 'csv'" (click)="uploadType = 'csv'">
+        <mat-icon class="card-icon">table_chart</mat-icon>
+        <div class="card-title">CSVファイル</div>
+        <div class="card-desc">銀行からエクスポートした<br>CSVデータを取り込む</div>
+        <div class="custom-file-input" (click)="$event.stopPropagation()">
+          <input type="file" (change)="onFileSelected($event)" accept=".csv" id="fileInputCsv" class="hidden-input">
+          <label for="fileInputCsv" class="upload-btn">
+            <mat-icon>upload_file</mat-icon>アップロード
+          </label>
+        </div>
+      </div>
+
+      <!-- 이미지 카드 -->
+      <div class="upload-card" [class.active]="uploadType === 'image'" (click)="uploadType = 'image'">
+        <div class="ai-chip"><mat-icon>auto_awesome</mat-icon>AI解析</div>
+        <mat-icon class="card-icon">image</mat-icon>
+        <div class="card-title">通帳画像</div>
+        <div class="card-desc">通帳・明細のスクリーンショットを<br>AIが自動で読み取る</div>
+        <mat-select [(ngModel)]="selectedModel" name="aiModel" class="model-select"
+          (click)="$event.stopPropagation()">
+          <mat-option value="gpt-4o">GPT-4o（高精度）</mat-option>
+          <mat-option value="gpt-4o-mini">GPT-4o mini（軽量）</mat-option>
+          <mat-option value="gemini-1.5-flash">Gemini 1.5 Flash</mat-option>
+        </mat-select>
+        <div class="custom-file-input" (click)="$event.stopPropagation()">
+          <input type="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png" id="fileInputImage" class="hidden-input">
+          <label for="fileInputImage" class="upload-btn upload-btn-ai">
+            <mat-icon>upload_file</mat-icon>アップロード
+          </label>
+        </div>
+        <div class="ocr-loading" *ngIf="isOcrLoading">
+          <mat-spinner diameter="16"></mat-spinner>
+          <span>AI解析中...</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 결과 테이블 -->
+    <form class="form-horizontal income-check-create-form" (ngSubmit)="onSubmit(f)" #f="ngForm">
       <div class="income-check-container">
         <div class="income-check-information">
           <mat-table [dataSource]="csvData" matSort class="mat-elevation-z7">
-            <!-- Define your table columns here -->
             <ng-container matColumnDef="month">
               <mat-header-cell *matHeaderCellDef>日付</mat-header-cell>
               <mat-cell *matCellDef="let row">{{ row.month }}</mat-cell>
             </ng-container>
-
             <ng-container matColumnDef="accountName">
               <mat-header-cell *matHeaderCellDef>摘要内容</mat-header-cell>
               <mat-cell *matCellDef="let row">{{ row.accountName }}</mat-cell>
             </ng-container>
-
-
             <ng-container matColumnDef="income">
               <mat-header-cell *matHeaderCellDef>入金</mat-header-cell>
               <mat-cell *matCellDef="let row">{{ row.income }}</mat-cell>
             </ng-container>
-
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
         </div>
       </div>
     </form>
+
+    <!-- 登録 버튼 -->
     <div class="row justify-content-end">
-      <button mat-raised-button class="register" style="width: 100px; height: 30px;margin-right: 50px;"
+      <button mat-raised-button class="register"
+        style="width:100px; height:30px; margin-right:50px; margin-bottom:15px;"
         (click)="onSubmit(f)">登録</button>
     </div>
   </div>
-
 </body>
-
 </html>

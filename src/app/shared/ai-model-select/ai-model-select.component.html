@@ -1,0 +1,6 @@
+<mat-form-field appearance="outline" style="width: 180px;">
+  <mat-label>AIモデル</mat-label>
+  <mat-select [(value)]="selectedModel" (selectionChange)="onModelChange($event.value)">
+    <mat-option *ngFor="let m of models" [value]="m.value">{{ m.label }}</mat-option>
+  </mat-select>
+</mat-form-field>

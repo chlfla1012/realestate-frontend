@@ -1,72 +1,226 @@
-.container.income-check-container{
-    width: 70%;
-    height: auto;
-    margin-top: 45px;
-    background-color: rgb(126, 161, 154);
-    border-radius: 5px 5px 5px 5px;
+.container.income-check-container {
+  width: 100%;
+  margin-top: 45px;
+  background-color: rgb(126, 161, 154);
+  border-radius: 6px;
 }
-.container.income-check-title-container{
-    width: 100%;
-    height: auto;
-    background-color: rgba(249, 246, 246, 0.904);
-    border-radius: 6px 6px 6px 6px;
-    font-size: 15px;
+
+/* 타이틀 바 */
+.container.income-check-title-container {
+  width: 100%;
+  background-color: rgba(249, 246, 246, 0.95);
+  border-radius: 6px 6px 0 0;
+  padding: 0 24px;
 }
-.row.income-check-title-row{
-    width: 100%;
-    height: 70px;
-    border-radius: 6px 6px 6px 6px;
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
 }
-button{
-    align-content: center;
-    color:black;
-    width: 150px;
-    background-color: rgba(249, 246, 246, 0.904);
-  
+
+.title-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
 }
-button:hover{
-    color:white;
-    background-color:rgb(127, 161, 130); 
+
+.bank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: #e8f0fe;
+  border: 1px solid #c5d5f5;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2a5aa0;
+  margin-left: 4px;
 }
-button.register{
-    color: white;
-    background: #376fc3;
-    margin-bottom: 15px;
-    margin-left: 950px;
+
+.bank-badge mat-icon {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
 }
-.income-check-container{
-    width: 100%;
-    height: auto;
-    background-color: rgba(249, 246, 246, 0.904);
+
+button.backBtn {
+  height: 32px;
+  min-width: 72px;
+  font-size: 13px;
+  color: #333;
+  background-color: #f5f5f5;
+  box-shadow: none;
 }
-.income-check-create-form{
-    margin-top: 20px;
-    width: 100%;
-    height: auto;     
+
+button.backBtn:hover {
+  color: white;
+  background-color: rgb(127, 161, 130);
 }
+
+/* 2카드 업로드 영역 */
+.upload-options {
+  display: flex;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.upload-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 16px;
+  background: rgba(249, 246, 246, 0.95);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.upload-card:hover {
+  border-color: #b0c8f0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.upload-card.active {
+  border-color: #376fc3;
+  box-shadow: 0 2px 10px rgba(55,111,195,0.15);
+}
+
+.card-icon {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  color: #555;
+}
+
+.upload-card.active .card-icon {
+  color: #376fc3;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: #777;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* AI 칩 */
+.ai-chip {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  background: #ede7f6;
+  color: #6c3fc3;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ai-chip mat-icon {
+  font-size: 13px;
+  height: 13px;
+  width: 13px;
+}
+
+/* 모델 선택 */
+.model-select {
+  width: 100%;
+  height: 34px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 8px;
+  background: white;
+  font-size: 13px;
+}
+
+/* 업로드 버튼 */
+.hidden-input {
+  display: none;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 140px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: #376fc3;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 4px;
+}
+
+.upload-btn mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+
+.upload-btn:hover {
+  background-color: #2a5aa0;
+}
+
+.upload-btn-ai {
+  background-color: #6c3fc3;
+}
+
+.upload-btn-ai:hover {
+  background-color: #5530a0;
+}
+
+/* OCR 로딩 */
+.ocr-loading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6c3fc3;
+}
+
+/* 테이블 영역 */
+.income-check-container {
+  width: 100%;
+  background-color: rgba(249, 246, 246, 0.95);
+}
+
+.income-check-create-form {
+  width: 100%;
+}
+
 .income-check-information {
-    margin-bottom: 30px;
-    width: 100%;
-    height: auto;
-    margin-right: 20px;
+  width: 100%;
+  padding-bottom: 10px;
 }
-/* styles.css or your component-specific style file */
 
-  .hidden-input {
-    display: none; /* Hide the default file input */
-  }
-  
-  .custom-file-input label {
-    align-content: center;
-    color:black;
-    width: 100px;
-    height: 30px;    
-    border: thin solid grey;
-    border-radius: 3px;
-    background-color: rgba(249, 246, 246, 0.904);
-    }
+/* 登録 버튼 */
+button.register {
+  color: white;
+  background: #376fc3;
+  margin-bottom: 15px;
+  margin-right: 50px;
+}
 
-  .custom-file-input label:hover{
-    color:white;
-    background-color:rgb(127, 161, 130); 
+button.register:hover {
+  background-color: #2a5aa0;
 }

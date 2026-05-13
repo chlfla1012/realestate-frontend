@@ -10,7 +10,8 @@ import * as html2pdf from 'html2pdf.js';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
-import { tap , Subject } from 'rxjs';
+import { AiService } from 'src/app/Service/Ai/ai.service';
+import { tap , Subject, finalize } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -29,6 +30,9 @@ export class PmreportCreatePdfComponent implements OnDestroy {
   rentalInfo: any;
   expenseInfo: any;
   calculatedSum: number = 0;
+  aiComment: string = '';
+  isAiLoading: boolean = false;
+  selectedModel: string = 'gpt-4o';
   // Initialize total variables
   totalAmount: number = 0;
   totalTax: number = 0;
@@ -176,7 +180,8 @@ export class PmreportCreatePdfComponent implements OnDestroy {
 
   constructor(private service: PmReportService,
     private route: ActivatedRoute, private router: Router, private userAuthService: UserAuthService,
-    private cdr: ChangeDetectorRef, private pmReportUploadService: PmReportUploadService) {
+    private cdr: ChangeDetectorRef, private pmReportUploadService: PmReportUploadService,
+    private aiService: AiService) {
 
   }
 
@@ -309,6 +314,39 @@ export class PmreportCreatePdfComponent implements OnDestroy {
     const day = String(date.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+  }
+
+  generateAiComment(): void {
+    const incomeDetails = Array.isArray(this.incomeInfo) ? this.incomeInfo : [];
+    const expenseDetails = Array.isArray(this.expenseInfo) ? this.expenseInfo : [];
+    const reportData = {
+      pmReport: this.pmReport,
+      propertyName: this.pmReport?.propertyName,
+      targetMonth: this.pmReport?.targetMonth || this.createdDate,
+      totalIncome: this.pmReport?.totalIncome || this.sumItems(incomeDetails, 'totalIncome') + this.sumItems(incomeDetails, 'others'),
+      totalExpense: this.pmReport?.totalExpense || this.sumItems(expenseDetails, 'expenseTotal'),
+      incomeDetails,
+      expenseDetails
+    };
+
+    this.isAiLoading = true;
+    this.aiService.generatePmComment(reportData, this.selectedModel).pipe(
+      takeUntil(this.destroy$),
+      finalize(() => {
+        this.isAiLoading = false;
+      })
+    ).subscribe({
+      next: (comment: string) => {
+        this.aiComment = comment;
+      },
+      error: (error) => {
+        console.error('Error generating AI comment:', error);
+      }
+    });
+  }
+
+  private sumItems(items: any[], property: string): number {
+    return items.reduce((sum, item) => sum + (Number(item?.[property]) || 0), 0);
   }
 
   generatePDF() {

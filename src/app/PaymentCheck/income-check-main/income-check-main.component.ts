@@ -18,6 +18,7 @@ import { ErrorDialogComponent } from 'src/app/error-dialog/error-dialog.componen
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AiService } from 'src/app/Service/Ai/ai.service';
 
 @Component({
   selector: 'app-income-check-main',
@@ -27,6 +28,9 @@ import { takeUntil } from 'rxjs/operators';
 export class IncomeCheckMainComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
   csvData: any[];
+  uploadType: 'csv' | 'image' = 'csv';
+  selectedModel: string = 'gpt-4o';
+  isOcrLoading: boolean = false;
   accountName: string;
   companyId: number;
   logoId: number;
@@ -83,7 +87,9 @@ export class IncomeCheckMainComponent implements OnDestroy {
     private userAuthService: UserAuthService,
     private incomeCheckService: IncomeCheckService,
     private bankFormatService: BankFormatService,
-    private route: ActivatedRoute, private dialog: MatDialog
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private aiService: AiService
   ) {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
@@ -131,23 +137,50 @@ export class IncomeCheckMainComponent implements OnDestroy {
   //   this.parseCSV();
   // }
   onFileSelected(event: any): void {
-    const allowedExtensions = ['csv']; // Add more extensions if needed
+    const allowedExtensions = ['csv', 'jpg', 'jpeg', 'png']; // Add more extensions if needed
     const selectedFile = event.target.files[0];
-  
+
     if (selectedFile) {
       const fileName = selectedFile.name;
-      const fileExtension = fileName.split('.').pop().toLowerCase();
-  
+      const fileExtension = (fileName.split('.').pop() || '').toLowerCase();
+
       if (allowedExtensions.includes(fileExtension)) {
-        // Valid file type, proceed with parsing
-        this.file = selectedFile;
-        this.parseCSV();
+        if (fileExtension === 'csv') {
+          // Valid file type, proceed with parsing
+          this.file = selectedFile;
+          this.parseCSV();
+        } else {
+          this.sendImageToOcr(selectedFile);
+        }
       } else {
         // Invalid file type, show an error message or take appropriate action
-        console.error('Invalid file type. Please upload a CSV file.');
+        console.error('Invalid file type. Please upload a CSV or image file.');
         // You can also display an error message to the user
       }
     }
+  }
+
+  sendImageToOcr(file: File): void {
+    this.isOcrLoading = true;
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('model', this.selectedModel);
+
+    this.aiService.uploadBankImage(formData).pipe(takeUntil(this.destroy$)).subscribe(
+      (result) => {
+        this.csvData = result;
+        this.isOcrLoading = false;
+      },
+      (error) => {
+        console.error('Error analyzing bank image', error);
+        this.isOcrLoading = false;
+        this.dialog.open(ErrorDialogComponent, {
+          data: {
+            message: '通帳画像のAI解析に失敗しました。画像ファイルまたはAIモデルを確認してください。',
+          },
+        });
+      }
+    );
   }
 
   parseCSV(): void {

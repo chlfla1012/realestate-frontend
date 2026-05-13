@@ -35,6 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ProfileDetailsComponent } from './profileInfo/profile-details/profile-details.component';
 import { ProfileEditComponent } from './profileInfo/profile-edit/profile-edit.component';
@@ -93,6 +94,8 @@ import { PmreportCreatePdfComponent } from './PMreport/pmreport-create-pdf/pmrep
 import { PmreportUploadComponent } from './PMreport/pmreport-upload/pmreport-upload.component';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AiModelSelectComponent } from './shared/ai-model-select/ai-model-select.component';
 
 
 
@@ -165,7 +168,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     PmreportEditComponent,
     PmreportDetailsComponent,
     PmreportCreatePdfComponent,
-    PmreportUploadComponent
+    PmreportUploadComponent,
+    AiModelSelectComponent
 
   ],
   imports: [
@@ -187,6 +191,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatIconModule,
     MatSelectModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
     MatSnackBarModule,
     MatNativeDateModule,
@@ -196,7 +201,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatCheckboxModule,  
 
     MatAutocompleteModule,
-    
+    MatButtonToggleModule,
+
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

@@ -8,10 +8,11 @@ import { CompanyName } from 'src/app/Model/CompanyName';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { Property } from 'src/app/Model/Property';
 import { UserInfo } from 'src/app/Model/userInfo';
+import { AiService } from 'src/app/Service/Ai/ai.service';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
-import { Subject } from 'rxjs';
+import { Subject, finalize } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -200,6 +201,8 @@ export class PropertycreateComponent implements OnDestroy {
 
   maxSelectSize: number = 1048576; // 1 MB
   maxTextAreaSize: number = 2097152; // 2 MB
+  isAiDescLoading: boolean = false;
+  selectedAiModel: string = "gpt-4o";
   //formSubmitted: boolean = false;
   //errorMessage:string = '';
 
@@ -207,6 +210,7 @@ export class PropertycreateComponent implements OnDestroy {
     private userService: UserInfoService,
     private userAuthService: UserAuthService,
     private propertyService: PropertyService,
+    private aiService: AiService,
     private sanitizer: DomSanitizer) {
 
 
@@ -302,6 +306,36 @@ export class PropertycreateComponent implements OnDestroy {
         console.log(this.mobileFirst, this.mobileSecond, this.mobileThird);
 
       });
+  }
+
+  generateDescription() {
+    const data = {
+      propertyType: this.property.propertyType,
+      layout: this.property.layout,
+      exclusiveArea: this.property.exclusiveArea,
+      areaMeter: this.property.areaMeter,
+      address: this.property.address,
+      station1: this.property.station1,
+      station2: this.property.station2,
+      totalRent: this.property.totalRent,
+      buildingDate: this.property.buildingDate,
+      floor: this.property.floor
+    };
+
+    this.isAiDescLoading = true;
+    this.aiService.generatePropertyDescription(data, this.selectedAiModel).pipe(
+      takeUntil(this.destroy$),
+      finalize(() => {
+        this.isAiDescLoading = false;
+      })
+    ).subscribe({
+      next: (desc: string) => {
+        this.property.layoutRemarks = desc;
+      },
+      error: (error) => {
+        console.error('Error generating AI property description:', error);
+      }
+    });
   }
 
   onSubmit(propertyForm: NgForm) {
