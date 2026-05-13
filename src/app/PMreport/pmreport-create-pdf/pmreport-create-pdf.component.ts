@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Expense } from 'src/app/Model/Expense';
@@ -10,7 +10,8 @@ import * as html2pdf from 'html2pdf.js';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
-import { tap } from 'rxjs';
+import { tap , Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -18,7 +19,8 @@ import { tap } from 'rxjs';
   templateUrl: './pmreport-create-pdf.component.html',
   styleUrls: ['./pmreport-create-pdf.component.css']
 })
-export class PmreportCreatePdfComponent {
+export class PmreportCreatePdfComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
 
   id: string;
@@ -185,12 +187,12 @@ export class PmreportCreatePdfComponent {
   }
   ngOnInit(): void {
     console.log("Testing from detail" + this.id)
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
       this.companyName = backendCompany.companyName;
     });
     this.id = this.route.snapshot.params['id'];
-    this.service.getPmReportDataById(this.id).subscribe(data => {
+    this.service.getPmReportDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.pmReport = data;
       this.createdDate = data.createdDate;
       this.picName = data.picName;
@@ -209,7 +211,7 @@ export class PmreportCreatePdfComponent {
       this.emailId = data.mail;
       this.password = data.password;
     });
-    this.service.getIncomeInformationById(this.id).subscribe((data: Income[]) => {
+    this.service.getIncomeInformationById(this.id).pipe(takeUntil(this.destroy$)).subscribe((data: Income[]) => {
       this.incomeInfo = data;
       for (const income of this.incomeInfo) {
         this.rentTax += income.rentTax;
@@ -226,11 +228,11 @@ export class PmreportCreatePdfComponent {
         console.log("Testing from income id" + this.incomeInfo)
       }
     });
-    this.service.getExpenseInformationById(this.id).subscribe(data => {
+    this.service.getExpenseInformationById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.expenseInfo = data;
       console.log("Testing from rental id" + this.expenseInfo)
     });
-    this.service.getRentalInformationById(this.id).subscribe(data => {
+    this.service.getRentalInformationById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.rentalInfo = data;
       this.cdr.detectChanges();
       console.log("Testing from rental id" + this.rentalInfo)
@@ -348,7 +350,7 @@ export class PmreportCreatePdfComponent {
     this.pmReportUploadService.uploadFile(formData).pipe(tap(() => {
         console.log('PDF uploaded successfully.');
       })
-    ).subscribe(
+    ).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         console.log('PDF uploaded successfully response.');
       },
@@ -420,4 +422,9 @@ TEL: %mobileFirst%-%mobileSecond%-%mobileThird%
     window.history.back();
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

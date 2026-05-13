@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -16,13 +16,16 @@ import 'dayjs/locale/ja';
 import * as Papa from 'papaparse';
 import { ErrorDialogComponent } from 'src/app/error-dialog/error-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-income-check-main',
   templateUrl: './income-check-main.component.html',
   styleUrls: ['./income-check-main.component.css']
 })
-export class IncomeCheckMainComponent {
+export class IncomeCheckMainComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   csvData: any[];
   accountName: string;
   companyId: number;
@@ -82,8 +85,8 @@ export class IncomeCheckMainComponent {
     private bankFormatService: BankFormatService,
     private route: ActivatedRoute, private dialog: MatDialog
   ) {
-    this.route.params.subscribe(params => {
-      this.route.params.subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
         if (params['bankName']) {
           const bankName = params['bankName'];
           this.bankName = bankName;
@@ -99,18 +102,18 @@ export class IncomeCheckMainComponent {
     this.getBankFormatByName();
   }
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -118,7 +121,7 @@ export class IncomeCheckMainComponent {
   url: String;
 
   getBankFormatByName() {
-    this.bankFormatService.getBankFormatByName(this.bankName).subscribe(data => {
+    this.bankFormatService.getBankFormatByName(this.bankName).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.bankformat = data;
       console.log(this.bankformat.id);
     })
@@ -278,7 +281,7 @@ export class IncomeCheckMainComponent {
     formData.append("logoId", this.logoId.toString());
     formData.append("companyId", this.companyId.toString());
 
-    this.incomeCheckService.uploadCSVData(formData).subscribe(
+    this.incomeCheckService.uploadCSVData(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         console.log('Data sent successfully to the backend');
         this.router.navigate(['/income-list']);
@@ -295,5 +298,10 @@ export class IncomeCheckMainComponent {
 
   back() {
     window.history.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

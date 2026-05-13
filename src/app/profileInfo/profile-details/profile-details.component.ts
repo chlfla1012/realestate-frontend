@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
   styleUrls: ['./profile-details.component.css']
 })
-export class ProfileDetailsComponent {
+export class ProfileDetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   id:string;
   data:any;
   errorMessage: string = '';
@@ -63,7 +66,7 @@ export class ProfileDetailsComponent {
     //this.roleType = this.userAuthService.getRoleType();
     this.id= this.userAuthService.getId();
     console.log(this.id);
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data;
       this.username = data.firstName + " " + data.lastName;
       this.usernamekana = data.firstNamekana + " " + data.lastNamekana;
@@ -156,5 +159,10 @@ export class ProfileDetailsComponent {
     } else {
       this.errorMessage = ''; // Clear the error message if input is valid
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

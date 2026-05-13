@@ -1,22 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserAuthService } from '../Service/UserInfo/user-auth.service';
 import { UserInfoService } from '../Service/UserInfo/userInfoService';
 import { UserInfo } from '../Model/userInfo';
-import { Observable, of } from 'rxjs';
+import { Observable, of , Subject } from 'rxjs';
 import { FileHandle } from '../Model/FileHandle';
 import { NgOptimizedImage } from '@angular/common'
 import { CompanyName } from '../Model/CompanyName';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
-import { switchMap } from 'rxjs/operators';
+import { switchMap , takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   
   menuVisible = false;
   firstName:string;
@@ -118,11 +119,16 @@ export class HeaderComponent {
   
   navigateToDetailPage(id: string) {
     id= this.userAuthService.getId();
-    this.userService.getUserById(this.id).subscribe(data => {
+    this.userService.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
     this.userInfo = data;
     console.log(this.userInfo.id)
     })
     this.router.navigate(['/profile-detail',id]);
 
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

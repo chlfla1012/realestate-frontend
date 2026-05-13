@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,13 +10,17 @@ import { Property } from 'src/app/Model/Property';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-propertydetail',
   templateUrl: './propertydetail.component.html',
   styleUrls: ['./propertydetail.component.css']
 })
-export class PropertydetailComponent {
+export class PropertydetailComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   ownerId: string;
   ownerName: string;
   ownerKana: string;
@@ -189,7 +193,7 @@ export class PropertydetailComponent {
   getPropertyById() 
   {
     this.id = this.route.snapshot.params['id'];
-    this.propertyService.getPropertyById(this.id).subscribe(
+    this.propertyService.getPropertyById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.property.id = data.id;
         this.property.propertyType = data.propertyType;
@@ -363,13 +367,26 @@ this.property.image8 = this.createImages(data.propertyImage.image8, data.propert
     
     const image1FileHandle: FileHandle = {
       file: image1File,
-      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+      url: this.createSafeObjectUrl(image1File)
     }
      return image1FileHandle;
   
      
 
   }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+
   public dataURItoBlob(image) {
     const byteString = window.atob(image);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -396,9 +413,9 @@ this.property.image8 = this.createImages(data.propertyImage.image8, data.propert
 },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.propertyService.deleteProperty(id).subscribe(
+        this.propertyService.deleteProperty(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/property-list']);
 
@@ -479,6 +496,12 @@ this.property.image8 = this.createImages(data.propertyImage.image8, data.propert
 
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
+  }
 }
 
 

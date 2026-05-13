@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserInfo } from 'src/app/Model/userInfo';
@@ -7,16 +7,18 @@ import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
-import { tap } from 'rxjs';
+import { tap , Subject } from 'rxjs';
 import { PMReportUpload } from 'src/app/Model/PMReportUpload';
 import { PMReport } from 'src/app/Model/PMReport';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pmreport-upload',
   templateUrl: './pmreport-upload.component.html',
   styleUrls: ['./pmreport-upload.component.css']
 })
-export class PmreportUploadComponent {
+export class PmreportUploadComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   id: string;
   companyId: number;
@@ -80,7 +82,7 @@ export class PmreportUploadComponent {
     this.id = this.userAuthService.getId();
     console.log(this.id);
     this.managerName = localStorage.getItem('managerName') || ''; // Retrieve managerName from localStorage on page reload
-    this.service.getUserById(this.id).subscribe(data => {
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo = data;
       this.username = data.firstName + " " + data.lastName;
       this.usernamekana = data.firstNamekana + " " + data.lastNamekana;
@@ -101,7 +103,7 @@ export class PmreportUploadComponent {
     );
   }
   getCurrentCompanyId() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {     
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {     
     this.companyId = companyId;
     });
   }
@@ -136,7 +138,7 @@ export class PmreportUploadComponent {
       this.pmReportUploadService.uploadFile(formData).pipe(
         tap(() => {
         })
-      ).subscribe(
+      ).pipe(takeUntil(this.destroy$)).subscribe(
         (response) => {
           //window.location.reload();
           this.router.navigate(['/report-list']);
@@ -183,10 +185,15 @@ export class PmreportUploadComponent {
   }
   onOwnerSelectionChange() {
     console.log("This is owner name"+this.companyId);
-    this.pmReportUploadService.getOwnerName(this.companyId).subscribe((data) => {
+    this.pmReportUploadService.getOwnerName(this.companyId).pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.results = data;
       console.log("This is owner list"+this.results);
     });
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

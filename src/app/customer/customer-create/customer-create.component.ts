@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Customer } from 'src/app/Model/Customer';
 import { CustomerService } from 'src/app/Service/Customer/CustomerService';
@@ -9,6 +9,8 @@ import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -16,7 +18,8 @@ import { Router } from '@angular/router';
   templateUrl: './customer-create.component.html',
   styleUrls: ['./customer-create.component.css']
 })
-export class CustomerCreateComponent {
+export class CustomerCreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   companyId: number;
   logoId: number;
@@ -66,18 +69,18 @@ export class CustomerCreateComponent {
     this.getCurrentUserInfo();
   }
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -124,7 +127,7 @@ export class CustomerCreateComponent {
 
     formData.append("logoId", this.logoId.toString());
     formData.append("companyId", this.companyId.toString());
-     this.service.addCustomer(formData).subscribe(
+     this.service.addCustomer(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
       // window.alert('Customer Created successfully');
       console.log('Customer Data Added successfully', response);
@@ -156,5 +159,10 @@ export class CustomerCreateComponent {
   }
   onCancel() {
     this.router.navigate(['/customer-list']);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

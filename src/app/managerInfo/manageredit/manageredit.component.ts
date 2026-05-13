@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,13 +8,17 @@ import { UserInfo } from 'src/app/Model/userInfo';
 import { ViewChild } from '@angular/core';
 
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manageredit',
   templateUrl: './manageredit.component.html',
   styleUrls: ['./manageredit.component.css']
 })
-export class ManagereditComponent implements OnInit{
+export class ManagereditComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   @ViewChild('f') myForm!: NgForm;
     url1: SafeUrl;
     url2: SafeUrl;
@@ -72,8 +76,10 @@ export class ManagereditComponent implements OnInit{
   getManagerById() {
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
+      const previousLogoUrl = this.url1;
+      const previousSignatureUrl = this.url2;
       this.userInfo = data;
         this.userInfo.logo = this.createImage(data.logo.image, data.logo.name);
         this.userInfo.signature = this.createImage(data.signature.image, data.signature.name);
@@ -81,6 +87,8 @@ export class ManagereditComponent implements OnInit{
         console.log(data.logo.name);
       this.url1 = this.userInfo.logo.url;
       this.url2 = this.userInfo.signature.url;
+      this.revokeObjectUrl(previousLogoUrl);
+      this.revokeObjectUrl(previousSignatureUrl);
       // console.log("This is URL 1 "+data.logo.name);
     })
     // console.log("This is URL 2 "+this.url2);
@@ -93,7 +101,7 @@ export class ManagereditComponent implements OnInit{
       const image1File = new File([image1Blob], name);
       const image1FileHandle: FileHandle = {
       file: image1File,
-      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+      url: this.createSafeObjectUrl(image1File)
       }
      // console.log(image1FileHandle);
        return image1FileHandle;
@@ -186,7 +194,7 @@ export class ManagereditComponent implements OnInit{
 //  }, 100);
 if (!this.hasError) {
   if(!this.hasErrorDOB){
-    this.service.updateManager(this.id,formData).subscribe(
+    this.service.updateManager(this.id,formData).pipe(takeUntil(this.destroy$)).subscribe(
             (response) => {
               console.log('Manager Data Updated successfully', response);
             },
@@ -261,9 +269,11 @@ if (!this.hasError) {
   
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const previousUrl = imageNumber === 1 ? this.url1 : imageNumber === 2 ? this.url2 : null;
+      let isFileHandleUsed = false;
       const fileHandle: FileHandle = {
         file,
-        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+        url: this.createSafeObjectUrl(file),
       };
 
       if (file) {
@@ -287,18 +297,53 @@ if (!this.hasError) {
             this.userInfo.logo = fileHandle;
   
             this.url1 = fileHandle.url;
+            isFileHandleUsed = true;
           }
           else if (imageNumber === 2) {
             this.logoSizeError = '';
   
             this.userInfo.signature = fileHandle;
             this.url2 = fileHandle.url;
+            isFileHandleUsed = true;
           }
       }
+      if (!isFileHandleUsed) {
+        this.revokeObjectUrl(fileHandle.url);
+      }
+      this.revokeObjectUrl(previousUrl);
      
     }
   }
 
 }
- 
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
   }
+
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+ 
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
+  }
+}

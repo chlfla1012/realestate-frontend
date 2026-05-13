@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
@@ -20,13 +20,16 @@ import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { AlertDialogComponent } from 'src/app/contractInfo/contract-create/AlertDialogComponent';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invoice-create',
   templateUrl: './invoice-create.component.html',
   styleUrls: ['./invoice-create.component.css']
 })
-export class InvoiceCreateComponent {
+export class InvoiceCreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @ViewChild('f') myForm!: NgForm;
 
@@ -638,19 +641,19 @@ export class InvoiceCreateComponent {
   }
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
 
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
 
@@ -658,7 +661,7 @@ export class InvoiceCreateComponent {
   }
 
   getCurrentUserByCompanyId() {
-    this.userService.getUserAddressByCompanyId(this.picId).subscribe(
+    this.userService.getUserAddressByCompanyId(this.picId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: UserInfo[]) => {
         this.userInfo = data;
         console.log("User address by company id " + data);
@@ -680,7 +683,7 @@ export class InvoiceCreateComponent {
   }
 
   getContractInfo() {
-    this.invoiceService.getContractsByBorrowerType(this.companyId).subscribe((data: any) => {
+    this.invoiceService.getContractsByBorrowerType(this.companyId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.contractIDs = data;
       for (const contractInfo of data) {
         this.getContractId = contractInfo.id;
@@ -699,7 +702,7 @@ export class InvoiceCreateComponent {
   }
 
   getProperties() {
-    this.invoiceService.getPropertyByBorrowerType(this.companyId).subscribe(data => {
+    this.invoiceService.getPropertyByBorrowerType(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.propertyIDs = data;
        //console.log("Hello PropertyData "+this.propertyIDs);
     }, (error) => {
@@ -714,7 +717,7 @@ export class InvoiceCreateComponent {
       data: { message: message }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       console.log('Dialog closed');
     });
   }
@@ -1215,7 +1218,7 @@ export class InvoiceCreateComponent {
       "companyId", this.companyId.toString());
     // formData.append("contractId", this.contractId);
     //console.log(formData.getAll);
-    this.invoiceService.addInvoice(formData).subscribe((response: Invoice) => {
+    this.invoiceService.addInvoice(formData).pipe(takeUntil(this.destroy$)).subscribe((response: Invoice) => {
       console.log("Invoice response " + response);
       this.router.navigate(['/invoice-list']);
 
@@ -1308,6 +1311,11 @@ export class InvoiceCreateComponent {
 
 
  
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 
 

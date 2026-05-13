@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
@@ -7,13 +7,17 @@ import { FileHandle } from 'src/app/Model/FileHandle';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-managerdetails',
   templateUrl: './managerdetails.component.html',
   styleUrls: ['./managerdetails.component.css']
 })
-export class ManagerdetailsComponent {
+export class ManagerdetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   id: string;
   data: any;
   url1: SafeUrl;
@@ -71,7 +75,7 @@ export class ManagerdetailsComponent {
   getManagerById() {
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
       this.userInfo = data;
         this.userInfo.logo = this.createImage(data.logo.image, data.logo.name);
@@ -100,7 +104,7 @@ export class ManagerdetailsComponent {
     
     const image1FileHandle: FileHandle = {
       file: image1File,
-      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+      url: this.createSafeObjectUrl(image1File)
     }
     console.log(image1FileHandle);
      return image1FileHandle;
@@ -108,6 +112,19 @@ export class ManagerdetailsComponent {
      
 
   }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+
   public dataURItoBlob(image) {
     const byteString = window.atob(image);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -133,9 +150,9 @@ export class ManagerdetailsComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/manager-list']);
 
@@ -166,5 +183,11 @@ export class ManagerdetailsComponent {
   
   back(){
     window.history.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
   }
 }

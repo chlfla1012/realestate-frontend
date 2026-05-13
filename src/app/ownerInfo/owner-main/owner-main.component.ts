@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { PmReportUploadService } from 'src/app/Service/PMReportUpload/pmReportUpload.service';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-owner-main',
   templateUrl: './owner-main.component.html',
   styleUrls: ['./owner-main.component.css']
 })
-export class OwnerMainComponent {
+export class OwnerMainComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   imageUrl = 'assets/ownermainpage.png';
 
   companyName:string="桜不動産管理会社";
@@ -68,7 +71,7 @@ export class OwnerMainComponent {
     //this.roleType = this.userAuthService.getRoleType();
     this.id= this.userAuthService.getId();
     console.log("Owner Id",this.id);
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data;
       this.name = data.firstName + " " + data.lastName;
       console.log(this.userInfo.id);
@@ -86,7 +89,7 @@ export class OwnerMainComponent {
   }
 
   getReportsByOwnerName(): void {
-    this.pmReportUploadService.getReportsByOwnerName(this.ownerName).subscribe(
+    this.pmReportUploadService.getReportsByOwnerName(this.ownerName).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.reports = data.filter((report: any) => {
           const createdDate = new Date(report.createdDate);        
@@ -119,4 +122,9 @@ onSubmit(f:NgForm){
 // const lastName=this.userAuthService.getLastName();
    
 }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -1,21 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable , Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-usercreate',
   templateUrl: './usercreate.component.html',
   styleUrls: ['./usercreate.component.css']
 })
-export class UsercreateComponent {
+export class UsercreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   @ViewChild('f') myForm!: NgForm;
 
   data: any;
@@ -82,19 +85,19 @@ export class UsercreateComponent {
   getCurrentUserInfo() {
     //getting companyName and logo of current loggined manager
 
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
 
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -140,7 +143,7 @@ export class UsercreateComponent {
     // }
     formData.append("companyId", this.companyId.toString());
     console.log(formData.getAll);
-    this.service.checkEmailExists(this.userInfo.email).subscribe(
+    this.service.checkEmailExists(this.userInfo.email).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         if(response !=null){
           this.mail=false;
@@ -149,7 +152,7 @@ export class UsercreateComponent {
         }else{
            if (!this.hasError && !this.hasErrorDOB) {
           // console.log(this.hasError);
-          this.service.addUserInfo(formData).subscribe(
+          this.service.addUserInfo(formData).pipe(takeUntil(this.destroy$)).subscribe(
             (response) => {
               console.log('User Data Added successfully', response);
               this.router.navigate(['/user-list']);
@@ -280,15 +283,48 @@ export class UsercreateComponent {
   onSelectFile(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const previousLogoUrl = this.userInfo.logo?.url;
+      const previousPreviewUrl = this.url;
       const fileHandle: FileHandle = {
         file,
-        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+        url: this.createSafeObjectUrl(file),
       };
       this.userInfo.logo = fileHandle;
-      this.url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
+      this.url = fileHandle.url;
+      this.revokeObjectUrl(previousLogoUrl);
+      this.revokeObjectUrl(previousPreviewUrl);
     }
   }
 
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
 
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
+  }
 }
 

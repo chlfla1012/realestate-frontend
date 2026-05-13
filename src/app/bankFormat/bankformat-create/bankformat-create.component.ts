@@ -1,10 +1,12 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BankFormat } from 'src/app/Model/BankFormat';
 import { BankFormatService } from 'src/app/Service/BankFormat/bankFormat.service'
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -12,7 +14,8 @@ import { Router } from '@angular/router';
   templateUrl: './bankformat-create.component.html',
   styleUrls: ['./bankformat-create.component.css']
 })
-export class BankFormatCreateComponent {
+export class BankFormatCreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   id: string;
   data: any;
@@ -42,7 +45,7 @@ export class BankFormatCreateComponent {
       new Blob([JSON.stringify(this.bankformat)], { type: "application/json" })
     );
 
-    this.service.addBankFormat(formData).subscribe(
+    this.service.addBankFormat(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         console.log('Bank Format Data Added successfully', response);
         this.router.navigate(['/bankformat-list']);
@@ -69,4 +72,9 @@ export class BankFormatCreateComponent {
     window.history.back();
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

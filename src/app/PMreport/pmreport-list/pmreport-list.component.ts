@@ -1,22 +1,24 @@
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component,OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of , Subject } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { PMReport } from 'src/app/Model/PMReport';
 import { PmReportService } from 'src/app/Service/PMRepot/pmReport.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pmreport-list',
   templateUrl: './pmreport-list.component.html',
   styleUrls: ['./pmreport-list.component.css']
 })
-export class PmreportListComponent implements OnInit {
+export class PmreportListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   selectedOption:string;
   report: any;
@@ -52,7 +54,7 @@ export class PmreportListComponent implements OnInit {
     }
 
   getCurrentCompanyId() {
-      this.userAuthService.getCompanyId().subscribe(companyId => {     
+      this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {     
       this.companyId = companyId;
 
       });
@@ -60,7 +62,7 @@ export class PmreportListComponent implements OnInit {
 
     getAllReportByCompanyId(){
       
-      this.pmReportService.getReportByCompanyId(this.companyId).subscribe(data => {
+      this.pmReportService.getReportByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.report = data;      
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.report);      
@@ -121,9 +123,9 @@ export class PmreportListComponent implements OnInit {
       });
       console.log(this.report.id)
 
-      dialogRef.afterClosed().subscribe((result) => {
+      dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
         if(result){ 
-          this.pmReportService.deleteReport(id).subscribe(
+          this.pmReportService.deleteReport(id).pipe(takeUntil(this.destroy$)).subscribe(
             () => {                                
               this.report = this.report?.filter((report:PMReport)=> this.report.id !== id);
               window.location.reload();              
@@ -172,4 +174,9 @@ export class PmreportListComponent implements OnInit {
     // Clear the filter by setting it to null
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -1,17 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-owneredit',
   templateUrl: './owneredit.component.html',
   styleUrls: ['./owneredit.component.css']
 })
-export class OwnereditComponent implements OnInit {
+export class OwnereditComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   errorMessage: string = '';
   hasError: boolean = false;
   dateOfBirth:string ='';
@@ -66,7 +69,7 @@ export class OwnereditComponent implements OnInit {
 
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(data => {
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo = data
       console.log(this.userInfo.id)
     })
@@ -98,7 +101,7 @@ export class OwnereditComponent implements OnInit {
     // this.customer.postalSecond = this.formData.value.postalSecond;
     // this.customer.memo = this.formData.value.memo;
     if (!this.hasError && !this.hasErrorDOB) {
-      this.service.updateUserInfo(this.id, this.userInfo).subscribe(
+      this.service.updateUserInfo(this.id, this.userInfo).pipe(takeUntil(this.destroy$)).subscribe(
         (response: UserInfo) => {
           console.log(response);
 
@@ -233,4 +236,9 @@ export class OwnereditComponent implements OnInit {
      
    }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

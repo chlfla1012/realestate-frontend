@@ -10,6 +10,7 @@ import { CompanyName } from 'src/app/Model/CompanyName';
   providedIn: 'root'
 })
 export class UserAuthService {
+  private objectUrls = new Map<SafeUrl, string>();
   private id :string;
   private picId :string;
   private roleType: string;
@@ -41,16 +42,26 @@ export class UserAuthService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { 
     const storedData = localStorage.getItem(this.localStorageKey);
     if (storedData) {
-      const logoData = JSON.parse(storedData);
-      this.logoSubject.next(logoData);
-      this.logoIdSubject.next(logoData.logoId);
-      this.isLogoBackend = logoData.isLogoBackend;
-      this.isLogoIdBackend = logoData.isLogoIdBackend;
-      this.companyNameSubject.next(logoData.companyName);
-      this.companyIdSubject.next(logoData.companyId);
-      this.isCompanyNameBackend = logoData.isCompanyNameBackend;
-      this.isCompanyIdBackend = logoData.isCompanyIdBackend;
+      const logoData = this.parseStoredData(storedData);
+      if (logoData) {
+        this.logoSubject.next(logoData);
+        this.logoIdSubject.next(logoData.logoId);
+        this.isLogoBackend = logoData.isLogoBackend;
+        this.isLogoIdBackend = logoData.isLogoIdBackend;
+        this.companyNameSubject.next(logoData.companyName);
+        this.companyIdSubject.next(logoData.companyId);
+        this.isCompanyNameBackend = logoData.isCompanyNameBackend;
+        this.isCompanyIdBackend = logoData.isCompanyIdBackend;
+      }
       
+    }
+  }
+
+  private parseStoredData(storedData: string): any {
+    try {
+      return JSON.parse(storedData);
+    } catch {
+      return null;
     }
   }
 
@@ -72,7 +83,8 @@ export class UserAuthService {
   setLogo(image: string, name: string, isLogoBackend: boolean) {
     const imageBlob = this.dataURItoBlob(image);
     const imageFile = new File([imageBlob], name);
-    const imageUrl: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(imageFile));
+    const previousLogoUrl = this.logoSubject.getValue().url;
+    const imageUrl: SafeUrl = this.createSafeObjectUrl(imageFile);
     const imageFileHandle: FileHandle = { file: imageFile, url: imageUrl };
     this.convertFileToBase64(imageFile).then((base64Data: string) => {
     const dataToStore = {
@@ -88,8 +100,32 @@ export class UserAuthService {
   });
     
     this.logoSubject.next(imageFileHandle);
+    this.revokeObjectUrl(previousLogoUrl);
     this.isLogoBackend = isLogoBackend;
     this.saveToLocalStorage();
+  }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
   }
 
   convertFileToBase64(file: File): Promise<string> {
@@ -157,7 +193,7 @@ export class UserAuthService {
     return this.isCompanyNameBackend;
   }
   get isCompanyIdFromBackend() {
-    return this.isCompanyIdFromBackend;
+    return this.isCompanyIdBackend;
   }
   public dataURItoBlob(image) {
     const byteString = window.atob(image);
@@ -237,7 +273,35 @@ export class UserAuthService {
     return localStorage.getItem('phone_3');
   }
   public clear() {
-  
+    localStorage.removeItem(this.localStorageKey);
+    localStorage.removeItem('companyId');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('pic_id');
+    localStorage.removeItem('role_type');
+    localStorage.removeItem('first_name');
+    localStorage.removeItem('last_name');
+    localStorage.removeItem('phone_1');
+    localStorage.removeItem('phone_2');
+    localStorage.removeItem('phone_3');
+
+    this.id = '';
+    this.picId = '';
+    this.roleType = '';
+    this.firstName = '';
+    this.lastName = '';
+    this.phone1 = '';
+    this.phone2 = '';
+    this.phone3 = '';
+    this.isAuthenticated1 = false;
+    this.companyNameSubject.next({companyName:null});
+    this.companyIdSubject.next(0);
+    this.logoSubject.next({file: null, url: null });
+    this.logoIdSubject.next(0);
+    this.isLogoBackend = false;
+    this.isLogoIdBackend = false;
+    this.isCompanyNameBackend = false;
+    this.isCompanyIdBackend = false;
+    this.revokeAllObjectUrls();
   }
 
   public isLoggedIn() {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -10,13 +10,16 @@ import { Invoice } from 'src/app/Model/Invoice';
 import { InvoiceList } from 'src/app/Model/InvoiceList';
 import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-service.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invoice-detail',
   templateUrl: './invoice-detail.component.html',
   styleUrls: ['./invoice-detail.component.css']
 })
-export class InvoiceDetailComponent {
+export class InvoiceDetailComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   id: string;
   logoId: number;
   companyId: number;
@@ -186,7 +189,7 @@ export class InvoiceDetailComponent {
 
   getInvocieById() {
     this.id= this.route.snapshot.params['id'];
-    this.invoiceService.getInvoiceById(this.id).subscribe(
+    this.invoiceService.getInvoiceById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:any) => { 
         this.invoiceInfo = data;
         this.invoiceList = data.invoiceMoneyList ;
@@ -219,9 +222,9 @@ export class InvoiceDetailComponent {
 },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.invoiceService.deleteInvoice(id).subscribe(
+        this.invoiceService.deleteInvoice(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/inovice-list']);
 
@@ -236,5 +239,10 @@ export class InvoiceDetailComponent {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

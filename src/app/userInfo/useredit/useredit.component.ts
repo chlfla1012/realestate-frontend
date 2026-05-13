@@ -1,17 +1,20 @@
-import {  ViewChild } from '@angular/core';
+import {  ViewChild, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-useredit',
   templateUrl: './useredit.component.html',
   styleUrls: ['./useredit.component.css']
 })
-export class UsereditComponent {
+export class UsereditComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   userInfo: UserInfo = {
     id:null,
@@ -59,7 +62,7 @@ export class UsereditComponent {
     
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data
       console.log(this.userInfo.id)
     })
@@ -92,7 +95,7 @@ export class UsereditComponent {
   // this.customer.memo = this.formData.value.memo;
   if (!this.hasError && !this.hasErrorDOB) {
     // console.log(this.hasError);
-    this.service.updateUserInfo(this.id, this.userInfo).subscribe(
+    this.service.updateUserInfo(this.id, this.userInfo).pipe(takeUntil(this.destroy$)).subscribe(
     (response: UserInfo) => {
       console.log(response);
       // this.router.navigate(['/manager-list']);
@@ -185,5 +188,10 @@ export class UsereditComponent {
     }
   }
   
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 

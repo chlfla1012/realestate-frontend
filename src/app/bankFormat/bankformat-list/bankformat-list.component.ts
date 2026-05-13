@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,13 +9,16 @@ import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { BankFormatService } from 'src/app/Service/BankFormat/bankFormat.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bankformat-list',
   templateUrl: './bankformat-list.component.html',
   styleUrls: ['./bankformat-list.component.css']
 })
-export class BankFormatListComponent implements OnInit {
+export class BankFormatListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   searchByCreatedDate: Date;
   selectedOption: string;
   searchBankName: string;
@@ -43,7 +46,7 @@ export class BankFormatListComponent implements OnInit {
   }
 
   getAllBankFormat() {
-    this.service.getBankFormat().subscribe(data => {
+    this.service.getBankFormat().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.bankformat = data;
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.bankformat);
@@ -70,9 +73,9 @@ export class BankFormatListComponent implements OnInit {
       },
     });
     console.log(this.bankformat.id)
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteBankFormat(id).subscribe(() => {
+        this.service.deleteBankFormat(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
            this.bankformat = this.bankformat?.filter((bank:BankFormat)=> bank.id !== id);         
             console.log('Property deleted successfully.');
             setTimeout(() => {
@@ -142,4 +145,9 @@ export class BankFormatListComponent implements OnInit {
 
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -1,17 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
 
 
@@ -65,7 +68,7 @@ export class ChangePasswordComponent {
     //this.roleType = this.userAuthService.getRoleType();
     this.id = this.userAuthService.getId();
     console.log(this.userAuthService.getId());
-    this.userService.getUserById(this.id).subscribe
+    this.userService.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe
       ((data: UserInfo) => {
         this.userInfo = data;
         this.realPassword = this.userInfo.password;
@@ -94,7 +97,7 @@ export class ChangePasswordComponent {
     if ((this.realPassword === this.myForm.value.oldPassword) && this.checkPasswordMatch()) {
       this.userInfo.password = this.myForm.value.newPassword;
       this.confirmPassword = this.myForm.value.confirmPassword;
-      this.userService.updateUserInfo(this.id, this.userInfo).subscribe(
+      this.userService.updateUserInfo(this.id, this.userInfo).pipe(takeUntil(this.destroy$)).subscribe(
         (response: UserInfo) => {
           console.log(response);
           alert("パスワードを正常に変更できました。");
@@ -120,7 +123,7 @@ export class ChangePasswordComponent {
   }
   onProfile(id: string) {
     id = this.userAuthService.getId();
-    this.userService.getUserById(this.id).subscribe
+    this.userService.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe
       ((data: UserInfo) => {
         this.userInfo = data;
         this.realPassword = this.userInfo.password;
@@ -137,4 +140,9 @@ export class ChangePasswordComponent {
 
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

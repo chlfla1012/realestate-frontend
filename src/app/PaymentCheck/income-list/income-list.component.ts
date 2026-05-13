@@ -8,18 +8,21 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { IncomeCheckService } from 'src/app/Service/IncomeCheck/incomeCheck.service';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { CompanyName } from 'src/app/Model/CompanyName';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-income-list',
   templateUrl: './income-list.component.html',
   styleUrls: ['./income-list.component.css']
 })
-export class IncomeListComponent implements OnInit {
+export class IncomeListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   selectedOption: string;
   file: File;
   companyId: number;
@@ -76,18 +79,18 @@ export class IncomeListComponent implements OnInit {
   }
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -95,14 +98,14 @@ export class IncomeListComponent implements OnInit {
   url: String;
 
   getCurrentCompanyId() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
 
     });
   }
 
   getAllPaymentCheckByCompanyId() {
-    this.service.getAllPaymentCheckByCompanyId(this.companyId).subscribe(data => {
+    this.service.getAllPaymentCheckByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.incomecheck = data;
       // Initialize the isChecked property for each row
       this.incomecheck.forEach(row => {
@@ -219,7 +222,7 @@ export class IncomeListComponent implements OnInit {
     formData.append("logoId", this.logoId.toString());
     formData.append("companyId", this.companyId.toString());
 
-    this.service.addListPaymentCheck(formData).subscribe(
+    this.service.addListPaymentCheck(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
        console.log('PaymentCheck Data Added successfully', response); 
        this.refreshData();
@@ -246,4 +249,9 @@ export class IncomeListComponent implements OnInit {
     this.search(); 
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

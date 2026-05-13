@@ -1,15 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.component.html',
   styleUrls: ['./profile-edit.component.css']
 })
-export class ProfileEditComponent implements OnInit{
+export class ProfileEditComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   // @ViewChild('f') infoForm : NgForm;
   dateOfBirth:string ='';
   isAbove20:boolean = true;
@@ -64,7 +67,7 @@ export class ProfileEditComponent implements OnInit{
     
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data;
       console.log(this.userInfo.id);
     })
@@ -83,7 +86,7 @@ export class ProfileEditComponent implements OnInit{
     // this.userInfo = formData.value
     console.log("submit" + this.userInfo.id);
     if (!this.hasErrorDOB){
-      this.service.updateUserInfo(this.id, this.userInfo).subscribe(
+      this.service.updateUserInfo(this.id, this.userInfo).pipe(takeUntil(this.destroy$)).subscribe(
         (response: UserInfo) => {
           console.log(response);
           console.log(this.userInfo.dateOfBirth);
@@ -158,4 +161,9 @@ export class ProfileEditComponent implements OnInit{
     }
     
   }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
+}

@@ -1,17 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })
-export class ResetPasswordComponent {
+export class ResetPasswordComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   passwordType: string = 'password';
   errorMessage:string = '';
@@ -63,7 +66,7 @@ export class ResetPasswordComponent {
 
   ngOnInit(): void {
     this.id = this.userAuthService.getId();
-    this.service.getUserById(this.id).subscribe(data => {
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo = data;
       console.log(this.userInfo.id)
     })
@@ -91,7 +94,7 @@ export class ResetPasswordComponent {
     // }
     if (this.password == this.confirmPassword) {
       this.userInfo.password = this.password;
-      this.service.updateUserInfo(this.id, this.userInfo).subscribe(
+      this.service.updateUserInfo(this.id, this.userInfo).pipe(takeUntil(this.destroy$)).subscribe(
         (response: UserInfo) => {
           alert("パスワードを正常に変更できました。")
           this.router.navigate(['/login']);
@@ -123,4 +126,9 @@ export class ResetPasswordComponent {
 
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
@@ -10,13 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Customer } from 'src/app/Model/Customer';
 import { CustomerService } from 'src/app/Service/Customer/CustomerService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-edit',
   templateUrl: './customer-edit.component.html',
   styleUrls: ['./customer-edit.component.css']
 })
-export class CustomerEditComponent implements OnInit{
+export class CustomerEditComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   @ViewChild('f') infoForm : NgForm;
   
   customer: Customer ={
@@ -59,7 +62,7 @@ export class CustomerEditComponent implements OnInit{
     
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getCustomerById(this.id).subscribe(data=>{
+    this.service.getCustomerById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.customer = data
       //console.log(this.customer.type)
       console.log(this.customer.id)
@@ -75,7 +78,7 @@ export class CustomerEditComponent implements OnInit{
     }
     console.log("submit" + this.customer.id);
 
-    this.service.updateCustomer(this.id, this.customer).subscribe(
+    this.service.updateCustomer(this.id, this.customer).pipe(takeUntil(this.destroy$)).subscribe(
       (response: Customer) => {
         console.log(response);
         this.router.navigate(['/customer-list']);
@@ -109,7 +112,12 @@ export class CustomerEditComponent implements OnInit{
   navigateToPreivousPage() {
     window.history.back();
   } 
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
+}
 
 
 

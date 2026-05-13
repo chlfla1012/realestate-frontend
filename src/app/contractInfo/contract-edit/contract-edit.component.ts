@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, NgForm, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -22,13 +22,15 @@ import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/dele
 import { Subject, debounceTime } from 'rxjs';
 
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-edit',
   templateUrl: './contract-edit.component.html',
   styleUrls: ['./contract-edit.component.css']
 })
-export class ContractEditComponent {
+export class ContractEditComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   companyId: number;
   backendCompany: CompanyName = {
 
@@ -269,7 +271,7 @@ constructor(
   this.getUsersbyPIC();  
   this.getCurrentUserInfo();
   this.getProperties();
-  this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+  this.searchTextChanged.pipe(debounceTime(300)).pipe(takeUntil(this.destroy$)).subscribe(() => {
   this.searchByPropertyName();
   });
   this.getPropertyBySelectedPropertyName();
@@ -277,7 +279,7 @@ constructor(
  }
 
  getProperties() {
-  this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+  this.propertyService.getPropertiesByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
     this.propertyIDs = data;
 
 },
@@ -288,11 +290,11 @@ constructor(
 }
 
  getCurrentUserInfo() {
-  this.userAuthService.getCompanyId().subscribe(companyId => {
+  this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
     this.companyId = companyId;
   });
 
-  this.userAuthService.getCompanyName().subscribe(backendCompany => {
+  this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
     this.backendCompany = backendCompany;
   });
 
@@ -300,7 +302,7 @@ constructor(
   console.log("Get Login data", this.companyId);  }
 
   getUsersbyPIC() {
-    this.userService.getPICUsers().subscribe(data=>{
+    this.userService.getPICUsers().pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.picUsers=data;
     },
     (error)=>{
@@ -309,7 +311,7 @@ constructor(
   }
   
   getUsersByOwner() {
-    this.userService.getOwners().subscribe(data => {
+    this.userService.getOwners().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.ownerUsers = data;    
     },
       (error) => {
@@ -318,7 +320,7 @@ constructor(
 
  getcontractById() {
  this.id= this.route.snapshot.params['id'];
- this.contractService.getcontractById(this.id).subscribe(
+ this.contractService.getcontractById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
    (data:any) => {
      this.contract = data;
      this.contract.id = data.id;
@@ -362,7 +364,7 @@ onInputChanged(): void {
 }
 
 searchByPropertyName(): void {
-  this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {
+  this.contractService.findByPropertyNameContaining(this.propertyName).pipe(takeUntil(this.destroy$)).subscribe((data) => {
     this.results = data;
   });
 }
@@ -374,7 +376,7 @@ selectPropertyName(event: MatAutocompleteSelectedEvent): void {
   this.getPropertyBySelectedPropertyName(); 
 }  
 getPropertyBySelectedPropertyName():void {    
-  this.contractService.getPropertyByName(this.propertyName).subscribe((data) => {           
+  this.contractService.getPropertyByName(this.propertyName).pipe(takeUntil(this.destroy$)).subscribe((data) => {           
   this.resultsByPropertyName = data;
   console.log("resultsByPropertyName:" + this.resultsByPropertyName);
     
@@ -383,7 +385,7 @@ getPropertyBySelectedPropertyName():void {
 }  
 onRoomSelectionChange(): void {       
   console.log ("onRoom SelectionChange : " + this.room);
-  this.contractService.getOwnerByRoom(this.room).subscribe(
+  this.contractService.getOwnerByRoom(this.room).pipe(takeUntil(this.destroy$)).subscribe(
     (allProperties: Property[])=>{
       const selectedProperty = allProperties.find(property => property.room === this.room);
       if(selectedProperty){
@@ -410,7 +412,7 @@ validateBorrowerRegNo() {
 }
 onSubmit(formData:NgForm){
       
-      this.userService.getUserById(this.picId).subscribe
+      this.userService.getUserById(this.picId).pipe(takeUntil(this.destroy$)).subscribe
       ((selectedPICData: UserInfo) => {
         this.picName = selectedPICData.firstName +" "+
           selectedPICData.lastName;
@@ -444,7 +446,7 @@ onSubmit(formData:NgForm){
         return;
       }
       console.log("submit" + this.contract.id);
-      this.contractService.updateContract(this.id,this.contract).subscribe(
+      this.contractService.updateContract(this.id,this.contract).pipe(takeUntil(this.destroy$)).subscribe(
         (response:Contract)=>{
           console.log(response);
         },
@@ -547,9 +549,9 @@ confirmDelete(id: string, name: string, room: string) : void {
     },
   });
 
-  dialogRef.afterClosed().subscribe((result) => {
+  dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
     if (result) {
-      this.contractService.deleteContract(id).subscribe(
+      this.contractService.deleteContract(id).pipe(takeUntil(this.destroy$)).subscribe(
         () => {
           this.router.navigate(['/contract-list']);
 
@@ -584,4 +586,9 @@ onReset() {
 
 }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

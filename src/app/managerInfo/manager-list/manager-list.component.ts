@@ -1,22 +1,24 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of , Subject } from 'rxjs';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatSort } from '@angular/material/sort';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manager-list',
   templateUrl: './manager-list.component.html',
   styleUrls: ['./manager-list.component.css']
 })
-export class ManagerListComponent implements OnInit {
+export class ManagerListComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   selectionOption: string = "";
   userRole: string = "";
   userInfo: UserInfo[] = [
@@ -84,7 +86,7 @@ export class ManagerListComponent implements OnInit {
   filteredManager = [...this.managerList]; // Initialize with all contracts
 
   ngOnInit(): void {
-    this.service.getManagerUsers().subscribe((data: UserInfo[]) => {
+    this.service.getManagerUsers().pipe(takeUntil(this.destroy$)).subscribe((data: UserInfo[]) => {
       this.userInfo = data;
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.userInfo);
@@ -159,9 +161,9 @@ export class ManagerListComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.userInfo = this.userInfo?.filter((user: UserInfo) => user.id !== id);
 
@@ -253,4 +255,9 @@ export class ManagerListComponent implements OnInit {
     });
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

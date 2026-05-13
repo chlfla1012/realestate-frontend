@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyName } from 'src/app/Model/CompanyName';
@@ -11,13 +11,16 @@ import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-servi
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invoice-edit',
   templateUrl: './invoice-edit.component.html',
   styleUrls: ['./invoice-edit.component.css']
 })
-export class InvoiceEditComponent {
+export class InvoiceEditComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   logoId: number;
   companyId: number;
@@ -349,7 +352,7 @@ export class InvoiceEditComponent {
 
   getInvocieById() {
     this.id= this.route.snapshot.params['id'];
-    this.invoiceService.getInvoiceById(this.id).subscribe(
+    this.invoiceService.getInvoiceById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:any) => { 
         //this.invoiceInfo = data;
         this.invoiceList = data.invoiceMoneyList;
@@ -553,18 +556,18 @@ export class InvoiceEditComponent {
    }
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
     console.log("Get Login company name data", this.backendCompany.companyName);
   }
 
   getCurrentUserByCompanyId() {
-    this.userService.getUserAddressByCompanyId(this.picId).subscribe(
+    this.userService.getUserAddressByCompanyId(this.picId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: UserInfo[]) => {
         this.userInfo = data;
         console.log("User address by company id " + data);
@@ -584,7 +587,7 @@ export class InvoiceEditComponent {
   }
 
   getContractInfo() {
-    this.invoiceService.getContractsByBorrowerType(this.companyId).subscribe((data: any) => {
+    this.invoiceService.getContractsByBorrowerType(this.companyId).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.contractIDs = data;
       for (const contractInfo of data) {
         this.getContractId = contractInfo.id;
@@ -601,7 +604,7 @@ export class InvoiceEditComponent {
   }
 
   getProperties() {
-    this.invoiceService.getPropertyByBorrowerType(this.companyId).subscribe(data => {
+    this.invoiceService.getPropertyByBorrowerType(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.propertyIDs = data;
       // console.log("Hello PropertyData "+this.propertyIDs);
     }, (error) => {
@@ -1030,7 +1033,7 @@ export class InvoiceEditComponent {
     formData.append("companyId", this.companyId.toString());
     // formData.append("contractId", this.contractId);
     console.log(formData.getAll);
-    this.invoiceService.updateInvoices(this.id,formData).subscribe((response: Invoice) => {
+    this.invoiceService.updateInvoices(this.id,formData).pipe(takeUntil(this.destroy$)).subscribe((response: Invoice) => {
       console.log("Invoice response " + this.id);
     }
     );
@@ -1058,5 +1061,10 @@ export class InvoiceEditComponent {
     this.invoiceForm.reset();
     // Navigate back to "Ichiran" screen
     this.router.navigate(['/contract-list']);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

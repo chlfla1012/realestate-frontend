@@ -5,9 +5,11 @@ import { Router } from '@angular/router';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from 'src/app/contractInfo/contract-create/AlertDialogComponent';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +17,9 @@ import { AlertDialogComponent } from 'src/app/contractInfo/contract-create/Alert
   templateUrl: './managercreate.component.html',
   styleUrls: ['./managercreate.component.css']
 })
-export class ManagercreateComponent {
+export class ManagercreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   data:any;
   mail:boolean= false;
   emailErr: string = '';
@@ -114,7 +118,7 @@ export class ManagercreateComponent {
       formData.append("signature", new Blob(), null);
     }
     
-      this.service.checkEmailExists(this.userInfo.email).subscribe(
+      this.service.checkEmailExists(this.userInfo.email).pipe(takeUntil(this.destroy$)).subscribe(
         (response) => {
           if(response !=null){
             this.mail=false;
@@ -123,7 +127,7 @@ export class ManagercreateComponent {
           }else{
             //this.mail=true;
             if(!this.hasError && !this.hasErrorDOB){
-              this.service.addManagerInfo(formData).subscribe(
+              this.service.addManagerInfo(formData).pipe(takeUntil(this.destroy$)).subscribe(
                 (response) => {
                     console.log('Manager Data Added successfully', response);
                     console.log("This is email "+this.userInfo.email);
@@ -146,7 +150,7 @@ export class ManagercreateComponent {
       data: { message: message }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       console.log('Dialog closed');
     });
   }
@@ -275,9 +279,11 @@ export class ManagercreateComponent {
   
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const previousUrl = imageNumber === 1 ? this.url1 : imageNumber === 2 ? this.url2 : null;
+      let isFileHandleUsed = false;
       const fileHandle: FileHandle = {
         file,
-        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+        url: this.createSafeObjectUrl(file),
       };
 
       if (file) {
@@ -301,17 +307,52 @@ export class ManagercreateComponent {
             this.userInfo.logo = fileHandle;
   
             this.url1 = fileHandle.url;
+            isFileHandleUsed = true;
           }
           else if (imageNumber === 2) {
             this.logoSizeError = '';
   
             this.userInfo.signature = fileHandle;
             this.url2 = fileHandle.url;
+            isFileHandleUsed = true;
           }
       }
+      if (!isFileHandleUsed) {
+        this.revokeObjectUrl(fileHandle.url);
+      }
+      this.revokeObjectUrl(previousUrl);
      
     }
   }
 
 }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
+  }
 }

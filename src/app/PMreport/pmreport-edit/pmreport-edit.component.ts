@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit} from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgForm} from '@angular/forms';
@@ -19,13 +19,16 @@ import { PMReport } from 'src/app/Model/PMReport';
 import { MatTableDataSource } from '@angular/material/table';
 import { Income } from 'src/app/Model/Income';
 import { Rental } from 'src/app/Model/Rental';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pmreport-edit',
   templateUrl: './pmreport-edit.component.html',
   styleUrls: ['./pmreport-edit.component.css']
 })
-export class PmreportEditComponent implements OnInit {
+export class PmreportEditComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   companyId: number;
   backendCompany: CompanyName = {
@@ -206,35 +209,35 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
      }
  
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
   }
   getPMReportById() {
     this.id= this.route.snapshot.params['id'];
-    this.pmReportService.getPMReportById(this.id).subscribe(
+    this.pmReportService.getPMReportById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:any) => {
         this.pmReport = data;
       });
-    this.pmReportService.getExpenseDataById(this.id).subscribe(
+    this.pmReportService.getExpenseDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data) => {
         this.expenseRow = data;
         console.log("Expense",data);
       });
-    this.pmReportService.getIncomeDataById(this.id).subscribe(
+    this.pmReportService.getIncomeDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:Income[]) => {
         this.dataSource.data = data;
       });
-    this.pmReportService.getRentalDataById(this.id).subscribe(
+    this.pmReportService.getRentalDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:Rental[]) => {
         this.dataSource2.data= data;
       });
@@ -293,7 +296,7 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
           });
         }
       }
-      this.pmReportService.updatePMReport(this.id,this.expenseRow).subscribe(
+      this.pmReportService.updatePMReport(this.id,this.expenseRow).pipe(takeUntil(this.destroy$)).subscribe(
         (response:Expense) => {
           console.log(response);
           console.log('Data added successfully');
@@ -337,10 +340,10 @@ displayedColumns2: string[] = ['room', 'classification', 'tenantName', 'areaMete
   }
   deleteLastRow(expId:number) {
     console.log('id',this.expId);
-    this.pmReportService.deleteExpenseRow(this.expId).subscribe(
+    this.pmReportService.deleteExpenseRow(this.expId).pipe(takeUntil(this.destroy$)).subscribe(
       () => {
         console.log('success id',this.expId);
-        this.pmReportService.getExpenseDataById(this.id).subscribe(
+        this.pmReportService.getExpenseDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
           (data) => {
             this.expenseRow = data;
             console.log("Expense",data);
@@ -360,7 +363,7 @@ confirmDeleteLastRow(event:any,expId:number) {
   });
 console.log("Chooese ID"+expId);
 this.expId=expId;
-  dialogRef.afterClosed().subscribe((result) => {
+  dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
     if (result) {
       this.deleteLastRow(expId);
     }
@@ -373,4 +376,9 @@ navigateToPreivousPage() {
   window.history.back();
 }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

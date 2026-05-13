@@ -1,4 +1,4 @@
-import { ViewChild } from '@angular/core';
+import { ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,13 +7,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-userdetails',
   templateUrl: './userdetails.component.html',
   styleUrls: ['./userdetails.component.css']
 })
-export class UserdetailsComponent {
+export class UserdetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   deleteStatus: boolean;
   id:string;
@@ -65,7 +68,7 @@ export class UserdetailsComponent {
     
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data;
       
       console.log(this.userInfo.id)
@@ -90,9 +93,9 @@ export class UserdetailsComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/user-list']);
 
@@ -150,4 +153,9 @@ export class UserdetailsComponent {
   
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

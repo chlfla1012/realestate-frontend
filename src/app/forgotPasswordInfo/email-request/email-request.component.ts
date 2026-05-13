@@ -1,18 +1,21 @@
 import { StickyDirection } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-email-request',
   templateUrl: './email-request.component.html',
   styleUrls: ['./email-request.component.css']
 })
-export class EmailRequestComponent implements OnInit{
+export class EmailRequestComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
 
   submitted:boolean = false;
@@ -61,7 +64,7 @@ export class EmailRequestComponent implements OnInit{
   ngOnInit(): void {
     this.id = this.userAuthService.getId();
     console.log(this.id);
-    this.service.getUserById(this.id).subscribe
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe
       ((data: UserInfo) => {
         this.userInfo = data;
         this.dbEmail = this.userInfo.email;
@@ -79,7 +82,7 @@ export class EmailRequestComponent implements OnInit{
     }
     this.formSubmitted = true;
     this.email=form.value.email;
-    this.service.getEmail(this.email).subscribe(
+    this.service.getEmail(this.email).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
     this.dbEmail=response.email;
     this.id = response.id;
@@ -111,4 +114,9 @@ back(){
   //   return false;
   // }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

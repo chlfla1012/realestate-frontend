@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, forwardRef } from '@angular/core';
+import { Component, ViewChild, OnInit, forwardRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -21,13 +21,15 @@ import { Income } from 'src/app/Model/Income';
 import { Rental } from 'src/app/Model/Rental';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-pmreport-create',
   templateUrl: './pmreport-create.component.html',
   styleUrls: ['./pmreport-create.component.css'],
 
 })
-export class PmreportCreateComponent implements OnInit {
+export class PmreportCreateComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   companyId: number;
   backendCompany: CompanyName = {
@@ -383,12 +385,12 @@ export class PmreportCreateComponent implements OnInit {
     this.getCurrentUserInfo();
     this.getPICUsers();
     this.getProperties();
-    this.searchTextChanged.pipe(debounceTime(200)).subscribe(() => {
+    this.searchTextChanged.pipe(debounceTime(200)).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.searchByPropertyName();
     });
  }
   getProperties() {
-    this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+    this.propertyService.getPropertiesByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.propertyIDs = data;
       console.log(data);
     },
@@ -399,7 +401,7 @@ export class PmreportCreateComponent implements OnInit {
   }
   searchByPropertyName(): void {
     console.log("Property Name  " + this.propertyname);
-    this.pmReportService.findByPropertyName(this.propertyname,this.companyId).subscribe((data) => {
+    this.pmReportService.findByPropertyName(this.propertyname,this.companyId).pipe(takeUntil(this.destroy$)).subscribe((data) => {
       console.log("Property Name 2 " + this.propertyname);
       console.log("Property Name 3 " + this.companyId);
       this.results = data;
@@ -452,18 +454,18 @@ export class PmreportCreateComponent implements OnInit {
  
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -538,7 +540,7 @@ export class PmreportCreateComponent implements OnInit {
     console.log('incomeData', this.incomeData);
     console.log('UserData', this.userInfo);
     
-    this.pmReportService.addPMreport(formData).subscribe(
+    this.pmReportService.addPMreport(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response: PMReport) => {
         console.log(response);
         console.log('Data added successfully');
@@ -558,7 +560,7 @@ export class PmreportCreateComponent implements OnInit {
     window.history.back();
   }
   getPICUsers() {
-    this.userService.getUsersByCompanyId(this.companyId).subscribe((data: UserInfo[]) => {
+    this.userService.getUsersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe((data: UserInfo[]) => {
         this.picUsers = data;
         for (const user of this.picUsers) {
           this.userInfo=user;
@@ -579,7 +581,7 @@ export class PmreportCreateComponent implements OnInit {
       });
   }
   onOwnerSelectionChange() {
-    this.pmReportService.getOwnerName(this.ownerName).subscribe((data: UserInfo[]) => {
+    this.pmReportService.getOwnerName(this.ownerName).pipe(takeUntil(this.destroy$)).subscribe((data: UserInfo[]) => {
         this.ownerInfo = data;
         for (const owner of this.ownerInfo) {
           this.owner=owner;
@@ -596,7 +598,7 @@ export class PmreportCreateComponent implements OnInit {
           this.password=owner.password;
         }       
       });
-    this.pmReportService.getIncomeInformation(this.ownerName,this.propertyname).subscribe(data => {
+    this.pmReportService.getIncomeInformation(this.ownerName,this.propertyname).pipe(takeUntil(this.destroy$)).subscribe(data => {
       console.log("This is income" + data);
       this.incomeInfo = data;
       this.incomeInfo.forEach(income => income.owner = this.owner);
@@ -607,7 +609,7 @@ export class PmreportCreateComponent implements OnInit {
       }
       this.dataSource = new MatTableDataSource<any>(this.incomeInfo);
     });
-    this.pmReportService.getRentalInformation(this.ownerName,this.propertyname).subscribe(data => {
+    this.pmReportService.getRentalInformation(this.ownerName,this.propertyname).pipe(takeUntil(this.destroy$)).subscribe(data => {
       console.log("This is rental" + this.ownerName,this.propertyname);
       this.rentalInfo = data;
       this.rentalInfo.forEach(rental => rental.owner = this.owner);
@@ -660,7 +662,7 @@ const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
   },
 });
 
-dialogRef.afterClosed().subscribe((result) => {
+dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
   if (result) {
     this.deleteLastRow();
   }
@@ -668,4 +670,9 @@ dialogRef.afterClosed().subscribe((result) => {
 }
   
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

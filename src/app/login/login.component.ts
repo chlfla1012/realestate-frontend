@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserInfoService } from '../Service/UserInfo/userInfoService';
 import { NgForm } from '@angular/forms';
 import { UserAuthService } from '../Service/UserInfo/user-auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserInfo } from '../Model/userInfo';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   data:any;
   errorMessage:string = '';
@@ -73,7 +76,7 @@ export class LoginComponent {
       return;
     }
     this.formSubmitted = true;
-    this.service.login(this.userInfo.email, this.userInfo.password).subscribe(
+    this.service.login(this.userInfo.email, this.userInfo.password).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         const roletype1 = response.userType;
         const id = response.id;
@@ -115,10 +118,8 @@ export class LoginComponent {
             this.userAuthService.setLogo(logo.image, logo.name, true);
             this.userAuthService.setLogoId(logo.id,true);
           } else {
-            this.userAuthService.setLogo(
-              null, null, false);
-              this.userAuthService.setLogoId(logo.id,false);
-
+            this.userAuthService.setLogo(null, null, false);
+            this.userAuthService.setLogoId(logo?.id ?? null, false);
           }
           console.log(logo);
 
@@ -158,4 +159,9 @@ export class LoginComponent {
     this.router.navigate(['/email-request']);
    }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

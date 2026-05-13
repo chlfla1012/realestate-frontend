@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,13 +12,16 @@ import { Tenant } from 'src/app/Model/Tenant';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { ContractService } from 'src/app/Service/Contract/ContractService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-details',
   templateUrl: './contract-details.component.html',
   styleUrls: ['./contract-details.component.css']
 })
-export class ContractDetailsComponent {
+export class ContractDetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   companyId: number;
   backendCompany: CompanyName = {
 
@@ -220,7 +223,7 @@ constructor(private contractService:ContractService,
 
  getcontractById() {
  this.id= this.route.snapshot.params['id'];
- this.contractService.getcontractById(this.id).subscribe(
+ this.contractService.getcontractById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
    (data:any) => {
      this.contract = data;
      this.contract.id = data.id;
@@ -252,9 +255,9 @@ confirmDelete(id: string, name: string, room: string) : void {
     },
   });
 
-  dialogRef.afterClosed().subscribe((result) => {
+  dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
     if (result) {
-      this.contractService.deleteContract(id).subscribe(
+      this.contractService.deleteContract(id).pipe(takeUntil(this.destroy$)).subscribe(
         () => {
           this.router.navigate(['/contract-list']);
 
@@ -284,4 +287,9 @@ private showForeignKeyErrorSnackbar(name: string,room:string): void {
 }
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -10,13 +10,16 @@ import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-owner-list',
   templateUrl: './owner-list.component.html',
   styleUrls: ['./owner-list.component.css']
 })
-export class OwnerListComponent {
+export class OwnerListComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   selectionOption:string="";
   userInfo: any;
@@ -60,7 +63,7 @@ export class OwnerListComponent {
   }
   getAllOwnersByCompanyId() {
     
-    this.service.getOwnersByCompanyId(this.companyId).subscribe(data => {
+    this.service.getOwnersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo = data;
       console.log("Company id", this.companyId);
 
@@ -73,7 +76,7 @@ export class OwnerListComponent {
   }
  
   getCurrentCompanyId() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
       
     });
@@ -82,7 +85,7 @@ export class OwnerListComponent {
  
 
   getAllOwners() {
-    this.service.getOwners().subscribe(data => {
+    this.service.getOwners().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo= data;
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.userInfo);
@@ -143,9 +146,9 @@ export class OwnerListComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
            this.userInfo = this.userInfo?.filter((user:UserInfo)=> user.id !== id);
             
@@ -238,5 +241,10 @@ export class OwnerListComponent {
 
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

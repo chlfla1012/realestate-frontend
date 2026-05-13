@@ -1,10 +1,10 @@
 
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component,OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of , Subject } from 'rxjs';
 import { Invoice } from 'src/app/Model/Invoice';
 import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
@@ -15,13 +15,15 @@ import { InvoiceList } from 'src/app/Model/InvoiceList';
 import { FileHandle } from 'src/app/Model/FileHandle';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { data } from 'jquery';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pdf-collection',
   templateUrl: './pdf-collection.component.html',
   styleUrls: ['./pdf-collection.component.css']
 })
-export class PdfCollectionComponent implements OnInit{
+export class PdfCollectionComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   id: string;
   logoId: number;
   companyId: number;
@@ -73,7 +75,7 @@ export class PdfCollectionComponent implements OnInit{
  }
  getAllPDFByCompanyId(){
   console.log("getAll Invoice by Company Id ", this.companyId);
-  this.invoiceService.getPDFByCompanyId(this.companyId).subscribe(data =>{
+  this.invoiceService.getPDFByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data =>{
     this.invoice=data;
     console.log("Company id",this.companyId);
     console.log("invoice ",this.invoice)
@@ -94,7 +96,7 @@ export class PdfCollectionComponent implements OnInit{
  }
 
     getCurrentCompanyId() {
-      this.userAuthService.getCompanyId().subscribe(companyId => {
+      this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
         this.companyId = companyId;
         
       });
@@ -133,9 +135,9 @@ search() {
 
   console.log('Searching...', this.companyId, this.searchPropertyName, this.searchBorrowerCooperate);
  
-  if (this.searchPropertyName && this.searchBorrowerCooperate && this.searchByBillingDate) {
+  if (this.searchPropertyName || this.searchBorrowerCooperate || this.searchByBillingDate) {
     
-    this.invoiceService.getPDFByCompanyId(this.companyId).subscribe(data => {
+    this.invoiceService.getPDFByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.invoice = data;
 
       console.log("Entire array:", data);
@@ -180,7 +182,7 @@ search() {
 
       const filtersearchValuePropertyName = this.searchPropertyName ? this.searchPropertyName.trim().toLowerCase() : null;
       const filterValuesearchBorrowerCooperate = this.searchBorrowerCooperate ? this.searchBorrowerCooperate.trim().toLowerCase() : null;
-      const filterValuesearchByBillingDate = this.searchByBillingDate ? this.datepipe.transform(this.searchByBillingDate.toString(), 'yyyy/MM'): null;
+      const filterValuesearchByBillingDate = this.searchByBillingDate ? this.searchByBillingDate.toString().replace('-', '/') : null;
       // const filterValueformattedsearchByBillingDate = this.formattedsearchByBillingDate ?this.formattedsearchByBillingDate: null;
 
 
@@ -189,22 +191,16 @@ search() {
 
       this.dataSource.filterPredicate = (data: any, filter: string) => {
         const invoice = data as Invoice;
-        const dateComponents = invoice.billingDate.split('/');
-        const year = dateComponents[2];
-        const month = dateComponents[0];
-        const day = dateComponents[1];
+        const dateComponents = invoice.billingDate ? invoice.billingDate.split('/') : [];
+        // DB stores yyyy/MM/dd → index 0=year, 1=month
+        const year = dateComponents[0] ?? '';
+        const month = dateComponents[1] ?? '';
+        const formattedDate = year && month ? `${year}/${month}` : '';
 
-        console.log("Year:", year);
-        console.log("Month:", month);
-        console.log("Day:", day);
-
-        const formattedDate = `${year}/${month}`;
-        console.log("Formatted Date"+formattedDate)
-        console.log("filterValuesearchByBillingDate"+filterValuesearchByBillingDate)
         return (
-          (!filtersearchValuePropertyName || invoice.propertyName.toLowerCase().includes(filtersearchValuePropertyName)) &&
-          (!filterValuesearchBorrowerCooperate || invoice.borrowerCooperate.toLowerCase().includes(filterValuesearchBorrowerCooperate))&&
-          ((!filterValuesearchByBillingDate || formattedDate==filterValuesearchByBillingDate))
+          (!filtersearchValuePropertyName || (invoice.propertyName ?? '').toLowerCase().includes(filtersearchValuePropertyName)) &&
+          (!filterValuesearchBorrowerCooperate || (invoice.borrowerCooperate ?? '').toLowerCase().includes(filterValuesearchBorrowerCooperate)) &&
+          (!filterValuesearchByBillingDate || formattedDate === filterValuesearchByBillingDate)
         );
       };
 
@@ -234,20 +230,18 @@ console.log("Data for Original ")
 }
  
 pdfPreview() {
-  if( this.dataSource.filter){
-    const filteredDataToPass: any[] = this.dataSource.filteredData;
-    console.log("the borrower cooperate"+this.dataSource.filteredData);
-    this.router.navigate(['/pdf-download'], 
-    {
-            queryParams: { filteredData: JSON.stringify(filteredDataToPass) },
-          });
-        }else {
-              // Handle the case where there is no filtered data
-              console.log('No filtered data to navigate.');
-              // You can optionally show a message to the user or perform other actions.
-            }
-  
+  const dataToPass: any[] = this.dataSource.filter
+    ? this.dataSource.filteredData
+    : this.dataSource.data;
+
+  if (dataToPass && dataToPass.length > 0) {
+    this.router.navigate(['/pdf-download'], {
+      queryParams: { filteredData: JSON.stringify(dataToPass) },
+    });
+  } else {
+    console.log('No data to preview.');
   }
+}
   
 reset() {
   this.searchPropertyName = '';
@@ -257,6 +251,11 @@ reset() {
 }
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 
 

@@ -1,23 +1,25 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable , Subject } from 'rxjs';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent {
+export class UserListComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   companyName: CompanyName;
   selectionOption:string="";
   userRole: string="";
@@ -64,7 +66,7 @@ export class UserListComponent {
   getAllUsersByCompanyId() {
     console.log("Company id 2", this.companyId);
 
-    this.service.getUsersByCompanyId(this.companyId).subscribe(data => {
+    this.service.getUsersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       
       this.userInfo= data;
       this.formatDateStrings();
@@ -77,7 +79,7 @@ export class UserListComponent {
     
   }
   getCurrentCompanyId() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
       console.log("Company id", this.companyId);
       
@@ -86,7 +88,7 @@ export class UserListComponent {
 
 
   getAllUsers() {
- this.service.getPICUsers().subscribe(data => {
+ this.service.getPICUsers().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.userInfo= data;
       this.formatDateStrings();
       this.dataSource = new MatTableDataSource<any>(this.userInfo);
@@ -152,9 +154,9 @@ export class UserListComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
            this.userInfo = this.userInfo?.filter((user:UserInfo)=> user.id !== id);
             
@@ -213,5 +215,10 @@ export class UserListComponent {
 
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

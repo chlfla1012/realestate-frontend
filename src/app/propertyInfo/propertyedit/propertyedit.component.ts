@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ThisReceiver } from '@angular/compiler';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,13 +9,17 @@ import { Property } from 'src/app/Model/Property';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-propertyedit',
   templateUrl: './propertyedit.component.html',
   styleUrls: ['./propertyedit.component.css']
 })
-export class PropertyeditComponent {
+export class PropertyeditComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   @ViewChild('f') myForm!: NgForm;
   image1Error: string;
   image2Error: string;
@@ -199,7 +203,7 @@ export class PropertyeditComponent {
   }
 
   getUsersbyPIC() {
-    this.userService.getPICUsers().subscribe(data => {
+    this.userService.getPICUsers().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.picUsers = data;
       // console.log("picusers", this.ownerUsers);
     },
@@ -211,7 +215,7 @@ export class PropertyeditComponent {
   getUsersByOwner() {
       // console.log("start owner ", this.ownerUsers);
 
-      this.userService.getOwners().subscribe(data => {
+      this.userService.getOwners().pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.ownerUsers = data;
         // console.log("owners", this.ownerUsers);
       },
@@ -223,7 +227,7 @@ export class PropertyeditComponent {
   getPropertyById() {
     this.id = this.route.snapshot.params['id'];
 
-    this.propertyService.getPropertyById(this.id).subscribe(
+    this.propertyService.getPropertyById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         this.property.id = data.id;
         this.property.propertyType = data.propertyType;
@@ -347,6 +351,7 @@ export class PropertyeditComponent {
         this.property.rosette = data.rosette;
 
         //image
+        const previousUrls = [this.url1, this.url2, this.url3, this.url4, this.url5, this.url6, this.url7, this.url8];
         this.property.image1 = this.createImages(data.propertyImage.image1, data.propertyImage.name1);
         this.property.image2 = this.createImages(data.propertyImage.image2, data.propertyImage.name2);
         this.property.image3 = this.createImages(data.propertyImage.image3, data.propertyImage.name3);
@@ -371,6 +376,7 @@ export class PropertyeditComponent {
         this.url7 = this.property.image7.url;
 
         this.url8 = this.property.image8.url;
+        previousUrls.forEach((url) => this.revokeObjectUrl(url));
 
         //management
         this.property.managerName = data.managerName;
@@ -400,7 +406,7 @@ export class PropertyeditComponent {
 
     const image1FileHandle: FileHandle = {
       file: image1File,
-      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+      url: this.createSafeObjectUrl(image1File)
     }
     return image1FileHandle;
 
@@ -438,9 +444,10 @@ export class PropertyeditComponent {
   onSelectFile(event: any, imageNumber: number) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const previousUrl = this.getSelectedImageUrl(imageNumber);
       const fileHandle: FileHandle = {
         file,
-        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+        url: this.createSafeObjectUrl(file),
       };
       console.log(file.size);
       if (file.size > 1 * 1024 * 1024) {
@@ -491,6 +498,7 @@ export class PropertyeditComponent {
           this.property.image8 = null;
           this.url8 = null;
         }
+        this.revokeObjectUrl(fileHandle.url);
       }
       else {
         if (imageNumber === 1) {
@@ -542,9 +550,58 @@ export class PropertyeditComponent {
           this.url8 = fileHandle.url;
         }
       }
+      this.revokeObjectUrl(previousUrl);
       
     }
   
+  }
+
+  private getSelectedImageUrl(imageNumber: number): SafeUrl | null | undefined {
+    if (imageNumber === 1) {
+      return this.url1;
+    }
+    if (imageNumber === 2) {
+      return this.url2;
+    }
+    if (imageNumber === 3) {
+      return this.url3;
+    }
+    if (imageNumber === 4) {
+      return this.url4;
+    }
+    if (imageNumber === 5) {
+      return this.url5;
+    }
+    if (imageNumber === 6) {
+      return this.url6;
+    }
+    if (imageNumber === 7) {
+      return this.url7;
+    }
+    return this.url8;
+  }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
   }
 
   //on submit for update form
@@ -560,14 +617,14 @@ export class PropertyeditComponent {
       console.log("Form Errors");
       return;
     }
-    this.userService.getUserById(this.ownerId).subscribe
+    this.userService.getUserById(this.ownerId).pipe(takeUntil(this.destroy$)).subscribe
       ((selectedOwnerData: UserInfo) => {
         this.ownerName = selectedOwnerData.firstName + " "+ selectedOwnerData.lastName;
         this.ownerKana = selectedOwnerData.firstName +" "+ selectedOwnerData.lastName;
         this.ownerData = selectedOwnerData;
         // console.log(this.ownerData);
 
-        this.userService.getUserById(this.picId).subscribe
+        this.userService.getUserById(this.picId).pipe(takeUntil(this.destroy$)).subscribe
           ((selectedPICData: UserInfo) => {
             this.picName = selectedPICData.firstName +" "+
               selectedPICData.lastName;
@@ -590,7 +647,7 @@ export class PropertyeditComponent {
             console.log(this.property.mobileFirst);
             console.log(this.property.owner);
             const formData = this.prepareFormDataForProduct(this.property);
-            this.propertyService.updateProperty(this.id,formData).subscribe(
+            this.propertyService.updateProperty(this.id,formData).pipe(takeUntil(this.destroy$)).subscribe(
               (response: Property) => {
                 console.log(response);
 
@@ -741,5 +798,11 @@ prepareFormDataForProduct(property: Property): FormData {
 
   navigateToPreivousPage() {
     window.history.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
   }
 }

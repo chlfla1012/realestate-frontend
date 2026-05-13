@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { BankFormat } from 'src/app/Model/BankFormat';
 import { BankFormatService } from 'src/app/Service/BankFormat/bankFormat.service'
 import { ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, catchError, map, of, throwError } from "rxjs";
+import { Observable, catchError, map, of, throwError , Subject } from "rxjs";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { SafeUrl } from '@angular/platform-browser';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
   templateUrl: './bankformat-detail.component.html',
   styleUrls: ['./bankformat-detail.component.css']
 })
-export class BankFormatDetailComponent {
+export class BankFormatDetailComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   deleteStatus: boolean;
   id: string;
@@ -41,7 +43,7 @@ export class BankFormatDetailComponent {
   ngOnInit(): void {
     console.log("Testing from detail"+this.id)
     this.id = this.route.snapshot.params['id'];
-    this.service.getBankFormatById(this.id).subscribe(data => {
+    this.service.getBankFormatById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.bankformat = data;
       console.log("Testing from detailid"+this.bankformat.id)
     })
@@ -61,9 +63,9 @@ export class BankFormatDetailComponent {
     });
     console.log(this.bankformat.id)
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteBankFormat(this.id).subscribe(
+        this.service.deleteBankFormat(this.id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             // Item deleted successfully, update your local data source or UI.
             console.log('Bank format deleted successfully.');
@@ -87,4 +89,9 @@ export class BankFormatDetailComponent {
 
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

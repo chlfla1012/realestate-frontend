@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
@@ -11,13 +11,17 @@ import { UserInfo } from 'src/app/Model/userInfo';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-propertycreate',
   templateUrl: './propertycreate.component.html',
   styleUrls: ['./propertycreate.component.css']
 })
-export class PropertycreateComponent {
+export class PropertycreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   containers: boolean[] = [true, false, false, false, false, false, false, false];
   toggleContainer(index: number) {
     this.containers[index] = !this.containers[index];
@@ -261,18 +265,18 @@ export class PropertycreateComponent {
 
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
     console.log("Get Login data", this.companyId);
   }
 
   getPICUsers() {
-    this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
+    this.userService.getUsersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.picUsers = data;
     },
       (error) => {
@@ -281,7 +285,7 @@ export class PropertycreateComponent {
   }
 
   getOwners() {
-    this.userService.getOwnersByCompanyId(this.companyId).subscribe(data => {
+    this.userService.getOwnersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.ownerUsers = data;
     },
       (error) => {
@@ -310,14 +314,14 @@ export class PropertycreateComponent {
       return;
     }
     //this.formSubmitted = true;
-    this.userService.getUserById(this.ownerId).subscribe
+    this.userService.getUserById(this.ownerId).pipe(takeUntil(this.destroy$)).subscribe
       ((selectedOwnerData: UserInfo) => {
         this.ownerName = selectedOwnerData.firstName + " " + selectedOwnerData.lastName;
         this.ownerKana = selectedOwnerData.firstNamekana + " " + selectedOwnerData.lastNamekana;
         this.ownerData = selectedOwnerData;
         // console.log(this.ownerData);
 
-        this.userService.getUserById(this.picId).subscribe
+        this.userService.getUserById(this.picId).pipe(takeUntil(this.destroy$)).subscribe
           ((selectedPICData: UserInfo) => {
             this.picName = selectedPICData.firstName + " " +
               selectedPICData.lastName;
@@ -339,7 +343,7 @@ export class PropertycreateComponent {
             this.property.mobileThird = this.mobileThird;
 
             const formData = this.prepareFormDataForProduct(this.property);
-            this.propertyService.addProperty(formData).subscribe(
+            this.propertyService.addProperty(formData).pipe(takeUntil(this.destroy$)).subscribe(
               (response: Property) => {
                 console.log(response);
                 this.router.navigate(['/property-list']);
@@ -465,9 +469,10 @@ export class PropertycreateComponent {
   onSelectFile(event: any, imageNumber: number) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      const previousUrl = this.getSelectedImageUrl(imageNumber);
       const fileHandle: FileHandle = {
         file,
-        url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file)),
+        url: this.createSafeObjectUrl(file),
       };
       
       console.log(file.size);
@@ -519,6 +524,7 @@ export class PropertycreateComponent {
           this.property.image8 = null;
           this.url8 = null;
         }
+        this.revokeObjectUrl(fileHandle.url);
       }
       else {
         if (imageNumber === 1) {
@@ -570,9 +576,58 @@ export class PropertycreateComponent {
           this.url8 = fileHandle.url;
         }
       }
+      this.revokeObjectUrl(previousUrl);
 
     }
 
+  }
+
+  private getSelectedImageUrl(imageNumber: number): SafeUrl | null | undefined {
+    if (imageNumber === 1) {
+      return this.url1;
+    }
+    if (imageNumber === 2) {
+      return this.url2;
+    }
+    if (imageNumber === 3) {
+      return this.url3;
+    }
+    if (imageNumber === 4) {
+      return this.url4;
+    }
+    if (imageNumber === 5) {
+      return this.url5;
+    }
+    if (imageNumber === 6) {
+      return this.url6;
+    }
+    if (imageNumber === 7) {
+      return this.url7;
+    }
+    return this.url8;
+  }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeObjectUrl(url: SafeUrl | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
   }
 
   keyPressAlpha(event: KeyboardEvent) {
@@ -608,6 +663,12 @@ export class PropertycreateComponent {
   }
   navigateToPreivousPage() {
     window.history.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
   }
 }
 

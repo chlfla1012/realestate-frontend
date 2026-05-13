@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Renderer2, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, NgForm } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,6 +19,7 @@ import { LOCALE_ID, Inject } from '@angular/core';
 import { Subject, debounceTime } from 'rxjs';
 
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-create',
@@ -27,7 +28,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ContractCreateComponent {
+export class ContractCreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   companyId: number;
   backendCompany: CompanyName = {
@@ -415,7 +417,7 @@ export class ContractCreateComponent {
     this.getCurrentUserInfo();
     this.getPICUsers();
     this.getProperties();
-    this.searchTextChanged.pipe(debounceTime(300)).subscribe(() => {
+    this.searchTextChanged.pipe(debounceTime(300)).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.searchByPropertyName();     
     });
     this.getPropertyBySelectedPropertyName();
@@ -424,11 +426,11 @@ export class ContractCreateComponent {
   }
 
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
 
@@ -443,7 +445,7 @@ export class ContractCreateComponent {
   }
   getProperties() {
 
-    this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+    this.propertyService.getPropertiesByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.propertyIDs = data;
 
     },
@@ -454,7 +456,7 @@ export class ContractCreateComponent {
   }
   getPICUsers() {
 
-    this.userService.getUsersByCompanyId(this.companyId).subscribe(data => {
+    this.userService.getUsersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.picUsers = data;      
     },
       (error) => {
@@ -463,7 +465,7 @@ export class ContractCreateComponent {
   }
 
   onPICSelectionChange() {
-    this.userService.getUserById(this.picId).subscribe(
+    this.userService.getUserById(this.picId).pipe(takeUntil(this.destroy$)).subscribe(
       (data: UserInfo) => {
         this.mobileFirst = data.phone1.toString();
         this.mobileSecond = data.phone2.toString();
@@ -483,7 +485,7 @@ export class ContractCreateComponent {
   }
 
   searchByPropertyName(): void {    
-    this.contractService.findByPropertyNameContaining(this.propertyName).subscribe((data) => {      
+    this.contractService.findByPropertyNameContaining(this.propertyName).pipe(takeUntil(this.destroy$)).subscribe((data) => {      
       this.results = data;
       console.log("searchByPropertyName() 01:" + this.propertyName);     
     });
@@ -496,7 +498,7 @@ export class ContractCreateComponent {
   }  
   getPropertyBySelectedPropertyName():void {    
     console.log("Proper Name for rooms:" + this.propertyName);    
-    this.contractService.getPropertyByName(this.propertyName).subscribe((data) => {           
+    this.contractService.getPropertyByName(this.propertyName).pipe(takeUntil(this.destroy$)).subscribe((data) => {           
     this.resultsByPropertyName = data;
     console.log("resultsByPropertyName:" + this.resultsByPropertyName);
       
@@ -505,7 +507,7 @@ export class ContractCreateComponent {
   }   
   onRoomSelectionChange(): void {       
     console.log ("onRoom SelectionChange : " + this.room);
-    this.contractService.getOwnerByRoom(this.room).subscribe(
+    this.contractService.getOwnerByRoom(this.room).pipe(takeUntil(this.destroy$)).subscribe(
       (allProperties: Property[])=>{
         const selectedProperty = allProperties.find(property => property.room === this.room);
         if(selectedProperty){
@@ -544,7 +546,7 @@ export class ContractCreateComponent {
 
     // Fetch data based on the selected property using company ID
     this.propertyService.getPropertiesByCompanyId(this.companyId)
-      .subscribe(
+      .pipe(takeUntil(this.destroy$)).subscribe(
         (allProperties: Property[]) => {
           console.log('All Properties:', allProperties);
 
@@ -590,7 +592,7 @@ export class ContractCreateComponent {
   }
 
   fetchPicData(): void {
-    this.userService.getUserById(this.picId).subscribe(
+    this.userService.getUserById(this.picId).pipe(takeUntil(this.destroy$)).subscribe(
       (selectedPICData: UserInfo) => {
         this.handlePicData(selectedPICData);
       },
@@ -635,7 +637,7 @@ export class ContractCreateComponent {
     console.log(formData);
     console.log("borrower Reg No: " + this.contract.borrowerId.borrowerRegNo) ;  
 
-    this.contractService.addContract(formData).subscribe(
+    this.contractService.addContract(formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response: Contract) => {
         console.log(response);
         this.router.navigate(['/contract-list']);
@@ -652,7 +654,7 @@ export class ContractCreateComponent {
       data: { message: message }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(result => {
       console.log('Dialog closed');
     });
   }
@@ -723,5 +725,10 @@ export class ContractCreateComponent {
   }
   navigateToPreivousPage() {
     window.history.back();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

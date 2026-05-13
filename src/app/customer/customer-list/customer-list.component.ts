@@ -1,23 +1,25 @@
-import { Component,OnInit, ViewChild } from '@angular/core';
+import { Component,OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 // import { DataTableDirective } from 'angular-datatables';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of , Subject } from 'rxjs';
 import { Customer } from 'src/app/Model/Customer';
 import { DatePipe } from '@angular/common';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
 import { CustomerService } from 'src/app/Service/Customer/CustomerService';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
-export class CustomerListComponent implements OnInit{
+export class CustomerListComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   selectedOption:string;
   customer:any;
   companyId: number;
@@ -51,7 +53,7 @@ export class CustomerListComponent implements OnInit{
     }
 
     getCurrentCompanyId() {
-      this.userAuthService.getCompanyId().subscribe(companyId => {
+      this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
         this.companyId = companyId;
         
       });
@@ -60,7 +62,7 @@ export class CustomerListComponent implements OnInit{
     getAllCustomersByCompanyId(){
       
       console.log("Company id 2", this.companyId);
-      this.service.getCustomersByCompanyId(this.companyId).subscribe(data => {
+      this.service.getCustomersByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.customer = data;
         console.log("Company id", this.companyId);
   
@@ -77,7 +79,7 @@ export class CustomerListComponent implements OnInit{
     getAllCustomers() {
       console.log(this.customer.id)
 
-      this.service.getCustomer().subscribe(data => {
+      this.service.getCustomer().pipe(takeUntil(this.destroy$)).subscribe(data => {
         this.customer= data;
       this.formatDateStrings();
         this.dataSource = new MatTableDataSource<any>(this.customer);
@@ -108,9 +110,9 @@ export class CustomerListComponent implements OnInit{
         },
       });
       console.log(this.customer.id)
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteCustomer(id).subscribe(() => {
+        this.service.deleteCustomer(id).pipe(takeUntil(this.destroy$)).subscribe(() => {
           this.customer = this.customer?.filter((customers: Customer) => customers.id !== id);    
             console.log('Customer deleted successfully.');
             setTimeout(() => {
@@ -187,5 +189,10 @@ export class CustomerListComponent implements OnInit{
      // Clear the filter by setting it to null
     this.dataSource.filter = null;
   }  
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
 

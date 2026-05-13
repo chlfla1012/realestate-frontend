@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   private id:string;
   data:any;
   userInfo1:any;
@@ -57,7 +60,7 @@ export class ProfileComponent {
     //this.roleType = this.userAuthService.getRoleType();
     this.id=this.userAuthService.getId();
     console.log(this.id);
-    this.service.getUserInfo().subscribe(data=>{
+    this.service.getUserInfo().pipe(takeUntil(this.destroy$)).subscribe(data=>{
      // this.userInfo = data
       console.log(this.userInfo.id)
     })
@@ -67,7 +70,7 @@ export class ProfileComponent {
     this.userInfo = formData.value;
     this.userInfo.roleType ="manager"
     console.log(this.userInfo);
-    this.service.addUserInfo(this.userInfo).subscribe((userInfo: any) => {
+    this.service.addUserInfo(this.userInfo).pipe(takeUntil(this.destroy$)).subscribe((userInfo: any) => {
       console.log("Customer Data Added successfully")
       //console.log(data.phone1)
     },
@@ -80,4 +83,9 @@ export class ProfileComponent {
   //this.router.navigate(['/']);
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

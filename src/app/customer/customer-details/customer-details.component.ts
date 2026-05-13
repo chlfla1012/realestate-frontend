@@ -1,10 +1,10 @@
 import { Customer } from 'src/app/Model/Customer';
 import { CustomerService } from 'src/app/Service/Customer/CustomerService';
-import { ViewChild } from '@angular/core';
+import { ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, catchError, map, of, throwError } from "rxjs";
+import { Observable, catchError, map, of, throwError , Subject } from "rxjs";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
@@ -13,13 +13,15 @@ import { FileHandle } from 'src/app/Model/FileHandle';
 import { SafeUrl } from '@angular/platform-browser';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-details',
   templateUrl: './customer-details.component.html',
   styleUrls: ['./customer-details.component.css']
 })
-export class CustomerDetailsComponent {
+export class CustomerDetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!:NgForm;
   deleteStatus: boolean;
   id:string;
@@ -73,7 +75,7 @@ export class CustomerDetailsComponent {
   ngOnInit(): void {
     
     this.id = this.route.snapshot.params['id'];
-    this.service.getCustomerById(this.id).subscribe(data=>{
+    this.service.getCustomerById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.customer = data;
       console.log(this.customer.id)
     })
@@ -97,9 +99,9 @@ export class CustomerDetailsComponent {
       });
       console.log(this.customer.id)
 
-      dialogRef.afterClosed().subscribe((result) => {
+      dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
         if (result) {
-       this.service.deleteCustomer(this.id).subscribe(
+       this.service.deleteCustomer(this.id).pipe(takeUntil(this.destroy$)).subscribe(
             () => {
             // Item deleted successfully, update your local data source or UI.
               console.log('Customer deleted successfully.');
@@ -152,4 +154,9 @@ export class CustomerDetailsComponent {
   }
 
  
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
+}

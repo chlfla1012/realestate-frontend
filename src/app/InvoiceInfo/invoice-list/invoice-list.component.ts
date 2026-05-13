@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -10,13 +10,16 @@ import { Property } from 'src/app/Model/Property';
 import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-service.service';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-invoice-list',
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.css']
 })
-export class InvoiceListComponent {
+export class InvoiceListComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   selectionOption: string = "";
   invoice: any;
   invoices: any;
@@ -75,7 +78,7 @@ export class InvoiceListComponent {
   }
 
   getCurrentCompanyId() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
 
     });
@@ -83,7 +86,7 @@ export class InvoiceListComponent {
 
   getInvoiceByCompanyId() {
     console.log(this.companyId + " Hello !");
-    this.invoiceService.getInvoiceAndInvoiceListByCompanyId(this.companyId).subscribe(data => {
+    this.invoiceService.getInvoiceAndInvoiceListByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.invoice = data;
       // this.invoiceList = data.invoicelistObj;
       console.log("Invice list backend data output " + this.invoice.address);
@@ -154,9 +157,9 @@ export class InvoiceListComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.invoiceService.deleteInvoice(id).subscribe(
+        this.invoiceService.deleteInvoice(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
            this.invoices = this.invoices ?.filter((invoice:Invoice)=> invoice.id !== id);
             // this.showDeleteSuccessSnackbar(name);
@@ -200,5 +203,10 @@ export class InvoiceListComponent {
   }
   detailsInvoices(id: string) {
     this.router.navigate(['/invoice-detail', id]);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ownerdetail',
   templateUrl: './ownerdetail.component.html',
   styleUrls: ['./ownerdetail.component.css']
 })
-export class OwnerdetailComponent {
+export class OwnerdetailComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   id:string;
   data:any;
   userInfo: UserInfo = {
@@ -63,7 +66,7 @@ export class OwnerdetailComponent {
     
     this.id = this.route.snapshot.params['id'];
 
-    this.service.getUserById(this.id).subscribe(data=>{
+    this.service.getUserById(this.id).pipe(takeUntil(this.destroy$)).subscribe(data=>{
       this.userInfo = data;
       
       console.log(this.userInfo.id)
@@ -140,9 +143,9 @@ export class OwnerdetailComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.service.deleteUserInfo(id).subscribe(
+        this.service.deleteUserInfo(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/owner-list']);
 
@@ -183,4 +186,9 @@ export class OwnerdetailComponent {
     return false;
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

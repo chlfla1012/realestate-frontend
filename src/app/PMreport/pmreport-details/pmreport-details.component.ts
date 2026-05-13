@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit} from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { NgForm} from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
@@ -19,13 +19,16 @@ import { PMReport } from 'src/app/Model/PMReport';
 import { MatTableDataSource } from '@angular/material/table';
 import { Income } from 'src/app/Model/Income';
 import { Rental } from 'src/app/Model/Rental';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pmreport-details',
   templateUrl: './pmreport-details.component.html',
   styleUrls: ['./pmreport-details.component.css']
 })
-export class PmreportDetailsComponent {
+export class PmreportDetailsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
   companyId: number;
   backendCompany: CompanyName = {
@@ -161,23 +164,23 @@ export class PmreportDetailsComponent {
   }
   getPMReportById() {
     this.id= this.route.snapshot.params['id'];
-    this.pmReportService.getPMReportById(this.id).subscribe(
+    this.pmReportService.getPMReportById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:any) => {
         this.pmReport = data;
         console.log("The PM ID is "+data.picid);
         console.log("Month",data.targetMonth);
       });
-    this.pmReportService.getExpenseDataById(this.id).subscribe(
+    this.pmReportService.getExpenseDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data) => {
         this.expenseRow = data;
         console.log("Expense",data);
       });
-    this.pmReportService.getIncomeDataById(this.id).subscribe(
+    this.pmReportService.getIncomeDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:Income[]) => {
         this.dataSource.data = data;
         console.log("Income",data);
       });
-    this.pmReportService.getRentalDataById(this.id).subscribe(
+    this.pmReportService.getRentalDataById(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       (data:Rental[]) => {
         this.dataSource2.data= data;
         console.log("Rental",data);
@@ -197,9 +200,9 @@ export class PmreportDetailsComponent {
       },
     });
   
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.pmReportService.deletePMReport(id).subscribe(
+        this.pmReportService.deletePMReport(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
             this.router.navigate(['/pmreport-list']);
             console.log('PM report deleted successfully.');
@@ -223,6 +226,11 @@ export class PmreportDetailsComponent {
       verticalPosition,
       panelClass: ['blue-snackbar']
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

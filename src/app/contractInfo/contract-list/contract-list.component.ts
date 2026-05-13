@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,13 +14,16 @@ import { UserInfo } from 'src/app/Model/userInfo';
 import { ContractService } from 'src/app/Service/Contract/ContractService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-list',
   templateUrl: './contract-list.component.html',
   styleUrls: ['./contract-list.component.css']
 })
-export class ContractListComponent {
+export class ContractListComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   currentRoute:string;
   selectedOption:string;
   companyId:number;
@@ -55,14 +58,14 @@ displayedColumns: string[] = ['id','propertyName','roomno', 'tenantFullName',
 
  }
  getCurrentCompanyId(){
-  this.UserAuthService.getCompanyId().subscribe(companyId=>{
+  this.UserAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId=>{
     this.companyId=companyId;
   });
  }
 
  getAllContractsByCompanyId(){
   console.log("Company id 2", this.companyId);
-  this.service.getContractsByCompanyId(this.companyId).subscribe(data=>{
+  this.service.getContractsByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data=>{
     this.contract=data;
     console.log("Company id",this.companyId);
     console.log("contract",this.contract)
@@ -79,7 +82,7 @@ displayedColumns: string[] = ['id','propertyName','roomno', 'tenantFullName',
  getAllContracts()
  {
   console.log(this.contract.id)
-  this.service.getContract().subscribe(data=>{
+  this.service.getContract().pipe(takeUntil(this.destroy$)).subscribe(data=>{
     this.contract=data;
     this.formatDateStrings();
     this.dataSource=new MatTableDataSource<any>(this.contract);
@@ -101,9 +104,9 @@ confirmDelete(id: string, name: string, room: string): void {
     },
   });
 
-  dialogRef.afterClosed().subscribe((result) => {
+  dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
     if (result) {
-      this.service.deleteContract(id).subscribe(
+      this.service.deleteContract(id).pipe(takeUntil(this.destroy$)).subscribe(
         () => {
           this.contract = this.contract?.filter(contract => contract.id !== id);
 
@@ -187,4 +190,9 @@ reset() {
 }
 
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

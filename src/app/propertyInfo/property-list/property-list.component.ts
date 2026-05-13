@@ -1,24 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { NavigationEnd, Router } from '@angular/router';
 import { error } from 'jquery';
-import { filter } from 'rxjs';
+import { filter , Subject } from 'rxjs';
 import { CompanyName } from 'src/app/Model/CompanyName';
 import { Property } from 'src/app/Model/Property';
 import { PropertyService } from 'src/app/Service/Property/PropertyService';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { DeleteConfirmDialogComponent } from 'src/app/delete-confirm-dialog/delete-confirm-dialog.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-property-list',
   templateUrl: './property-list.component.html',
   styleUrls: ['./property-list.component.css']
 })
-export class PropertyListComponent {
+export class PropertyListComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   currentRoute: string;
   selectedOption:string;
   properties: any;
@@ -61,7 +63,7 @@ export class PropertyListComponent {
    
   }
   getPropertiesByCompanyId() {
-    this.propertyService.getPropertiesByCompanyId(this.companyId).subscribe(data => {
+    this.propertyService.getPropertiesByCompanyId(this.companyId).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.properties = data;
      
       this.dataSource = new MatTableDataSource<any>(this.properties);
@@ -78,11 +80,11 @@ export class PropertyListComponent {
     this.dataSource.paginator = this.paginator;
   }
   getCurrentUserInfo() {
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
 
@@ -92,7 +94,7 @@ export class PropertyListComponent {
 
   
   getAllProperties() {
-    this.propertyService.getProperty().subscribe(data => {
+    this.propertyService.getProperty().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.properties = data;
      
       this.dataSource = new MatTableDataSource<any>(this.properties);
@@ -152,9 +154,9 @@ export class PropertyListComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe((result) => {
       if (result) {
-        this.propertyService.deleteProperty(id).subscribe(
+        this.propertyService.deleteProperty(id).pipe(takeUntil(this.destroy$)).subscribe(
           () => {
            this.properties = this.properties?.filter((property:Property)=> property.id !== id);
             // this.showDeleteSuccessSnackbar(name);
@@ -209,5 +211,10 @@ export class PropertyListComponent {
   navigateToCreatePage() {
     this.router.navigate(['/property-create']);
  
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

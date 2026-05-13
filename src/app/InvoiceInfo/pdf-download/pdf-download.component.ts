@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvoiceServiceService } from 'src/app/Service/InvoiceInfo/invoice-service.service';
 import { Invoice } from 'src/app/Model/Invoice';
@@ -10,8 +10,9 @@ import * as html2pdf from 'html2pdf.js';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { tap } from 'rxjs';
+import { tap , Subject } from 'rxjs';
 import { environment } from '../../../environment/environment';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pdf-download',
@@ -19,7 +20,9 @@ import { environment } from '../../../environment/environment';
   styleUrls: ['./pdf-download.component.css'],
 
 })
-export class PdfDownloadComponent implements OnInit{
+export class PdfDownloadComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
+  private objectUrls = new Map<SafeUrl, string>();
   @ViewChild('contentToConvert') contentToConvert!: ElementRef;
 
   borrower:Borrower[];
@@ -62,7 +65,18 @@ constructor( private invoiceService: InvoiceServiceService,
 
 
 ngOnInit() {
-  this.setMockInvoiceData();
+  this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
+    if (params['filteredData']) {
+      try {
+        const data = JSON.parse(params['filteredData']);
+        this.initializeInvoiceData(data);
+      } catch {
+        this.setMockInvoiceData();
+      }
+    } else {
+      this.setMockInvoiceData();
+    }
+  });
 }
 
   private initializeInvoiceData(data: any[]) {
@@ -70,6 +84,7 @@ ngOnInit() {
 
     if (!this.filteredData || this.filteredData.length === 0) {
       this.itemVariables = {};
+      this.revokeObjectUrl(this.url);
       this.url = 'assets/logo.png';
       return;
     }
@@ -114,11 +129,14 @@ ngOnInit() {
 
     if (this.itemVariables.userId?.signature?.image && this.itemVariables.userId?.signature?.name) {
       console.log('the borrower cooperate is ', this.itemVariables.userId.signature.id);
+      const previousUrl = this.url;
       this.url = this.createImages(
         this.itemVariables.userId.signature.image,
         this.itemVariables.userId.signature.name
       ).url;
+      this.revokeObjectUrl(previousUrl);
     } else {
+      this.revokeObjectUrl(this.url);
       this.url = 'assets/logo.png';
     }
 
@@ -263,13 +281,37 @@ ngOnInit() {
     
     const image1FileHandle: FileHandle = {
       file: image1File,
-      url: this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(image1File))
+      url: this.createSafeObjectUrl(image1File)
     }
      return image1FileHandle;
   
      
   
   }
+
+  private createSafeObjectUrl(file: File): SafeUrl {
+    const objectUrl = window.URL.createObjectURL(file);
+    const safeUrl = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    this.objectUrls.set(safeUrl, objectUrl);
+    return safeUrl;
+  }
+
+  private revokeObjectUrl(url: SafeUrl | string | null | undefined): void {
+    if (!url) {
+      return;
+    }
+    const objectUrl = this.objectUrls.get(url as SafeUrl);
+    if (objectUrl) {
+      window.URL.revokeObjectURL(objectUrl);
+      this.objectUrls.delete(url as SafeUrl);
+    }
+  }
+
+  private revokeAllObjectUrls(): void {
+    this.objectUrls.forEach((objectUrl) => window.URL.revokeObjectURL(objectUrl));
+    this.objectUrls.clear();
+  }
+
   public dataURItoBlob(image) {
     const byteString = window.atob(image);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -366,7 +408,7 @@ savePdf(pdf: File, filename: string) {
   this.invoiceService.uploadFile(formData).pipe(tap(() => {
       console.log('PDF uploaded successfully.');
     })
-  ).subscribe(
+  ).pipe(takeUntil(this.destroy$)).subscribe(
     (response) => {
       console.log('PDF uploaded successfully response.');
     },
@@ -380,7 +422,7 @@ savePdf(pdf: File, filename: string) {
   this.bcooperate = this.itemVariables.borrowerCooperate;
   console.log("the borrowercooperate open gmail" + this.bcooperate);
 
-  this.invoiceService.getBcMail(this.bcooperate).subscribe(
+  this.invoiceService.getBcMail(this.bcooperate).pipe(takeUntil(this.destroy$)).subscribe(
     (data: any) => {
       console.log("The company ID get bc mail  " + this.bcooperate);
       this.borrower = data;
@@ -452,6 +494,12 @@ savePdf(pdf: File, filename: string) {
     window.history.back();
   }
 
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.revokeAllObjectUrls();
+  }
 }
 
 

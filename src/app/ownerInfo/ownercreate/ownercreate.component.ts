@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,13 +7,16 @@ import { FileHandle } from 'src/app/Model/FileHandle';
 import { UserInfo } from 'src/app/Model/userInfo';
 import { UserAuthService } from 'src/app/Service/UserInfo/user-auth.service';
 import { UserInfoService } from 'src/app/Service/UserInfo/userInfoService';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ownercreate',
   templateUrl: './ownercreate.component.html',
   styleUrls: ['./ownercreate.component.css']
 })
-export class OwnercreateComponent {
+export class OwnercreateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('f') myForm!: NgForm;
 
   data: any;
@@ -90,19 +93,19 @@ export class OwnercreateComponent {
   getCurrentUserInfo() {
     //getting companyName and logo of current loggined manager
 
-    this.userAuthService.getCompanyId().subscribe(companyId => {
+    this.userAuthService.getCompanyId().pipe(takeUntil(this.destroy$)).subscribe(companyId => {
       this.companyId = companyId;
     });
 
-    this.userAuthService.getCompanyName().subscribe(backendCompany => {
+    this.userAuthService.getCompanyName().pipe(takeUntil(this.destroy$)).subscribe(backendCompany => {
       this.backendCompany = backendCompany;
     });
 
-    this.userAuthService.getLogoId().subscribe(logoId => {
+    this.userAuthService.getLogoId().pipe(takeUntil(this.destroy$)).subscribe(logoId => {
       this.logoId = logoId;
     });
 
-    this.userAuthService.getLogo().subscribe(backendLogo => {
+    this.userAuthService.getLogo().pipe(takeUntil(this.destroy$)).subscribe(backendLogo => {
       this.backendLogo = backendLogo;
     });
     console.log("Get Login data", this.companyId, this.logoId);
@@ -139,7 +142,7 @@ export class OwnercreateComponent {
     formData.append("logoId", this.logoId.toString());
     formData.append("companyId", this.companyId.toString());
     formData.append("logoId", this.logoId.toString());
-    this.service.checkEmailExists(this.userInfo.email).subscribe(
+    this.service.checkEmailExists(this.userInfo.email).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         if(response !=null){
           this.mail=false;
@@ -148,7 +151,7 @@ export class OwnercreateComponent {
         }else{
             if (!this.hasError && !this.hasErrorDOB) {
               console.log(this.companyId);
-              this.service.addOwnerInfo(formData).subscribe(
+              this.service.addOwnerInfo(formData).pipe(takeUntil(this.destroy$)).subscribe(
              (response) => {
               console.log('Owner Data Added successfully', response);
              this.router.navigate(['/owner-list']);
@@ -276,5 +279,10 @@ export class OwnercreateComponent {
 
     }
 
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
