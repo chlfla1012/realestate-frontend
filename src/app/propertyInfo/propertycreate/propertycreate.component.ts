@@ -309,18 +309,26 @@ export class PropertycreateComponent implements OnDestroy {
   }
 
   generateDescription() {
-    const data = {
+    // null/空文字を除いた項目だけ送る
+    const raw: Record<string, any> = {
       propertyType: this.property.propertyType,
-      layout: this.property.layout,
-      exclusiveArea: this.property.exclusiveArea,
-      areaMeter: this.property.areaMeter,
+      layout: this.property.layout ? `${this.property.layout}${this.property.layoutStatus || ''}` : null,
+      exclusiveArea: this.property.exclusiveArea ? `${this.property.exclusiveArea}㎡` : null,
       address: this.property.address,
       station1: this.property.station1,
       station2: this.property.station2,
-      totalRent: this.property.totalRent,
+      totalRent: this.property.totalRent ? `${this.property.totalRent}円` : null,
       buildingDate: this.property.buildingDate,
-      floor: this.property.floor
+      structure: this.property.structure,
+      ground: this.property.ground ? `地上${this.property.ground}階` : null,
+      totalUnits: this.property.totalUnits ? `${this.property.totalUnits}戸` : null,
+      elevator: this.property.elevator ? 'エレベーターあり' : null,
+      classification: this.property.classification,
     };
+    // null・空・"なし" の項目を除外
+    const data = Object.fromEntries(
+      Object.entries(raw).filter(([, v]) => v !== null && v !== '' && v !== 'なし' && v !== undefined)
+    );
 
     this.isAiDescLoading = true;
     this.aiService.generatePropertyDescription(data, this.selectedAiModel).pipe(

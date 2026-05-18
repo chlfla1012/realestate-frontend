@@ -556,7 +556,7 @@
         </div>
         <div class="ai-comment-controls">
             <div class="ai-comment-toolbar">
-                <mat-form-field appearance="outline" class="ai-model-field">
+                <mat-form-field appearance="outline" class="ai-model-field" subscriptSizing="dynamic">
                     <mat-label>AIモデル</mat-label>
                     <mat-select [(ngModel)]="selectedModel" [disabled]="isAiLoading">
                         <mat-option value="gpt-4o">GPT-4o</mat-option>
@@ -564,7 +564,7 @@
                         <mat-option value="gemini-1.5-flash">Gemini 1.5 Flash</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-raised-button class="downloadPDFBtn" style="width: 150px;height:36px;background-color: #376fc3;color: white;"
+                <button mat-raised-button class="ai-comment-btn"
                     [disabled]="isAiLoading" (click)="generateAiComment()">AIコメント生成</button>
                 <mat-spinner *ngIf="isAiLoading" diameter="28"></mat-spinner>
             </div>

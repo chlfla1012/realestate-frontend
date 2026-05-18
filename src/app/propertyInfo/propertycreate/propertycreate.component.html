@@ -1075,291 +1075,157 @@
                     </div>
                     <div *ngIf="i === 3">
                         <div class="detail-container">
-                            <!-- <p class="container-title">入居者情報</p> -->
                             <div class="detail-infomation">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <span>物件階建</span>
+
+                                <!-- 物件階建 -->
+                                <div class="prop-row">
+                                    <div class="prop-label">物件階建</div>
+                                    <div class="prop-fields">
+                                        <span class="prop-sublabel">地上</span>
+                                        <input type="text" class="form-control prop-input-sm" id="ground"
+                                            [(ngModel)]="property.ground" #ground="ngModel" name="ground"
+                                            (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
+                                        <span class="prop-unit">階</span>
+                                        <span class="prop-sublabel">地下</span>
+                                        <input type="text" class="form-control prop-input-sm" id="underground"
+                                            [(ngModel)]="property.underground" #underground="ngModel" name="underground"
+                                            (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
+                                        <span class="prop-unit">階</span>
+                                        <input type="checkbox" class="form-check-input prop-checkbox" id="elevator"
+                                            [(ngModel)]="property.elevator" #elevator="ngModel" name="elevator">
+                                        <label for="elevator" class="prop-check-label">エレベーター有</label>
+                                    </div>
+                                    <div class="prop-label-r">物件構造</div>
+                                    <div class="prop-fields-r">
+                                        <mat-select class="form-control" id="structure"
+                                            [(ngModel)]="property.structure" #structure="ngModel" name="structure">
+                                            <mat-option value="なし">なし</mat-option>
+                                            <mat-option value=" 木造（W造）">木造（W造）</mat-option>
+                                            <mat-option value="鉄骨造（S造）">鉄骨造（S造）</mat-option>
+                                            <mat-option value="鉄筋コンクリート造（RC造）">鉄筋コンクリート造（RC造）</mat-option>
+                                            <mat-option value="鉄骨鉄筋コンクリート造（SRC造）">鉄骨鉄筋コンクリート造（SRC造）</mat-option>
+                                            <mat-option value="その他">その他</mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+
+                                <!-- 築年月 / 建築確認番号 -->
+                                <div class="prop-row">
+                                    <div class="prop-label">築年月</div>
+                                    <div class="prop-fields">
+                                        <input type="month" class="form-control prop-input-md" id="buildingDate"
+                                            [(ngModel)]="property.buildingDate" #buildingDate="ngModel" name="buildingDate">
+                                        <input type="checkbox" class="form-check-input prop-checkbox" id="newBuild"
+                                            [(ngModel)]="property.newBuild" #newBuild="ngModel" name="new-build">
+                                        <label for="newBuild" class="prop-check-label">新築</label>
+                                    </div>
+                                    <div class="prop-label-r">建築確認番号 <span style="color:red">*</span></div>
+                                    <div class="prop-fields-r">
+                                        <input type="text" class="form-control" id="buildNo" required
+                                            [(ngModel)]="property.buildNo" #buildNo="ngModel" name="buildNo"
+                                            [ngClass]="{'is-valid':buildNo.touched && buildNo.invalid}">
+                                        <div class="help-block" *ngIf="!buildNo.valid && buildNo.touched">
+                                            建築確認番号を入力してください。
                                         </div>
-                                        <div class="col-md-1" style="margin-left: 15px;">
-                                            <label for="ground">地上</label>
-                                            <!-- <span style="color: red">*</span> </label> -->
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -45px;">
-                                            <input type="text" class="form-control" id="ground"
-                                                [(ngModel)]="property.ground" #ground="ngModel" name="ground"
-                                                style="width: 60px;" (keypress)="keyPressNumeric($event)"
-                                                pattern="[0-9]+">
-                                            <!-- required [ngClass]="{'is-valid':ground.touched && ground.invalid}" -->
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -30px;">
-                                            階
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -40px;">
-                                            <label for="underground">地下</label>
-                                            <!-- <label for="underground">地下<span style="color: red">*</span></label> -->
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -50px;">
-                                            <input type="text" class="form-control" id="underground" name="underground"
-                                                [(ngModel)]="property.underground" #underground="ngModel"
-                                                style="width: 60px;" (keypress)="keyPressNumeric($event)"
-                                                pattern="[0-9]+">
-                                            <!-- required [ngClass]="{'is-valid':underground.touched && underground.invalid}" -->
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -30px;">
-                                            階
-                                        </div>
-                                        <div class="col-md-2" style="margin-left: -60px;">
-                                            <input type="checkbox" class="form-check-input" id="elevator"
-                                                [(ngModel)]="property.elevator" #elevator="ngModel" name="elevator">
-                                            <label for="elevator">エレベーター有</label>
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: 5px;">
-                                            <label for="structure">物件構造</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <mat-select class="form-control" id="structure"
-                                                [(ngModel)]="property.structure" #structure="ngModel" name="structure"
-                                                style="width: 261px;margin-left:51px;">
-                                                <mat-option value="なし">なし</mat-option>
-                                                <mat-option value=" 木造（W造）"> 木造（W造）</mat-option>
-                                                <mat-option value="鉄骨造（S造）">鉄骨造（S造）</mat-option>
-                                                <mat-option value="鉄筋コンクリート造（RC造）">鉄筋コンクリート造（RC造）</mat-option>
-                                                <mat-option value="鉄骨鉄筋コンクリート造（SRC造）">鉄骨鉄筋コンクリート造（SRC造）</mat-option>
-                                                <mat-option value="その他">その他</mat-option>
+                                    </div>
+                                </div>
+
+                                <!-- 専有面積 / 間取り -->
+                                <div class="prop-row">
+                                    <div class="prop-label">専有面積</div>
+                                    <div class="prop-fields">
+                                        <input type="text" class="form-control prop-input-sm" id="exclusiveArea"
+                                            [(ngModel)]="property.exclusiveArea" name="exclusiveArea"
+                                            #exclusiveArea="ngModel"
+                                            pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
+                                        <span class="prop-unit">m²</span>
+                                        <mat-select class="form-control prop-select-sm" id="exclusiveStatus"
+                                            [(ngModel)]="property.exclusiveStatus" #exclusiveStatus="ngModel"
+                                            name="exclusiveStatus">
+                                            <mat-option value="なし">なし</mat-option>
+                                            <mat-option value="指定無し">指定無し</mat-option>
+                                            <mat-option value="内法">内法</mat-option>
+                                        </mat-select>
+                                    </div>
+                                    <div class="prop-label-r">間取り</div>
+                                    <div class="prop-fields-r prop-fields-inline">
+                                        <input type="text" class="form-control prop-input-sm" id="layout"
+                                            [(ngModel)]="property.layout" #layout="ngModel" name="layout"
+                                            (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
+                                        <mat-select class="form-control prop-select-sm" id="layoutStatus"
+                                            [(ngModel)]="property.layoutStatus" #layoutStatus="ngModel"
+                                            name="layoutStatus">
+                                            <mat-option value="なし">なし</mat-option>
+                                            <mat-option value="R">R</mat-option>
+                                            <mat-option value="K">K</mat-option>
+                                            <mat-option value="DK">DK</mat-option>
+                                            <mat-option value="LDK">LDK</mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+
+                                <!-- 総戸数 / 区分 -->
+                                <div class="prop-row">
+                                    <div class="prop-label">総戸数</div>
+                                    <div class="prop-fields">
+                                        <input type="text" class="form-control prop-input-sm" id="totalUnits"
+                                            [(ngModel)]="property.totalUnits" name="totalUnits"
+                                            #totalUnits="ngModel"
+                                            (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
+                                        <span class="prop-unit">戸</span>
+                                    </div>
+                                    <div class="prop-label-r">区分</div>
+                                    <div class="prop-fields-r">
+                                        <mat-select class="form-control" id="classification"
+                                            [(ngModel)]="property.classification" #classification="ngModel"
+                                            name="classification">
+                                            <mat-option value="住居" selected>住居</mat-option>
+                                            <mat-option value="店舗">店舗</mat-option>
+                                            <mat-option value="事務所">事務所</mat-option>
+                                            <mat-option value="倉庫">倉庫</mat-option>
+                                            <mat-option value="その他">その他</mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+
+                                <!-- 面積（㎡ / 坪） -->
+                                <div class="prop-row">
+                                    <div class="prop-label">面積（㎡）</div>
+                                    <div class="prop-fields">
+                                        <input type="text" class="form-control prop-input-sm" id="areaMeter"
+                                            [(ngModel)]="property.areaMeter" name="areaMeter" #areaMeter="ngModel"
+                                            pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
+                                        <span class="prop-sublabel">面積（坪）</span>
+                                        <input type="text" class="form-control prop-input-sm" id="areaTsubo"
+                                            [(ngModel)]="property.areaTsubo" name="areaTsubo" #areaTsubo="ngModel"
+                                            pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
+                                    </div>
+                                </div>
+
+                                <!-- 間取り備考 + AI説明文生成 -->
+                                <div class="prop-row prop-row-top">
+                                    <div class="prop-label" style="padding-top:6px;">間取り備考</div>
+                                    <div class="prop-fields-full">
+                                        <textarea class="form-control prop-textarea" id="layoutRemarks"
+                                            [(ngModel)]="property.layoutRemarks" #layoutRemarks="ngModel"
+                                            name="layoutRemarks" rows="4"
+                                            placeholder="物件の特徴や備考を入力、またはAIで自動生成できます"></textarea>
+                                        <div class="ai-controls-row">
+                                            <mat-select class="form-control ai-model-select" [(ngModel)]="selectedAiModel"
+                                                name="selectedAiModel">
+                                                <mat-option value="gpt-4o">gpt-4o</mat-option>
+                                                <mat-option value="gpt-4o-mini">gpt-4o-mini</mat-option>
+                                                <mat-option value="gemini-1.5-flash">gemini-1.5-flash</mat-option>
                                             </mat-select>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-2">
-
-                                            <!-- <div class="help-block"
-                                                    style="margin-left: 60px;"
-                                                    [hidden]="!ground.hasError('pattern')">
-                                                    数字のみです。</div> -->
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <!-- <div
-                                                    style="margin-left: 0px;"
-                                                    class="help-block"
-                                                    *ngIf="!underground.valid && underground.touched">
-                                                    地下を入力してください。</div> -->
-                                            <!-- <div class="help-block"
-                                                    style="margin-left: 30px;"
-                                                    [hidden]="!underground.hasError('pattern')">
-                                                    数字のみです。</div> -->
+                                            <button type="button" mat-raised-button (click)="generateDescription()"
+                                                [disabled]="isAiDescLoading" class="ai-generate-btn">
+                                                AI説明文生成
+                                            </button>
+                                            <mat-spinner *ngIf="isAiDescLoading" [diameter]="24"></mat-spinner>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group" style="margin-top: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <label for="building-date">築年月</label>
-                                        </div>
-                                        <div class="col-md-2" style="margin-left: 35px;">
-                                            <input type="month" class="form-control" id="buildingDate"
-                                                [(ngModel)]="property.buildingDate" #buildingDate="ngModel"
-                                                name="buildingDate" style="width: 160px;margin-left:-10px;">
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -40px;">
-                                            <input type="checkbox" class="form-check-input" id="newBuild"
-                                                [(ngModel)]="property.newBuild" #newBuild="ngModel" name="new-build">
-                                            <label for="newBuild" style="margin-left: 3px;">新築</label>
-                                        </div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-2" style="margin-left: 94px;">
-                                            <label for="build-no" style="margin-left: 0px;">建築確認番号
-                                                <span style="color: red">*</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" class="form-control" id="buildNo" required
-                                                [(ngModel)]="property.buildNo" #buildNo="ngModel" name="buildNo"
-                                                style="width: 262px;margin-left:-60px;" required
-                                                [ngClass]="{'is-valid':buildNo.touched && buildNo.invalid}">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-8"></div>
-                                        <div class="col-md-3">
-                                            <div style="margin-left: 30px;" class="help-block"
-                                                *ngIf="!buildNo.valid && buildNo.touched">
-                                                建築確認番号を入力してください。
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-8"></div>
-                                        <!-- <div class="col-md-2">
-                                                <div class="help-block"
-                                                style="margin-left: 20px;"
-                                                [hidden]="!buildNo.hasError('pattern')">
-                                                数字のみです。</div>
-                                                </div> -->
-                                    </div>
-                                </div>
-
-                                <div class="form-group" style="margin-top: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="exclusive-area">専有面積</label>
-                                        </div>
-                                        <div class="col-md-2" style="margin-left: -82px;">
-                                            <input type="text" class="form-control" id="exclusiveArea"
-                                                [(ngModel)]="property.exclusiveArea" name="exclusiveArea"
-                                                #exclusiveArea="ngModel"
-                                                style="width: 130px;margin-left: 0px;margin-right:0px;"
-                                                pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -40px;">
-                                            m²
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -30px;">
-                                            <mat-select class="form-control" id="exclusiveStatus"
-                                                [(ngModel)]="property.exclusiveStatus" #exclusiveStatus="ngModel"
-                                                name="exclusiveStatus" style="margin-left: 0px;width: 100px">
-                                                <mat-option value="なし">なし</mat-option>
-                                                <mat-option value="指定無し">指定無し</mat-option>
-                                                <mat-option value="内法">内法</mat-option>
-                                            </mat-select>
-                                        </div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-1" style="margin-left:26px;">
-                                            <label for="layout" style="margin-left: 0px;">間取り</label>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <input type="text" class="form-control" id="layout"
-                                                [(ngModel)]="property.layout" #layout="ngModel" name="layout"
-                                                style="width: 130px;margin-left: 48px;margin-right:0px;"
-                                                (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -33px;">
-                                            <mat-select class="form-control" id="layoutStatus"
-                                                [(ngModel)]="property.layoutStatus" #layoutStatus="ngModel"
-                                                name="layoutStatus" style="margin-left: 20px;width: 110px">
-                                                <mat-option value="なし">なし</mat-option>
-                                                <mat-option value="R">R</mat-option>
-                                                <mat-option value="K">K</mat-option>
-                                                <mat-option value="DK">DK</mat-option>
-                                                <mat-option value="LDK">LDK</mat-option>
-                                            </mat-select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">
-                                            <!-- <div class="help-block"
-                                                    style="margin-left: 0px;"
-                                                    [hidden]="!exclusiveArea.hasError('pattern')">
-                                                    数字「例：10.5、10」のみです。</div> -->
-                                        </div>
-
-                                        <div class="col-md-4"></div>
-                                        <div class="col-md-2">
-                                            <!-- <div class="help-block"
-                                                    style="margin-left: 20px;"
-                                                    [hidden]="!layout.hasError('pattern')">
-                                                    数字のみです。</div> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group" style="margin-top: 20px;">
-                                    <div class="row" style="margin-bottom: 10px;">
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-6">
-                                            <div style="display: flex; align-items: center; gap: 8px; margin-left: 60px;">
-                                                <mat-select class="form-control" [(ngModel)]="selectedAiModel"
-                                                    name="selectedAiModel" style="width: 180px;">
-                                                    <mat-option value="gpt-4o">gpt-4o</mat-option>
-                                                    <mat-option value="gpt-4o-mini">gpt-4o-mini</mat-option>
-                                                    <mat-option value="gemini-1.5-flash">gemini-1.5-flash</mat-option>
-                                                </mat-select>
-                                                <button type="button" mat-raised-button (click)="generateDescription()"
-                                                    [disabled]="isAiDescLoading"
-                                                    style="background-color: #6c3fc3; color: #ffffff; height: 34px;">
-                                                    AI説明文生成
-                                                </button>
-                                                <mat-spinner *ngIf="isAiDescLoading" [diameter]="24"></mat-spinner>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-1">
-                                            <label for="total-units">総戸数</label>
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: 25px;width: 312px;">
-                                            <input type="text" class="form-control" id="totalUnits"
-                                                [(ngModel)]="property.totalUnits" name="totalUnits"
-                                                #totalUnits="ngModel" style="margin-left: 0px;margin-right:0px;"
-                                                (keypress)="keyPressNumeric($event)" pattern="[0-9]+">
-                                        </div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-2" style="margin-left: 60px;">
-                                            <label for="layout-remarks" style="margin-left: 13px;">間取り備考</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <input type="text" class="form-control" id="layoutRemarks"
-                                                [(ngModel)]="property.layoutRemarks" #layoutRemarks="ngModel"
-                                                name="layoutRemarks"
-                                                style="width: 264px;margin-left: -48px;margin-right:0px;">
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-3">
-                                            <!-- <div class="help-block"
-                                                    style="margin-left: 10px;"
-                                                    [hidden]="!totalUnits.hasError('pattern')">
-                                                    数字のみです。</div> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group" style="margin-top: 20px;">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <label for="areaMeter">面積（㎡）</label>
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -82px;width: 150px;">
-                                            <input type="text" class="form-control" id="areaMeter"
-                                                [(ngModel)]="property.areaMeter" name="areaMeter" #areaMeter="ngModel"
-                                                pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
-                                        </div>
-                                        <div class="col-md-2" style="margin-left:5px;">
-                                            <label for="areaTsubo">面積(坪)</label>
-                                        </div>
-                                        <div class="col-md-1" style="margin-left: -80px;width: 150px;">
-                                            <input type="text" class="form-control" id="areaTsubo"
-                                                [(ngModel)]="property.areaTsubo" name="areaTsubo" #areaTsubo="ngModel"
-                                                pattern="\d+(\.\d+)?" (keypress)="keyPressDecimal($event)">
-                                        </div>
-                                        <div class="col-md-1"></div>
-                                        <div class="col-md-1" style="margin-left: 45px;">
-                                            <label for="classification" style="margin-left: 6px;">区分</label>
-
-                                        </div>
-                                        <div class="col-md-2" style="margin-left: 54px;">
-                                            <mat-select class="form-control" id="classification"
-                                                [(ngModel)]="property.classification" #classification="ngModel"
-                                                name="classification" style="width: 265px;margin-left:0px;">
-                                                <mat-option value="住居" selected>住居</mat-option>
-                                                <mat-option value="店舗">店舗</mat-option>
-                                                <mat-option value="事務所">事務所</mat-option>
-                                                <mat-option value="倉庫">倉庫</mat-option>
-                                                <mat-option value="その他">その他</mat-option>
-                                            </mat-select>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
