@@ -34,20 +34,25 @@ export class LandingPageComponent implements AfterViewInit {
 
   faqList = [
     {
-      question: '導入費用は？',
-      answer: '導入費用につきましては、お気軽にお問い合わせください。',
+      question: '導入費用はどのくらいかかりますか？',
+      answer: '導入費用につきましては、システム構成やご利用規模によって異なります。お気軽にお問い合わせください。',
       open: false,
     },
     {
-      question: 'セキュリティ対策は？',
+      question: 'AI機能はどのモデルに対応していますか？',
+      answer: 'GPT-4o・GPT-4o mini・Geminiに対応しています。画面上でモデルを選択してご利用いただけます。',
+      open: false,
+    },
+    {
+      question: 'セキュリティ対策はどうなっていますか？',
       answer: '通信はSSL対応、データは暗号化してクラウド上で安全に管理されます。',
       open: false,
     },
     {
-      question: 'モバイル対応していますか？',
-      answer: 'はい、スマートフォンやタブレットでも快適にご利用いただけます。',
+      question: 'スマートフォンやタブレットから使えますか？',
+      answer: 'はい、PC・スマートフォン・タブレットのいずれからでも快適にご利用いただけます。',
       open: false,
-    }
+    },
   ];
   menuOpen = false;
 
