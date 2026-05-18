@@ -743,6 +743,7 @@
   opacity: 0;
   transform: translateY(50px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
 }
 
 .slide-up-on-scroll.visible {
@@ -777,7 +778,7 @@
 }
 
 @media (max-width: 480px) {
-  .sys-grid { grid-template-columns: 1fr 1fr; }
+  .sys-grid { grid-template-columns: 1fr; }
   .hero-btns { flex-direction: column; }
   .btn-primary,
   .btn-outline { width: 100%; text-align: center; }
