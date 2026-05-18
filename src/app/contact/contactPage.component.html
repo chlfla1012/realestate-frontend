@@ -1,64 +1,118 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>お問い合わせ | ラクイエクラウド</title>
-</head>
-<body>
-  <header class="site-header">
-    <div class="header-inner">
-      <img src="assets/logo.png" routerLink="/LP" alt="RAKUIE CLOUD" class="logo">
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo-wrap" routerLink="/LP">
+      <div class="logo-mark">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        </svg>
+      </div>
+      <span class="logo-text">RAKUIE CLOUD</span>
+    </a>
+    <nav class="nav-links">
+      <a routerLink="/LP">HOME</a>
+      <a routerLink="/contact">お問い合わせ</a>
+      <button class="nav-login-btn" routerLink="/login">ログイン</button>
+    </nav>
+    <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-label]="menuOpen ? 'メニューを閉じる' : 'メニューを開く'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="mobile-menu" [class.active]="menuOpen">
+    <a routerLink="/LP" (click)="closeMenu()">HOME</a>
+    <a routerLink="/contact" (click)="closeMenu()">お問い合わせ</a>
+    <button routerLink="/login" (click)="closeMenu()">ログイン</button>
+  </div>
+</header>
 
-      <nav class="nav-links">
-        <a routerLink="/LP">HOME</a>
-        <a routerLink="/contact">問い合わせ</a>
-        <button routerLink="/login">ログイン</button>
-      </nav>
+<!-- Contact Main -->
+<main class="contact-main">
+  <!-- Left: Visual Panel -->
+  <div class="contact-visual fade-in-on-load">
+    <div class="cv-inner">
+      <div class="cv-eyebrow">Contact Us</div>
+      <h2>お気軽に<br>ご相談ください</h2>
+      <p>導入のご相談・ご質問など、<br>どんな内容でもお気軽にご連絡ください。</p>
 
-      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+      <div class="cv-features">
+        <div class="cv-feature">
+          <div class="cv-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12l2 2 4-4"/>
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div class="cv-feat-text">
+            <div class="cv-feat-title">即日ご対応</div>
+            <div class="cv-feat-sub">営業日2営業日以内にご返信</div>
+          </div>
+        </div>
+        <div class="cv-feature">
+          <div class="cv-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="cv-feat-text">
+            <div class="cv-feat-title">安心・安全</div>
+            <div class="cv-feat-sub">SSL暗号化で情報を安全に送信</div>
+          </div>
+        </div>
+        <div class="cv-feature">
+          <div class="cv-feat-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
+          </div>
+          <div class="cv-feat-text">
+            <div class="cv-feat-title">無料相談</div>
+            <div class="cv-feat-sub">導入前のご相談は無料です</div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="mobile-menu" [class.active]="menuOpen">
-      <a routerLink="/LP" (click)="closeMenu()">HOME</a>
-      <a routerLink="/contact" (click)="closeMenu()">問い合わせ</a>
-      <button routerLink="/login" (click)="closeMenu()">ログイン</button>
-    </div>
-  </header>
-  <section class="contact-fullscreen-section">
-    <div class="contact-visual fade-in-on-load">
-      <img src="assets/lp_contact.png" alt="お問い合わせイメージ" />
-    </div>
+  <!-- Right: Form -->
+  <div class="contact-form-area fade-in-on-load">
+    <h2 class="form-heading">お問い合わせ</h2>
+    <p class="form-sub">ご不明な点がございましたら、以下のフォームよりご連絡ください。</p>
 
-    <div class="contact-form-area fade-in-on-load">
-      <h2 class="contact-heading">お問い合わせ</h2>
-      <p class="contact-sub">ご不明な点がございましたら、以下のフォームよりご連絡ください。</p>
-
-      <form class="contact-form">
+    <form class="contact-form">
+      <div class="form-group">
         <label>会社名 <span class="required">*</span></label>
         <input type="text" placeholder="例：ラクイエ株式会社" required>
+      </div>
 
+      <div class="form-group">
         <label>お名前 <span class="required">*</span></label>
         <input type="text" placeholder="例：山田 太郎" required>
+      </div>
 
+      <div class="form-group">
         <label>メールアドレス <span class="required">*</span></label>
         <input type="email" placeholder="例：example@domain.com" required>
+      </div>
 
+      <div class="form-group">
         <label>お問い合わせ内容 <span class="required">*</span></label>
-        <textarea rows="4" placeholder="ご質問やご要望をご記入ください" required></textarea>
+        <textarea rows="5" placeholder="ご質問やご要望をご記入ください" required></textarea>
+      </div>
 
-        <button type="submit" routerLink="/LP">送信する</button>
-      </form>
-    </div>
-  </section>
+      <button type="submit" class="submit-btn" routerLink="/LP">送信する</button>
+    </form>
+  </div>
+</main>
 
-  <footer class="footer-section">
+<!-- Footer -->
+<footer class="footer-section">
   <div class="footer-inner">
-    <div class="footer-brand">
-      <img src="assets/logo.png" alt="RAKUIE CLOUD ロゴ" class="footer-logo" />
-    </div>
-    <p class="copyright">&copy; 2025 WITTS Technology Inc. All Rights Reserved.</p>
+    <div class="footer-logo">RAKUIE CLOUD</div>
+    <p class="footer-copy">&copy; 2025 WITTS Technology Inc. All Rights Reserved.</p>
   </div>
 </footer>
-</body>
-</html>
