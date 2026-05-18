@@ -21,8 +21,8 @@
 .header-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
-  height: 64px;
+  padding: 0 2rem;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,15 +31,16 @@
 .logo-wrap {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 10px;
+  cursor: pointer;
   text-decoration: none;
 }
 
 .logo-mark {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   background: #059669;
-  border-radius: 8px;
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,24 +48,23 @@
 }
 
 .logo-text {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
   color: #064e3b;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .nav-links a {
-  font-size: 0.875rem;
-  font-weight: 500;
   color: #374151;
   text-decoration: none;
-  letter-spacing: 0.03em;
+  font-size: 13px;
+  font-weight: 500;
   transition: color 0.2s;
 }
 
@@ -76,12 +76,11 @@
   background: #059669;
   color: #ffffff;
   border: none;
-  padding: 0.5rem 1.25rem;
   border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 600;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  letter-spacing: 0.03em;
   transition: background 0.2s;
 }
 
@@ -93,9 +92,9 @@
   display: none;
   background: none;
   border: none;
-  padding: 0.25rem;
-  cursor: pointer;
   color: #374151;
+  cursor: pointer;
+  padding: 4px;
 }
 
 .mobile-menu {
@@ -103,8 +102,8 @@
   flex-direction: column;
   background: #ffffff;
   border-top: 1px solid #e5e7eb;
-  padding: 1rem 1.5rem;
-  gap: 0.75rem;
+  padding: 1rem 2rem;
+  gap: 1rem;
 }
 
 .mobile-menu.active {
@@ -112,24 +111,22 @@
 }
 
 .mobile-menu a {
-  font-size: 0.95rem;
-  font-weight: 500;
   color: #374151;
   text-decoration: none;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .mobile-menu button {
   background: #059669;
   color: #ffffff;
   border: none;
-  padding: 0.75rem;
   border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 600;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
-  margin-top: 0.25rem;
+  align-self: flex-start;
 }
 
 @media (max-width: 768px) {
